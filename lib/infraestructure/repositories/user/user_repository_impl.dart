@@ -1,111 +1,63 @@
+import 'package:alpha_gymnastic_center/domain/entities/user.dart';
+import 'package:alpha_gymnastic_center/domain/interfaces/user_interfaces.dart';
+import 'package:alpha_gymnastic_center/domain/repositories/user_repository.dart';
+import 'package:alpha_gymnastic_center/infraestructure/datasources/api/api_request.dart';
+import 'package:alpha_gymnastic_center/infraestructure/mappers/user/user_mapper.dart';
+import '../../../common/result.dart';
 
-// import 'package:alpha_gymnastic_center/domain/repositories/user_repository.dart';
-// import 'package:sign_in_bloc/infrastructure/datasources/api/api_connection_manager.dart';
-// import '../../../common/result.dart';
-// import '../../../domain/user/repository/user_repository.dart';
-// import '../../../domain/user/user.dart';
-// import '../../../infrastructure/mappers/user/user_mapper.dart';
+class UserRepositoryImpl extends UserRepository {
+  final IApiRequestManager _apiRequestManager;
 
-// class UserRepositoryImpl extends UserRepository {
-//   final IApiConnectionManager _apiConnectionManager;
+  UserRepositoryImpl({required IApiRequestManager apiRequestManager})
+      : _apiRequestManager = apiRequestManager;
 
-//   UserRepositoryImpl({required IApiConnectionManager apiConnectionManager})
-//       : _apiConnectionManager = apiConnectionManager;
+  @override
+  Future<Result<User>> logInUser(LoginUserRequest loginRequest) async {
+    final response = await _apiRequestManager.request<User>(
+      '/auth/register',
+      'POST',
+      (data) {
+        data['id'] = data['token'];
+        data['role'] = 'regular';
+        return UserMapper.fromJson(data);
+      },
+      body: {
+        'email': loginRequest.email,
+        'password': loginRequest.password,
+      },
+    );
 
-//   @override
-//   Future<Result<User>> logInUser(
-//       String number, String notificationsToken) async {
-//     _apiConnectionManager.setHeaders('token', notificationsToken);
+    if (response.hasValue()) {
+      _apiRequestManager.setHeaders(
+          'Authorization', 'Bearer ${response.value!.id}');
+    }
 
-//     final response = await _apiConnectionManager.request<User>(
-//       'auth/log-in',
-//       'POST',
-//       (data) {
-//         data['id'] = data['token'];
-//         data['role'] = 'subscriber';
-//         data['phone'] = number;
-//         return UserMapper.fromJson(data);
-//       },
-//       body: {'phone': number},
-//     );
+    return response;
+  }
 
-//     if (response.hasValue()) {
-//       _apiConnectionManager.setHeaders(
-//           'Authorization', 'Bearer ${response.value!.id}');
-//     }
+  @override
+  Future<Result<User>> registerUser(RegisterUserRequest registerRequest) async {
+    final response = await _apiRequestManager.request(
+      '/auth/register',
+      'POST',
+      (data) {
+        data['id'] = data['token'];
+        data['role'] = 'regular';
+        return UserMapper.fromJson(data);
+      },
+      body: {
+        'email': registerRequest.email,
+        'password': registerRequest.password,
+        'name': registerRequest.name,
+        'phone': registerRequest.phone,
+      },
+    );
 
-//     return response;
-//   }
+    if (response.hasValue()) {
+      _apiRequestManager.setHeaders(
+          'Authorization', 'Bearer ${response.value!.id}');
+    }
 
-//   @override
-//   Future<Result<User>> signUpUser(
-//       String number, String notificationsToken, String operator) async {
-//     _apiConnectionManager.setHeaders('token', notificationsToken);
-
-//     final response = await _apiConnectionManager.request(
-//       'auth/sign-up/$operator',
-//       'POST',
-//       (data) {
-//         data['id'] = data['token'];
-//         data['role'] = 'subscriber';
-//         data['phone'] = number;
-//         return UserMapper.fromJson(data);
-//       },
-//       body: {'phone': number},
-//     );
-
-//     if (response.hasValue()) {
-//       _apiConnectionManager.setHeaders(
-//           'Authorization', 'Bearer ${response.value!.id}');
-//     }
-
-//     return response;
-//   }
-
-//   @override
-//   Future<Result<User>> logInGuest() async {
-//     final response = await _apiConnectionManager
-//         .request('auth/log-in/guest', 'POST', (data) {
-//       data['id'] = data['token'];
-//       return UserMapper.fromJson(data);
-//     });
-
-//     if (response.hasValue()) {
-//       _apiConnectionManager.setHeaders(
-//           'Authorization', 'Bearer ${response.value!.id}');
-//     }
-
-//     return response;
-//   }
-
-//   @override
-//   Future<Result<bool>> cancelUserSubscription() {
-//     final response = _apiConnectionManager.request<bool>(
-//       'subscription/cancel',
-//       'POST',
-//       (_) => true,
-//     );
-
-//     return response;
-//   }
-
-//   @override
-//   Future<Result<User>> fetchUserProfileData() async {
-//     return await _apiConnectionManager.request<User>('user', 'GET', (data) {
-//       data['role'] = 'subscriber';
-//       return UserMapper.fromJson(data);
-//     });
-//   }
-
-//   @override
-//   Future<Result<String>> saveUserData(Map<String, String> userData) async {
-//     final response = await _apiConnectionManager
-//         .request<String>('user', 'PATCH', (data) => 'success', body: userData);
-
-//     if (response.hasValue()) {
-//       return response;
-//     } else {
-//       return Result<String>(failure: response.failure);
-//     }
-//   }
-// }
+    return response;
+  }
+}
