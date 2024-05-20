@@ -5,6 +5,10 @@ import 'package:alpha_gymnastic_center/infraestructure//presentation/pages/pages
 final router = GoRouter(routes: [
   GoRoute(
     path: '/',
+    builder: (context, state) => const SplashScreen(),
+  ),
+  GoRoute(
+    path: '/home',
     builder: (context, state) => HomeScreen(),
   ),
   GoRoute(
@@ -65,6 +69,6 @@ class RouterSimpleCubit extends Cubit<GoRouter> {
   }
 
   void goHome() {
-    state.go('/');
+    state.go('/home');
   }
 }

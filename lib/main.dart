@@ -4,7 +4,9 @@ import 'package:alpha_gymnastic_center/config/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  runApp(const BlocsProvider());
+}
 
 class BlocsProvider extends StatelessWidget {
   const BlocsProvider({super.key});
