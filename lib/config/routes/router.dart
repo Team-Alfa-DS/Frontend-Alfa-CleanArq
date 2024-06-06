@@ -59,6 +59,19 @@ final router = GoRouter(routes: [
     path: '/blogs',
     builder: (context, state) => const YogaBlogScreen(),
   ),
+  GoRoute(
+    path: '/onboarding1',
+    builder: (context, state) => const OnBoardingScreen1(),
+  ),
+  GoRoute(
+    path: '/onboarding2',
+    builder: (context, state) => const OnBoardingScreen2(),
+  ),
+  GoRoute(
+    path: '/onboarding3',
+    builder: (context, state) => const OnBoardingScreen3(),
+  ),
+  GoRoute(path: "/welcome", builder: (context, state) => const WelcomeScreen())
 ]);
 
 class RouterSimpleCubit extends Cubit<GoRouter> {

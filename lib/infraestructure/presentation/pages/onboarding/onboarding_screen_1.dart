@@ -1,9 +1,5 @@
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/home.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/onboarding/onboarding_screen_2.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/onboarding/onboarding_screen_3.dart';
 import 'package:flutter/material.dart';
-
-void main() => runApp(const OnBoardingScreen1());
+import 'package:go_router/go_router.dart';
 
 class OnBoardingScreen1 extends StatelessWidget {
   const OnBoardingScreen1({super.key});
@@ -31,9 +27,9 @@ class OnBoardingScreen1 extends StatelessWidget {
               child: yogaImage(),
             ),
             const SizedBox(height: 60),
-            yogaDaily(),
+            yogaDaily1(),
             const SizedBox(height: 215),
-            const BarraNavegacion(),
+            const BarraNavegacion1(),
           ],
         ),
       ),
@@ -49,7 +45,7 @@ Widget yogaImage() {
   );
 }
 
-Widget yogaDaily() {
+Widget yogaDaily1() {
   return const Column(
     children: [
       SizedBox(
@@ -106,9 +102,7 @@ class Buttom extends StatelessWidget {
       size: const Size(140, 65), // button width and height
       child: ElevatedButton(
         onPressed: () {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => const OnBoardingScreen2(),
-          ));
+          context.push("/onboarding2");
         },
         child: const Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -140,14 +134,14 @@ class Buttom extends StatelessWidget {
   }
 }
 
-class BarraNavegacion extends StatefulWidget {
-  const BarraNavegacion({super.key});
+class BarraNavegacion1 extends StatefulWidget {
+  const BarraNavegacion1({super.key});
 
   @override
-  State<BarraNavegacion> createState() => _BarraNavegacionState();
+  State<BarraNavegacion1> createState() => _BarraNavegacionState();
 }
 
-class _BarraNavegacionState extends State<BarraNavegacion> {
+class _BarraNavegacionState extends State<BarraNavegacion1> {
   bool _botonBloqueado = false;
 
   void _onPressed() {
@@ -167,10 +161,10 @@ class _BarraNavegacionState extends State<BarraNavegacion> {
             children: [
               ElevatedButton(
                   onPressed: () {
-                    _botonBloqueado ? null : _onPressed;
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (_) => const WelcomeScreen(),
-                    ));
+                    if (!_botonBloqueado) {
+                      _onPressed();
+                      context.push('/welcome');
+                    }
                   },
                   child: const Text('skip',
                       textAlign: TextAlign.center,
@@ -190,17 +184,13 @@ class _BarraNavegacionState extends State<BarraNavegacion> {
                   IconButton(
                     icon: const Icon(Icons.radio_button_unchecked),
                     onPressed: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (_) => const OnBoardingScreen2(),
-                      ));
+                      context.push("/onboarding2");
                     },
                   ),
                   IconButton(
                     icon: const Icon(Icons.radio_button_unchecked),
                     onPressed: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (_) => const OnBoardingScreen3(),
-                      ));
+                      context.push("/onboarding3");
                     },
                   ),
                 ],

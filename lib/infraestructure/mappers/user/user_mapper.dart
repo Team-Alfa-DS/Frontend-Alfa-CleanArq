@@ -8,7 +8,7 @@ class UserMapper {
       email: json['email'],
       phone: json['phone'],
       token: json['token'],
-      role: json['role'] == 'admin' ? UserRoles.admin : UserRoles.regular,
+      type: json['role'] == 'admin' ? UserRoles.admin : UserRoles.client,
     );
   }
 
@@ -18,7 +18,7 @@ class UserMapper {
       'nombre': user.name,
       'correo': user.email,
       'telefono': user.phone,
-      'rol': user.role,
+      'type': user.type,
     };
   }
 }

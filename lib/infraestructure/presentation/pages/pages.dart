@@ -12,4 +12,7 @@ export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/splash
 export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/tipsscreen/Tips_topics.dart';
 export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/trainingscreen/trainingscreen.dart';
 export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/videos.dart';
-export 'package:flutter/material.dart';
+export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/onboarding/onboarding_screen_1.dart';
+export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/home.dart';
+export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/onboarding/onboarding_screen_2.dart';
+export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/onboarding/onboarding_screen_3.dart';
