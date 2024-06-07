@@ -1,13 +1,13 @@
 // ignore_for_file: prefer_final_fields
 
-enum UserRoles { regular, admin }
+enum UserRoles { client, admin }
 
 class User {
   String id;
   String? name;
   String? email;
   String? phone;
-  UserRoles? role;
+  UserRoles? type;
   String? token;
   String? imagenPerfil;
 
@@ -16,7 +16,7 @@ class User {
     this.name,
     this.email,
     this.phone,
-    this.role = UserRoles.regular,
+    this.type = UserRoles.client,
     this.token,
     this.imagenPerfil,
   });
