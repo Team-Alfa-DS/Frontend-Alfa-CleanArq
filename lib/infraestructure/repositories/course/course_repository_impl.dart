@@ -40,7 +40,9 @@ class CourseRepositoryImpl extends CourseRepository {
 
   @override
   Future<Result<List<Course>>> getCourse(
-      {required int page, required int perPage}) async {
+      {required String courseId,
+      required int page,
+      required int perPage}) async {
     final response = await _apiRequestManager.request(
       '/courses?page=$page&per_page=$perPage',
       'GET',
