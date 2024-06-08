@@ -33,7 +33,7 @@ class LessonRepositoryImpl extends LessonRepository {
 
   @override
   Future<Result<List<Lesson>>> getLessons({
-    required int courseId,
+    required String courseId,
     required int page,
     required int perPage,
   }) async {
