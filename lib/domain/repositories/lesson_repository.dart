@@ -4,6 +4,9 @@ import 'package:alpha_gymnastic_center/domain/interfaces/lesson_interfaces.dart'
 
 abstract class LessonRepository {
   Future<Result<Lesson>> createLesson(CreateLessonRequest createRequest);
-  Future<Result<Lesson>> getLesson(String id);
-  // Agrega aquí otros métodos según tus necesidades
+  Future<Result<List<Lesson>>> getLessons({
+    required int courseId,
+    required int page,
+    required int perPage,
+  });
 }

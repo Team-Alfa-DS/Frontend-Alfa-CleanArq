@@ -4,5 +4,6 @@ import 'package:alpha_gymnastic_center/domain/interfaces/course_interfaces.dart'
 
 abstract class CourseRepository {
   Future<Result<Course>> createCourse(CreateCourseRequest createRequest);
-  Future<Result<Course>> getCourse(String id);
+  Future<Result<List<Course>>> getCourse(
+      {required int page, required int perPage});
 }

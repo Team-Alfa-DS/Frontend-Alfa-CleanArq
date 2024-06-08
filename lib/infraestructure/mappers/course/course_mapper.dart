@@ -17,7 +17,7 @@ class CourseMapper {
       tags: List<String>.from(json['tags']),
       date: DateTime.parse(json['date']),
       lessons: (json['lessons'] as List)
-          .map((i) => LessonMapper.fromJson(i))
+          .map((lessonData) => LessonMapper.fromJson(lessonData))
           .toList(),
     );
   }
@@ -35,7 +35,8 @@ class CourseMapper {
       'durationMinutes': course.durationMinutes,
       'tags': course.tags,
       'date': course.date.toIso8601String(),
-      'lessons': course.lessons.map((i) => LessonMapper.toJson(i)).toList(),
+      'lessons':
+          course.lessons.map((lesson) => LessonMapper.toJson(lesson)).toList(),
     };
   }
 }
