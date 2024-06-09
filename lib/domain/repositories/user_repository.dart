@@ -6,8 +6,10 @@ abstract class UserRepository {
   //! Los nuestros
   Future<Result<User>> logInUser(LoginUserRequest loginRequest);
   Future<Result<User>> registerUser(RegisterUserRequest registerRequest);
+
   Future<Result<void>> forgetPassword(
       ForgetPasswordRequest forgetPasswordRequest);
+
   Future<Result<void>> validateCode(ValidateCodeRequest validateCodeRequest);
   Future<Result<void>> changePassword(
       ChangePasswordRequest changePasswordRequest);
