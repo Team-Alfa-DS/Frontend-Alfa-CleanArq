@@ -1,0 +1,28 @@
+import 'package:alpha_gymnastic_center/aplication/use_cases/user/update_user_use_case.dart';
+import 'package:alpha_gymnastic_center/infraestructure/datasources/api/api_request_imp.dart';
+import 'package:alpha_gymnastic_center/infraestructure/datasources/localStorage/loca_storage_imp.dart';
+import 'package:alpha_gymnastic_center/infraestructure/repositories/user/user_repository_impl.dart';
+import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class InjectManager {
+  static Future<void> setUpInjections() async {
+    final getIt = GetIt.instance;
+
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final localStorage = LocalStorageImpl(prefs: sharedPreferences);
+    final apiRequestManagerImpl = ApiRequestManagerImpl(
+      baseUrl: 'https://api.example.com',
+    );
+
+    final userRepository =
+        UserRepositoryImpl(apiRequestManager: apiRequestManagerImpl);
+
+    final updateUserUseCase = UpdateUserUseCase(
+      userRepository: userRepository,
+      localStorage: localStorage,
+    );
+
+    getIt.registerSingleton<UpdateUserUseCase>(updateUserUseCase);
+  }
+}
