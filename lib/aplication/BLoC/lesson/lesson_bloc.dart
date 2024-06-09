@@ -1,25 +1,23 @@
 import 'package:bloc/bloc.dart';
-import 'package:alpha_gymnastic_center/common/result.dart';
-import 'package:alpha_gymnastic_center/domain/entities/lesson.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/lesson/lesson_state.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/lesson/lesson_event.dart';
-import 'package:alpha_gymnastic_center/domain/repositories/lesson_repository.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/lessons/get_lessons_by_course_use_case.dart';
 
-class LessonBloc extends Bloc<LessonEvent, LessonState> {
-  final GetLessonDataUseCase _getLessonDataUseCase;
+class LessonBloc extends Bloc<LessonDetailEvent, LessonDetailState> {
+  final GetLessonsByCourseUseCase _getLessonDataUseCase;
 
-  LessonBloc(this._getLessonDataUseCase) : super(LessonInitial()) {
+  LessonBloc(this._getLessonDataUseCase) : super(LessonDetailInitial()) {
     on<LoadLessonDetailEvent>(_onLoadLessonDetail);
   }
 
   Future<void> _onLoadLessonDetail(
     LoadLessonDetailEvent event,
-    Emitter<LessonState> emit,
+    Emitter<LessonDetailState> emit,
   ) async {
-    emit(LessonLoading());
+    emit(LessonDetailLoading());
 
     final result = await _getLessonDataUseCase.execute(
-      GetLessonDataUseCaseInput(
+      GetLessonsByCourseUseCaseInput(
         courseId: event.courseId,
         page: event.page,
         perPage: event.perPage,
@@ -27,9 +25,9 @@ class LessonBloc extends Bloc<LessonEvent, LessonState> {
     );
 
     if (result.hasValue()) {
-      emit(LessonLoaded(result.value!));
+      emit(LessonDetailLoaded(lesson: result.value!));
     } else {
-      emit(LessonFailed(result.failure!));
+      emit(LessonDetailError(failure: result.failure!));
     }
   }
 }
