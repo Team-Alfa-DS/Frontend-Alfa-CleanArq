@@ -1,9 +1,4 @@
-import 'package:alpha_gymnastic_center/aplication/localStorage/local_storage.dart';
-import 'package:alpha_gymnastic_center/common/result.dart';
 import 'package:alpha_gymnastic_center/common/use_case.dart';
-import 'package:alpha_gymnastic_center/domain/entities/user.dart';
-import 'package:alpha_gymnastic_center/domain/interfaces/user_interfaces.dart';
-import 'package:alpha_gymnastic_center/domain/repositories/user_repository.dart';
 
 class RegisterUseCaseInput extends IUseCaseInput {
   final String name;

@@ -6,7 +6,7 @@ import 'package:alpha_gymnastic_center/aplication/use_cases/lessons/get_lessons_
 class LessonBloc extends Bloc<LessonDetailEvent, LessonDetailState> {
   final GetLessonsByCourseUseCase _getLessonDataUseCase;
 
-  LessonBloc(this._getLessonDataUseCase) : super(LessonDetailInitial()) {
+  LessonBloc(this._getLessonDataUseCase) : super(const LessonDetailInitial()) {
     on<LoadLessonDetailEvent>(_onLoadLessonDetail);
   }
 
@@ -14,7 +14,7 @@ class LessonBloc extends Bloc<LessonDetailEvent, LessonDetailState> {
     LoadLessonDetailEvent event,
     Emitter<LessonDetailState> emit,
   ) async {
-    emit(LessonDetailLoading());
+    emit(const LessonDetailLoading());
 
     final result = await _getLessonDataUseCase.execute(
       GetLessonsByCourseUseCaseInput(
