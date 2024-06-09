@@ -1,9 +1,5 @@
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/home.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/onboarding/onboarding_screen_1.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/onboarding/onboarding_screen_2.dart';
 import 'package:flutter/material.dart';
-
-void main() => runApp(const OnBoardingScreen3());
+import 'package:go_router/go_router.dart';
 
 class OnBoardingScreen3 extends StatelessWidget {
   const OnBoardingScreen3({super.key});
@@ -28,12 +24,12 @@ class OnBoardingScreen3 extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: alturaDeseada, vertical: padding),
-              child: yogaImage(),
+              child: yogaImage3(),
             ),
             const SizedBox(height: 60),
-            const YogaDaily(),
+            const YogaDaily3(),
             const SizedBox(height: 215),
-            const BarraNavegacion(),
+            const BarraNavegacion3(),
           ],
         ),
       ),
@@ -41,7 +37,7 @@ class OnBoardingScreen3 extends StatelessWidget {
   }
 }
 
-Widget yogaImage() {
+Widget yogaImage3() {
   return SizedBox(
     height: 208.0,
     width: 290.0,
@@ -49,8 +45,8 @@ Widget yogaImage() {
   );
 }
 
-class YogaDaily extends StatelessWidget {
-  const YogaDaily({super.key});
+class YogaDaily3 extends StatelessWidget {
+  const YogaDaily3({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -96,14 +92,14 @@ class YogaDaily extends StatelessWidget {
           ),
         ),
         SizedBox(height: 65),
-        Buttom(),
+        Buttom3(),
       ],
     );
   }
 }
 
-class Buttom extends StatelessWidget {
-  const Buttom({super.key});
+class Buttom3 extends StatelessWidget {
+  const Buttom3({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -111,9 +107,7 @@ class Buttom extends StatelessWidget {
       size: const Size(140, 60), // button width and height
       child: ElevatedButton(
         onPressed: () {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => const WelcomeScreen(),
-          ));
+          context.push('/welcome');
         },
         child: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -144,8 +138,8 @@ class Buttom extends StatelessWidget {
   }
 }
 
-class BarraNavegacion extends StatelessWidget {
-  const BarraNavegacion({super.key});
+class BarraNavegacion3 extends StatelessWidget {
+  const BarraNavegacion3({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -157,9 +151,7 @@ class BarraNavegacion extends StatelessWidget {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (_) => const WelcomeScreen(),
-                  ));
+                  context.push('/welcome');
                 },
                 child: const Text('skip',
                     textAlign: TextAlign.center,
@@ -175,17 +167,13 @@ class BarraNavegacion extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.radio_button_unchecked),
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (_) => const OnBoardingScreen1(),
-                    ));
+                    context.push("/onboarding1");
                   },
                 ),
                 IconButton(
                   icon: const Icon(Icons.radio_button_unchecked),
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (_) => const OnBoardingScreen2(),
-                    ));
+                    context.push("/onboarding2");
                   },
                 ),
                 IconButton(

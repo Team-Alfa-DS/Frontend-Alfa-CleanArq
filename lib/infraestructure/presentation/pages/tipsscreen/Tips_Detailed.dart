@@ -94,6 +94,24 @@ class _tips_detail extends State<Widgets_Tips_Detailed> {
                     ),
                   ),
                 ),
+                ///--------------------///
+                Flexible(
+                  child: TextButton(
+                    style: ButtonStyle(
+                      fixedSize: MaterialStatePropertyAll<Size>(20 as Size),
+                      backgroundColor: const MaterialStatePropertyAll<Color>(
+                        Color.fromRGBO(255, 255, 255, 0.0),
+                      ),
+                    ),
+                    onPressed: () {
+                       //navigates to the comment screen with all the stuff
+                    },
+                    child: const Text(
+                        "Check Comments"
+                    ),
+                  ),
+                ),
+                ///-------------------////
                 Flexible(
                   child: Padding(
                     padding:
@@ -143,6 +161,7 @@ class _tips_detail extends State<Widgets_Tips_Detailed> {
               children: [
                 Expanded(
                   child: TextField(
+                    onTap: null /* llama a la pantalla de comentarios */,
                     controller: _commentController,
                     decoration: const InputDecoration(
                       hintText: 'Send comment',
