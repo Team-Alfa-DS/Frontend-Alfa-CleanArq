@@ -4,10 +4,12 @@ import 'package:alpha_gymnastic_center/domain/repositories/category_repository.d
 import 'package:alpha_gymnastic_center/common/result.dart';
 
 class GetCategoryDataUseCaseInput extends IUseCaseInput {
+  final String categoryId;
   final int page;
   final int perPage;
 
-  GetCategoryDataUseCaseInput({required this.page, required this.perPage});
+  GetCategoryDataUseCaseInput(
+      {required this.categoryId, required this.page, required this.perPage});
 }
 
 class GetCategoryDataUseCase
@@ -20,6 +22,7 @@ class GetCategoryDataUseCase
   Future<Result<List<Category>>> execute(
       GetCategoryDataUseCaseInput params) async {
     return await _categoryRepository.getCategories(
+      params.categoryId,
       params.page,
       params.perPage,
     );

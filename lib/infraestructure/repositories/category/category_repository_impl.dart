@@ -11,7 +11,8 @@ class CategoryRepositoryImpl extends CategoryRepository {
       : _apiRequestManager = apiRequestManager;
 
   @override
-  Future<Result<List<Category>>> getCategories(int page, int perPage) async {
+  Future<Result<List<Category>>> getCategories(
+      String categoryId, page, int perPage) async {
     final response = await _apiRequestManager.request<List<Category>>(
       '/categories?page=$page&per_page=$perPage',
       'GET',
