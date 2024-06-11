@@ -34,8 +34,12 @@ class RegisterUseCase extends IUseCase<RegisterUseCaseInput, User> {
     final result = await userRepository.registerUser(registerRequest);
     if (result.hasValue()) {
       final user = result.value!;
-      await localStorage.setKeyValue('appToken', user.id);
-      await localStorage.setKeyValue('role', user.type.toString());
+
+      print("user id");
+      print(user.id);
+      // await localStorage.setKeyValue('appToken', user.id);
+
+      // await localStorage.setKeyValue('role', user.type.toString());
     }
     return result;
   }
