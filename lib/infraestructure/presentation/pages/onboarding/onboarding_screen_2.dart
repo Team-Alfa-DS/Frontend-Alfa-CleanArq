@@ -1,9 +1,5 @@
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/home.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/onboarding/onboarding_screen_1.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/onboarding/onboarding_screen_3.dart';
 import 'package:flutter/material.dart';
-
-void main() => runApp(const OnBoardingScreen2());
+import 'package:go_router/go_router.dart';
 
 class OnBoardingScreen2 extends StatelessWidget {
   const OnBoardingScreen2({super.key});
@@ -28,12 +24,12 @@ class OnBoardingScreen2 extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: alturaDeseada, vertical: padding),
-              child: yogaImage(),
+              child: yogaImage2(),
             ),
             const SizedBox(height: 60),
-            const YogaDaily(),
+            const YogaDaily2(),
             const SizedBox(height: 215),
-            const BarraNavegacion(),
+            const BarraNavegacion2(),
           ],
         ),
       ),
@@ -41,7 +37,7 @@ class OnBoardingScreen2 extends StatelessWidget {
   }
 }
 
-Widget yogaImage() {
+Widget yogaImage2() {
   return SizedBox(
     height: 231.01,
     width: 329.0,
@@ -49,8 +45,8 @@ Widget yogaImage() {
   );
 }
 
-class YogaDaily extends StatelessWidget {
-  const YogaDaily({super.key});
+class YogaDaily2 extends StatelessWidget {
+  const YogaDaily2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -96,14 +92,14 @@ class YogaDaily extends StatelessWidget {
           ),
         ),
         SizedBox(height: 65),
-        Buttom(),
+        Buttom2(),
       ],
     );
   }
 }
 
-class Buttom extends StatelessWidget {
-  const Buttom({super.key});
+class Buttom2 extends StatelessWidget {
+  const Buttom2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -111,9 +107,7 @@ class Buttom extends StatelessWidget {
       size: const Size(140, 60), // button width and height
       child: ElevatedButton(
         onPressed: () {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => const OnBoardingScreen3(),
-          ));
+          context.push('/onboarding3');
         },
         child: const Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -145,8 +139,8 @@ class Buttom extends StatelessWidget {
   }
 }
 
-class BarraNavegacion extends StatelessWidget {
-  const BarraNavegacion({super.key});
+class BarraNavegacion2 extends StatelessWidget {
+  const BarraNavegacion2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -158,9 +152,7 @@ class BarraNavegacion extends StatelessWidget {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (_) => const WelcomeScreen(),
-                  ));
+                  context.push('/welcome');
                 },
                 child: const Text('skip',
                     textAlign: TextAlign.center,
@@ -176,9 +168,7 @@ class BarraNavegacion extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.radio_button_unchecked),
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (_) => const OnBoardingScreen1(),
-                    ));
+                    context.push("/onboarding1");
                   },
                 ),
                 IconButton(
@@ -188,9 +178,7 @@ class BarraNavegacion extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.radio_button_unchecked),
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (_) => const OnBoardingScreen3(),
-                    ));
+                    context.push("/onboarding3");
                   },
                 ),
               ],

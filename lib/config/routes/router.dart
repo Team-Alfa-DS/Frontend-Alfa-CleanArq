@@ -32,16 +32,16 @@ final router = GoRouter(routes: [
     builder: (context, state) => const TrainingScreen(),
   ),
   GoRoute(
-    path: '/tipsTopics',
-    builder: (context, state) => const Tips_n_Topics_Screen(),
-  ),
-  GoRoute(
     path: '/videos',
     builder: (context, state) => const Videos(),
   ),
   GoRoute(
     path: '/courses',
     builder: (context, state) => const YogaHomePage(),
+  ),
+  GoRoute(
+    path: '/blogs',
+    builder: (context, state) => Blogs_Screen(),
   ),
   GoRoute(
     path: '/location',
@@ -56,8 +56,20 @@ final router = GoRouter(routes: [
     builder: (context, state) => const FAQScreen(),
   ),
   GoRoute(
-    path: '/blogs',
-    builder: (context, state) => const YogaBlogScreen(),
+    path: '/onboarding1',
+    builder: (context, state) => const OnBoardingScreen1(),
+  ),
+  GoRoute(
+    path: '/onboarding2',
+    builder: (context, state) => const OnBoardingScreen2(),
+  ),
+  GoRoute(
+    path: '/onboarding3',
+    builder: (context, state) => const OnBoardingScreen3(),
+  ),
+  GoRoute(
+      path: "/welcome",
+      builder: (context, state) => const WelcomeScreen()
   ),
 ]);
 

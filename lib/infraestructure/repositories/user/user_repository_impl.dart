@@ -14,12 +14,10 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<Result<User>> logInUser(LoginUserRequest loginRequest) async {
     final response = await _apiRequestManager.request<User>(
-      '/auth/register',
+      '/auth/login',
       'POST',
       (data) {
-        data['id'] = data['token'];
-        data['role'] = 'regular';
-        return UserMapper.fromJson(data);
+        return UserMapper.fromJson(data['user']);
       },
       body: {
         'email': loginRequest.email,
@@ -27,9 +25,21 @@ class UserRepositoryImpl extends UserRepository {
       },
     );
 
+    print("response");
+    print(response.value);
+    final user = response.value;
+    if (user != null) {
+      print('User ID: ${user.id}');
+      print('User Name: ${user.name}');
+      print('User Email: ${user.email}');
+      print('User Phone: ${user.phone}');
+    } else {
+      print('No user data received');
+    }
+
     if (response.hasValue()) {
       _apiRequestManager.setHeaders(
-          'Authorization', 'Bearer ${response.value!.id}');
+          'Authorization', 'Bearer ${response.value!.token}');
     }
 
     return response;
@@ -37,12 +47,10 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   Future<Result<User>> registerUser(RegisterUserRequest registerRequest) async {
-    final response = await _apiRequestManager.request(
+    final response = await _apiRequestManager.request<User>(
       '/auth/register',
       'POST',
       (data) {
-        data['id'] = data['token'];
-        data['role'] = 'regular';
         return UserMapper.fromJson(data);
       },
       body: {
@@ -50,13 +58,92 @@ class UserRepositoryImpl extends UserRepository {
         'password': registerRequest.password,
         'name': registerRequest.name,
         'phone': registerRequest.phone,
+        'type': 'CLIENT', //registerRequest.type ?? 'CLIENT',
       },
     );
 
-    if (response.hasValue()) {
-      _apiRequestManager.setHeaders(
-          'Authorization', 'Bearer ${response.value!.id}');
-    }
+    return response;
+  }
+
+  @override
+  Future<Result<void>> forgetPassword(
+      ForgetPasswordRequest forgetPasswordRequest) async {
+    final response = await _apiRequestManager.request<void>(
+      '/auth/forget/password',
+      'POST',
+      (data) {},
+      body: {
+        'email': forgetPasswordRequest.email,
+      },
+    );
+
+    return response;
+  }
+
+  @override
+  Future<Result<void>> validateCode(
+      ValidateCodeRequest validateCodeRequest) async {
+    final response = await _apiRequestManager.request<void>(
+      '/auth/code/validate',
+      'POST',
+      (data) {},
+      body: {
+        'email': validateCodeRequest.email,
+        'code': validateCodeRequest.code,
+      },
+    );
+
+    return response;
+  }
+
+  @override
+  Future<Result<void>> changePassword(
+      ChangePasswordRequest changePasswordRequest) async {
+    final response = await _apiRequestManager.request<void>(
+      '/auth/change/password',
+      'PUT',
+      (data) {},
+      body: {
+        'email': changePasswordRequest.email,
+        'code': changePasswordRequest.code,
+        'password': changePasswordRequest.password,
+      },
+    );
+
+    return response;
+  }
+
+  @override
+  Future<Result<User>> getCurrentUser(String token) async {
+    _apiRequestManager.setHeaders('token', token);
+    final response = await _apiRequestManager.request<User>(
+      '/auth/current',
+      'GET',
+      (data) {
+        return UserMapper.fromJson(data);
+      },
+    );
+
+    return response;
+  }
+
+  @override
+  Future<Result<void>> updateUser(
+      String token, UpdateUserRequest updateUserRequest) async {
+    _apiRequestManager.setHeaders('token', token);
+    final response = await _apiRequestManager.request<void>(
+      '/user/update',
+      'PUT',
+      (data) {},
+      body: {
+        if (updateUserRequest.email != null) 'email': updateUserRequest.email,
+        if (updateUserRequest.name != null) 'name': updateUserRequest.name,
+        if (updateUserRequest.password != null)
+          'password': updateUserRequest.password,
+        if (updateUserRequest.phone != null) 'phone': updateUserRequest.phone,
+        if (updateUserRequest.image != null) 'image': updateUserRequest.image,
+      },
+    );
 
     return response;
   }

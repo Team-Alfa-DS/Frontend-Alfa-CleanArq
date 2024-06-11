@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
                           foto: 'assets/icons/ciclismo.png',
                           disposicion: 2,
                           isNew: false,
-                          conexion: '/courses',
+                          conexion: '',
                         ),
                         ScrollHorizontal(
                           titulo: 'Yoga',
@@ -59,7 +59,7 @@ class HomeScreen extends StatelessWidget {
                           foto: 'assets/icons/meditacion.png',
                           disposicion: 2,
                           isNew: false,
-                          conexion: '/courses',
+                          conexion: '',
                         ),
                         ScrollHorizontal(
                           titulo: 'Natación',
@@ -69,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                           foto: 'assets/icons/nadador.png',
                           disposicion: 2,
                           isNew: false,
-                          conexion: '/courses',
+                          conexion: '',
                         ),
                         ScrollHorizontal(
                           titulo: 'Trote',
@@ -79,7 +79,7 @@ class HomeScreen extends StatelessWidget {
                           foto: 'assets/icons/correr.png',
                           disposicion: 2,
                           isNew: false,
-                          conexion: '/courses',
+                          conexion: '',
                         ),
                         ScrollHorizontal(
                           titulo: 'Estiramiento',
@@ -89,7 +89,7 @@ class HomeScreen extends StatelessWidget {
                           foto: 'assets/icons/Estirar.png',
                           disposicion: 2,
                           isNew: false,
-                          conexion: '/courses',
+                          conexion: '',
                         ),
                       ],
                     ),
@@ -104,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: 3.0, top: 0.0),
+                      padding: EdgeInsets.only(bottom: 3.0, top: 0.0, left: 8),
                       child: Text(
                         'Procesos Populares',
                         style: TextStyle(
@@ -124,7 +124,7 @@ class HomeScreen extends StatelessWidget {
                           foto: 'assets/images/Yoga Ejemplo 1.png',
                           disposicion: 2,
                           isNew: false,
-                          conexion: '/tipsTopics',
+                          conexion: '/Courses',
                         ),
                         ScrollHorizontal(
                           titulo: 'Marvin McKinny',
@@ -134,7 +134,7 @@ class HomeScreen extends StatelessWidget {
                           foto: 'assets/images/Yoga Ejemplo 2.png',
                           disposicion: 2,
                           isNew: false,
-                          conexion: '/tipsTopics',
+                          conexion: '/Courses',
                         ),
                         ScrollHorizontal(
                           titulo: 'Carlos Alonso',
@@ -144,7 +144,7 @@ class HomeScreen extends StatelessWidget {
                           foto: 'assets/images/Yoga Ejemplo 4.png',
                           disposicion: 2,
                           isNew: false,
-                          conexion: '/tipsTopics',
+                          conexion: '/Courses',
                         ),
                         ScrollHorizontal(
                           titulo: 'Ralph Tobirson',
@@ -154,7 +154,7 @@ class HomeScreen extends StatelessWidget {
                           foto: 'assets/images/Yoga Ejemplo 6.png',
                           disposicion: 2,
                           isNew: false,
-                          conexion: '/tipsTopics',
+                          conexion: '/Courses',
                         ),
                         ScrollHorizontal(
                           titulo: 'Maria Galvis',
@@ -164,7 +164,7 @@ class HomeScreen extends StatelessWidget {
                           foto: 'assets/images/Yoga Ejemplo 5.png',
                           disposicion: 2,
                           isNew: false,
-                          conexion: '/tipsTopics',
+                          conexion: '/Courses',
                         ),
                         ScrollHorizontal(
                           titulo: 'Haily Bieber',
@@ -174,7 +174,7 @@ class HomeScreen extends StatelessWidget {
                           foto: 'assets/images/Yoga Ejemplo 7.png',
                           disposicion: 2,
                           isNew: false,
-                          conexion: '/tipsTopics',
+                          conexion: '/Courses',
                         ),
                       ],
                     ),

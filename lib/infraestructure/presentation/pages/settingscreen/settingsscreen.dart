@@ -1,4 +1,4 @@
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/Course.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/notifications/notification_screen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/profilescreen/profile.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/settingscreen/faqscreen.dart';
