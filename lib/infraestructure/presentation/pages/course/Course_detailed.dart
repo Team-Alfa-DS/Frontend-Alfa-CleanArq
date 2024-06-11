@@ -83,16 +83,7 @@ class Course_Detailed extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
                             children: [
-                              if (panel.image!.isNotEmpty &&
-                                  panel.video!.isEmpty)
-                                Expanded(
-                                  child: Image.network(
-                                    panel.image!,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              if (panel.video!.isNotEmpty &&
-                                  panel.image!.isEmpty)
+                              if (panel.video!.isNotEmpty)
                                 Expanded(
                                   child: Image.network(
                                     panel.video!,
@@ -134,17 +125,17 @@ class Course_Detailed extends StatelessWidget {
       drawer: const SideBarMenu(),
     );
   }
+}
 
-  void navigateToComments(
-      BuildContext context, String id, String type, String title) {
-    //aqui la llamada del fectch del os comentarios request hacia el backend
+void navigateToComments(
+    BuildContext context, String id, String type, String title) {
+  //aqui la llamada del fectch del os comentarios request hacia el backend
 
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                Widgets_Comments(id: id, Type: type, title: title)));
+  Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) =>
+              Widgets_Comments(id: id, Type: type, title: title)));
 
-    return;
-  }
+  return;
 }

@@ -21,18 +21,13 @@ class GetLessonsByCourseUseCase
   @override
   Future<Result<Result<List<Lesson>>>> execute(
       GetLessonsByCourseUseCaseInput params) async {
-    // Primero obtenemos el curso
     Result<List<Course>> courseResult =
         await _courseRepository.getSingleCourse(id: params.courseId);
-
-    // Verificamos si la operación fue exitosa
     if (courseResult.hasValue()) {
-      // Si el curso se obtuvo correctamente, retornamos las lecciones del curso
       Course course = courseResult.value!.first;
       return Result<Result<List<Lesson>>>(
           value: Result<List<Lesson>>(value: course.lessons));
     } else {
-      // Si hubo un error al obtener el curso, retornamos el error
       return Result<Result<List<Lesson>>>(failure: courseResult.failure);
     }
   }
