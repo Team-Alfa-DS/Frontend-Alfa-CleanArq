@@ -16,8 +16,7 @@ void main() {
     late CourseRepository courseRepository;
 
     setUp(() {
-      courseRepository =
-          CourseRepository(); // Reemplaza FakeRepository con tu repositorio de prueba
+      courseRepository = CourseRepository();
       getCourseDataUseCase = GetCourseDataUseCase(courseRepository);
       courseDetailBloc = CourseDetailBloc(getCourseDataUseCase);
     });
