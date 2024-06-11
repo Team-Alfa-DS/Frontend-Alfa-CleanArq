@@ -19,15 +19,14 @@ class LessonBloc extends Bloc<LessonDetailEvent, LessonDetailState> {
     final result = await _getLessonDataUseCase.execute(
       GetLessonsByCourseUseCaseInput(
         courseId: event.courseId,
-        page: event.page,
-        perPage: event.perPage,
       ),
     );
 
-    if (result.hasValue()) {
-      emit(LessonDetailLoaded(lesson: result.value!));
+    if (result.hasValue() && result.value!.hasValue()) {
+      emit(LessonDetailLoaded(lesson: result.value!.value!));
     } else {
-      emit(LessonDetailError(failure: result.failure!));
+      emit(
+          LessonDetailError(failure: result.failure ?? result.value!.failure!));
     }
   }
 }

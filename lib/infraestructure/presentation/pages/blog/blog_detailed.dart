@@ -121,7 +121,7 @@ class Blog_Detailed extends State<Blog_Detailed_Widget> {
                           ),
                         ),
                         onPressed: () {
-                            navigateToComments(context, id, "LESSON", this.Title);
+                            navigateToComments(context, id, "LESSON", Title);
                         },
                         child: const Text(
                           "Check Comments",
@@ -155,6 +155,7 @@ class Blog_Detailed extends State<Blog_Detailed_Widget> {
                             ),
                           );
                         }
+                        return null;
                       },
                     ),
                   ),
