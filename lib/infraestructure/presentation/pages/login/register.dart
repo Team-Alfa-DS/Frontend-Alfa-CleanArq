@@ -1,11 +1,10 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:connectivity/connectivity.dart';
-import 'package:dio/adapter.dart';
-import 'package:dio/dio.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/user/register/register_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/user/register_use_case.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:http/http.dart' as http;
+import 'package:go_router/go_router.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -21,56 +20,62 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  final Connectivity _connectivity = Connectivity();
-  Dio createDio() {
-    Dio dio = Dio();
-
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (HttpClient client) {
-      client.badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-      return client;
-    };
-
-    return dio;
-  }
-
-// VAR
-  String name = ''; //
-  String phone = ''; //
-  String email = ''; //
-  String password = '';
   bool rememberUser = false;
   bool acceptTerms = false;
-  RegExp phoneVerifi = RegExp(r'^[0-9]+$');
-  RegExp nameVerifi = RegExp(r'^[a-zA-Z0-9]{3,30}$');
 
   @override
   Widget build(BuildContext context) {
     myColor = Theme.of(context).primaryColor;
     mediaSize = MediaQuery.of(context).size;
 
-    return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
+    return BlocProvider(
+      create: (context) => RegisterBloc(
+        registerUseCase: GetIt.instance<RegisterUseCase>(),
       ),
-      child: Scaffold(
-        body: Stack(
-          children: [
-            Positioned(
-              top: -120,
-              left: 0,
-              right: 0,
-              child: Transform.scale(
-                scale: 0.3,
-                child: Image.asset(
-                  "assets/images/logo.png",
-                  fit: BoxFit.fitWidth,
+      child: BlocListener<RegisterBloc, RegisterState>(
+        listener: (context, state) {
+          if (state is RegisterSuccess) {
+            // Navegar a la pantalla de inicio o mostrar un mensaje de éxito
+            context.push("/login");
+          } else if (state is RegisterFailure) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text("Error"),
+                  content: Text(
+                      "Registration failed. Error: ${state.failure.message}"),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text("OK"),
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+        },
+        child: Scaffold(
+          body: Stack(
+            children: [
+              Positioned(
+                top: -120,
+                left: 0,
+                right: 0,
+                child: Transform.scale(
+                  scale: 0.3,
+                  child: Image.asset(
+                    "assets/images/logo.png",
+                    fit: BoxFit.fitWidth,
+                  ),
                 ),
               ),
-            ),
-            Positioned(bottom: 0, child: _buildBottom()),
-          ],
+              Positioned(bottom: 0, child: _buildBottom()),
+            ],
+          ),
         ),
       ),
     );
@@ -167,27 +172,78 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _buildRegisterButton() {
-    return ElevatedButton(
-      onPressed: () {
-        if (acceptTerms) {
-          if (nameController.text.isNotEmpty &&
-              phoneController.text.isNotEmpty &&
-              emailController.text.isNotEmpty &&
-              passwordController.text.isNotEmpty) {
-            if (nameController.text.length >= 3 &&
-                nameController.text.length <= 30) {
-              if (phoneVerifi.hasMatch(phoneController.text) &&
-                  phoneController.text.length == 11) {
-                if (EmailValidator.validate(emailController.text)) {
-                  _registerUser();
-                  Navigator.pushNamed(context, "/login");
+    return BlocBuilder<RegisterBloc, RegisterState>(
+      builder: (context, state) {
+        if (state is RegisterLoading) {
+          return const CircularProgressIndicator();
+        }
+        return ElevatedButton(
+          onPressed: () {
+            if (acceptTerms) {
+              if (nameController.text.isNotEmpty &&
+                  phoneController.text.isNotEmpty &&
+                  emailController.text.isNotEmpty &&
+                  passwordController.text.isNotEmpty) {
+                if (nameController.text.length >= 3 &&
+                    nameController.text.length <= 30) {
+                  if (RegExp(r'^[0-9]+$').hasMatch(phoneController.text) &&
+                      phoneController.text.length == 11) {
+                    if (EmailValidator.validate(emailController.text)) {
+                      BlocProvider.of<RegisterBloc>(context).add(
+                        RegisterSubmitted(
+                          name: nameController.text,
+                          email: emailController.text,
+                          password: passwordController.text,
+                          phone: phoneController.text,
+                        ),
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("¡Attention!"),
+                            content: const Text("You must put a email"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text("OK"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text("¡Attention!"),
+                          content:
+                              const Text("Please write a phone number valid"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text("OK"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 } else {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: const Text("¡Attention!"),
-                        content: const Text("You must put a email"),
+                        content: const Text(
+                            "The name must be between 3 and 30 caracters"),
                         actions: [
                           TextButton(
                             onPressed: () {
@@ -206,7 +262,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: const Text("¡Attention!"),
-                      content: const Text("Please write a phone number valid"),
+                      content: const Text("Please complete all the fields"),
                       actions: [
                         TextButton(
                           onPressed: () {
@@ -225,8 +281,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 builder: (BuildContext context) {
                   return AlertDialog(
                     title: const Text("¡Attention!"),
-                    content: const Text(
-                        "The name must be between 3 and 30 caracters"),
+                    content:
+                        const Text("Please accept the terms and conditions"),
                     actions: [
                       TextButton(
                         onPressed: () {
@@ -239,268 +295,19 @@ class _RegisterPageState extends State<RegisterPage> {
                 },
               );
             }
-          } else {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text("¡Attention!"),
-                  content: const Text("Please complete all the flieds"),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text("OK"),
-                    ),
-                  ],
-                );
-              },
-            );
-          }
-        } else {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text("¡Attention!"),
-                content: const Text("Please accept the terms and conditions"),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("OK"),
-                  ),
-                ],
-              );
-            },
-          );
-        }
+          },
+          style: ElevatedButton.styleFrom(
+            shape: const StadiumBorder(),
+            elevation: 20,
+            backgroundColor: Colors.white,
+            minimumSize: const Size.fromHeight(60),
+          ),
+          child: const Text(
+            "Sign up",
+            style: TextStyle(color: Colors.deepPurple),
+          ),
+        );
       },
-      style: ElevatedButton.styleFrom(
-        shape: const StadiumBorder(),
-        elevation: 20,
-        backgroundColor: Colors.white,
-        minimumSize: const Size.fromHeight(60),
-      ),
-      child: const Text(
-        "Sign up",
-        style: TextStyle(color: Colors.deepPurple),
-      ),
     );
-  }
-
-  Future<void> _registerUser() async {
-    //const url = 'http://192.168.32.47/auth/register';
-    final url = Uri.parse(
-        'https://backend-alfa-production.up.railway.app/auth/register');
-
-    try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': 'true',
-          'Access-Control-Allow-Headers': 'Content-Type',
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
-        },
-        body: jsonEncode({
-          'name': nameController.text,
-          'phone': phoneController.text,
-          'email': emailController.text,
-          'password': passwordController.text,
-        }),
-      );
-      if (response.statusCode == 201) {
-        // Si la respuesta es exitosa, mostrar un diálogo con la respuesta del backend
-        showDialog(
-          // ignore: use_build_context_synchronously
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text("Registro exitoso"),
-              content:
-                  Text("Respuesta del servidor: ${json.decode(response.body)}"),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text("OK"),
-                ),
-              ],
-            );
-          },
-        );
-      } else {
-        // Si la respuesta no es exitosa, mostrar un diálogo con un mensaje de error
-        showDialog(
-          // ignore: use_build_context_synchronously
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text("Error"),
-              content: Text(
-                  "No se pudo completar el registro. Error: ${json.decode(response.body)}"),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text("OK"),
-                ),
-              ],
-            );
-          },
-        );
-      }
-    } catch (e) {
-      print('Unknown error: $e');
-    }
-  }
-
-  Future<void> _registerUserWithDio() async {
-    //Dio dio = createDio();
-    Dio dio = Dio();
-    //const url = 'http://192.168.250.4:3000/auth/register';
-    const url = 'https://backend-alfa-production.up.railway.app/auth/register';
-
-    // _checkIfServerIsReachable();
-
-    try {
-      Response response = await dio.post(
-        url,
-        data: {
-          'name': nameController.text,
-          'phone': phoneController.text,
-          'email': emailController.text,
-          'password': passwordController.text,
-        },
-      );
-
-      if (response.statusCode == 201) {
-        // Si la respuesta es exitosa, mostrar un diálogo con la respuesta del backend
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text("Registro exitoso"),
-              content: Text(
-                  "Respuesta del servidor: ${response.data}"), // Dio maneja la respuesta un poco diferente
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text("OK"),
-                ),
-              ],
-            );
-          },
-        );
-      } else {
-        // Si la respuesta no es exitosa, mostrar un diálogo con un mensaje de error
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text("Error"),
-              content: Text(
-                  "No se pudo completar el registro. Error: ${response.data}"),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text("OK"),
-                ),
-              ],
-            );
-          },
-        );
-      }
-    } on DioError catch (e) {
-      // Manejo de errores específicos de Dio
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text("Error de Conexión"),
-            content: Text("No se pudo realizar la conexión: ${e.message}"),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text("OK"),
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
-
-  Future<void> _checkIfServerIsReachable() async {
-    try {
-      final result = await http.get(Uri.parse('https://www.google.com'));
-      if (result.statusCode == 200) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text("Servidor Alcanzable"),
-              content: const Text("El servidor está disponible"),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text("OK"),
-                ),
-              ],
-            );
-          },
-        );
-      } else {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text("Error"),
-              content: const Text("No se pudo alcanzar el servidor"),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text("OK"),
-                ),
-              ],
-            );
-          },
-        );
-      }
-    } catch (e) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text("Error"),
-            content: const Text("No se pudo alcanzar el servidor"),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text("OK"),
-              ),
-            ],
-          );
-        },
-      );
-    }
   }
 }
