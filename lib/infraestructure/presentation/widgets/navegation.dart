@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class BarraNavegacion extends StatelessWidget {
   const BarraNavegacion({super.key});
@@ -18,7 +19,7 @@ class BarraNavegacion extends StatelessWidget {
               onPressed: () {
                 //si estoy en /home y presiono el icono de la casa, no hace nada
                 if (ModalRoute.of(context)!.settings.name != '/home') {
-                  Navigator.pushNamed(context, '/home');
+                  context.push('/home');
                 }
               },
             ),
@@ -28,7 +29,7 @@ class BarraNavegacion extends StatelessWidget {
                 //si estoy en /course y presiono el icono de la silla, no hace nada
                 if (ModalRoute.of(context)!.settings.name !=
                     '/trainingScreen') {
-                  Navigator.pushNamed(context, '/trainingScreen');
+                  context.push('/trainingScreen');
                 }
               },
             ),
@@ -38,7 +39,7 @@ class BarraNavegacion extends StatelessWidget {
               onPressed: () {
                 //si estoy en /settings y presiono el icono de ajustes, no hace nada
                 if (ModalRoute.of(context)!.settings.name != '/settings') {
-                  Navigator.pushNamed(context, '/settings');
+                  context.push('/settings');
                 }
               },
             ),
@@ -47,7 +48,7 @@ class BarraNavegacion extends StatelessWidget {
               onPressed: () {
                 //si estoy en /notification y presiono la campana, no hace nada
                 if (ModalRoute.of(context)!.settings.name != '/notification') {
-                  Navigator.pushNamed(context, '/notification');
+                  context.push('/notification');
                 }
               },
             ),

@@ -3,8 +3,8 @@ enum targetType { lesson, blog }
 class QueryComment {
   int page;
   int perpage;
-  String blogid;
-  String lessonid;
+  String? blogid;
+  String? lessonid;
 
   QueryComment({
     required this.page,
@@ -14,7 +14,7 @@ class QueryComment {
   });
 }
 
-class Comment{
+class comment{
     String token;
     String id;
     String user;
@@ -23,7 +23,7 @@ class Comment{
     DateTime date;
     targetType target;
 
-    Comment({
+    comment({
       required this.token,
       required this.id,
       required this.user,

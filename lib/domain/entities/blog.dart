@@ -1,11 +1,9 @@
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/pages.dart';
 
 enum FilterQueryEnum { popular, recent }
 
 class BlogTrainer {
     String id;
     String name;
-
     BlogTrainer({
        required this.id,
        required this.name
