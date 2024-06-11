@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -85,10 +86,7 @@ class _LoginPageState extends State<LoginPage> {
       child: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is LoginSuccess) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const LocationScreen()),
-            );
+            context.push("/home");
           } else if (state is LoginFailure) {
             showDialog(
               context: context,

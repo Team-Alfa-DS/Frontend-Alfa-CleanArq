@@ -62,6 +62,14 @@ class UserRepositoryImpl extends UserRepository {
       },
     );
 
+    print("response");
+    print(response.value);
+
+    if (response.hasValue()) {
+      _apiRequestManager.setHeaders(
+          'Authorization', 'Bearer ${response.value!.token}');
+    }
+
     return response;
   }
 
