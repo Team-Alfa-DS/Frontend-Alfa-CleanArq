@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import '../widgets/navegation.dart';
+import '../../widgets/navegation.dart';
 
 class Yoga_basics extends StatelessWidget {
   const Yoga_basics({super.key});
@@ -56,7 +56,7 @@ class _YogaHomePageState extends State<YogaHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const YogaAppBar(title: "Yoga Basics for Beginners"),
+      appBar: const YogaAppBar(title: "Courses Proceses"),
       body: YogaBody(
         imageUrls: imageUrls,
         imageTitles: imageTitles,
@@ -128,7 +128,6 @@ class YogaBody extends StatelessWidget {
   final List<String> imageSubtitles;
   final int currentIndex;
   final Function(int, CarouselPageChangedReason) onPageChanged;
-
   final List<String> imageDescriptions;
 
   const YogaBody({
@@ -147,35 +146,62 @@ class YogaBody extends StatelessWidget {
       direction: Axis.vertical,
       children: [
         ClipRRect(
-            borderRadius: const BorderRadius.only(
-              bottomRight: Radius.circular(45),
-            ),
+          borderRadius: const BorderRadius.only(
+            bottomRight: Radius.circular(45),
+          ),
+          child: GestureDetector(
+            onDoubleTap: () {
+
+              /*
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => YogaDetailScreen(
+                    imageUrl: imageUrls[currentIndex],
+                    title: imageTitles[currentIndex],
+                    subtitle: imageSubtitles[currentIndex],
+                    description: imageDescriptions[currentIndex],
+                  ),
+                ),
+              );
+              */
+
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(
+                SnackBar(
+                  content: Text(
+                      '${imageTitles[currentIndex]} double-tapped!'),
+                ),
+              );
+
+            },
             child: SizedBox(
-              height: 300,
+              height: 290,
               child: Stack(
                 children: [
                   ClipRect(
-                      child: CarouselSlider(
-                    options: CarouselOptions(
-                      height: 300,
-                      autoPlay: true,
-                      onPageChanged: onPageChanged,
-                      scrollDirection: Axis.vertical, // Slide up and down
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        height: 290,
+                        autoPlay: true,
+                        onPageChanged: onPageChanged,
+                        scrollDirection: Axis.vertical, // Slide up and down
+                      ),
+                      items: imageUrls.map((url) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return Image.network(
+                              url,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            );
+                          },
+                        );
+                      }).toList(),
                     ),
-                    items: imageUrls.map((url) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return Image.network(
-                            url,
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                          );
-                        },
-                      );
-                    }).toList(),
-                  )),
+                  ),
                   Positioned(
-                    top: 16,
+                    top: 10,
                     left: 16,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -197,11 +223,10 @@ class YogaBody extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 16,
+                    top: 10,
                     right: 16,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
                         color: Colors.deepPurple,
                         borderRadius: BorderRadius.circular(30),
@@ -230,7 +255,7 @@ class YogaBody extends StatelessWidget {
                           ],
                         ),
                       ),
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -260,82 +285,79 @@ class YogaBody extends StatelessWidget {
                   ),
                 ],
               ),
-            )),
+            ),
+          ),
+        ),
         Expanded(
           flex: 0,
           child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: SingleChildScrollView(
-                      child: Text(
-                        imageDescriptions[currentIndex],
-                        style:
-                            TextStyle(fontSize: 16.0, color: Colors.grey[800]),
-                      ),
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SingleChildScrollView(
+                  child: Text(
+                    imageDescriptions[currentIndex],
+                    style: TextStyle(fontSize: 16.0, color: Colors.grey[800]),
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.star, color: Colors.amber),
+                        SizedBox(width: 8.0),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Level',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text('Beginner'),
+                          ],
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 16.0),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.star, color: Colors.amber),
-                          SizedBox(width: 8.0),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Level',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                              Text('Beginner'),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(Icons.calendar_today, color: Colors.blue),
-                          SizedBox(width: 8.0),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Weeks',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                              Text('4'),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(Icons.timer, color: Colors.green),
-                          SizedBox(width: 8.0),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Mins',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                              Text('30'),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              )),
+                    Row(
+                      children: [
+                        Icon(Icons.calendar_today, color: Colors.blue),
+                        SizedBox(width: 8.0),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Weeks',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text('4'),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.timer, color: Colors.green),
+                        SizedBox(width: 8.0),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Mins',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text('30'),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ),
         NewYogaClassesCarousel(
-            newImageUrls: imageUrls,
-            newImageTitles: imageTitles,
-            newImageSubtitles:
-                imageSubtitles), // Add more widgets for the rest of the Yoga app content
+          newImageUrls: imageUrls,
+          newImageTitles: imageTitles,
+          newImageSubtitles: imageSubtitles,
+        ),
       ],
     );
   }
@@ -372,19 +394,22 @@ class NewYogaClassesCarousel extends StatelessWidget {
           height: 180.0, // Adjust the height to accommodate two items per slide
           child: CarouselSlider(
             options: CarouselOptions(
-              height: 180.0, // Adjust the height of each item
-              aspectRatio: 2.0, // Adjust the aspect ratio to fit two items
+              height: 180.0,
+              // Adjust the height of each item
+              aspectRatio: 2.0,
+              // Adjust the aspect ratio to fit two items
               enlargeCenterPage: false,
               enableInfiniteScroll: true,
               autoPlay: false,
               autoPlayInterval: const Duration(seconds: 5),
-              scrollDirection: Axis.vertical, // Change to vertical scrolling
+              scrollDirection: Axis.vertical,
+              // Change to vertical scrolling
               viewportFraction: 1.0, // Show two items per slide
             ),
             items: List.generate(
               (newImageUrls.length + 1) ~/
                   2, // Divide the length by 2 to get the number of slides
-              (index) {
+                  (index) {
                 final startIndex = index * 2;
                 final endIndex = min(startIndex + 2, newImageUrls.length);
                 return Builder(
@@ -399,83 +424,100 @@ class NewYogaClassesCarousel extends StatelessWidget {
                                 Expanded(
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 4.0),
-                                    child: Stack(
-                                      fit: StackFit.expand,
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(9.0),
-                                          child: Image.network(
-                                            newImageUrls[i],
-                                            fit: BoxFit.cover,
+                                      horizontal: 8.0,
+                                      vertical: 4.0,
+                                    ),
+                                    child: GestureDetector(
+                                      onDoubleTap: () {
+                                        // Replace this with your desired action
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                                '${newImageTitles[i]} double-tapped!'),
                                           ),
-                                        ),
-                                        Positioned(
-                                          top: 12.0,
-                                          right: 12.0,
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 12.0,
-                                              vertical: 6.0,
+                                        );
+                                      },
+                                      child: Stack(
+                                        fit: StackFit.expand,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                            BorderRadius.circular(9.0),
+                                            child: Image.network(
+                                              newImageUrls[i],
+                                              fit: BoxFit.cover,
                                             ),
-                                            decoration: BoxDecoration(
-                                              color: Colors.deepPurple,
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                            ),
-                                            child: const Text(
-                                              'New',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 12.0,
+                                          ),
+                                          Positioned(
+                                            top: 12.0,
+                                            right: 12.0,
+                                            child: Container(
+                                              padding: const EdgeInsets
+                                                  .symmetric(
+                                                horizontal: 12.0,
+                                                vertical: 6.0,
                                               ),
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned.fill(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                begin: Alignment.bottomCenter,
-                                                end: Alignment.topCenter,
-                                                colors: [
-                                                  Colors.black.withOpacity(0.3),
-                                                  Colors.transparent,
-                                                ],
+                                              decoration: BoxDecoration(
+                                                color: Colors.deepPurple,
+                                                borderRadius:
+                                                BorderRadius.circular(20.0),
                                               ),
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          bottom: 12.0,
-                                          left: 12.0,
-                                          right: 12.0,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                newImageTitles[i],
-                                                style: const TextStyle(
+                                              child: const Text(
+                                                'New',
+                                                style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 14.0,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 4.0),
-                                              Text(
-                                                newImageSubtitles[i],
-                                                style: const TextStyle(
-                                                  color: Colors.white,
                                                   fontSize: 12.0,
                                                 ),
                                               ),
-                                            ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                          Positioned.fill(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  begin:
+                                                  Alignment.bottomCenter,
+                                                  end: Alignment.topCenter,
+                                                  colors: [
+                                                    Colors.black
+                                                        .withOpacity(0.3),
+                                                    Colors.transparent,
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            bottom: 12.0,
+                                            left: 12.0,
+                                            right: 12.0,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  newImageTitles[i],
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14.0,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 4.0),
+                                                Text(
+                                                  newImageSubtitles[i],
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 12.0,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
