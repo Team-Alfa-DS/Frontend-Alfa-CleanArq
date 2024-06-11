@@ -23,7 +23,6 @@ class LessonRepositoryImpl extends LessonRepository {
           title: createRequest.title,
           content: createRequest.content,
           video: createRequest.video,
-          image: createRequest.image,
         ),
       ),
     );
