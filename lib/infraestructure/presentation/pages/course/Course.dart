@@ -2,7 +2,11 @@ import 'dart:math';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import '../../../../domain/entities/course.dart';
+import '../../../mappers/course/course_mapper.dart';
+import '../../widgets/comments_container.dart';
 import '../../widgets/navegation.dart';
+import 'Course_detailed.dart';
 
 class Yoga_basics extends StatelessWidget {
   const Yoga_basics({super.key});
@@ -165,14 +169,41 @@ class YogaBody extends StatelessWidget {
                 ),
               );
               */
+              var jsonResponse = {
+                "title": "Sample Title",
+                "description": "Sample Description",
+                "category": "Fitness",
+                "image": "https://serviceninjas.in/wp-content/uploads/2021/12/yoga-2.jpg",
+                "trainer": {
+                  "id": "trainer001",
+                  "name": "John Doe"
+                },
+                "level": "intermediate",
+                "durationWeeks": 4,
+                "durationMinutes": 60,
+                "tags": ["Workout", "Cardio", "Strength"],
+                "date": "2024-06-11T00:00:00Z",
+                "lessons": [
+                  {
+                    "id": "lesson001",
+                    "title": "Lesson 1",
+                    "content": "Introduction to the workout",
+                    "video": "https://example.com/video1.mp4"
+                  },
+                  {
+                    "id": "lesson002",
+                    "title": "Lesson 2",
+                    "content": "Cardio session",
+                    "image": "https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-trainer-in-gym-royalty-free-image-1584723855.jpg"
+                  }
+                ]
+              };
 
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(
-                SnackBar(
-                  content: Text(
-                      '${imageTitles[currentIndex]} double-tapped!'),
-                ),
-              );
+              print(jsonResponse);
+
+              var course =  CourseMapper.fromJson(jsonResponse);
+
+              redirectToCourseDetails(context,course);
 
             },
             child: SizedBox(
@@ -361,6 +392,14 @@ class YogaBody extends StatelessWidget {
       ],
     );
   }
+
+  void redirectToCourseDetails(BuildContext context,Course course) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Course_Detailed(course: course)));
+  }
+
 }
 
 class NewYogaClassesCarousel extends StatelessWidget {

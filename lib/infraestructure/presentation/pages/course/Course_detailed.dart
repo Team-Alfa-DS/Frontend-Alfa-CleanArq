@@ -1,7 +1,7 @@
-import 'dart:html';
 
 import 'package:flutter/material.dart';
 
+import '../../../../domain/entities/course.dart';
 import '../../widgets/comments_container.dart';
 import '../../widgets/sidebarmenu.dart';
 import 'Course.dart';
@@ -9,72 +9,16 @@ import 'Course.dart';
 
 class Course_Detailed extends StatelessWidget {
 
-    var jsonResponse = {
-    "Title": "Sample Title",
-    "Description": "Sample Description",
-    "Category": "Fitness",
-    "Image": "https://example.com/sample.jpg",
-    "Trainer": {
-      "Id": "trainer001",
-      "Name": "John Doe"
-    },
-    "Level": "Intermediate",
-    "DurationWeeks": 4,
-    "DurationMinutes": 60,
-    "Tags": ["Workout", "Cardio", "Strength"],
-    "Date": "2024-06-11T00:00:00Z",
-    "Lessons": [
-      {
-        "Id": "lesson001",
-        "Title": "Lesson 1",
-        "Content": "Introduction to the workout",
-        "Video": "https://example.com/video1.mp4"
-      },
-      {
-        "Id": "lesson002",
-        "Title": "Lesson 2",
-        "Content": "Cardio session",
-        "Image": "https://example.com/image2.jpg"
-      }
-    ]
-  };
-
-  final String Course;
-
-  /*
-  Title: string
-  Description: string
-  Category: string
-  Image: string
-  Trainer: {
-      Id: string
-      Name: string
-  }
-  Level: string
-  DurationWeeks: number
-  DurationMinutes: number
-  Tags: string[]
-  Date: Date
-  Lessons: [{
-      Id: string
-      Title: string
-      Content: string
-      Video?: string
-      Image?: string
-  }]
-  */
-
-    Course_Detailed({Key? key, required this.Course}) : super(key: key);
-
-    /*
-
+  final Course course;
+  Course_Detailed({required this.course});
   @override
   Widget build(BuildContext context) {
+    var panels = this.course.lessons;
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
       body: Column(
         children: [
-          YogaAppBar(title: title),
+          YogaAppBar(title: this.course.title),
           Expanded(
             child: Column(
               children: [
@@ -87,13 +31,13 @@ class Course_Detailed extends StatelessWidget {
                         children: [
                           Flexible(
                             child: Image.network(
-                              urlTitleImage,
+                              course.image,
                               fit: BoxFit.cover,
                             ),
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            desc,
+                            "${course.description} ${course.category} ${course.date} ${course.trainer.id} ${course.trainer.name} ${course.tags} ${course.durationMinutes} ${course.durationWeeks} ${course.level}",
                             style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 18.0,
@@ -142,23 +86,37 @@ class Course_Detailed extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
                             children: [
-                              Expanded(
-                                child: Image.network(
-                                  panel['item']!,
-                                  fit: BoxFit.cover,
+
+                              if(panel.image!.isNotEmpty && panel.video!.isEmpty)
+                                  Expanded(
+                                    child: Image.network(
+                                      panel.image!,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+
+                              if(panel.video!.isNotEmpty && panel.image!.isEmpty)
+                                Expanded(
+                                  child: Image.network(
+                                    panel.video!,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                              ),
+
                               const SizedBox(width: 16.0),
                               Column(
                                 children: [
                                   Text(
-                                  panel['description']!,
+                                  panel.content,
                                        style: const TextStyle(
                                        fontSize: 16.0,
                                        ),
                                   ),
                                   TextButton(
-                                      onPressed: () {navigateToComments(context, id, "LESSON", this.title);}
+                                      onPressed: () {
+                                        navigateToComments(context, panel.id, "LESSON", this.course.title);
+
+                                        }
                                       ,
                                       child: const Text(
                                          "Check Comments",
@@ -183,7 +141,7 @@ class Course_Detailed extends StatelessWidget {
       ),
       drawer: const SideBarMenu(),
     );
-  }*/
+  }
 
   void navigateToComments(BuildContext context, String id, String type, String title) {
 
@@ -196,4 +154,5 @@ class Course_Detailed extends StatelessWidget {
 
     return;
   }
+
 }
