@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../../../domain/entities/course.dart';
 import '../../../mappers/course/course_mapper.dart';
-import '../../widgets/comments_container.dart';
 import '../../widgets/navegation.dart';
 import 'Course_detailed.dart';
 
