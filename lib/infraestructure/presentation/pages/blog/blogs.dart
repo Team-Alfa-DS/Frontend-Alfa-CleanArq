@@ -1,4 +1,6 @@
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/tipsscreen/Tips_Detailed.dart';
+import 'dart:core';
+
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/blog/blog_detailed.dart';
 
 import '../../widgets/navegation.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -6,26 +8,30 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/sidebarmenu.dart';
 
-class Tips_n_Topics extends StatelessWidget {
-  const Tips_n_Topics({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: "Tips",
-      debugShowCheckedModeBanner: false,
-      home: Tips_n_Topics_Screen(),
-    );
-  }
-}
+class Blogs_Screen extends StatelessWidget {
 
-class Tips_n_Topics_Screen extends StatefulWidget {
-  const Tips_n_Topics_Screen({super.key});
-  @override
-  _Tips_n_Topics_state createState() => _Tips_n_Topics_state();
-}
 
-class _Tips_n_Topics_state extends State<Tips_n_Topics_Screen> {
+  //esto es un mimic o mock de como un item me va dar el backend como response:
+  final List<Map<String, String>> MockBlogs = [
+    { 'id': 'asdasd',
+      'title': 'Blog 1',
+      'image': 'https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-trainer-in-gym-royalty-free-image-1584723855.jpg',
+      'date' : '20/04/23',
+      'category' : 'Category 1',
+      'trainer' : '12345'
+    },
+  ];
+
+  //mientras tanto ando usando estos otros mocks pero la idea es ponerlo como funciona en el anterior arriba para que ya sea compatible con el JSON del Response completo.
+  List<String> ids = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+  ];
+
   List<String> imageUrls = [
     'https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-trainer-in-gym-royalty-free-image-1584723855.jpg',
     'https://i0.wp.com/www.muscleandfitness.com/wp-content/uploads/2018/12/Personal-Trainer-Training-Partner-GettyImages-654427364.jpg?quality=86&strip=all',
@@ -76,8 +82,8 @@ class _Tips_n_Topics_state extends State<Tips_n_Topics_Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Tips_n_Topics_appbar(
-        title: "Tips & Topics",
+      appBar: Blogs_appbar(
+        title: "Tips & Topics (Blogs)",
         onCategoryTapped: (index) {
           // Handle category tapping based on the index
           switch (index) {
@@ -113,6 +119,7 @@ class _Tips_n_Topics_state extends State<Tips_n_Topics_Screen> {
         ),
       ),
       body: Tips_n_Topics_body(
+        ids: ids,
         imageUrls: imageUrls,
         titles: imageTitles,
         categories: Categories,
@@ -127,22 +134,24 @@ class _Tips_n_Topics_state extends State<Tips_n_Topics_Screen> {
 }
 
 class Tips_n_Topics_body extends StatelessWidget {
+
+  final List<String> ids;
   final List<String> imageUrls;
   final List<String> titles;
   final List<String> categories;
   final List<String> dates;
   final List<String> subtitles;
-
   final List<String> description;
 
   const Tips_n_Topics_body({
     super.key,
+    required this.ids,
     required this.imageUrls,
     required this.titles,
     required this.categories,
     required this.dates,
     required this.subtitles,
-    required this.description,
+    required this.description
   });
 
   @override
@@ -153,6 +162,7 @@ class Tips_n_Topics_body extends StatelessWidget {
         SizedBox(
           height: 240,
           child: HorizontalCarousel(
+            ids: ids,
             imageUrls: imageUrls,
             titles: titles,
             categories: categories,
@@ -308,6 +318,8 @@ class NewYogaClassesPanelGrid extends StatelessWidget {
 }
 
 class HorizontalCarousel extends StatefulWidget {
+
+  final List<String> ids;
   final List<String> imageUrls;
   final List<String> titles;
   final List<String> categories;
@@ -322,6 +334,7 @@ class HorizontalCarousel extends StatefulWidget {
     required this.categories,
     required this.dates,
     required this.description,
+    required this.ids,
   });
 
   @override
@@ -467,12 +480,12 @@ class _HorizontalCarouselState extends State<HorizontalCarousel> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => Widgets_Tips_Detailed(
-                desc: description, title: title, urlTitleImage: url_)));
+            builder: (context) => const Blog_Detailed_Widget(id: '', Title: '', Description: '', Images: [], Tags: [], date: '',
+               )));
   }
 }
 
-class Tips_n_Topics_appbar extends StatefulWidget
+class Blogs_appbar extends StatefulWidget
     implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight + 50);
@@ -489,7 +502,7 @@ class Tips_n_Topics_appbar extends StatefulWidget
 
   final void Function(int) onCategoryTapped;
 
-  Tips_n_Topics_appbar({
+  Blogs_appbar({
     super.key,
     required this.title,
     required this.onCategoryTapped,
@@ -499,7 +512,7 @@ class Tips_n_Topics_appbar extends StatefulWidget
   _Tips_n_Topics_appbarState createState() => _Tips_n_Topics_appbarState();
 }
 
-class _Tips_n_Topics_appbarState extends State<Tips_n_Topics_appbar> {
+class _Tips_n_Topics_appbarState extends State<Blogs_appbar> {
   int _selectedIndex = 0;
 
   @override

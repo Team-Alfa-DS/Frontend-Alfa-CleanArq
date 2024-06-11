@@ -20,7 +20,7 @@ class GetCourseDataUseCase
 
   @override
   Future<Result<List<Course>>> execute(GetCourseDataUseCaseInput params) async {
-    return await _courseRepository.getCourse(
-        courseId: params.courseId, page: params.page, perPage: params.perPage);
+    return await _courseRepository.getCourseMany(
+        page: params.page, perPage: params.perPage);
   }
 }
