@@ -1,4 +1,4 @@
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/Course.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:flutter/material.dart';
 
 class FAQScreen extends StatelessWidget {

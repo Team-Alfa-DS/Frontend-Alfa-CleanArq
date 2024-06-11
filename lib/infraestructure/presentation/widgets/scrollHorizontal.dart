@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 /*
     RECUERDEN LLAMAR A ESTA CLASE DE LA SIGUIENTE MANERA:
@@ -52,7 +53,7 @@ class ScrollHorizontal extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, conexion);
+        context.push(conexion);
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 10.0),
