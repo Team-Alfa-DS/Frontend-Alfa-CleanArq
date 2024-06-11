@@ -186,8 +186,18 @@ class NotificationScreen extends StatelessWidget {
         final notification = notifications[index];
         return ListTile(
           leading: const Icon(Icons.notifications),
-          title: Text(notification['message'] ?? ''),
-          subtitle: Text(notification['time'] ?? ''),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(notification['time'] ?? '',
+                  style: const TextStyle(fontSize: 10)),
+              Text(
+                notification['title'] ?? '',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          subtitle: Text(notification['message'] ?? ''),
           trailing: Text(notification['status'] ?? ''),
         );
       },
