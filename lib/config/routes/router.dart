@@ -1,6 +1,7 @@
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/CreateNewPass.dart';
 import 'package:bloc/bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:alpha_gymnastic_center/infraestructure//presentation/pages/pages.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/pages.dart';
 
 final router = GoRouter(routes: [
   GoRoute(
@@ -67,10 +68,10 @@ final router = GoRouter(routes: [
     path: '/onboarding3',
     builder: (context, state) => const OnBoardingScreen3(),
   ),
+  GoRoute(path: "/welcome", builder: (context, state) => const WelcomeScreen()),
   GoRoute(
-      path: "/welcome",
-      builder: (context, state) => const WelcomeScreen()
-  ),
+      path: "/createPassword",
+      builder: (context, state) => const CreatePasswordPage())
 ]);
 
 class RouterSimpleCubit extends Cubit<GoRouter> {

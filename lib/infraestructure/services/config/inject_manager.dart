@@ -1,3 +1,4 @@
+import 'package:alpha_gymnastic_center/aplication/use_cases/user/forgot_password_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/login_in_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/register_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/update_user_use_case.dart';
@@ -36,8 +37,12 @@ class InjectManager {
       localStorage: localStorage,
     );
 
+    final forgotPasswordUseCase = ForgotPasswordUseCase(
+        userRepository: userRepository, localStorage: localStorage);
+
     getIt.registerSingleton<UpdateUserUseCase>(updateUserUseCase);
     getIt.registerSingleton<LogInUseCase>(logInUseCase);
     getIt.registerSingleton<RegisterUseCase>(registerUserCase);
+    getIt.registerSingleton<ForgotPasswordUseCase>(forgotPasswordUseCase);
   }
 }

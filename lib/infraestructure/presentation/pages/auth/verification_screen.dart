@@ -264,7 +264,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
         minimumSize: const Size.fromHeight(60),
       ),
       child: const Text(
-        "Sign up",
+        "Verify",
         style: TextStyle(color: Colors.deepPurple),
       ),
     );

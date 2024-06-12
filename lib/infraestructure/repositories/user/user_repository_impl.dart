@@ -74,12 +74,16 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Result<void>> forgetPassword(
+  Future<Result<ForgetPasswordResponse>> forgetPassword(
       ForgetPasswordRequest forgetPasswordRequest) async {
-    final response = await _apiRequestManager.request<void>(
+    final response = await _apiRequestManager.request<ForgetPasswordResponse>(
       '/auth/forget/password',
       'POST',
-      (data) {},
+      (data) {
+        print("la data");
+        print(data);
+        return ForgetPasswordResponse(date: data["date"]);
+      },
       body: {
         'email': forgetPasswordRequest.email,
       },

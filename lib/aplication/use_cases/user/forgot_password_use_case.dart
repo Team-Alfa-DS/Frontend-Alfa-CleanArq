@@ -22,9 +22,11 @@ class ForgotPasswordUseCase extends IUseCase<ForgotPasswordUseCaseInput, void> {
     ForgetPasswordRequest forgetPasswordRequest =
         ForgetPasswordRequest(email: params.email);
     final result = await userRepository.forgetPassword(forgetPasswordRequest);
-    if (result.hasValue()) {
-      //! pin pong
-    }
+    print("resultado: xd");
+    print(result.hasValue());
+    print("resultado: xd");
+    print(result.value);
+    if (result.hasValue()) {}
     return result;
   }
 }

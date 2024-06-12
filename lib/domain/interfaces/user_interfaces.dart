@@ -22,11 +22,16 @@ class RegisterUserRequest {
   });
 }
 
-
 class ForgetPasswordRequest {
   final String email;
 
   ForgetPasswordRequest({required this.email});
+}
+
+class ForgetPasswordResponse {
+  final String date;
+
+  ForgetPasswordResponse({required this.date});
 }
 
 class ValidateCodeRequest {
