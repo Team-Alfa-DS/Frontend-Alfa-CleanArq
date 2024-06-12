@@ -1,20 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/progressbar.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/profilescreen/profile.dart'
-    as profile;
 
 import '../../../../domain/entities/blog.dart';
 import '../../../../domain/entities/course.dart';
 import '../../widgets/blogitem.dart';
 import '../../widgets/categoryItem.dart';
 import '../../widgets/courseitem.dart';
-
 
 class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -161,16 +155,18 @@ class HomeScreen extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       children: blogs != null
                           ? [
-                        for (int index = 0; index < blogs!.length; index++)
-                          blogItem(
-                            id: blogs![index].id,
-                            imageUrl: blogs![index].images.first,
-                            title: blogs![index].title,
-                            description: blogs![index].description,
-                            date: blogs![index].date.toString(),
-                            category: blogs![index].category,
-                          ),
-                      ]
+                              for (int index = 0;
+                                  index < blogs!.length;
+                                  index++)
+                                blogItem(
+                                  id: blogs![index].id,
+                                  imageUrl: blogs![index].images.first,
+                                  title: blogs![index].title,
+                                  description: blogs![index].description,
+                                  date: blogs![index].date.toString(),
+                                  category: blogs![index].category,
+                                ),
+                            ]
                           : [const SizedBox()],
                     ),
                   ),
@@ -228,7 +224,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const Placeholder(), // Replace with actual profile page
+                builder: (context) =>
+                    const Placeholder(), // Replace with actual profile page
               ),
             );
           },
@@ -264,8 +261,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white)),
-                        Text(
-                            'ID: ${uuid.substring(0, 8)}',
+                        Text('ID: ${uuid.substring(0, 8)}',
                             style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
@@ -277,48 +273,47 @@ class _CustomAppBarState extends State<CustomAppBar> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: 
-                ClipRRect(
+                child: ClipRRect(
                   borderRadius: BorderRadius.circular(9),
-                  child:TextField(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/popularSearch');
-                  },
-                  textAlign: TextAlign.center,
-                  decoration: const InputDecoration(
-                    hintText: 'Buscar...',
-                    filled: true,
-                    fillColor: Colors.white,
-                    prefixIcon: Icon(Icons.search),
+                  child: TextField(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/popularSearch');
+                    },
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      hintText: 'Buscar...',
+                      filled: true,
+                      fillColor: Colors.white,
+                      prefixIcon: Icon(Icons.search),
+                    ),
                   ),
-                ),
                 ),
               ),
               Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: _days.map((day) {
-                    int index = _days.indexOf(day);
-                    return TextButton(
-                      onPressed: () {
-                        setState(() {
-                          _selectedDayIndex = index;
-                        });
-                      },
-                      child: Text(
-                        day,
-                        style: TextStyle(
-                          fontSize: 17,
-                          color: _selectedDayIndex == index
-                              ? Colors.white
-                              : Colors.white.withOpacity(0.5),
-                          fontWeight: _selectedDayIndex == index
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                        ),
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: _days.map((day) {
+                  int index = _days.indexOf(day);
+                  return TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedDayIndex = index;
+                      });
+                    },
+                    child: Text(
+                      day,
+                      style: TextStyle(
+                        fontSize: 17,
+                        color: _selectedDayIndex == index
+                            ? Colors.white
+                            : Colors.white.withOpacity(0.5),
+                        fontWeight: _selectedDayIndex == index
+                            ? FontWeight.bold
+                            : FontWeight.normal,
                       ),
-                    );
-                  }).toList(),
-                ),
+                    ),
+                  );
+                }).toList(),
+              ),
             ],
           ),
         ),
