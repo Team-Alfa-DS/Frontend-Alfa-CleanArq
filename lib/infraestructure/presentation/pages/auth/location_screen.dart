@@ -127,7 +127,7 @@ class ButtomLogin extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => HomeScreen(),
+          builder: (_) => HomeScreen(courses: [],),
         ));
       },
       style: ElevatedButton.styleFrom(
