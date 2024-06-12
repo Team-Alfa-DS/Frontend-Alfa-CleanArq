@@ -1,12 +1,13 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/theme/theme_cubit.dart';
 import 'package:alpha_gymnastic_center/config/routes/router.dart';
 import 'package:alpha_gymnastic_center/config/theme/themes.dart';
+import 'package:alpha_gymnastic_center/infraestructure/services/config/inject_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
-//  WidgetsFlutterBinding.ensureInitialized();
-//  await InjectManager.setUpInjections();
+  WidgetsFlutterBinding.ensureInitialized();
+  await InjectManager.setUpInjections();
   runApp(const BlocsProvider());
 }
 

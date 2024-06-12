@@ -9,7 +9,9 @@ final router = GoRouter(routes: [
   ),
   GoRoute(
     path: '/home',
-    builder: (context, state) => HomeScreen(courses: const [],),
+    builder: (context, state) => HomeScreen(
+      courses: const [],
+    ),
   ),
   GoRoute(
     path: '/notification',
@@ -37,7 +39,7 @@ final router = GoRouter(routes: [
   ),
   GoRoute(
     path: '/courses',
-    builder: (context, state) => const YogaHomePage(),
+    builder: (context, state) => const CourseDetailView(),
   ),
   GoRoute(
     path: '/blogs',
@@ -64,13 +66,14 @@ final router = GoRouter(routes: [
     builder: (context, state) => const OnBoardingScreen2(),
   ),
   GoRoute(
+    path: '/Course_test',
+    builder: (context, state) => const CourseDetailView(),
+  ),
+  GoRoute(
     path: '/onboarding3',
     builder: (context, state) => const OnBoardingScreen3(),
   ),
-  GoRoute(
-      path: "/welcome",
-      builder: (context, state) => const WelcomeScreen()
-  ),
+  GoRoute(path: "/welcome", builder: (context, state) => const WelcomeScreen()),
 ]);
 
 class RouterSimpleCubit extends Cubit<GoRouter> {
