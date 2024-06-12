@@ -1,5 +1,4 @@
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/course/Course.dart';
@@ -10,7 +9,7 @@ class Widgets_Comments extends StatefulWidget {
   final String Type;
   final String title;
 
-  Widgets_Comments({
+  const Widgets_Comments({super.key, 
     required this.id,
     required this.Type,
     required this.title,
@@ -89,7 +88,7 @@ class Comments extends State<Widgets_Comments> {
           children: [
             const YogaAppBar(title: "Comentarios"),
             if (_showComments)
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height * 0.75,
                 child: Padding(
                   padding: EdgeInsets.only(bottom: bottomInset, left: 8, right: 8),

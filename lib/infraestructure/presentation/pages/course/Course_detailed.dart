@@ -1,24 +1,20 @@
-
 import 'package:flutter/material.dart';
-
 import '../../../../domain/entities/course.dart';
 import '../../widgets/comments_container.dart';
 import '../../widgets/sidebarmenu.dart';
 import 'Course.dart';
 
-
 class Course_Detailed extends StatelessWidget {
-
   final Course course;
-  Course_Detailed({required this.course});
+  const Course_Detailed({super.key, required this.course});
   @override
   Widget build(BuildContext context) {
-    var panels = this.course.lessons;
+    var panels = course.lessons;
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
       body: Column(
         children: [
-          YogaAppBar(title: this.course.title),
+          YogaAppBar(title: course.title),
           Expanded(
             child: Column(
               children: [
@@ -55,7 +51,8 @@ class Course_Detailed extends StatelessWidget {
                     children: [
                       const Text(
                         "Lessons To Follow",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       ElevatedButton(
                         style: const ButtonStyle(
@@ -64,7 +61,7 @@ class Course_Detailed extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                              //post donde se subscribe va aqui;
+                          //post donde se subscribe va aqui;
                         },
                         child: const Text(
                           "Subscribe!",
@@ -77,7 +74,7 @@ class Course_Detailed extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding:
-                    EdgeInsets.only(bottom: bottomInset, left: 8, right: 8),
+                        EdgeInsets.only(bottom: bottomInset, left: 8, right: 8),
                     child: ListView.builder(
                       itemCount: panels.length,
                       itemBuilder: (context, index) {
@@ -86,47 +83,33 @@ class Course_Detailed extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
                             children: [
-
-                              if(panel.image!.isNotEmpty && panel.video!.isEmpty)
-                                  Expanded(
-                                    child: Image.network(
-                                      panel.image!,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-
-                              if(panel.video!.isNotEmpty && panel.image!.isEmpty)
+                              if (panel.video!.isNotEmpty)
                                 Expanded(
                                   child: Image.network(
                                     panel.video!,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
-
                               const SizedBox(width: 16.0),
-                              Column(
-                                children: [
-                                  Text(
+                              Column(children: [
+                                Text(
                                   panel.content,
-                                       style: const TextStyle(
-                                       fontSize: 16.0,
-                                       ),
+                                  style: const TextStyle(
+                                    fontSize: 16.0,
                                   ),
-                                  TextButton(
-                                      onPressed: () {
-                                        navigateToComments(context, panel.id, "LESSON", this.course.title);
-
-                                        }
-                                      ,
-                                      child: const Text(
-                                         "Check Comments",
-                                        style: TextStyle(
+                                ),
+                                TextButton(
+                                    onPressed: () {
+                                      navigateToComments(context, panel.id,
+                                          "LESSON", course.title);
+                                    },
+                                    child: const Text(
+                                      "Check Comments",
+                                      style: TextStyle(
                                         fontSize: 8.0,
-                                        ),
-                                    )
-                                  )
-                                ]
-                              ),
+                                      ),
+                                    ))
+                              ]),
                             ],
                           ),
                         );
@@ -142,17 +125,17 @@ class Course_Detailed extends StatelessWidget {
       drawer: const SideBarMenu(),
     );
   }
+}
 
-  void navigateToComments(BuildContext context, String id, String type, String title) {
+void navigateToComments(
+    BuildContext context, String id, String type, String title) {
+  //aqui la llamada del fectch del os comentarios request hacia el backend
 
-    //aqui la llamada del fectch del os comentarios request hacia el backend
+  Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) =>
+              Widgets_Comments(id: id, Type: type, title: title)));
 
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Widgets_Comments(id: id, Type: type, title: title)));
-
-    return;
-  }
-
+  return;
 }

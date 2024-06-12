@@ -37,14 +37,16 @@ class CourseRepositoryImpl extends CourseRepository {
 
     return response;
   }
-  Future<Result<List<Course>>> getCourseFiltered({
-    required String filter,
-    required String Category,
-    required String Trainer}) async {
+
+  @override
+  Future<Result<List<Course>>> getCourseFiltered(
+      {required String filter,
+      required String Category,
+      required String Trainer}) async {
     final response = await _apiRequestManager.request(
       '/course/many/?Filter=$filter&Trainer=$Trainer&Category=$Category',
       'GET',
-          (data) => (data as List)
+      (data) => (data as List)
           .map((courseData) => CourseMapper.fromJson(courseData))
           .toList(),
     );
@@ -53,9 +55,8 @@ class CourseRepositoryImpl extends CourseRepository {
   }
 
   @override
-  Future<Result<List<Course>>> getCourseMany({
-      required int page,
-      required int perPage}) async {
+  Future<Result<List<Course>>> getCourseMany(
+      {required int page, required int perPage}) async {
     final response = await _apiRequestManager.request(
       '/course/many/?page=$page&per_page=$perPage',
       'GET',
@@ -68,17 +69,15 @@ class CourseRepositoryImpl extends CourseRepository {
   }
 
   @override
-  Future<Result<List<Course>>> getSingleCourse(
-      {required String id}) async {
+  Future<Result<List<Course>>> getSingleCourse({required String id}) async {
     final response = await _apiRequestManager.request(
       '/course/one/:$id',
       'GET',
-          (data) => (data as List)
+      (data) => (data as List)
           .map((courseData) => CourseMapper.fromJson(courseData))
           .toList(),
     );
 
     return response;
   }
-
 }

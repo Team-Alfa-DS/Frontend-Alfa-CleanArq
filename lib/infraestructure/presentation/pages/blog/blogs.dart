@@ -79,6 +79,8 @@ class Blogs_Screen extends StatelessWidget {
 
   int currentIndex = 0;
 
+  Blogs_Screen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
