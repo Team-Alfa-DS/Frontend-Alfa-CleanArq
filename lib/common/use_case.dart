@@ -1,4 +1,4 @@
-import 'result.dart';
+import 'package:alpha_gymnastic_center/common/result.dart';
 
 abstract class IUseCaseInput {}
 

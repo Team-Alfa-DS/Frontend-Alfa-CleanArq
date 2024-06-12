@@ -9,7 +9,6 @@ abstract class UserRepository {
 
   Future<Result<void>> forgetPassword(
       ForgetPasswordRequest forgetPasswordRequest);
-
   Future<Result<void>> validateCode(ValidateCodeRequest validateCodeRequest);
   Future<Result<void>> changePassword(
       ChangePasswordRequest changePasswordRequest);

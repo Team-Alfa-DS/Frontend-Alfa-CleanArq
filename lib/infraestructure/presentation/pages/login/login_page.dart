@@ -1,21 +1,21 @@
+import 'package:alpha_gymnastic_center/aplication/BLoC/user/login/login_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/user/login_in_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/auth/location_screen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/forgotpass.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:email_validator/email_validator.dart';
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatefulWidget {
-  // Abre LoginPage
   const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
-} // Cierra LoginPage
+}
 
 class _LoginPageState extends State<LoginPage> {
-  // Abre _LoginPageState
   late Color myColor;
   late Size mediaSize;
   TextEditingController emailController = TextEditingController();
@@ -24,12 +24,10 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Abre build
     myColor = Theme.of(context).primaryColor;
     mediaSize = MediaQuery.of(context).size;
 
     return Container(
-      // Abre Container
       decoration: BoxDecoration(
         color: myColor,
         image: DecorationImage(
@@ -40,10 +38,8 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       child: Scaffold(
-        // Abre Scaffold
         backgroundColor: Colors.transparent,
         body: Stack(
-          // Abre Stack
           children: [
             Positioned(
               top: -65,
@@ -60,12 +56,11 @@ class _LoginPageState extends State<LoginPage> {
             Positioned(bottom: 0, child: _buildBottom()),
           ],
         ),
-      ), // Cierra Scaffold
-    ); // Cierra Container
-  } // Cierra build
+      ),
+    );
+  }
 
   Widget _buildBottom() {
-    // Abre _buildBottom
     return SizedBox(
       width: mediaSize.width,
       child: Card(
@@ -81,88 +76,25 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  } // Cierra _buildBottom
+  }
 
   Widget _buildForm() {
-    // Abre _buildForm
-    return SizedBox(
-      height: 560,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(height: 20),
-          const Text(
-            "Login",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 32,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          _buildGreyText("Hi! Enter your credentials"),
-          const SizedBox(height: 60),
-          _buildGreyText("Email"),
-          _buildInputField(emailController),
-          const SizedBox(height: 40),
-          _buildGreyText("Password"),
-          _buildInputField(passwordController, isPassword: true),
-          const SizedBox(height: 20),
-          const SizedBox(height: 20),
-          _buildLoginButton(),
-          const SizedBox(height: 20),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const ForgotPasswordPage()),
-              );
-            },
-            child: const Text("Forgot password?"),
-          ),
-          const SizedBox(height: 70),
-        ],
+    return BlocProvider(
+      create: (context) => LoginBloc(
+        loginUseCase: GetIt.instance<LogInUseCase>(),
       ),
-    );
-  } // Cierra _buildForm
-
-  Widget _buildGreyText(String text) {
-    // Abre _buildGreyText
-    return Text(
-      text,
-      style: const TextStyle(color: Colors.grey),
-    );
-  } // Cierra _buildGreyText
-
-  Widget _buildInputField(TextEditingController controller,
-      {isPassword = false}) {
-    // Abre _buildInputField
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        suffixIcon: isPassword
-            ? const Icon(Icons.remove_red_eye)
-            : const Icon(Icons.done),
-      ),
-      obscureText: isPassword,
-    );
-  } // Cierra _buildInputField
-
-  Widget _buildLoginButton() {
-    // Abre _buildLoginButton
-    return ElevatedButton(
-      onPressed: () {
-        if (emailController.text.isNotEmpty &&
-            passwordController.text.isNotEmpty) {
-          if (EmailValidator.validate(emailController.text)) {
-            _loginUser(); // Llama a la función para iniciar sesión
-          } else {
+      child: BlocListener<LoginBloc, LoginState>(
+        listener: (context, state) {
+          if (state is LoginSuccess) {
+            context.push("/home");
+          } else if (state is LoginFailure) {
             showDialog(
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: const Text("¡Attention!"),
-                  content: const Text("You must put a email"),
+                  title: const Text("Error"),
+                  content:
+                      Text("Login failed. Error: ${state.failure.message}"),
                   actions: [
                     TextButton(
                       onPressed: () {
@@ -175,78 +107,138 @@ class _LoginPageState extends State<LoginPage> {
               },
             );
           }
-        } else {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text("¡Attention!"),
-                content: const Text("Please complete all the flieds"),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("OK"),
-                  ),
-                ],
-              );
-            },
-          );
-        }
-      },
-      style: ElevatedButton.styleFrom(
-        shape: const StadiumBorder(),
-        elevation: 20,
-        backgroundColor: Colors.deepPurple,
-        minimumSize: const Size.fromHeight(60),
-      ),
-      child: const Text(
-        "Login",
-        style: TextStyle(color: Colors.white),
-      ),
-    );
-  } // Cierra _buildLoginButton
-
-  Future<void> _loginUser() async {
-    final url =
-        Uri.parse('https://backend-alfa-production.up.railway.app/auth/login');
-    final response = await http.post(
-      url,
-      body: {
-        'email': emailController.text,
-        'password': passwordController.text,
-      },
-    );
-
-    if (response.statusCode == 201) {
-      final data = jsonDecode(response.body);
-      final prefs = await SharedPreferences.getInstance();
-      prefs.setString('name', data['name'] ?? 'Nombre de Usuario');
-      prefs.setString('uuid', data['id'] ?? 'ID de Usuario');
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const LocationScreen()),
-      );
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text("Error"),
-            content: Text("Login failed. Error: ${response.body}"),
-            actions: [
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 20),
+              const Text(
+                "Login",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 32,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              _buildGreyText("Hi! Enter your credentials"),
+              const SizedBox(height: 60),
+              _buildGreyText("Email"),
+              _buildInputField(emailController),
+              const SizedBox(height: 40),
+              _buildGreyText("Password"),
+              _buildInputField(passwordController, isPassword: true),
+              const SizedBox(height: 20),
+              const SizedBox(height: 20),
+              _buildLoginButton(),
+              const SizedBox(height: 20),
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ForgotPasswordPage()),
+                  );
                 },
-                child: const Text("OK"),
+                child: const Text("Forgot password?"),
               ),
+              const SizedBox(height: 70),
             ],
-          );
-        },
-      );
-    }
-  } // Cierra _loginUser
-} // Cierra _LoginPageState
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGreyText(String text) {
+    return Text(
+      text,
+      style: const TextStyle(color: Colors.grey),
+    );
+  }
+
+  Widget _buildInputField(TextEditingController controller,
+      {isPassword = false}) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        suffixIcon: isPassword
+            ? const Icon(Icons.remove_red_eye)
+            : const Icon(Icons.done),
+      ),
+      obscureText: isPassword,
+    );
+  }
+
+  Widget _buildLoginButton() {
+    return BlocBuilder<LoginBloc, LoginState>(
+      builder: (context, state) {
+        if (state is LoginLoading) {
+          return const CircularProgressIndicator();
+        }
+        return ElevatedButton(
+          onPressed: () {
+            if (emailController.text.isNotEmpty &&
+                passwordController.text.isNotEmpty) {
+              if (EmailValidator.validate(emailController.text)) {
+                BlocProvider.of<LoginBloc>(context).add(
+                  LoginSubmitted(
+                    email: emailController.text,
+                    password: passwordController.text,
+                  ),
+                );
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text("¡Attention!"),
+                      content: const Text("You must put a email"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text("OK"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }
+            } else {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("¡Attention!"),
+                    content: const Text("Please complete all the fields"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("OK"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            shape: const StadiumBorder(),
+            elevation: 20,
+            backgroundColor: Colors.deepPurple,
+            minimumSize: const Size.fromHeight(60),
+          ),
+          child: const Text(
+            "Login",
+            style: TextStyle(color: Colors.white),
+          ),
+        );
+      },
+    );
+  }
+}

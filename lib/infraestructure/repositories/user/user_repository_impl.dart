@@ -25,6 +25,18 @@ class UserRepositoryImpl extends UserRepository {
       },
     );
 
+    print("response");
+    print(response.value);
+    final user = response.value;
+    if (user != null) {
+      print('User ID: ${user.id}');
+      print('User Name: ${user.name}');
+      print('User Email: ${user.email}');
+      print('User Phone: ${user.phone}');
+    } else {
+      print('No user data received');
+    }
+
     if (response.hasValue()) {
       _apiRequestManager.setHeaders(
           'Authorization', 'Bearer ${response.value!.token}');
@@ -49,6 +61,14 @@ class UserRepositoryImpl extends UserRepository {
         'type': 'CLIENT', //registerRequest.type ?? 'CLIENT',
       },
     );
+
+    print("response");
+    print(response.value);
+
+    if (response.hasValue()) {
+      _apiRequestManager.setHeaders(
+          'Authorization', 'Bearer ${response.value!.token}');
+    }
 
     return response;
   }
