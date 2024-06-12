@@ -324,7 +324,6 @@ class HorizontalCarousel extends StatefulWidget {
   final List<String> titles;
   final List<String> categories;
   final List<String> dates;
-
   final List<String> description;
 
   const HorizontalCarousel({
@@ -477,6 +476,9 @@ class _HorizontalCarouselState extends State<HorizontalCarousel> {
 
   void navigateToDetailed(
       BuildContext context, String title, String description, String url_) {
+
+    //busca en el repositorio un blog detallado dado el id que llega del parametro de esta funcion y luego se lo pones al la llamada del widget
+
     Navigator.push(
         context,
         MaterialPageRoute(

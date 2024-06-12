@@ -52,7 +52,6 @@ class CourseRepositoryImpl extends CourseRepository {
     return response;
   }
 
-
   @override
   Future<Result<List<Course>>> getCourseMany({
       required int page,
