@@ -9,9 +9,7 @@ final router = GoRouter(routes: [
   ),
   GoRoute(
     path: '/home',
-    builder: (context, state) => HomeScreen(
-      courses: const [],
-    ),
+    builder: (context, state) => HomeScreen(),
   ),
   GoRoute(
     path: '/notification',

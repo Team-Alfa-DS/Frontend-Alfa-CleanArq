@@ -39,8 +39,10 @@ class InjectManager {
       localStorage: localStorage,
     );
 
-    final courseRepository =
-        CourseRepositoryImpl(apiRequestManager: apiRequestManagerImpl);
+    final courseRepository = CourseRepositoryImpl(
+      apiRequestManager: apiRequestManagerImpl,
+      localStorage: localStorage,
+    );
 
     final getCourseDataUseCase = GetCourseDataUseCase(
       courseRepository: courseRepository,

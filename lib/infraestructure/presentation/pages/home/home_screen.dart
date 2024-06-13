@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_course_data_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/progressbar.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_detail_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_detail_state.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_detail_event.dart';
 
 import '../../../../domain/entities/blog.dart';
 import '../../../../domain/entities/course.dart';
 import '../../widgets/blogitem.dart';
 import '../../widgets/categoryItem.dart';
-import '../../widgets/courseitem.dart';
 
 class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<Course> courses;
   List<Blog>? blogs;
 
   List<String> categories = [
@@ -33,12 +38,32 @@ class HomeScreen extends StatelessWidget {
 
   HomeScreen({
     super.key,
-    required this.courses,
     this.blogs,
   });
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          CourseDetailBloc(GetIt.instance<GetCourseDataUseCase>())
+            ..add(const LoadCourseDetail(courseId: 'courseId', page: 1, perPage: 5)),
+      child: BlocBuilder<CourseDetailBloc, CourseDetailState>(
+        builder: (context, state) {
+          if (state is CourseDetailLoading) {
+            return const CircularProgressIndicator();
+          } else if (state is CourseDetailLoaded) {
+            return _buildLoadedState(context, state.courses);
+          } else if (state is CourseDetailFailed) {
+            return Text('Error: ${state.failure}');
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _buildLoadedState(BuildContext context, List<Course> courses) {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -96,13 +121,17 @@ class HomeScreen extends StatelessWidget {
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: [
-                        for (int index = 0; index < courses.length; index++)
-                          courseItem(
-                            imageUrl: courses[index].trainer.name,
-                            imageSubtitle: courses[index].title,
-                            imageTitle: courses[index].title,
+                        for (var course in courses)
+                          ScrollHorizontal(
+                            titulo: course.trainer.name,
+                            descripcion: course.title,
+                            categoria: course.category,
+                            fecha: course.date.toString(),
+                            foto: course.image,
+                            disposicion: 1,
+                            isNew: false,
+                            conexion: "/videos",
                           ),
-                        const SizedBox(),
                       ],
                     ),
                   ),

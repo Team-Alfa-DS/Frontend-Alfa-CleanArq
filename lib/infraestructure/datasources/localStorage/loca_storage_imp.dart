@@ -15,4 +15,9 @@ class LocalStorageImpl extends LocalStorage {
   @override
   Future<void> setKeyValue(String key, String value) async =>
       await _prefs.setString(key, value);
+
+  @override
+  Future<String> getAuthorizationToken() async {
+    return _prefs.getString('appToken') ?? '';
+  }
 }
