@@ -1,16 +1,6 @@
 
+import 'package:alpha_gymnastic_center/domain/entities/trainer.dart';
 enum FilterQueryEnum { popular, recent }
-
-class BlogTrainer {
-    String id;
-    String name;
-    BlogTrainer({
-       required this.id,
-       required this.name
-    });
-}
-//Creo que tengo que importar el Trainer que puso Victor
-
 class Blog {
 
   String id;
@@ -18,7 +8,7 @@ class Blog {
   String description;
   String category;
   List<String> images;
-  BlogTrainer trainer;
+  Trainer trainer;
   List<String> tags;
   DateTime date;
 

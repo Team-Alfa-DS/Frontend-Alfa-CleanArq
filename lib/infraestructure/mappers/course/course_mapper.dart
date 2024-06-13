@@ -32,7 +32,7 @@ class CourseMapper {
       'durationWeeks': course.durationWeeks,
       'durationMinutes': course.durationMinutes,
       'tags': course.tags,
-      'date': course.date.toIso8601String(),
+      'date': course.date?.toIso8601String(),
       'lessons':
           course.lessons.map((lesson) => LessonMapper.toJson(lesson)).toList(),
     };

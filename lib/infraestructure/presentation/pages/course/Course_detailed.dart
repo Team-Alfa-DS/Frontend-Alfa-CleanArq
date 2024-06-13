@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../../domain/entities/course.dart';
+import '../../../../domain/entities/lesson.dart';
 import '../../widgets/comments_container.dart';
 import '../../widgets/navegation.dart';
 import '../../widgets/sidebarmenu.dart';
+import '../../widgets/videoplayer.dart';
 import 'Course.dart';
 
 class CourseDetailedScreen extends StatefulWidget {
@@ -27,7 +29,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
   }
 
   _CourseDetailedScreenState({
-     required this.course
+    required this.course
   });
 
   @override
@@ -43,7 +45,8 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
+                padding: const EdgeInsets.only(
+                    top: 10, left: 10, right: 10, bottom: 10),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image.network(
@@ -82,7 +85,10 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                           children: [
                             Text(
                               course.title,
-                              style: Theme.of(context).textTheme.headlineSmall,
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .headlineSmall,
                             ),
                             Padding(
                               padding: const EdgeInsets.only(right: 16.0),
@@ -119,7 +125,8 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text('Level',
-                                        style: TextStyle(fontWeight: FontWeight.bold)),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
                                     Text(course.level),
                                   ],
                                 ),
@@ -127,13 +134,15 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                             ),
                             Row(
                               children: [
-                                const Icon(Icons.calendar_today, color: Colors.blue),
+                                const Icon(
+                                    Icons.calendar_today, color: Colors.blue),
                                 SizedBox(width: 8.0),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const Text('Weeks',
-                                        style: TextStyle(fontWeight: FontWeight.bold)),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
                                     Text(course.durationWeeks.toString()),
                                   ],
                                 ),
@@ -147,7 +156,8 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text('Mins per Lesson',
-                                        style: TextStyle(fontWeight: FontWeight.bold)),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
                                     Text(course.durationMinutes.toString()),
                                   ],
                                 ),
@@ -178,7 +188,8 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                   children: [
                                     Text(
                                       lesson.title,
-                                      style: Theme.of(context)
+                                      style: Theme
+                                          .of(context)
                                           .textTheme
                                           .subtitle2
                                           ?.copyWith(color: Colors.black),
@@ -191,23 +202,28 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                       children: [
                                         Expanded(
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment
+                                                .start,
                                             children: [
                                               Text(
                                                 lesson.content,
-                                                style: Theme.of(context)
+                                                style: Theme
+                                                    .of(context)
                                                     .textTheme
                                                     .bodyMedium
-                                                    ?.copyWith(color: Colors.black),
+                                                    ?.copyWith(
+                                                    color: Colors.black),
                                               ),
                                               ElevatedButton(
                                                 onPressed: () {
                                                   navigateToComments(
-                                                      context, course.id!, "LESSON", course.title);
+                                                      context, course.id!,
+                                                      "LESSON", course.title);
                                                 },
                                                 child: const Text(
                                                   'View Comments',
-                                                  style: TextStyle(color: Colors.deepPurple),
+                                                  style: TextStyle(
+                                                      color: Colors.deepPurple),
                                                 ),
                                               ),
                                             ],
@@ -220,10 +236,19 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                               if (lesson.video != null)
                                                 GestureDetector(
                                                   onTap: () {
-                                                      navigateToPlayer(context, course.id!, lesson.id, lesson.video!);
+                                                    if(course.id!.isNotEmpty){
+
+                                                        print(course.id);
+                                                    }
+
+                                                    navigateToPlayer(
+                                                        context, course.id!,
+                                                        lesson.id,
+                                                        lesson.video!);
                                                   },
                                                   child: ClipRRect(
-                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderRadius: BorderRadius
+                                                        .circular(10),
                                                     child: Container(
                                                       height: 120,
                                                       child: Stack(
@@ -234,9 +259,12 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                                           ),
                                                           Center(
                                                             child: Icon(
-                                                              Icons.play_circle_filled,
+                                                              Icons
+                                                                  .play_circle_filled,
                                                               size: 60.0,
-                                                              color: Colors.grey.withOpacity(0.9),
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                  0.9),
                                                             ),
                                                           ),
                                                         ],
@@ -246,25 +274,30 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                                 ),
                                               if (lesson.image != null)
                                                 Padding(
-                                                  padding: const EdgeInsets.only(top: 8.0),
-                                                  child: ClipRRect(
-                                                    borderRadius: BorderRadius.circular(8.0),
-                                                    child: Stack(
-                                                      children: [
-                                                        Image.network(
-                                                          lesson.image!,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                        Center(
-                                                          child: Icon(
-                                                            Icons.camera_alt_outlined,
-                                                            size: 60.0,
-                                                            color: Colors.grey.withOpacity(0.4),
+                                                    padding: const EdgeInsets
+                                                        .only(top: 8.0),
+                                                    child: ClipRRect(
+                                                      borderRadius: BorderRadius
+                                                          .circular(8.0),
+                                                      child: Stack(
+                                                        children: [
+                                                          Image.network(
+                                                            lesson.image!,
+                                                            fit: BoxFit.cover,
                                                           ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )
+                                                          Center(
+                                                            child: Icon(
+                                                              Icons
+                                                                  .camera_alt_outlined,
+                                                              size: 60.0,
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                  0.4),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
                                                 ),
                                             ],
                                           ),
@@ -314,25 +347,25 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
       drawer: const SideBarMenu(),
     );
   }
-}
 
-void navigateToComments(
-    BuildContext context, String courseid, String type, String title) {
-  //aqui la llamada del fectch del os comentarios request hacia el backend
 
-  Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) =>
-              Widgets_Comments(id: courseid, Type: type, title: title)));
+  void navigateToComments(BuildContext context, String courseid, String type,
+      String title) {
+    //aqui la llamada del fectch del os comentarios request hacia el backend
 
-  return;
-}
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                Widgets_Comments(id: courseid, Type: type, title: title)));
 
-void navigateToPlayer(
-    BuildContext context, String courseid, String lessonid, String urlPath) {
+    return;
+  }
 
-  /* aqui va hacer fetch
+  void navigateToPlayer(BuildContext context, String courseid, String lessonid,
+      String urlPath) {
+
+    /* aqui va hacer fetch
 
       /progress/one/:courseId [GET]
       Headers:
@@ -347,26 +380,29 @@ void navigateToPlayer(
       }
   */
 
-  List<String> lessonIdIterator = [];
-  String lessonIdFound;
+    List<Lesson> lessonIdIterator = course.lessons;
+    String lessonIdFound = "";
 
-  lessonIdIterator.forEach((element) {
-      if(element != lessonid)
-          return;
-      lessonIdFound = element;
-  });
+    lessonIdIterator.forEach((lesson) {
+      if (lesson.id != lessonid) {
+        return;
+      }
+      lessonIdFound = lesson.id;
+    });
 
 
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                VideoPlayerScreen(
+                    courseId: courseid,
+                    lessonId: lessonIdFound,
+                    videoPath: urlPath)));
 
-/*
-  Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) =>
-              _VideoPlayerScreenState(courseId: courseid, lessonId: lessonIdFound, videoPath: urlPath)));
-*/
 
-   return;
+    return;
+  }
 }
 
 class RoundedTopCornerClipper extends CustomClipper<Path> {
