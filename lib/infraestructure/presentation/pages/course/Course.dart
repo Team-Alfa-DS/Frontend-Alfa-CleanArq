@@ -155,19 +155,6 @@ class YogaBody extends StatelessWidget {
           child: GestureDetector(
             onDoubleTap: () {
 
-              /*
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => YogaDetailScreen(
-                    imageUrl: imageUrls[currentIndex],
-                    title: imageTitles[currentIndex],
-                    subtitle: imageSubtitles[currentIndex],
-                    description: imageDescriptions[currentIndex],
-                  ),
-                ),
-              );
-              */
               var jsonResponse = {
                 "title": "Sample Title",
                 "description": "Sample Description",
@@ -396,7 +383,7 @@ class YogaBody extends StatelessWidget {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => Course_Detailed(course: course)));
+            builder: (context) => CourseDetailedScreen(course: course)));
   }
 
 }

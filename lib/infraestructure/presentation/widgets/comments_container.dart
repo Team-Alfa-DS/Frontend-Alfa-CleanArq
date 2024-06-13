@@ -86,7 +86,7 @@ class Comments extends State<Widgets_Comments> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const YogaAppBar(title: "Comentarios"),
+            YogaAppBar(title: "Comentarios de {$title}"),
             if (_showComments)
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.75,
