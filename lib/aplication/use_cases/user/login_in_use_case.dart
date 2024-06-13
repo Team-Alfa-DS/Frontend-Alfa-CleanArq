@@ -27,7 +27,7 @@ class LogInUseCase extends IUseCase<LogInUseCaseInput, User> {
     print(result.value);
     if (result.hasValue()) {
       final user = result.value!;
-      await localStorage.setKeyValue('appToken', user.id);
+      await localStorage.setKeyValue('appToken', user.token!);
       await localStorage.setKeyValue('role', user.type.toString());
     }
 

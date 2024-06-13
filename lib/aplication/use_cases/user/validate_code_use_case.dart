@@ -6,7 +6,7 @@ import 'package:alpha_gymnastic_center/domain/repositories/user_repository.dart'
 
 class ValidateCodeUseCaseInput extends IUseCaseInput {
   final String email;
-  final String code;
+  final int code;
 
   ValidateCodeUseCaseInput({required this.email, required this.code});
 }
@@ -23,6 +23,10 @@ class ValidateCodeUseCase extends IUseCase<ValidateCodeUseCaseInput, void> {
     ValidateCodeRequest validateCodeRequest =
         ValidateCodeRequest(email: params.email, code: params.code);
     final result = await userRepository.validateCode(validateCodeRequest);
+    print("failure");
+    print(result.failure);
+    print("status code");
+    print(result.statusCode);
     if (result.hasValue()) {
       //! pin pang
     }

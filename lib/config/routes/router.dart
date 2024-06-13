@@ -22,7 +22,10 @@ final router = GoRouter(routes: [
   ),
   GoRoute(
     path: '/verification',
-    builder: (context, state) => const VerificationScreen(),
+    builder: (context, state) {
+      final String email = state.extra as String;
+      return VerificationScreen(email: email);
+    },
   ),
   GoRoute(
     path: '/popularSearch',

@@ -1,9 +1,15 @@
+import 'package:alpha_gymnastic_center/aplication/BLoC/user/validate_code/validate_code_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/user/validate_code_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/auth/password_changed_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class VerificationScreen extends StatefulWidget {
-  const VerificationScreen({super.key});
+  final String email;
+
+  const VerificationScreen({super.key, required this.email});
 
   @override
   State<VerificationScreen> createState() => _VerificationScreenState();
@@ -12,37 +18,68 @@ class VerificationScreen extends StatefulWidget {
 class _VerificationScreenState extends State<VerificationScreen> {
   late Color myColor;
   late Size mediaSize;
-  TextEditingController phoneController = TextEditingController();
-
-// VAR
-  String email = 'ejemplo@gmail.com'; //
+  TextEditingController codeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     myColor = Theme.of(context).primaryColor;
     mediaSize = MediaQuery.of(context).size;
 
-    return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
+    return BlocProvider(
+      create: (context) => ValidateCodeBloc(
+        validateCodeUseCase: GetIt.instance<ValidateCodeUseCase>(),
       ),
-      child: Scaffold(
-        body: Stack(
-          children: [
-            Positioned(
-              top: -80,
-              left: 0,
-              right: 0,
-              child: Transform.scale(
-                scale: 0.3,
-                child: Image.asset(
-                  "assets/images/logo.png",
-                  fit: BoxFit.fitWidth,
+      child: BlocListener<ValidateCodeBloc, ValidateCodeState>(
+        listener: (context, state) {
+          if (state is ValidateCodeSuccess) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const PasswordChanged()),
+            );
+          } else if (state is ValidateCodeFailure) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text("Error"),
+                  content: Text(
+                      "Code validation failed. Error: ${state.failure.message}"),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text("OK"),
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+        },
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+          ),
+          child: Scaffold(
+            body: Stack(
+              children: [
+                Positioned(
+                  top: -80,
+                  left: 0,
+                  right: 0,
+                  child: Transform.scale(
+                    scale: 0.3,
+                    child: Image.asset(
+                      "assets/images/logo.png",
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
                 ),
-              ),
+                Positioned(bottom: 0, child: _buildBottom()),
+              ],
             ),
-            Positioned(bottom: 0, child: _buildBottom()),
-          ],
+          ),
         ),
       ),
     );
@@ -72,7 +109,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
   }
 
   Widget _buildForm() {
-    String email = 'ejemplo@gmail.com';
+    String email = widget.email; // Usar el email pasado al constructor
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -118,7 +156,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
           ),
         ),
         const SizedBox(height: 30),
-        _buildInputField(phoneController),
+        _buildInputField(codeController),
         const SizedBox(height: 30),
         RichText(
           text: TextSpan(
@@ -151,135 +189,87 @@ class _VerificationScreenState extends State<VerificationScreen> {
           ),
         ),
         const SizedBox(height: 40),
-        _buildRegisterButton(),
+        _buildVerifyButton(),
       ],
     );
   }
 
   Widget _buildInputField(TextEditingController controller) {
-    String pinCode = '';
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const SizedBox(width: 0),
-        Container(
-          width: 50.0, // Ancho de cada cuadro
-          height: 50.0, // Altura de cada cuadro
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.grey),
-            borderRadius: const BorderRadius.all(
-                Radius.circular(10)), // Borde para el cuadro
-          ),
-          child: TextFormField(
-            keyboardType: TextInputType.number, // Teclado numérico
-            //maxLength: 1, // Limitar a un solo dígito
-            textAlign: TextAlign.center,
-            onChanged: (value) {
-              setState(() {
-                pinCode = value; // Actualizar la variable
-              });
-            }, // Alinear el texto en el centro
-          ),
-        ),
-        const SizedBox(width: 20), // Espacio entre cuadros
-        Container(
-          width: 50.0,
-          height: 50.0,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.grey),
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-          ),
-          child: TextFormField(
-            keyboardType: TextInputType.number,
-            //maxLength: 1,
-            textAlign: TextAlign.center,
-            onChanged: (value) {
-              setState(() {
-                pinCode = value; // Actualizar la variable
-              });
-            },
-          ),
-        ),
-        const SizedBox(width: 20),
-        Container(
-          width: 50.0,
-          height: 50.0,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.grey),
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-          ),
-          child: TextFormField(
-            keyboardType: TextInputType.number,
-            //maxLength: 1,
-            textAlign: TextAlign.center,
-            onChanged: (value) {
-              setState(() {
-                pinCode = value; // Actualizar la variable
-              });
-            },
-          ),
-        ),
-        const SizedBox(width: 20),
-        Container(
-          width: 50.0,
-          height: 50.0,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.grey),
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-          ),
-          child: TextFormField(
-            keyboardType: TextInputType.number,
-            //maxLength: 1,
-            textAlign: TextAlign.center,
-            onChanged: (value) {
-              setState(() {
-                pinCode = value; // Actualizar la variable
-              });
-            },
-          ),
-        ),
-        Text(
-          pinCode,
-          style: const TextStyle(fontSize: 24.0),
-        ),
-      ],
+    return TextField(
+      controller: controller,
+      decoration: const InputDecoration(
+        labelText: "Code",
+        suffixIcon: Icon(Icons.code),
+      ),
+      keyboardType: TextInputType.number,
     );
   }
 
-  Widget _buildRegisterButton() {
-    return ElevatedButton(
-      onPressed: () {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => const PasswordChanged(),
-        ));
+  Widget _buildVerifyButton() {
+    return BlocBuilder<ValidateCodeBloc, ValidateCodeState>(
+      builder: (context, state) {
+        if (state is ValidateCodeLoading) {
+          return const CircularProgressIndicator();
+        }
+        return ElevatedButton(
+          onPressed: () {
+            if (codeController.text.isNotEmpty) {
+              try {
+                int code = int.parse(codeController.text);
+                BlocProvider.of<ValidateCodeBloc>(context).add(
+                  ValidateCodeSubmitted(email: widget.email, code: code),
+                );
+              } catch (e) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text("¡Attention!"),
+                      content: const Text("Please enter a valid code"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text("OK"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }
+            } else {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("¡Attention!"),
+                    content: const Text("Please enter the code"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("OK"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            shape: const StadiumBorder(),
+            elevation: 20,
+            backgroundColor: Colors.white,
+            minimumSize: const Size.fromHeight(60),
+          ),
+          child: const Text(
+            "Verify",
+            style: TextStyle(color: Colors.deepPurple),
+          ),
+        );
       },
-      style: ElevatedButton.styleFrom(
-        shape: const StadiumBorder(),
-        elevation: 20,
-        backgroundColor: Colors.white,
-        minimumSize: const Size.fromHeight(60),
-      ),
-      child: const Text(
-        "Verify",
-        style: TextStyle(color: Colors.deepPurple),
-      ),
     );
   }
-
-  //  void _registerUser(String fullName, String phoneNumber, String email, String password) async {
-  //   var url = Uri.parse('https://***** aqui va url del back/register');
-  //   var response = await http.post(
-  //     url,
-  //     body: {
-  //       'fullName': fullName,
-  //       'phoneNumber': phoneNumber,
-  //       'email': email,
-  //       'password': password,
-  //       Agrega otros campos de formulario aquí según sea necesario
-  //     },
-  // );
 }

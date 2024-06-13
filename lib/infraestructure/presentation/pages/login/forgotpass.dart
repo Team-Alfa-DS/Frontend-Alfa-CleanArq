@@ -28,7 +28,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       child: BlocListener<ForgotPasswordBloc, ForgotPasswordState>(
         listener: (context, state) {
           if (state is ForgotPasswordSuccess) {
-            context.push("/verification");
+            context.push('/verification', extra: emailController.text);
           } else if (state is ForgotPasswordFailure) {
             showDialog(
               context: context,

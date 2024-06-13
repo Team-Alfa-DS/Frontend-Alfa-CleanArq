@@ -36,7 +36,7 @@ class ForgetPasswordResponse {
 
 class ValidateCodeRequest {
   final String email;
-  final String code;
+  final int code;
 
   ValidateCodeRequest({
     required this.email,
