@@ -14,15 +14,15 @@ class GetLessonsByCourseUseCaseInput extends IUseCaseInput {
 
 class GetLessonsByCourseUseCase
     implements IUseCase<GetLessonsByCourseUseCaseInput, Result<List<Lesson>>> {
-  final CourseRepository _courseRepository;
+  final CourseRepository courseRepository;
 
-  GetLessonsByCourseUseCase(this._courseRepository);
+  GetLessonsByCourseUseCase({required this.courseRepository});
 
   @override
   Future<Result<Result<List<Lesson>>>> execute(
       GetLessonsByCourseUseCaseInput params) async {
     Result<List<Course>> courseResult =
-        await _courseRepository.getSingleCourse(id: params.courseId);
+        await courseRepository.getSingleCourse(id: params.courseId);
     if (courseResult.hasValue()) {
       Course course = courseResult.value!.first;
       return Result<Result<List<Lesson>>>(

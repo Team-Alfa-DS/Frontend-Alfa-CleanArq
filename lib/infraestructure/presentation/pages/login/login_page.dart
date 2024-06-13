@@ -1,6 +1,5 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/login/login_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/login_in_use_case.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/auth/location_screen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/forgotpass.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

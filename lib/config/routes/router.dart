@@ -10,9 +10,7 @@ final router = GoRouter(routes: [
   ),
   GoRoute(
     path: '/home',
-    builder: (context, state) => HomeScreen(
-      courses: [],
-    ),
+    builder: (context, state) => HomeScreen(),
   ),
   GoRoute(
     path: '/profile',

@@ -103,8 +103,8 @@ void main() {
       final json = CourseMapper.toJson(course);
 
       expect(json['id'], '1');
-      expect(json['title'], 'Curso 1');
-      expect(json['description'], 'Descripcion 1');
+      expect(json['title'], 'Course 1');
+      expect(json['description'], 'This is the description of Course 1');
       expect(json['category'], 'Category 1');
       expect(json['image'], 'https://example.com/image1.jpg');
       expect(json['trainer']['id'], '1');
