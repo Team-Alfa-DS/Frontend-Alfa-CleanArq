@@ -1,11 +1,12 @@
 import '../entities/blog.dart';
+import '../entities/trainer.dart';
 
 class ManyBlogsrequest {
 
     FilterQueryEnum filter;
     int number;
     int perpage;
-    BlogTrainer trainer;
+    Trainer trainer;
     String category;
 
     ManyBlogsrequest({

@@ -1,15 +1,15 @@
 class Trainer {
-  String id;
+  String? id;
   String name;
-  int followers;
-  bool userFollow;
-  String location;
+  int? followers;
+  bool? userFollow;
+  String? location;
 
   Trainer({
-    required this.id,
+    this.id,
     required this.name,
-    required this.followers,
-    required this.userFollow,
-    required this.location,
+    this.followers,
+    this.userFollow,
+    this.location,
   });
 }

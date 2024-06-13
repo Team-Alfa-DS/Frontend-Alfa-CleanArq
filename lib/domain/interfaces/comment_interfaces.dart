@@ -1,7 +1,6 @@
 import '../entities/comment.dart';
 
 class ManyCommentsRequest {
-
     String token;
     QueryComment query;
     String id;

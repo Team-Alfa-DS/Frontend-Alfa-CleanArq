@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/video/video_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/serviceAplication/progress/progress_service.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/videoplayer.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 
@@ -123,7 +126,13 @@ class _VideosState extends State<Videos> {
           shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) {
             String imagePath = 'assets/images/Yoga Ejemplo ${index + 1}.png';
-            return cajaVideo(context, imagePath, 'assets/videos/yogavideo.mp4');
+            String videoUrl =
+                'https://res.cloudinary.com/dy2fub3tg/video/upload/v1718068963/wc0ow0kqqsgsi7wkofjw.mp4'; // URL del video en Cloudinary
+            String courseId =
+                'courseId_${index + 1}'; // ID del curso, cambiar según sea necesario
+            String lessonId =
+                'lessonId_${index + 1}'; // ID de la lección, cambiar según sea necesario
+            return cajaVideo(context, imagePath, videoUrl, courseId, lessonId);
           },
         ),
       ],
@@ -134,7 +143,7 @@ class _VideosState extends State<Videos> {
     List<String> categories = [
       'Most Popular',
       'Nutrition',
-      'Trainning',
+      'Training',
       'Weight Loss',
       'For Women',
     ];
@@ -186,13 +195,18 @@ class _VideosState extends State<Videos> {
     );
   }
 
-  Widget cajaVideo(BuildContext context, String coverImage, String videoPath) {
+  Widget cajaVideo(BuildContext context, String coverImage, String videoPath,
+      String courseId, String lessonId) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => VideoPlayerScreen(videoPath: videoPath),
+            builder: (context) => VideoPlayerScreen(
+              videoPath: videoPath,
+              courseId: courseId,
+              lessonId: lessonId,
+            ),
           ),
         );
       },

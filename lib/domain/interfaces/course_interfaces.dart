@@ -8,7 +8,7 @@ class CreateCourseRequest {
   final String category;
   final String image;
   final Trainer trainer;
-  final CourseLevel level;
+  final String level;
   final int durationWeeks;
   final int durationMinutes;
   final List<String> tags;
@@ -28,4 +28,5 @@ class CreateCourseRequest {
     required this.date,
     required this.lessons,
   });
+
 }

@@ -3,21 +3,31 @@ import 'package:alpha_gymnastic_center/domain/entities/trainer.dart';
 class TrainerMapper {
   static Trainer fromJson(Map<String, dynamic> json) {
     return Trainer(
-      id: json['id'],
+      id: json['id'] as String,
       name: json['name'],
-      followers: json['followers'],
-      userFollow: json['userFollow'],
-      location: json['location'],
+      followers: json['followers'] as int,
+      userFollow: json['userFollow'] as bool,
+      location: json['location'] as String,
     );
   }
 
   static Map<String, dynamic> toJson(Trainer trainer) {
-    return {
+    final Map<String, dynamic> json = {
       'id': trainer.id,
-      'name': trainer.name,
-      'followers': trainer.followers,
       'userFollow': trainer.userFollow,
-      'location': trainer.location,
     };
+
+    // Add optional parameters only if they are not null
+    if (trainer.name != null) {
+      json['name'] = trainer.name;
+    }
+    if (trainer.followers != null) {
+      json['followers'] = trainer.followers;
+    }
+    if (trainer.location != null) {
+      json['location'] = trainer.location;
+    }
+
+    return json;
   }
 }

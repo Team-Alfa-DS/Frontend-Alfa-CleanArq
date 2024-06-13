@@ -1,141 +1,422 @@
 import 'package:flutter/material.dart';
 import '../../../../domain/entities/course.dart';
+import '../../../../domain/entities/lesson.dart';
 import '../../widgets/comments_container.dart';
+import '../../widgets/navegation.dart';
 import '../../widgets/sidebarmenu.dart';
+import '../../widgets/videoplayer.dart';
 import 'Course.dart';
 
-class Course_Detailed extends StatelessWidget {
-  final Course course;
-  const Course_Detailed({super.key, required this.course});
+class CourseDetailedScreen extends StatefulWidget {
+  Course course;
+
+  CourseDetailedScreen({Key? key, required this.course})
+      : super(key: key);
+
+  @override
+  _CourseDetailedScreenState createState() => _CourseDetailedScreenState(course: this.course);
+}
+
+class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
+  bool _isSubscribed = false;
+  Course course;
+
+  void _toggleSubscription() {
+    setState(() {
+      _isSubscribed = !_isSubscribed;
+      // Implement your subscribe/unsubscribe logic here
+    });
+  }
+
+  _CourseDetailedScreenState({
+    required this.course
+  });
+
   @override
   Widget build(BuildContext context) {
-    var panels = course.lessons;
-    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
-      body: Column(
-        children: [
-          YogaAppBar(title: course.title),
-          Expanded(
-            child: Column(
-              children: [
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Container(
-                      color: Colors.white,
-                      child: Column(
-                        children: [
-                          Flexible(
-                            child: Image.network(
-                              course.image,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            "${course.description} ${course.category} ${course.date} ${course.trainer.id} ${course.trainer.name} ${course.tags} ${course.durationMinutes} ${course.durationWeeks} ${course.level}",
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 18.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+      appBar: YogaAppBar(
+        title: course.title,
+      ),
+      body: Container(
+        color: Colors.white,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 10, left: 10, right: 10, bottom: 10),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image.network(
+                    course.image,
+                    fit: BoxFit.cover,
+                    height: 190,
+                    width: double.infinity,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Lessons To Follow",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      ElevatedButton(
-                        style: const ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll<Color>(
-                            Color.fromRGBO(255, 255, 255, 0.0),
-                          ),
-                        ),
-                        onPressed: () {
-                          //post donde se subscribe va aqui;
-                        },
-                        child: const Text(
-                          "Subscribe!",
-                          style: TextStyle(fontSize: 30),
-                        ),
+              ),
+              ClipPath(
+                clipper: RoundedTopCornerClipper(),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        spreadRadius: 1,
+                        blurRadius: 10,
+                        blurStyle: BlurStyle.normal,
                       ),
                     ],
                   ),
-                ),
-                Expanded(
                   child: Padding(
-                    padding:
-                        EdgeInsets.only(bottom: bottomInset, left: 8, right: 8),
-                    child: ListView.builder(
-                      itemCount: panels.length,
-                      itemBuilder: (context, index) {
-                        final panel = panels[index];
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              course.title,
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .headlineSmall,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: ElevatedButton(
+                                onPressed: _toggleSubscription,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                  _isSubscribed ? Colors.deepPurple : null,
+                                ),
+                                child: Text(
+                                  _isSubscribed ? 'Unsubscribe' : 'Subscribe',
+                                  style: TextStyle(
+                                    color: _isSubscribed
+                                        ? Colors.white
+                                        : Colors.deepPurple,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          color: Colors.grey,
+                          thickness: 0.5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(Icons.star, color: Colors.amber),
+                                SizedBox(width: 8.0),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Level',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    Text(course.level),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Icon(
+                                    Icons.calendar_today, color: Colors.blue),
+                                SizedBox(width: 8.0),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text('Weeks',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    Text(course.durationWeeks.toString()),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Icon(Icons.timer, color: Colors.green),
+                                const SizedBox(width: 8.0),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Mins per Lesson',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    Text(course.durationMinutes.toString()),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 14.0),
+                        for (final lesson in course.lessons)
+                          Column(
                             children: [
-                              if (panel.video!.isNotEmpty)
-                                Expanded(
-                                  child: Image.network(
-                                    panel.video!,
-                                    fit: BoxFit.cover,
-                                  ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.grey,
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      blurStyle: BlurStyle.outer,
+                                    ),
+                                  ],
+                                  borderRadius: BorderRadius.circular(10.0),
                                 ),
-                              const SizedBox(width: 16.0),
-                              Column(children: [
-                                Text(
-                                  panel.content,
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
-                                  ),
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      lesson.title,
+                                      style: Theme
+                                          .of(context)
+                                          .textTheme
+                                          .subtitle2
+                                          ?.copyWith(color: Colors.black),
+                                    ),
+                                    const Divider(
+                                      color: Colors.grey,
+                                      thickness: 0.4,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment
+                                                .start,
+                                            children: [
+                                              Text(
+                                                lesson.content,
+                                                style: Theme
+                                                    .of(context)
+                                                    .textTheme
+                                                    .bodyMedium
+                                                    ?.copyWith(
+                                                    color: Colors.black),
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  navigateToComments(
+                                                      context, course.id!,
+                                                      "LESSON", course.title);
+                                                },
+                                                child: const Text(
+                                                  'View Comments',
+                                                  style: TextStyle(
+                                                      color: Colors.deepPurple),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 180,
+                                          child: Column(
+                                            children: [
+                                              if (lesson.video != null)
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    if(course.id!.isNotEmpty){
+
+                                                        print(course.id);
+                                                    }
+
+                                                    navigateToPlayer(
+                                                        context, course.id!,
+                                                        lesson.id,
+                                                        lesson.video!);
+                                                  },
+                                                  child: ClipRRect(
+                                                    borderRadius: BorderRadius
+                                                        .circular(10),
+                                                    child: Container(
+                                                      height: 120,
+                                                      child: Stack(
+                                                        children: [
+                                                          Image.network(
+                                                            course.image,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                          Center(
+                                                            child: Icon(
+                                                              Icons
+                                                                  .play_circle_filled,
+                                                              size: 60.0,
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                  0.9),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              if (lesson.image != null)
+                                                Padding(
+                                                    padding: const EdgeInsets
+                                                        .only(top: 8.0),
+                                                    child: ClipRRect(
+                                                      borderRadius: BorderRadius
+                                                          .circular(8.0),
+                                                      child: Stack(
+                                                        children: [
+                                                          Image.network(
+                                                            lesson.image!,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                          Center(
+                                                            child: Icon(
+                                                              Icons
+                                                                  .camera_alt_outlined,
+                                                              size: 60.0,
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                  0.4),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                                TextButton(
-                                    onPressed: () {
-                                      navigateToComments(context, panel.id,
-                                          "LESSON", course.title);
-                                    },
-                                    child: const Text(
-                                      "Check Comments",
-                                      style: TextStyle(
-                                        fontSize: 8.0,
-                                      ),
-                                    ))
-                              ]),
+                              ),
+
+                              const Divider(
+                                color: Colors.transparent,
+                                thickness: 0.3,
+                              ),
                             ],
                           ),
-                        );
-                      },
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Container(
+        height: 70.0,
+        width: 70.0,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          shape: BoxShape.circle,
+        ),
+        child: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          child: Image.asset('assets/icons/rayo.png',
+              color: Colors.white, width: 35.0, height: 35.0),
+        ),
+      ),
+      bottomNavigationBar: const BarraNavegacion(),
       drawer: const SideBarMenu(),
     );
   }
+
+
+  void navigateToComments(BuildContext context, String courseid, String type,
+      String title) {
+    //aqui la llamada del fectch del os comentarios request hacia el backend
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                Widgets_Comments(id: courseid, Type: type, title: title)));
+
+    return;
+  }
+
+  void navigateToPlayer(BuildContext context, String courseid, String lessonid,
+      String urlPath) {
+
+    /* aqui va hacer fetch
+
+      /progress/one/:courseId [GET]
+      Headers:
+      Authorization: string Bearer token
+      Response {
+        Percent: number
+        Lessons: [{
+          lessonId: string
+          Time?: number //segundos
+          Percent: number
+        }]
+      }
+  */
+
+    List<Lesson> lessonIdIterator = course.lessons;
+    String lessonIdFound = "";
+
+    lessonIdIterator.forEach((lesson) {
+      if (lesson.id != lessonid) {
+        return;
+      }
+      lessonIdFound = lesson.id;
+    });
+
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                VideoPlayerScreen(
+                    courseId: courseid,
+                    lessonId: lessonIdFound,
+                    videoPath: urlPath)));
+
+
+    return;
+  }
 }
 
-void navigateToComments(
-    BuildContext context, String id, String type, String title) {
-  //aqui la llamada del fectch del os comentarios request hacia el backend
+class RoundedTopCornerClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+    path.moveTo(0, 0); // Start at the top-left corner
+    path.lineTo(size.width, 0); // Draw a straight line across the top edge
+    path.lineTo(size.width, size.height); // Draw a straight line down the right edge
+    path.lineTo(0, size.height); // Draw a straight line along the bottom edge
+    path.close(); // Close the path by connecting the end point to the start point
+    return path;
+  }
 
-  Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) =>
-              Widgets_Comments(id: id, Type: type, title: title)));
-
-  return;
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
