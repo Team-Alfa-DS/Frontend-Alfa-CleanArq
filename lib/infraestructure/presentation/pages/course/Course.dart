@@ -155,6 +155,9 @@ class YogaBody extends StatelessWidget {
           child: GestureDetector(
             onDoubleTap: () {
 
+              String CourseId =
+                '12312-asd12-123-3qw';
+
               var jsonResponse = {
                 "title": "Sample Title",
                 "description": "Sample Description",
@@ -179,11 +182,19 @@ class YogaBody extends StatelessWidget {
                   {
                     "id": "lesson002",
                     "title": "Lesson 2",
-                    "content": "Cardio session",
-                    "image": "https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-trainer-in-gym-royalty-free-image-1584723855.jpg"
-                  }
+                    "content": "Cardio session unified to excersises",
+                    "image": "https://www.doyou.com/wp-content/uploads/2021/01/Kathryn-Budig-Yoga.jpg"
+                  },
+                  {
+                    "id": "lesson003",
+                    "title": "Lesson 3",
+                    "content": "Introduction to the chamba",
+                    "video": "https://example.com/video1.mp4"
+                  },
                 ]
               };
+
+              jsonResponse.putIfAbsent("id", () => CourseId);
 
               print(jsonResponse);
 

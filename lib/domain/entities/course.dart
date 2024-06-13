@@ -17,6 +17,7 @@ class Course {
   int? percent;
 
   Course({
+    this.id,
     required this.title,
     required this.description,
     required this.category,

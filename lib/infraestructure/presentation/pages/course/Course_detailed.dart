@@ -34,6 +34,8 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final course = widget.course;
+
     return Scaffold(
       appBar: YogaAppBar(
         title: course.title,
@@ -45,8 +47,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10, left: 10, right: 10, bottom: 10),
+                padding: const EdgeInsets.all(10.0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image.network(
@@ -85,25 +86,19 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                           children: [
                             Text(
                               course.title,
-                              style: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .headlineSmall,
+                              style: Theme.of(context).textTheme.headlineSmall,
                             ),
                             Padding(
                               padding: const EdgeInsets.only(right: 16.0),
                               child: ElevatedButton(
                                 onPressed: _toggleSubscription,
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                  _isSubscribed ? Colors.deepPurple : null,
+                                  backgroundColor: _isSubscribed ? Colors.deepPurple : null,
                                 ),
                                 child: Text(
                                   _isSubscribed ? 'Unsubscribe' : 'Subscribe',
                                   style: TextStyle(
-                                    color: _isSubscribed
-                                        ? Colors.white
-                                        : Colors.deepPurple,
+                                    color: _isSubscribed ? Colors.white : Colors.deepPurple,
                                   ),
                                 ),
                               ),
@@ -120,13 +115,11 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                             Row(
                               children: [
                                 const Icon(Icons.star, color: Colors.amber),
-                                SizedBox(width: 8.0),
+                                const SizedBox(width: 8.0),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Level',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
+                                    const Text('Level', style: TextStyle(fontWeight: FontWeight.bold)),
                                     Text(course.level),
                                   ],
                                 ),
@@ -134,15 +127,12 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                             ),
                             Row(
                               children: [
-                                const Icon(
-                                    Icons.calendar_today, color: Colors.blue),
-                                SizedBox(width: 8.0),
+                                const Icon(Icons.calendar_today, color: Colors.blue),
+                                const SizedBox(width: 8.0),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text('Weeks',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
+                                    const Text('Weeks', style: TextStyle(fontWeight: FontWeight.bold)),
                                     Text(course.durationWeeks.toString()),
                                   ],
                                 ),
@@ -155,9 +145,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Mins per Lesson',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
+                                    const Text('Mins per Lesson', style: TextStyle(fontWeight: FontWeight.bold)),
                                     Text(course.durationMinutes.toString()),
                                   ],
                                 ),
@@ -166,7 +154,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                           ],
                         ),
                         const SizedBox(height: 14.0),
-                        for (final lesson in course.lessons)
+                        for (int index = 0; index < course.lessons.length; index++)
                           Column(
                             children: [
                               Container(
@@ -187,12 +175,8 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      lesson.title,
-                                      style: Theme
-                                          .of(context)
-                                          .textTheme
-                                          .subtitle2
-                                          ?.copyWith(color: Colors.black),
+                                      course.lessons[index].title,
+                                      style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.black),
                                     ),
                                     const Divider(
                                       color: Colors.grey,
@@ -202,28 +186,19 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                       children: [
                                         Expanded(
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment
-                                                .start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                lesson.content,
-                                                style: Theme
-                                                    .of(context)
-                                                    .textTheme
-                                                    .bodyMedium
-                                                    ?.copyWith(
-                                                    color: Colors.black),
+                                                course.lessons[index].content,
+                                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.black),
                                               ),
                                               ElevatedButton(
                                                 onPressed: () {
-                                                  navigateToComments(
-                                                      context, course.id!,
-                                                      "LESSON", course.title);
+                                                  navigateToComments(context, course.id!, "LESSON", course.title);
                                                 },
                                                 child: const Text(
                                                   'View Comments',
-                                                  style: TextStyle(
-                                                      color: Colors.deepPurple),
+                                                  style: TextStyle(color: Colors.deepPurple),
                                                 ),
                                               ),
                                             ],
@@ -233,23 +208,14 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                           width: 180,
                                           child: Column(
                                             children: [
-                                              if (lesson.video != null)
+                                              if (course.lessons[index].video != null)
                                                 GestureDetector(
                                                   onTap: () {
-                                                    if(course.id!.isNotEmpty){
-
-                                                        print(course.id);
-                                                    }
-
-                                                    navigateToPlayer(
-                                                        context, course.id!,
-                                                        lesson.id,
-                                                        lesson.video!);
+                                                    navigateToPlayer(context, course.id!, course.lessons[index].id, course.lessons[index].video!);
                                                   },
                                                   child: ClipRRect(
-                                                    borderRadius: BorderRadius
-                                                        .circular(10),
-                                                    child: Container(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    child: SizedBox(
                                                       height: 120,
                                                       child: Stack(
                                                         children: [
@@ -259,12 +225,9 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                                           ),
                                                           Center(
                                                             child: Icon(
-                                                              Icons
-                                                                  .play_circle_filled,
+                                                              Icons.play_circle_filled,
                                                               size: 60.0,
-                                                              color: Colors.grey
-                                                                  .withOpacity(
-                                                                  0.9),
+                                                              color: Colors.grey.withOpacity(0.8),
                                                             ),
                                                           ),
                                                         ],
@@ -272,27 +235,28 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                                     ),
                                                   ),
                                                 ),
-                                              if (lesson.image != null)
+                                              if (course.lessons[index].image != null)
                                                 Padding(
                                                     padding: const EdgeInsets
-                                                        .only(top: 8.0),
+                                                        .only(left: 8.0),
                                                     child: ClipRRect(
                                                       borderRadius: BorderRadius
                                                           .circular(8.0),
                                                       child: Stack(
                                                         children: [
                                                           Image.network(
-                                                            lesson.image!,
+                                                            course.lessons[index].image!,
                                                             fit: BoxFit.cover,
                                                           ),
                                                           Center(
+                                                            heightFactor: 2,
                                                             child: Icon(
                                                               Icons
                                                                   .camera_alt_outlined,
                                                               size: 60.0,
                                                               color: Colors.grey
                                                                   .withOpacity(
-                                                                  0.4),
+                                                                  0.5),
                                                             ),
                                                           ),
                                                         ],
@@ -307,11 +271,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                   ],
                                 ),
                               ),
-
-                              const Divider(
-                                color: Colors.transparent,
-                                thickness: 0.3,
-                              ),
+                              const SizedBox(height: 10.0),
                             ],
                           ),
                       ],
@@ -389,7 +349,6 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
       }
       lessonIdFound = lesson.id;
     });
-
 
     Navigator.push(
         context,

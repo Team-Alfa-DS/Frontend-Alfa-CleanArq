@@ -5,6 +5,7 @@ import 'package:alpha_gymnastic_center/infraestructure/mappers/trainer/trainer_m
 class CourseMapper {
   static Course fromJson(Map<String, dynamic> json) {
     return Course(
+      id: json['id'] as String?,
       title: json['title'],
       description: json['description'],
       category: json['category'],
