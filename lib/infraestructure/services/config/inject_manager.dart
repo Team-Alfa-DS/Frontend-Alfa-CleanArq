@@ -23,6 +23,8 @@ class InjectManager {
       baseUrl: dotenv.env['API_URL']!,
     );
 
+    //! Repositories
+
     final userRepository =
         UserRepositoryImpl(apiRequestManager: apiRequestManagerImpl);
 
@@ -31,6 +33,7 @@ class InjectManager {
       localStorage: localStorage,
     );
 
+    //! UseCases
     final updateUserUseCase = UpdateUserUseCase(
       userRepository: userRepository,
       localStorage: localStorage,
@@ -60,6 +63,8 @@ class InjectManager {
     final getLessonsByCourseUseCase = GetLessonsByCourseUseCase(
       courseRepository: courseRepository,
     );
+
+    //! Registering singletons
     getIt.registerSingleton<UpdateUserUseCase>(updateUserUseCase);
     getIt.registerSingleton<LogInUseCase>(logInUseCase);
     getIt.registerSingleton<RegisterUseCase>(registerUserCase);
