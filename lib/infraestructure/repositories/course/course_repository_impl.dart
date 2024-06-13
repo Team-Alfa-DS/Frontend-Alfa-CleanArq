@@ -19,7 +19,6 @@ class CourseRepositoryImpl extends CourseRepository {
       (data) => CourseMapper.fromJson(data),
       body: CourseMapper.toJson(
         Course(
-          id: '',
           title: createRequest.title,
           description: createRequest.description,
           category: createRequest.category,
