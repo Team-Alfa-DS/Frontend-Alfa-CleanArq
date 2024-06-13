@@ -32,7 +32,6 @@ class LogInUseCase extends IUseCase<LogInUseCaseInput, User> {
       print('TokenApp');
       print(user.token!);
     }
-
     return result;
   }
 }

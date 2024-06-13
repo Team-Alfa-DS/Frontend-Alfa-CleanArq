@@ -2,7 +2,6 @@ export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course
 export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/auth/location_screen.dart';
 export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/auth/verification_screen.dart';
 export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course_detailed.dart';
-export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/course_connection.dart';
 export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/home/home_screen.dart';
 export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/login_page.dart';
 export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/notifications/notification_screen.dart';

@@ -42,7 +42,7 @@ final router = GoRouter(routes: [
   ),
   GoRoute(
     path: '/courses',
-    builder: (context, state) => const CourseDetailView(),
+    builder: (context, state) => const YogaHomePage(),
   ),
   GoRoute(
     path: '/blogs',
@@ -67,10 +67,6 @@ final router = GoRouter(routes: [
   GoRoute(
     path: '/onboarding2',
     builder: (context, state) => const OnBoardingScreen2(),
-  ),
-  GoRoute(
-    path: '/Course_test',
-    builder: (context, state) => const CourseDetailView(),
   ),
   GoRoute(
     path: '/onboarding3',
