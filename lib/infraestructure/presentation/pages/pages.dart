@@ -16,3 +16,5 @@ export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/onboar
 export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/home.dart';
 export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/onboarding/onboarding_screen_2.dart';
 export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/onboarding/onboarding_screen_3.dart';
+export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/pages.dart';
+export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/profilescreen/profile.dart';

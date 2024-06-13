@@ -19,11 +19,16 @@ class ApiRequestManagerImpl extends IApiRequestManager {
           data: body,
           options: Options(method: method),
           queryParameters: queryParameters);
-      return Result<T>(value: mapper(response.data));
+      print(response.statusCode);
+      return Result<T>(
+          value: mapper(response.data),
+          failure: null,
+          statusCode: response.statusCode.toString());
     } on DioError catch (e) {
       // Corrected DioException to DioError
       return Result(failure: handleException(e));
     } catch (e) {
+      print(e);
       return Result(failure: const UnknownFailure());
     }
   }
