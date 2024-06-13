@@ -15,7 +15,6 @@ import '../../../../domain/entities/blog.dart';
 import '../../../../domain/entities/course.dart';
 import '../../widgets/blogitem.dart';
 import '../../widgets/categoryItem.dart';
-import '../../widgets/courseitem.dart';
 
 class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
