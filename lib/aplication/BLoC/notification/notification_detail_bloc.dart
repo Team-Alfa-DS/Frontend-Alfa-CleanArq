@@ -1,6 +1,6 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/notification/notification_detail_event.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/notification/notification_detail_state.dart';
-import 'package:alpha_gymnastic_center/aplication/use_case/notification/get_notification_data_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/notification/get_notification_data_use_case.dart';
 import 'package:bloc/bloc.dart';
 
 class NotificationDetailBloc

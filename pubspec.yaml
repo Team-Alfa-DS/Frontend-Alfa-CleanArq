@@ -49,14 +49,13 @@ dependencies:
   email_validator: ^2.1.17
   volume_control:
     ^0.1.5
-    # Use with the CupertinoIcons class for iOS style icons.
+  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   flutter_launcher_icons: ^0.13.1
   fl_chart: ^0.36.4
   geolocator: ^10.0.0
   uuid: ^3.0.7
   mocktail: ^0.1.0
-  firebase_messaging: 
 
   # The following adds the Cupertino Icons font to your application.
 
@@ -86,7 +85,6 @@ flutter:
     - assets/images/
     - assets/logo/
     - assets/videos/
-    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

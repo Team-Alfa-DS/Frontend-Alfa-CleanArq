@@ -5,6 +5,12 @@ import 'package:alpha_gymnastic_center/domain/repositories/user_repository.dart'
 import 'package:alpha_gymnastic_center/aplication/localStorage/local_storage.dart';
 import 'package:alpha_gymnastic_center/common/result.dart';
 
+import '../../../common/result.dart';
+import '../../../domain/entities/user.dart';
+import '../../../domain/interfaces/user_interfaces.dart';
+import '../../../domain/repositories/user_repository.dart';
+import '../../localStorage/local_storage.dart';
+
 class RegisterUseCaseInput extends IUseCaseInput {
   final String name;
   final String email;
@@ -34,8 +40,12 @@ class RegisterUseCase extends IUseCase<RegisterUseCaseInput, User> {
     final result = await userRepository.registerUser(registerRequest);
     if (result.hasValue()) {
       final user = result.value!;
-      await localStorage.setKeyValue('appToken', user.id);
-      await localStorage.setKeyValue('role', user.type.toString());
+
+      print("user id");
+      print(user.id);
+      // await localStorage.setKeyValue('appToken', user.id);
+
+      // await localStorage.setKeyValue('role', user.type.toString());
     }
     return result;
   }

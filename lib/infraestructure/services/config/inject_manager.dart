@@ -1,4 +1,5 @@
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/login_in_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/user/register_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/update_user_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/api/api_request_imp.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/localStorage/loca_storage_imp.dart';
@@ -30,7 +31,13 @@ class InjectManager {
       localStorage: localStorage,
     );
 
+    final registerUserCase = RegisterUseCase(
+      userRepository: userRepository,
+      localStorage: localStorage,
+    );
+
     getIt.registerSingleton<UpdateUserUseCase>(updateUserUseCase);
     getIt.registerSingleton<LogInUseCase>(logInUseCase);
+    getIt.registerSingleton<RegisterUseCase>(registerUserCase);
   }
 }
