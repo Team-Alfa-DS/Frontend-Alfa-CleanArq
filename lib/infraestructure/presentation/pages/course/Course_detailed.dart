@@ -8,11 +8,10 @@ import 'Course.dart';
 class CourseDetailedScreen extends StatefulWidget {
   Course course;
 
-  CourseDetailedScreen({Key? key, required this.course})
-      : super(key: key);
+  CourseDetailedScreen({super.key, required this.course});
 
   @override
-  _CourseDetailedScreenState createState() => _CourseDetailedScreenState(course: this.course);
+  _CourseDetailedScreenState createState() => _CourseDetailedScreenState(course: course);
 }
 
 class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
@@ -114,11 +113,11 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                             Row(
                               children: [
                                 const Icon(Icons.star, color: Colors.amber),
-                                SizedBox(width: 8.0),
+                                const SizedBox(width: 8.0),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Level',
+                                    const Text('Level',
                                         style: TextStyle(fontWeight: FontWeight.bold)),
                                     Text(course.level),
                                   ],
@@ -128,7 +127,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                             Row(
                               children: [
                                 const Icon(Icons.calendar_today, color: Colors.blue),
-                                SizedBox(width: 8.0),
+                                const SizedBox(width: 8.0),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -146,7 +145,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Mins per Lesson',
+                                    const Text('Mins per Lesson',
                                         style: TextStyle(fontWeight: FontWeight.bold)),
                                     Text(course.durationMinutes.toString()),
                                   ],
@@ -180,7 +179,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                       lesson.title,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .subtitle2
+                                          .titleSmall
                                           ?.copyWith(color: Colors.black),
                                     ),
                                     const Divider(
@@ -224,7 +223,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                                   },
                                                   child: ClipRRect(
                                                     borderRadius: BorderRadius.circular(10),
-                                                    child: Container(
+                                                    child: SizedBox(
                                                       height: 120,
                                                       child: Stack(
                                                         children: [
@@ -350,11 +349,12 @@ void navigateToPlayer(
   List<String> lessonIdIterator = [];
   String lessonIdFound;
 
-  lessonIdIterator.forEach((element) {
-      if(element != lessonid)
-          return;
+  for (var element in lessonIdIterator) {
+      if(element != lessonid) {
+        continue;
+      }
       lessonIdFound = element;
-  });
+  }
 
 
 

@@ -18,10 +18,8 @@ class TrainerMapper {
     };
 
     // Add optional parameters only if they are not null
-    if (trainer.name != null) {
-      json['name'] = trainer.name;
-    }
-    if (trainer.followers != null) {
+    json['name'] = trainer.name;
+      if (trainer.followers != null) {
       json['followers'] = trainer.followers;
     }
     if (trainer.location != null) {

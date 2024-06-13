@@ -1,12 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_detail_event.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_detail_state.dart';
-import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_course_data_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_one_course_use_case.dart';
 
 class CourseDetailBloc extends Bloc<CourseDetailEvent, CourseDetailState> {
-  final GetCourseDataUseCase _getCourseDataUseCase;
+  final GetSingleCourseUseCase _getSingleCourseUseCase;
 
-  CourseDetailBloc(this._getCourseDataUseCase) : super(CourseDetailInitial()) {
+  CourseDetailBloc(this._getSingleCourseUseCase)
+      : super(CourseDetailInitial()) {
     on<LoadCourseDetail>(_onLoadCourseDetail);
   }
 
@@ -16,12 +17,8 @@ class CourseDetailBloc extends Bloc<CourseDetailEvent, CourseDetailState> {
   ) async {
     emit(CourseDetailLoading());
 
-    final result = await _getCourseDataUseCase.execute(
-      GetCourseDataUseCaseInput(
-        courseId: event.courseId,
-        page: event.page,
-        perPage: event.perPage,
-      ),
+    final result = await _getSingleCourseUseCase.execute(
+      GetSingleCourseUseCaseInput(courseId: event.courseId),
     );
 
     if (result.hasValue()) {

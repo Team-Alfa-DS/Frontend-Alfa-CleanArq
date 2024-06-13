@@ -1,4 +1,5 @@
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_course_data_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_one_course_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/lessons/get_lessons_by_course_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/forgot_password_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/login_in_use_case.dart';
@@ -23,7 +24,7 @@ class InjectManager {
       baseUrl: dotenv.env['API_URL']!,
     );
 
-    //! Repositories
+    // Repositories
 
     final userRepository =
         UserRepositoryImpl(apiRequestManager: apiRequestManagerImpl);
@@ -33,7 +34,7 @@ class InjectManager {
       localStorage: localStorage,
     );
 
-    //! UseCases
+    // UseCases
     final updateUserUseCase = UpdateUserUseCase(
       userRepository: userRepository,
       localStorage: localStorage,
@@ -60,17 +61,22 @@ class InjectManager {
       courseRepository: courseRepository,
     );
 
+    final getSingleCourseUseCase = GetSingleCourseUseCase(
+      courseRepository: courseRepository,
+    );
+
     final getLessonsByCourseUseCase = GetLessonsByCourseUseCase(
       courseRepository: courseRepository,
     );
 
-    //! Registering singletons
+    // Registering singletons
     getIt.registerSingleton<UpdateUserUseCase>(updateUserUseCase);
     getIt.registerSingleton<LogInUseCase>(logInUseCase);
     getIt.registerSingleton<RegisterUseCase>(registerUserCase);
     getIt.registerSingleton<ForgotPasswordUseCase>(forgotPasswordUseCase);
     getIt.registerSingleton<ValidateCodeUseCase>(validateCodeUseCase);
     getIt.registerSingleton<GetCourseDataUseCase>(getCourseDataUseCase);
+    getIt.registerSingleton<GetSingleCourseUseCase>(getSingleCourseUseCase);
     getIt.registerSingleton<GetLessonsByCourseUseCase>(
         getLessonsByCourseUseCase);
   }
