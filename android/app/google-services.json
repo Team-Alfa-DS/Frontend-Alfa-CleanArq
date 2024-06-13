@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1002372483444",
+    "project_id": "flutter-push-56dbc",
+    "storage_bucket": "flutter-push-56dbc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002372483444:android:4c1ad6a66f783803bfc421",
+        "android_client_info": {
+          "package_name": "com.example.alfa_soyzen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA16PrI8q-ZfNaeiPqeynTXzDpvVlpOhQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

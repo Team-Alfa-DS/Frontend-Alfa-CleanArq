@@ -15,6 +15,7 @@ import '../../../../domain/entities/blog.dart';
 import '../../../../domain/entities/course.dart';
 import '../../widgets/blogitem.dart';
 import '../../widgets/categoryItem.dart';
+import '../../widgets/courseitem.dart';
 
 class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -44,9 +45,10 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          CourseDetailBloc(GetIt.instance<GetCourseDataUseCase>())
-            ..add(const LoadCourseDetail(courseId: 'courseId', page: 1, perPage: 5)),
+      create: (context) => CourseDetailBloc(
+          GetIt.instance<GetCourseDataUseCase>())
+        ..add(
+            const LoadCourseDetail(courseId: 'courseId', page: 1, perPage: 5)),
       child: BlocBuilder<CourseDetailBloc, CourseDetailState>(
         builder: (context, state) {
           if (state is CourseDetailLoading) {

@@ -381,7 +381,7 @@ class YogaBody extends StatelessWidget {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => Course_Detailed(course: course)));
+            builder: (context) => CourseDetailedScreen(course: course)));
   }
 }
 

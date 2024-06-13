@@ -1,3 +1,4 @@
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/profilescreen/profile.dart';
 import 'package:bloc/bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:alpha_gymnastic_center/infraestructure//presentation/pages/pages.dart';
@@ -10,6 +11,10 @@ final router = GoRouter(routes: [
   GoRoute(
     path: '/home',
     builder: (context, state) => HomeScreen(),
+  ),
+  GoRoute(
+    path: '/profile',
+    builder: (context, state) => const PerfilUsuario(),
   ),
   GoRoute(
     path: '/notification',
