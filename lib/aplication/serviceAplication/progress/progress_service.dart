@@ -47,7 +47,7 @@ class ProgressService {
     }
   }
 
-  Future<ProgressProfile> getProgressProfile(
+  Future<Progress> getProgressProfile(
       String baseUrl, String token) async {
     final url = Uri.parse('$baseUrl/progress/profile');
 
@@ -61,7 +61,7 @@ class ProgressService {
       final data = jsonDecode(response.body) as Map<String, dynamic>;
       final percent = data['Percent'] as double;
       final time = data['Time'] as int;
-      return ProgressProfile(percent: percent, time: time);
+      return Progress(percent: percent, time: time);
     } else {
       throw Exception('Failed to load progress: ${response.statusCode}');
     }

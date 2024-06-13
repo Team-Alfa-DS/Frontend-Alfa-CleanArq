@@ -3,8 +3,8 @@ import 'package:alpha_gymnastic_center/common/result.dart';
 import 'package:alpha_gymnastic_center/domain/interfaces/progress_interfaces.dart';
 
 abstract class ProgressRepository {
-  Future<Result<ProgressCourse>> getProgressCourse(
+  Future<Result<Progress>> getProgressCourse(
       CreateProgressCourseRequest courceRequest);
-  Future<Result<ProgressProfile>> getProgressProfile(
+  Future<Result<Progress>> getProgressProfile(
       CreateProgressProfileRequest profileRequest);
 }

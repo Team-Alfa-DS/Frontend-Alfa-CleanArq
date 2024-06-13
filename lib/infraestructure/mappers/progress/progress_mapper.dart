@@ -2,15 +2,15 @@ import 'package:alpha_gymnastic_center/domain/entities/progress.dart';
 import 'package:alpha_gymnastic_center/infraestructure/mappers/course/course_mapper.dart';
 
 class ProgressProfileMapper {
-  static ProgressProfile fromJson(Map<String, dynamic> json) {
-    return ProgressProfile(
+  static Progress fromJson(Map<String, dynamic> json) {
+    return Progress(
       user: json['user'],
       percent: json['percent'],
       time: json['time'],
     );
   }
 
-  static Map<String, dynamic> toJson(ProgressProfile profile) {
+  static Map<String, dynamic> toJson(Progress profile) {
     return {
       'user': profile.user,
       'percent': profile.percent,
@@ -20,8 +20,8 @@ class ProgressProfileMapper {
 }
 
 class ProgressCourseMapper {
-  static ProgressCourse fromJson(Map<String, dynamic> json) {
-    return ProgressCourse(
+  static Progress fromJson(Map<String, dynamic> json) {
+    return Progress(
       user: json['user'],
       courses: (json['courses'] as List)
           .map((courseData) => CourseMapper.fromJson(courseData))
@@ -32,7 +32,7 @@ class ProgressCourseMapper {
     );
   }
 
-  static Map<String, dynamic> toJson(ProgressCourse course) {
+  static Map<String, dynamic> toJson(Progress course) {
     return {
       'user': course.user,
       'courses': course.courses

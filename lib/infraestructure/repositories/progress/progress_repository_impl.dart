@@ -24,7 +24,7 @@ class ProgressRepositoryImpl extends ProgressRepository {
   }
 
   @override
-  Future<Result<ProgressProfile>> getProgressProfile(
+  Future<Result<Progress>> getProgressProfile(
       CreateProgressProfileRequest profileRequest) async {
     await _addAuthorizationHeader();
     final response = await _apiRequestManager.request(
@@ -37,7 +37,7 @@ class ProgressRepositoryImpl extends ProgressRepository {
   }
 
   @override
-  Future<Result<ProgressCourse>> getProgressCourse(
+  Future<Result<Progress>> getProgressCourse(
       CreateProgressCourseRequest courseRequest) async {
     await _addAuthorizationHeader();
     final response = await _apiRequestManager.request(

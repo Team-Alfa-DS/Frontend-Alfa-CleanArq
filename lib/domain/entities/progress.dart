@@ -1,28 +1,27 @@
 import 'package:alpha_gymnastic_center/domain/entities/course.dart';
 import 'package:alpha_gymnastic_center/domain/entities/user.dart';
 
-class ProgressProfile {
-  String? id;
-  User? user;
-  num? percent;
-  int? time;
-
-  ProgressProfile({this.id, this.user, this.percent, this.time});
-}
-
-class ProgressCourse {
+class Progress {
   String? id;
   User? user;
   List<Course>? courses;
   num? percent;
   int? time;
   bool? markAsComplete;
+  String? lessonid;
+  String? lastTime;
+  Course? course;
 
-  ProgressCourse(
-      {this.id,
+
+  Progress({
+      this.id,
       this.user,
       this.courses,
       this.percent,
       this.time,
-      this.markAsComplete});
+      this.markAsComplete,
+      this.lessonid,
+      this.lastTime,
+      this.course,
+  });
 }
