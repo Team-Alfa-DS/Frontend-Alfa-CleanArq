@@ -7,12 +7,12 @@ import '../../../mappers/course/course_mapper.dart';
 import '../../widgets/navegation.dart';
 import 'Course_detailed.dart';
 
-class Yoga_basics extends StatelessWidget {
-  const Yoga_basics({super.key});
+class YogaBasics extends StatelessWidget {
+  const YogaBasics({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const YogaHomePage(); // Directly return the page without wrapping it in another MaterialApp
+    return const YogaHomePage();
   }
 }
 
@@ -154,29 +154,13 @@ class YogaBody extends StatelessWidget {
           ),
           child: GestureDetector(
             onDoubleTap: () {
-
-              /*
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => YogaDetailScreen(
-                    imageUrl: imageUrls[currentIndex],
-                    title: imageTitles[currentIndex],
-                    subtitle: imageSubtitles[currentIndex],
-                    description: imageDescriptions[currentIndex],
-                  ),
-                ),
-              );
-              */
               var jsonResponse = {
                 "title": "Sample Title",
                 "description": "Sample Description",
                 "category": "Fitness",
-                "image": "https://serviceninjas.in/wp-content/uploads/2021/12/yoga-2.jpg",
-                "trainer": {
-                  "id": "trainer001",
-                  "name": "John Doe"
-                },
+                "image":
+                    "https://serviceninjas.in/wp-content/uploads/2021/12/yoga-2.jpg",
+                "trainer": {"id": "trainer001", "name": "John Doe"},
                 "level": "intermediate",
                 "durationWeeks": 4,
                 "durationMinutes": 60,
@@ -193,17 +177,17 @@ class YogaBody extends StatelessWidget {
                     "id": "lesson002",
                     "title": "Lesson 2",
                     "content": "Cardio session",
-                    "image": "https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-trainer-in-gym-royalty-free-image-1584723855.jpg"
+                    "image":
+                        "https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-trainer-in-gym-royalty-free-image-1584723855.jpg"
                   }
                 ]
               };
 
               print(jsonResponse);
 
-              var course =  CourseMapper.fromJson(jsonResponse);
+              var course = CourseMapper.fromJson(jsonResponse);
 
-              redirectToCourseDetails(context,course);
-
+              redirectToCourseDetails(context, course);
             },
             child: SizedBox(
               height: 290,
@@ -256,7 +240,8 @@ class YogaBody extends StatelessWidget {
                     top: 10,
                     right: 16,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
                         color: Colors.deepPurple,
                         borderRadius: BorderRadius.circular(30),
@@ -392,13 +377,12 @@ class YogaBody extends StatelessWidget {
     );
   }
 
-  void redirectToCourseDetails(BuildContext context,Course course) {
+  void redirectToCourseDetails(BuildContext context, Course course) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => Course_Detailed(course: course)));
+            builder: (context) => CourseDetailedScreen(course: course)));
   }
-
 }
 
 class NewYogaClassesCarousel extends StatelessWidget {
@@ -447,7 +431,7 @@ class NewYogaClassesCarousel extends StatelessWidget {
             items: List.generate(
               (newImageUrls.length + 1) ~/
                   2, // Divide the length by 2 to get the number of slides
-                  (index) {
+              (index) {
                 final startIndex = index * 2;
                 final endIndex = min(startIndex + 2, newImageUrls.length);
                 return Builder(
@@ -481,7 +465,7 @@ class NewYogaClassesCarousel extends StatelessWidget {
                                         children: [
                                           ClipRRect(
                                             borderRadius:
-                                            BorderRadius.circular(9.0),
+                                                BorderRadius.circular(9.0),
                                             child: Image.network(
                                               newImageUrls[i],
                                               fit: BoxFit.cover,
@@ -491,15 +475,15 @@ class NewYogaClassesCarousel extends StatelessWidget {
                                             top: 12.0,
                                             right: 12.0,
                                             child: Container(
-                                              padding: const EdgeInsets
-                                                  .symmetric(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
                                                 horizontal: 12.0,
                                                 vertical: 6.0,
                                               ),
                                               decoration: BoxDecoration(
                                                 color: Colors.deepPurple,
                                                 borderRadius:
-                                                BorderRadius.circular(20.0),
+                                                    BorderRadius.circular(20.0),
                                               ),
                                               child: const Text(
                                                 'New',
@@ -515,8 +499,7 @@ class NewYogaClassesCarousel extends StatelessWidget {
                                             child: Container(
                                               decoration: BoxDecoration(
                                                 gradient: LinearGradient(
-                                                  begin:
-                                                  Alignment.bottomCenter,
+                                                  begin: Alignment.bottomCenter,
                                                   end: Alignment.topCenter,
                                                   colors: [
                                                     Colors.black
@@ -533,7 +516,7 @@ class NewYogaClassesCarousel extends StatelessWidget {
                                             right: 12.0,
                                             child: Column(
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   newImageTitles[i],

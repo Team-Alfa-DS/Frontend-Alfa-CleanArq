@@ -37,7 +37,6 @@ void main() {
 
       final course = CourseMapper.fromJson(json);
 
-      expect(course.id, '1');
       expect(course.title, 'Course 1');
       expect(course.description, 'This is the description of Course 1');
       expect(course.category, 'Category 1');
@@ -47,7 +46,7 @@ void main() {
       expect(course.trainer.followers, 100);
       expect(course.trainer.userFollow, true);
       expect(course.trainer.location, 'Location 1');
-      expect(course.level, CourseLevel.beginner);
+      expect(course.level, 'beginner');
       expect(course.durationWeeks, 4);
       expect(course.durationMinutes, 60);
       expect(course.tags, ['tag1', 'tag2']);
@@ -69,13 +68,12 @@ void main() {
       );
 
       final course = Course(
-        id: '1',
         title: 'Course 1',
         description: 'This is the description of Course 1',
         category: 'Category 1',
         image: 'https://example.com/image1.jpg',
         trainer: trainer,
-        level: CourseLevel.beginner,
+        level: 'begginer',
         durationWeeks: 4,
         durationMinutes: 60,
         tags: ['tag1', 'tag2'],
@@ -105,8 +103,8 @@ void main() {
       final json = CourseMapper.toJson(course);
 
       expect(json['id'], '1');
-      expect(json['title'], 'Curso 1');
-      expect(json['description'], 'Descripcion 1');
+      expect(json['title'], 'Course 1');
+      expect(json['description'], 'This is the description of Course 1');
       expect(json['category'], 'Category 1');
       expect(json['image'], 'https://example.com/image1.jpg');
       expect(json['trainer']['id'], '1');

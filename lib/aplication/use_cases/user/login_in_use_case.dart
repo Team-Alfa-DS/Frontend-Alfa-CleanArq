@@ -32,7 +32,6 @@ class LogInUseCase extends IUseCase<LogInUseCaseInput, User> {
       await localStorage.setKeyValue('appToken', user.token!);
       // await localStorage.setKeyValue('role', user.type.toString());
     }
-
     return result;
   }
 }

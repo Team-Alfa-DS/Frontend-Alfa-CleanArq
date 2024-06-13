@@ -13,6 +13,10 @@ final router = GoRouter(routes: [
     builder: (context, state) => HomeScreen(),
   ),
   GoRoute(
+    path: '/profile',
+    builder: (context, state) => const PerfilUsuario(),
+  ),
+  GoRoute(
     path: '/notification',
     builder: (context, state) => NotificationScreen(),
   ),
