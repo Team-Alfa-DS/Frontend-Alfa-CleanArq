@@ -22,11 +22,10 @@ class LessonBloc extends Bloc<LessonDetailEvent, LessonDetailState> {
       ),
     );
 
-    if (result.hasValue() && result.value!.hasValue()) {
-      emit(LessonDetailLoaded(lesson: result.value!.value!));
+    if (result.hasValue()) {
+      emit(LessonDetailLoaded(lessons: result.value!));
     } else {
-      emit(
-          LessonDetailError(failure: result.failure ?? result.value!.failure!));
+      emit(LessonDetailError(failure: result.failure!));
     }
   }
 }
