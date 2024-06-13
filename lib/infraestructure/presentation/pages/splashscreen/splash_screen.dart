@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen>
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
     Future.delayed(const Duration(seconds: 5), () {
-      context.push("/onboarding1");
+      context.push("/home");
     });
   }
 
