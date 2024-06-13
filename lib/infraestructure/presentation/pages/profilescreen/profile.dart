@@ -1,6 +1,10 @@
+import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -9,35 +13,121 @@ class PerfilUsuario extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _loadUserData(),
-      builder: (BuildContext context, AsyncSnapshot<UserData> snapshot) {
+    return FutureBuilder<List<dynamic>>(
+      future: Future.wait([_loadUserData(), _loadProfileData()]),
+      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
         } else {
+          if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}'); // Handle errors
+          }
+
+          final userData = snapshot.data![0] as UserData; // Access first result
+          final profileData =
+              snapshot.data![1] as ProfileData; // Access second result
+
+          // Use userData and anotherData in your widget logic
           return MiScaffold(
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  buildAppBar(context, snapshot.data!),
+                  buildAppBar(context, userData, profileData),
+                  const SizedBox(height: 5.0),
+                  SizedBox(
+                    width: 400,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Statitics',
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 20,
+                          width: 107,
+                          child: ElevatedButton(
+                              onPressed: () {},
+                              child: const Row(
+                                // Combine Icon and Text in a Row
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'See All',
+                                    style: TextStyle(
+                                        fontSize: 13, color: Color(0xFF677294)),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 13,
+                                    color: Color(0xFF677294),
+                                  ),
+                                ],
+                              )),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Row(
+                    children: [
+                      SizedBox(width: 23),
+                      Text(
+                        'This week',
+                        style:
+                            TextStyle(fontSize: 16, color: Color(0xFF677294)),
+                      ),
+                    ],
+                  ),
                   const SizedBox(
-                      height: 5.0), // Espacio reducido después del AppBar
+                      height: 5), // Espacio reducido después del AppBar
                   buildStatisticsSection(),
                   const SizedBox(
                       height:
-                          0.4), // Espacio reducido después de las estadísticas
+                          30), // Espacio reducido después de las estadísticas
                   SizedBox(
                     height: 230,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        const Padding(
-                          padding: EdgeInsets.only(
+                        Padding(
+                          padding: const EdgeInsets.only(
                               left: 20.0), // Aumenta el padding del título
-                          child: Text(
-                            'Mi Entrenamiento',
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold),
+                          child: Row(
+                            children: [
+                              const Text(
+                                'My Trainning',
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(width: 150),
+                              SizedBox(
+                                height: 20,
+                                width: 107,
+                                child: ElevatedButton(
+                                    onPressed: () {},
+                                    child: const Row(
+                                      // Combine Icon and Text in a Row
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'See All',
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              color: Color(0xFF677294)),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 13,
+                                          color: Color(0xFF677294),
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                            ],
                           ),
                         ),
                         Expanded(
@@ -51,7 +141,7 @@ class PerfilUsuario extends StatelessWidget {
                                 fecha: '',
                                 foto: 'assets/images/Yoga Ejemplo 1.png',
                                 disposicion: 2,
-                                isNew: false,
+                                isNew: true,
                                 conexion: '',
                               ),
                               ScrollHorizontal(
@@ -97,13 +187,43 @@ class PerfilUsuario extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        const Padding(
-                          padding: EdgeInsets.only(
+                        Padding(
+                          padding: const EdgeInsets.only(
                               left: 20.0), // Aumenta el padding del título
-                          child: Text(
-                            'Mis Fotos',
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold),
+                          child: Row(
+                            children: [
+                              const Text(
+                                'My Yoga Photos',
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(width: 110),
+                              SizedBox(
+                                height: 20,
+                                width: 107,
+                                child: ElevatedButton(
+                                    onPressed: () {},
+                                    child: const Row(
+                                      // Combine Icon and Text in a Row
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'See All',
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              color: Color(0xFF677294)),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 13,
+                                          color: Color(0xFF677294),
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                            ],
                           ),
                         ),
                         Expanded(
@@ -175,9 +295,17 @@ class PerfilUsuario extends StatelessWidget {
     return UserData(name: name, followers: followers, following: following);
   }
 
-  Widget buildAppBar(BuildContext context, UserData userData) {
+  Future<ProfileData> _loadProfileData() async {
+    final prefs = await SharedPreferences.getInstance();
+    num percent = prefs.getInt('percent') ?? 0.5;
+    int time = prefs.getInt('time') ?? 0;
+    return ProfileData(percent: percent, time: time);
+  }
+
+  Widget buildAppBar(
+      BuildContext context, UserData userData, ProfileData profileData) {
     return Container(
-      height: 250.0,
+      height: 260.0,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
@@ -194,7 +322,7 @@ class PerfilUsuario extends StatelessWidget {
           children: [
             const SizedBox(height: 20.0), // Agrega espacio aquí
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 IconButton(
                   icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -202,41 +330,117 @@ class PerfilUsuario extends StatelessWidget {
                     Navigator.pop(context);
                   },
                 ),
+                const SizedBox(width: 20.0),
+                const Text(
+                  'Profile',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+                const SizedBox(width: 220.0),
                 IconButton(
                   icon: const Icon(Icons.edit, color: Colors.white),
                   onPressed: () {},
                 ),
               ],
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10.0),
             Row(
               children: [
                 const CircleAvatar(
                   radius: 35.0,
                   backgroundImage: AssetImage('assets/images/user.png'),
                 ),
-                const SizedBox(width: 10.0),
+                const SizedBox(width: 20.0),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       userData.name,
                       style:
-                          const TextStyle(fontSize: 24.0, color: Colors.white),
+                          const TextStyle(fontSize: 18.0, color: Colors.white),
                     ),
-                    Text(
-                      'Seguidores: ${userData.followers}    Seguidos: ${userData.following}',
-                      style:
-                          const TextStyle(fontSize: 16.0, color: Colors.white),
+                    Row(
+                      children: [
+                        const SizedBox(width: 30),
+                        SizedBox(
+                          width: 100,
+                          child: Text(
+                            '${userData.followers}',
+                            style: const TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Text(
+                          '${userData.following}',
+                          style: const TextStyle(
+                              fontSize: 20.0,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    const Row(
+                      children: [
+                        SizedBox(width: 0),
+                        SizedBox(
+                          width: 100,
+                          child: Text(
+                            'followers',
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.white),
+                          ),
+                        ),
+                        Text(
+                          'followings',
+                          style: TextStyle(fontSize: 16.0, color: Colors.white),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ],
             ),
-            const SizedBox(height: 20.0),
-            const SizedBox(
+            Row(
+              children: [
+                const SizedBox(width: 65),
+                const IconButton(
+                  icon: Icon(Icons.sentiment_satisfied_alt,
+                      color: Colors.white, size: 20),
+                  onPressed: null,
+                ),
+                const SizedBox(width: 175),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: ' ${profileData.time} ',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const TextSpan(
+                        text: ' hrs',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
               height: 10.0,
-              child: LinearProgressIndicator(value: 0.5, color: Colors.white),
+              width: 250,
+              child: LinearProgressIndicator(
+                  value: profileData.percent.toDouble(), color: Colors.green),
             ),
           ],
         ),
@@ -245,61 +449,85 @@ class PerfilUsuario extends StatelessWidget {
   }
 
   Widget buildStatisticsSection() {
-    return Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 79.0,
-            width: 210.0,
-            child: BarChart(
-              BarChartData(
-                barGroups: getBarGroups(),
-                titlesData: FlTitlesData(
-                  bottomTitles: SideTitles(
-                    showTitles: true,
-                    getTextStyles: (context, value) => const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
+    return SizedBox(
+      width: 400,
+      height: 100,
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.0),
+            color: const Color.fromARGB(255, 233, 231, 231)),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 25.0),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: 90,
+                      child: Text(
+                        'Time',
+                        style: TextStyle(fontSize: 18),
+                      ),
                     ),
-                    getTitles: (double value) {
-                      switch (value.toInt()) {
-                        case 0:
-                          return 'Lun';
-                        case 1:
-                          return 'Mar';
-                        case 2:
-                          return 'Mie';
-                        case 3:
-                          return 'Jue';
-                        case 4:
-                          return 'Vie';
-                        case 5:
-                          return 'Sab';
-                        case 6:
-                          return 'Dom';
-                        default:
-                          return '';
-                      }
-                    },
-                  ),
-                  leftTitles: SideTitles(showTitles: false),
+                    SizedBox(
+                      width: 90,
+                      child: Text(
+                        '1:03:30',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                    ),
+                  ],
                 ),
-                borderData: FlBorderData(show: false),
-                barTouchData: BarTouchData(enabled: false),
               ),
-            ),
+              const SizedBox(width: 20.0), // Agrega espacio aquí
+              SizedBox(
+                height: 79.0,
+                width: 210.0,
+                child: BarChart(
+                  BarChartData(
+                    barGroups: getBarGroups(),
+                    titlesData: FlTitlesData(
+                      bottomTitles: SideTitles(
+                        showTitles: true,
+                        getTextStyles: (context, value) => const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                        getTitles: (double value) {
+                          switch (value.toInt()) {
+                            case 0:
+                              return 'Mon';
+                            case 1:
+                              return 'Tue';
+                            case 2:
+                              return 'Wed';
+                            case 3:
+                              return 'Thu';
+                            case 4:
+                              return 'Fri';
+                            case 5:
+                              return 'Sat';
+                            case 6:
+                              return 'Sun';
+                            default:
+                              return '';
+                          }
+                        },
+                      ),
+                      leftTitles: SideTitles(showTitles: false),
+                    ),
+                    borderData: FlBorderData(show: false),
+                    barTouchData: BarTouchData(enabled: false),
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 20.0), // Agrega espacio aquí
-          const Padding(
-            padding: EdgeInsets.only(top: 20.0),
-            child: Text(
-              'Tiempo:\n1:03:30',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -338,4 +566,11 @@ class WeekdayData {
   final int sales;
 
   WeekdayData(this.day, this.sales);
+}
+
+class ProfileData {
+  final num percent;
+  final int time;
+
+  ProfileData({required this.percent, required this.time});
 }
