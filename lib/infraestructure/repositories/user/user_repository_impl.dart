@@ -17,7 +17,7 @@ class UserRepositoryImpl extends UserRepository {
       '/auth/login',
       'POST',
       (data) {
-        return UserMapper.fromJson(data['user']);
+        return UserMapper.fromJson(data);
       },
       body: {
         'email': loginRequest.email,
@@ -33,6 +33,8 @@ class UserRepositoryImpl extends UserRepository {
       print('User Name: ${user.name}');
       print('User Email: ${user.email}');
       print('User Phone: ${user.phone}');
+      print('User Type: ${user.type}');
+      print('User Token : ${user.token}');
     } else {
       print('No user data received');
     }

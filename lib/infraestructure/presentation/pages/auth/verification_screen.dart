@@ -1,6 +1,6 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/validate_code/validate_code_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/validate_code_use_case.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/auth/password_changed_screen.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/CreateNewPass.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +34,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
           if (state is ValidateCodeSuccess) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const PasswordChanged()),
+              MaterialPageRoute(
+                  builder: (context) => const CreatePasswordPage()),
             );
           } else if (state is ValidateCodeFailure) {
             showDialog(

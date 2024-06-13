@@ -22,5 +22,7 @@ class Result<T> {
     }
   }
 
-  bool hasValue() => this.value != null;
+  bool hasValue() {
+    return value != null;
+  }
 }
