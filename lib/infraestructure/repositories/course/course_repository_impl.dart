@@ -61,7 +61,7 @@ class CourseRepositoryImpl extends CourseRepository {
     print('Mitad de Many');
     try {
       final response = await _apiRequestManager.request(
-        '/course/many/?page=$page&perpage=$perPage',
+        '/course/many',
         'GET',
         (data) {
           print('Data received in getCourseMany: $data');

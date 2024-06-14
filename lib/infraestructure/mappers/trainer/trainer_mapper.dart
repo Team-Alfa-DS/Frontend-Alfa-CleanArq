@@ -5,9 +5,10 @@ class TrainerMapper {
     return Trainer(
       id: json['id'] as String,
       name: json['name'],
-      followers: json['followers'] as int,
-      userFollow: json['userFollow'] as bool,
-      location: json['location'] as String,
+      followers: json['followers'] != null ? json['followers'] as int : 0,
+      userFollow:
+          json['userFollow'] != null ? json['userFollow'] as bool : false,
+      location: json['location'] != null ? json['location'] as String : '',
     );
   }
 

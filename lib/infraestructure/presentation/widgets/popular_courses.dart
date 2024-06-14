@@ -32,7 +32,7 @@ class PopularProcessesCarousel extends StatelessWidget {
                     descripcion: course.title,
                     categoria: course.category,
                     fecha: course.date.toString(),
-                    foto: course.image,
+                    fotoProvider: NetworkImage(course.image),
                     disposicion: 1,
                     isNew: false,
                     conexion: "/videos",
