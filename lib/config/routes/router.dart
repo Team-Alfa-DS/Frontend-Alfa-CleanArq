@@ -78,7 +78,7 @@ final router = GoRouter(routes: [
   GoRoute(
     path: '/createPassword',
     builder: (context, state) {
-      final Map<String, dynamic> extra = state.extra as Map<String, String>;
+      final Map<String, dynamic> extra = state.extra as Map<String, dynamic>;
       final String email = extra['email']!;
       final int code = extra['code']!;
       return CreatePasswordPage(email: email, code: code);
