@@ -484,7 +484,7 @@ class _HorizontalCarouselState extends State<HorizontalCarousel> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => const Blog_Detailed_Widget(id: '', Title: '', Description: '', Images: [], Tags: [], date: '',
+            builder: (context) =>  Blog_Detailed_Widget(id: '2', Title: title, Description: description, Images: [], Tags: [], date: "20/03/2020",
                )));
   }
 }

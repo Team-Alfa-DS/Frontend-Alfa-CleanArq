@@ -83,7 +83,7 @@ class CustomCircularPercentIndicator extends StatelessWidget {
           percent: percent,
           center: Text(
             centerText,
-            style: TextStyle(color: centerTextColor, fontSize: centerTextSize),
+            style: TextStyle(color: centerTextColor, fontSize: centerTextSize, fontStyle: FontStyle.italic),
             textAlign: TextAlign.center,
           ),
           progressColor: progressColor,

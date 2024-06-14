@@ -42,7 +42,7 @@ class _CategoryItemState extends State<CategoryItem> {
     return GestureDetector(
       onTap: toggleImage,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+        padding: const EdgeInsets.symmetric(horizontal: 5.0),
         child:
         ClipRRect(
           borderRadius: BorderRadius.circular(9.0),
@@ -53,8 +53,8 @@ class _CategoryItemState extends State<CategoryItem> {
                 duration: const Duration(milliseconds: 80),
                 child: Image.asset(
                   isPicked ? widget.imageUrlPicked : widget.imageUrlUnpicked,
-                  width: 100,
-                  height: 100,
+                  width: 85,
+                  height: 85,
                 ),
               ),
             ],
