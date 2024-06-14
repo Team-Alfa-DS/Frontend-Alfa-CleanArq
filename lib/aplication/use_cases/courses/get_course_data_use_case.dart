@@ -14,13 +14,13 @@ class GetCourseDataUseCaseInput extends IUseCaseInput {
 
 class GetCourseDataUseCase
     implements IUseCase<GetCourseDataUseCaseInput, List<Course>> {
-  final CourseRepository _courseRepository;
+  final CourseRepository courseRepository;
 
-  GetCourseDataUseCase(this._courseRepository);
+  GetCourseDataUseCase({required this.courseRepository});
 
   @override
   Future<Result<List<Course>>> execute(GetCourseDataUseCaseInput params) async {
-    return await _courseRepository.getCourseMany(
+    return await courseRepository.getCourseMany(
         page: params.page, perPage: params.perPage);
   }
 }

@@ -10,11 +10,10 @@ import 'Course.dart';
 class CourseDetailedScreen extends StatefulWidget {
   Course course;
 
-  CourseDetailedScreen({Key? key, required this.course})
-      : super(key: key);
+  CourseDetailedScreen({super.key, required this.course});
 
   @override
-  _CourseDetailedScreenState createState() => _CourseDetailedScreenState(course: this.course);
+  _CourseDetailedScreenState createState() => _CourseDetailedScreenState(course: course);
 }
 
 class _CourseDetailedScreenState extends State<CourseDetailedScreen> {

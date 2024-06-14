@@ -5,10 +5,10 @@ class CategoryItem extends StatefulWidget {
   final String imageUrlUnpicked;
 
   const CategoryItem({
-    Key? key,
+    super.key,
     required this.imageUrlPicked,
     required this.imageUrlUnpicked,
-  }) : super(key: key);
+  });
 
   @override
   _CategoryItemState createState() => _CategoryItemState();

@@ -1,7 +1,7 @@
+import 'package:alpha_gymnastic_center/domain/interfaces/user_interfaces.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/register_use_case.dart';
-import 'package:alpha_gymnastic_center/domain/entities/user.dart';
 import 'package:alpha_gymnastic_center/common/failure.dart';
 
 part 'register_event.dart';
@@ -28,7 +28,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
 
     if (result.hasValue()) {
-      emit(RegisterSuccess(user: result.value!));
+      emit(RegisterSuccess(registerUserResponse: result.value!));
     } else {
       emit(RegisterFailure(failure: result.failure!));
     }

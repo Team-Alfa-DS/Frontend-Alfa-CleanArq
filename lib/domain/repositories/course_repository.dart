@@ -10,13 +10,10 @@ abstract class CourseRepository {
     required int perPage,
   });
 
-  Future<Result<List<Course>>> getCourseFiltered({
-     required String filter,
-     required String Category,
-     required String Trainer
-  });
+  Future<Result<List<Course>>> getCourseFiltered(
+      {required String filter,
+      required String category,
+      required String trainer});
 
-  Future<Result<List<Course>>> getSingleCourse({
-    required String id
-  });
+  Future<Result<Course>> getSingleCourse({required String id});
 }

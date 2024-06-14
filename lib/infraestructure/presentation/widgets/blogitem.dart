@@ -1,10 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../pages/blog/blog_detailed.dart';
-
 class blogItem extends StatelessWidget {
-
   String id;
   String imageUrl;
   String title;
@@ -12,7 +8,8 @@ class blogItem extends StatelessWidget {
   String date;
   String category;
 
-  blogItem({super.key,
+  blogItem({
+    super.key,
     required this.id,
     required this.imageUrl,
     required this.title,
@@ -56,17 +53,17 @@ class blogItem extends StatelessWidget {
                   children: [
                     TextButton(
                       style: ButtonStyle(
-                          backgroundColor:
-                          MaterialStateProperty.all<Color>(
+                          backgroundColor: MaterialStateProperty.all<Color>(
                               Colors.transparent)),
                       onPressed: () => {
-                          /*navigateToDetailed(
+                        /*navigateToDetailed(
                               context,
                               id,
                               title,
                               description,
                               imageUrl
-                          )*/ },
+                          )*/
+                      },
                       child: Text(
                         title,
                         style: const TextStyle(
@@ -78,8 +75,7 @@ class blogItem extends StatelessWidget {
                     ),
                     const SizedBox(height: 8.0),
                     Row(
-                      mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           category,
