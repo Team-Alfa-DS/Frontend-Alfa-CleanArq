@@ -4,7 +4,6 @@ class CreateProgressProfileRequestMapper {
   static Map<String, dynamic> toJson(
       CreateProgressProfileRequest profileRequest) {
     return {
-      'user': profileRequest.user,
       'percent': profileRequest.percent,
       'time': profileRequest.time,
     };
