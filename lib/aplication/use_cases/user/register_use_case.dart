@@ -1,5 +1,4 @@
 import 'package:alpha_gymnastic_center/common/use_case.dart';
-import 'package:alpha_gymnastic_center/domain/entities/user.dart';
 import 'package:alpha_gymnastic_center/domain/interfaces/user_interfaces.dart';
 import 'package:alpha_gymnastic_center/domain/repositories/user_repository.dart';
 import 'package:alpha_gymnastic_center/aplication/localStorage/local_storage.dart';
@@ -18,29 +17,23 @@ class RegisterUseCaseInput extends IUseCaseInput {
       required this.phone});
 }
 
-class RegisterUseCase extends IUseCase<RegisterUseCaseInput, User> {
+class RegisterUseCase
+    extends IUseCase<RegisterUseCaseInput, RegisterUserResponse> {
   final UserRepository userRepository;
   final LocalStorage localStorage;
 
   RegisterUseCase({required this.userRepository, required this.localStorage});
 
   @override
-  Future<Result<User>> execute(RegisterUseCaseInput params) async {
+  Future<Result<RegisterUserResponse>> execute(
+      RegisterUseCaseInput params) async {
     RegisterUserRequest registerRequest = RegisterUserRequest(
         email: params.email,
         name: params.email,
         password: params.password,
         phone: params.phone);
     final result = await userRepository.registerUser(registerRequest);
-    if (result.hasValue()) {
-      final user = result.value!;
-
-      print("user id");
-      print(user.id);
-      // await localStorage.setKeyValue('appToken', user.id);
-
-      // await localStorage.setKeyValue('role', user.type.toString());
-    }
+    if (result.hasValue()) {}
     return result;
   }
 }
