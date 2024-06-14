@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
@@ -8,6 +10,9 @@ import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/prog
 import '../../../../domain/entities/blog.dart';
 import '../../widgets/blogitem.dart';
 import '../../widgets/categoryItem.dart';
+
+import '../../widgets/courseitem.dart';
+import '../../widgets/scrollHorizontal.dart';
 
 class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -29,6 +34,47 @@ class HomeScreen extends StatelessWidget {
     "assets/icons/yoga_unpicked.png",
   ];
 
+  List<String> Blog_images = [
+    "https://www.bupasalud.com/sites/default/files/styles/640_x_400/public/articulos/2023-09/fotos/mujeres-practicando-yoga-en-el-gimnasio.jpg",
+    "https://www.theclassyoga.com/wp-content/uploads/2021/08/yoga-1024x576.jpeg",
+    "https://awtsuprints.com/cdn/shop/articles/how-to-get-started-with-calisthenics.jpg",
+    "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/health/wp-content/uploads/2023/08/Calisthenic.jpeg.jpg",
+    "https://media.post.rvohealth.io/wp-content/uploads/2020/10/Female_Yoga_1200x628-facebook-1200x628.jpg",
+    "https://d2lcsjo4hzzyvz.cloudfront.net/blog/wp-content/uploads/2022/06/16173159/Recomendaciones-para-hacer-yoga-jpg.jpg"
+  ];
+  List<String> Blog_Title = [
+    "Yoga for Beginners",
+    "Mastering Gymnastics Skills",
+    "Cycling: The Ultimate Guide",
+    "Pilates for Core Strength",
+    "Exploring the World of Dance",
+    "Outdoor Running Tips"
+  ];
+  List<String> Blog_Desc = [
+    "A comprehensive guide to starting your yoga journey.",
+    "Key techniques for developing and mastering gymnastics skills.",
+    "Everything you need to know to become an efficient cyclist.",
+    "Build a strong core with these pilates exercises.",
+    "Discover various forms of dance and their health benefits.",
+    "Practical tips and strategies for improving your outdoor running experience."
+  ];
+  List<String> Blog_Dates = [
+    "14/06/2024",
+    "12/06/2024",
+    "10/06/2024",
+    "09/06/2024",
+    "08/06/2024",
+    "07/06/2024"
+  ];
+  List<String> Blog_Categories = [
+    "Wellness",
+    "Fitness",
+    "Cycling",
+    "Fitness",
+    "Dance",
+    "Running"
+  ];
+
   HomeScreen({
     super.key,
     this.blogs,
@@ -45,7 +91,7 @@ class HomeScreen extends StatelessWidget {
           children: <Widget>[
             const ProgressSection(),
             SizedBox(
-              height: 160,
+              height: 140,
               child: Column(
                 children: <Widget>[
                   const Align(
@@ -75,7 +121,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 200,
+              height: 180,
               child: Column(
                 children: <Widget>[
                   Align(
@@ -113,8 +159,18 @@ class HomeScreen extends StatelessWidget {
                   Expanded(
                     child: ListView(
                       scrollDirection: Axis.horizontal,
-                      children: const <Widget>[
-                        // Insert your video course items here
+                      children: <Widget>[
+                        for (int index = 1; index < 7; index++)
+                          ScrollHorizontal(
+                            titulo: " ",
+                            descripcion: " ",
+                            categoria: " ",
+                            fecha: " ",
+                            foto: "assets/images/Yoga Ejemplo $index.png",
+                            disposicion: 3,
+                            isNew: false,
+                            conexion: "/videos",
+                          ),
                       ],
                     ),
                   ),
@@ -122,13 +178,13 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 200,
+              height: 265,
               child: Column(
                 children: <Widget>[
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: 0.5, top: 0.0, left: 10),
+                      padding: EdgeInsets.only(bottom: 5, top: 0.0, left: 10),
                       child: Text(
                         'Nuestros últimos Blogs',
                         style: TextStyle(
@@ -139,21 +195,41 @@ class HomeScreen extends StatelessWidget {
                   Expanded(
                     child: ListView(
                       scrollDirection: Axis.horizontal,
-                      children: blogs != null
-                          ? [
-                              for (int index = 0;
-                                  index < blogs!.length;
-                                  index++)
-                                blogItem(
-                                  id: blogs![index].id,
-                                  imageUrl: blogs![index].images.first,
-                                  title: blogs![index].title,
-                                  description: blogs![index].description,
-                                  date: blogs![index].date.toString(),
-                                  category: blogs![index].category,
-                                ),
-                            ]
-                          : [const SizedBox()],
+                      children: const <Widget>[
+                        ScrollHorizontal(
+                          titulo:
+                              "15 Minutes yoga practice the beginner in 30 days",
+                          descripcion: "Descripcion",
+                          categoria: "Trainning",
+                          fecha: "Feb 17, 2020",
+                          foto: "assets/images/Yoga Ejemplo 5.png",
+                          disposicion: 2,
+                          isNew: false,
+                          conexion: "/blogs",
+                        ),
+                        ScrollHorizontal(
+                          titulo:
+                              "23 Minutes yoga practice the beginner in 30 days",
+                          descripcion: "Descripcion",
+                          categoria: "Morning",
+                          fecha: "Feb 18, 2020",
+                          foto: "assets/images/Yoga Ejemplo 6.png",
+                          disposicion: 2,
+                          isNew: false,
+                          conexion: "/blogs",
+                        ),
+                        ScrollHorizontal(
+                          titulo:
+                              "30 Minutes yoga practice the beginner in 30 days",
+                          descripcion: "Descripcion",
+                          categoria: "For Women",
+                          fecha: "Feb 20, 2020",
+                          foto: "assets/images/Yoga Ejemplo 4.png",
+                          disposicion: 2,
+                          isNew: false,
+                          conexion: "/blogs",
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -207,13 +283,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             backgroundImage: AssetImage('assets/images/user.png'),
           ),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    const Placeholder(), // Replace with actual profile page
-              ),
-            );
+            context.push('/profile');
           },
         ),
       ],
@@ -263,7 +333,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   borderRadius: BorderRadius.circular(9),
                   child: TextField(
                     onTap: () {
-                      Navigator.pushNamed(context, '/popularSearch');
+                      // context.push('/popularSearch');
                     },
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(

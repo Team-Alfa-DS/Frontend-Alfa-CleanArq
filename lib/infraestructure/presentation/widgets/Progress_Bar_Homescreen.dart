@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import '../../../domain/entities/progress.dart';
 
-class ProgressSection extends StatelessWidget {
-  const ProgressSection({super.key});
+
+class ProgressCircle extends StatefulWidget{
+
+  @override
+  _ProgressSectionState createState() => _ProgressSectionState();
+
+}
+
+class _ProgressSectionState extends State<ProgressCircle> {
+
+
+  _ProgressSectionState();
 
   @override
   Widget build(BuildContext context) {

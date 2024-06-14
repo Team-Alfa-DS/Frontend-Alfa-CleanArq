@@ -76,7 +76,6 @@ class Comments extends State<Widgets_Comments> {
   final TextEditingController _commentController = TextEditingController();
   bool _showComments = true;
 
-
   @override
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
@@ -86,7 +85,7 @@ class Comments extends State<Widgets_Comments> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            YogaAppBar(title: "Comentarios de {$title}"),
+            YogaAppBar(title: "Comentarios de $title"),
             if (_showComments)
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.75,

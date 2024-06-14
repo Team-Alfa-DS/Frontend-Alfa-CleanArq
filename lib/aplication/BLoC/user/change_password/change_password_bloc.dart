@@ -19,6 +19,13 @@ class ChangePasswordBloc
       ChangePasswordSubmitted event, Emitter<ChangePasswordState> emit) async {
     emit(ChangePasswordLoading());
 
+    print("codigo");
+    print(event.code);
+    print("email");
+    print(event.email);
+    print("new pass");
+    print(event.newPassword);
+
     final result = await changePasswordUseCase.execute(
       ChangePasswordUseCaseInput(
         email: event.email,
@@ -26,8 +33,9 @@ class ChangePasswordBloc
         newPassword: event.newPassword,
       ),
     );
-
-    if (result.hasValue()) {
+    print(result.statusCode);
+    if (result.statusCode == "200") {
+      print("exito");
       emit(ChangePasswordSuccess());
     } else {
       emit(ChangePasswordFailure(failure: result.failure!));

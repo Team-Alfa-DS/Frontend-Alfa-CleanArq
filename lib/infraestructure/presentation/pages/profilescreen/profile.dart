@@ -31,59 +31,7 @@ class PerfilUsuario extends StatelessWidget {
               child: Column(
                 children: [
                   buildAppBar(context, userData, profileData),
-                  const SizedBox(height: 5.0),
-                  SizedBox(
-                    width: 400,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Statitics',
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: 20,
-                          width: 107,
-                          child: ElevatedButton(
-                              onPressed: () {},
-                              child: const Row(
-                                // Combine Icon and Text in a Row
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'See All',
-                                    style: TextStyle(
-                                        fontSize: 13, color: Color(0xFF677294)),
-                                  ),
-                                  SizedBox(width: 5),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 13,
-                                    color: Color(0xFF677294),
-                                  ),
-                                ],
-                              )),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Row(
-                    children: [
-                      SizedBox(width: 23),
-                      Text(
-                        'This week',
-                        style:
-                            TextStyle(fontSize: 16, color: Color(0xFF677294)),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                      height: 5), // Espacio reducido después del AppBar
-                  buildStatisticsSection(),
-                  const SizedBox(
-                      height:
-                          30), // Espacio reducido después de las estadísticas
+                  const SizedBox(height: 80.0),
                   SizedBox(
                     height: 230,
                     child: Column(
@@ -99,34 +47,30 @@ class PerfilUsuario extends StatelessWidget {
                                 style: TextStyle(
                                     fontSize: 24, fontWeight: FontWeight.bold),
                               ),
-                              const SizedBox(width: 150),
+                              const SizedBox(width: 100),
                               SizedBox(
                                 height: 20,
                                 width: 107,
-                                child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: const Row(
-                                      // Combine Icon and Text in a Row
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'See All',
-                                          style: TextStyle(
-                                              fontSize: 13,
-                                              color: Color(0xFF677294)),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          size: 13,
-                                          color: Color(0xFF677294),
-                                        ),
-                                      ],
-                                    )),
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: const Text(
+                                    'See all >',
+                                    style: TextStyle(
+                                      color: Colors
+                                          .purple, // Cambiar el color del texto a azul
+                                      fontSize:
+                                          16, // Cambiar el tamaño de la fuente
+                                      fontWeight: FontWeight
+                                          .bold, // Cambiar el peso de la fuente
+                                    ),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
+                        ),
+                        const SizedBox(
+                          height: 0,
                         ),
                         Expanded(
                           child: ListView(
@@ -179,7 +123,7 @@ class PerfilUsuario extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(
-                      height: 0.4), // Espacio reducido entre las secciones
+                      height: 40), // Espacio reducido entre las secciones
                   SizedBox(
                     height: 200,
                     child: Column(
@@ -195,34 +139,30 @@ class PerfilUsuario extends StatelessWidget {
                                 style: TextStyle(
                                     fontSize: 24, fontWeight: FontWeight.bold),
                               ),
-                              const SizedBox(width: 110),
+                              const SizedBox(width: 70),
                               SizedBox(
                                 height: 20,
                                 width: 107,
-                                child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: const Row(
-                                      // Combine Icon and Text in a Row
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'See All',
-                                          style: TextStyle(
-                                              fontSize: 13,
-                                              color: Color(0xFF677294)),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          size: 13,
-                                          color: Color(0xFF677294),
-                                        ),
-                                      ],
-                                    )),
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: const Text(
+                                    'See all >',
+                                    style: TextStyle(
+                                      color: Colors
+                                          .purple, // Cambiar el color del texto a azul
+                                      fontSize:
+                                          16, // Cambiar el tamaño de la fuente
+                                      fontWeight: FontWeight
+                                          .bold, // Cambiar el peso de la fuente
+                                    ),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
+                        ),
+                        const SizedBox(
+                          height: 0,
                         ),
                         Expanded(
                           child: ListView(

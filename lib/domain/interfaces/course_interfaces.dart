@@ -27,4 +27,5 @@ class CreateCourseRequest {
     required this.date,
     required this.lessons,
   });
+
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../../domain/entities/course.dart';
+import '../../../../domain/entities/lesson.dart';
 import '../../widgets/comments_container.dart';
 import '../../widgets/navegation.dart';
 import '../../widgets/sidebarmenu.dart';
+import '../../widgets/videoplayer.dart';
 import 'Course.dart';
 
 class CourseDetailedScreen extends StatefulWidget {
@@ -30,6 +32,8 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final course = widget.course;
+
     return Scaffold(
       appBar: YogaAppBar(
         title: course.title,
@@ -41,8 +45,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10, left: 10, right: 10, bottom: 10),
+                padding: const EdgeInsets.all(10.0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image.network(
@@ -92,7 +95,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                       _isSubscribed ? Colors.deepPurple : null,
                                 ),
                                 child: Text(
-                                  _isSubscribed ? 'Unsubscribe' : 'Subscribe',
+                                  _isSubscribed ? 'UnFollow' : 'Follow',
                                   style: TextStyle(
                                     color: _isSubscribed
                                         ? Colors.white
@@ -120,7 +123,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                     const Text('Level',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
-                                    //Text(course.level),
+                                    Text(course.level),
                                   ],
                                 ),
                               ],
@@ -159,7 +162,9 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                           ],
                         ),
                         const SizedBox(height: 14.0),
-                        for (final lesson in course.lessons)
+                        for (int index = 0;
+                            index < course.lessons.length;
+                            index++)
                           Column(
                             children: [
                               Container(
@@ -180,10 +185,10 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      lesson.title,
+                                      course.lessons[index].title,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .titleSmall
+                                          .subtitle2
                                           ?.copyWith(color: Colors.black),
                                     ),
                                     const Divider(
@@ -198,7 +203,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                lesson.content,
+                                                course.lessons[index].content,
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodyMedium
@@ -226,14 +231,17 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                           width: 180,
                                           child: Column(
                                             children: [
-                                              if (lesson.video != null)
+                                              if (course.lessons[index].video !=
+                                                  null)
                                                 GestureDetector(
                                                   onTap: () {
                                                     navigateToPlayer(
                                                         context,
                                                         course.id!,
-                                                        lesson.id,
-                                                        lesson.video!);
+                                                        course
+                                                            .lessons[index].id,
+                                                        course.lessons[index]
+                                                            .video!);
                                                   },
                                                   child: ClipRRect(
                                                     borderRadius:
@@ -254,7 +262,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                                               size: 60.0,
                                                               color: Colors.grey
                                                                   .withOpacity(
-                                                                      0.9),
+                                                                      0.8),
                                                             ),
                                                           ),
                                                         ],
@@ -262,11 +270,12 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                                     ),
                                                   ),
                                                 ),
-                                              if (lesson.image != null)
+                                              if (course.lessons[index].image !=
+                                                  null)
                                                 Padding(
                                                     padding:
                                                         const EdgeInsets.only(
-                                                            top: 8.0),
+                                                            left: 8.0),
                                                     child: ClipRRect(
                                                       borderRadius:
                                                           BorderRadius.circular(
@@ -274,17 +283,20 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                                       child: Stack(
                                                         children: [
                                                           Image.network(
-                                                            lesson.image!,
+                                                            course
+                                                                .lessons[index]
+                                                                .image!,
                                                             fit: BoxFit.cover,
                                                           ),
                                                           Center(
+                                                            heightFactor: 2,
                                                             child: Icon(
                                                               Icons
                                                                   .camera_alt_outlined,
                                                               size: 60.0,
                                                               color: Colors.grey
                                                                   .withOpacity(
-                                                                      0.4),
+                                                                      0.5),
                                                             ),
                                                           ),
                                                         ],
@@ -298,10 +310,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                   ],
                                 ),
                               ),
-                              const Divider(
-                                color: Colors.transparent,
-                                thickness: 0.3,
-                              ),
+                              const SizedBox(height: 10.0),
                             ],
                           ),
                       ],
@@ -337,24 +346,23 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
       drawer: const SideBarMenu(),
     );
   }
-}
 
-void navigateToComments(
-    BuildContext context, String courseid, String type, String title) {
-  //aqui la llamada del fectch del os comentarios request hacia el backend
+  void navigateToComments(
+      BuildContext context, String courseid, String type, String title) {
+    //aqui la llamada del fectch del os comentarios request hacia el backend
 
-  Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) =>
-              Widgets_Comments(id: courseid, Type: type, title: title)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                Widgets_Comments(id: courseid, Type: type, title: title)));
 
-  return;
-}
+    return;
+  }
 
-void navigateToPlayer(
-    BuildContext context, String courseid, String lessonid, String urlPath) {
-  /* aqui va hacer fetch
+  void navigateToPlayer(
+      BuildContext context, String courseid, String lessonid, String urlPath) {
+    /* aqui va hacer fetch
 
       /progress/one/:courseId [GET]
       Headers:
@@ -369,25 +377,26 @@ void navigateToPlayer(
       }
   */
 
-  List<String> lessonIdIterator = [];
-  String lessonIdFound;
+    List<Lesson> lessonIdIterator = course.lessons;
+    String lessonIdFound = "";
 
-  for (var element in lessonIdIterator) {
-    if (element != lessonid) {
-      continue;
-    }
-    lessonIdFound = element;
+    lessonIdIterator.forEach((lesson) {
+      if (lesson.id != lessonid) {
+        return;
+      }
+      lessonIdFound = lesson.id;
+    });
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => VideoPlayerScreen(
+                courseId: courseid,
+                lessonId: lessonIdFound,
+                videoPath: urlPath)));
+
+    return;
   }
-
-/*
-  Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) =>
-              _VideoPlayerScreenState(courseId: courseid, lessonId: lessonIdFound, videoPath: urlPath)));
-*/
-
-  return;
 }
 
 class RoundedTopCornerClipper extends CustomClipper<Path> {
