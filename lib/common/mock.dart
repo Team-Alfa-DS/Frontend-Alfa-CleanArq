@@ -182,6 +182,57 @@ class Mock {
     }
   ];
 
+  List<Map<String, dynamic>> blogsMock = [
+    {
+      "id": 1,
+      "imageUrl": "https://example.com/images/blog1.jpg",
+      "title": "The Rise of AI",
+      "description": "Exploring the advancements in Artificial Intelligence.",
+      "date": "2024-06-14T10:00:00Z",
+      "category": "Technology"
+    },
+    {
+      "id": 2,
+      "imageUrl": "https://example.com/images/blog2.jpg",
+      "title": "Healthy Living Tips",
+      "description": "Tips and tricks for maintaining a healthy lifestyle.",
+      "date": "2024-06-12T08:30:00Z",
+      "category": "Health"
+    },
+    {
+      "id": 3,
+      "imageUrl": "https://example.com/images/blog3.jpg",
+      "title": "Traveling on a Budget",
+      "description": "How to explore the world without breaking the bank.",
+      "date": "2024-06-10T14:45:00Z",
+      "category": "Travel"
+    },
+    {
+      "id": 4,
+      "imageUrl": "https://example.com/images/blog4.jpg",
+      "title": "Understanding Quantum Computing",
+      "description": "A deep dive into the world of quantum computing.",
+      "date": "2024-06-09T09:00:00Z",
+      "category": "Technology"
+    },
+    {
+      "id": 5,
+      "imageUrl": "https://example.com/images/blog5.jpg",
+      "title": "Mindfulness Meditation",
+      "description": "Effective techniques for enhancing focus and reducing stress.",
+      "date": "2024-06-08T11:15:00Z",
+      "category": "Wellness"
+    },
+    {
+      "id": 6,
+      "imageUrl": "https://example.com/images/blog6.jpg",
+      "title": "Sustainable Living",
+      "description": "Practical ways to live a more sustainable lifestyle.",
+      "date": "2024-06-07T13:30:00Z",
+      "category": "Environment"
+    }
+  ];
+
 
 
 }

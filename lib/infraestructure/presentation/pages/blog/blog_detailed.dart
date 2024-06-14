@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
 
 import '../../widgets/comments_container.dart';
+import '../../widgets/navegation.dart';
 
 class Blog_Detailed_Widget extends StatefulWidget {
   final String id;
@@ -29,22 +30,12 @@ class Blog_Detailed_Widget extends StatefulWidget {
 }
 
 class Blog_Detailed extends State<Blog_Detailed_Widget> {
-  final List<Map<String, String>> MockImages = [
-    {
-      'image': 'https://i0.wp.com/www.muscleandfitness.com/wp-content/uploads/2018/12/Personal-Trainer-Training-Partner-GettyImages-654427364.jpg?quality=86&strip=all'
-    },
-    {
-      'image': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/991px-Placeholder_view_vector.svg.png'
-    },
-    {
-      'image': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/991px-Placeholder_view_vector.svg.png'
-    },
-    {
-      'image': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/991px-Placeholder_view_vector.svg.png'
-    },
-    {
-      'image': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/991px-Placeholder_view_vector.svg.png'
-    },
+   List<String> MockImage = [
+    'https://i0.wp.com/www.muscleandfitness.com/wp-content/uploads/2018/12/Personal-Trainer-Training-Partner-GettyImages-654427364.jpg?quality=86&strip',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/991px-Placeholder_view_vector.svg.png',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/991px-Placeholder_view_vector.svg.png',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/991px-Placeholder_view_vector.svg.png',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/991px-Placeholder_view_vector.svg.png',
   ];
 
 
@@ -79,7 +70,7 @@ class Blog_Detailed extends State<Blog_Detailed_Widget> {
           Expanded(
             child: Column(
               children: [
-                Flexible(
+                Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Container(
@@ -88,7 +79,7 @@ class Blog_Detailed extends State<Blog_Detailed_Widget> {
                         children: [
                           Flexible(
                             child: Image.network(
-                              MockImages.first.values as String,
+                              MockImage[0],
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -111,7 +102,7 @@ class Blog_Detailed extends State<Blog_Detailed_Widget> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        "Steps to Follow",
+                        "All the Images!",
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       TextButton(
@@ -136,17 +127,16 @@ class Blog_Detailed extends State<Blog_Detailed_Widget> {
                     padding:
                         EdgeInsets.only(bottom: bottomInset, left: 8, right: 8),
                     child: ListView.builder(
-                      itemCount: MockImages.length,
+                      itemCount: MockImage.length,
                       itemBuilder: (context, index) {
-                        if(index != 0 || index != 1) {
-                          final panel = MockImages[index];
+                          final panel = MockImage[index];
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               children: [
                                 Expanded(
                                   child: Image.network(
-                                    panel['image']!,
+                                    panel,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -154,8 +144,7 @@ class Blog_Detailed extends State<Blog_Detailed_Widget> {
                               ],
                             ),
                           );
-                        }
-                        return null;
+
                       },
                     ),
                   ),
@@ -165,6 +154,27 @@ class Blog_Detailed extends State<Blog_Detailed_Widget> {
           ),
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Container(
+        height: 70.0,
+        width: 70.0,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          shape: BoxShape.circle,
+        ),
+        child: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          child: Image.asset('assets/icons/rayo.png',
+              color: Colors.white, width: 35.0, height: 35.0),
+        ),
+      ),
+      bottomNavigationBar: const BarraNavegacion(),
       drawer: const SideBarMenu(),
     );
   }
