@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
@@ -282,13 +283,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             backgroundImage: AssetImage('assets/images/user.png'),
           ),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    const Placeholder(), // Replace with actual profile page
-              ),
-            );
+            context.push('/profile');
           },
         ),
       ],
