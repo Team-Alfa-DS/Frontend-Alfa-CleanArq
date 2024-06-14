@@ -81,6 +81,10 @@ final router = GoRouter(routes: [
       final Map<String, dynamic> extra = state.extra as Map<String, dynamic>;
       final String email = extra['email'] as String;
       final String code = extra['code'] as String;
+      print("email");
+      print(email);
+      print("code");
+      print(code);
       return CreatePasswordPage(email: email, code: code);
     },
   ),
