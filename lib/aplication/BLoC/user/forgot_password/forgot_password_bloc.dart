@@ -25,8 +25,8 @@ class ForgotPasswordBloc
 
     print("HOlaaa");
     print(result.hasValue());
-
     if (result.hasValue()) {
+      print(result.value?.date);
       emit(ForgotPasswordSuccess());
     } else {
       emit(ForgotPasswordFailure(failure: result.failure!));
