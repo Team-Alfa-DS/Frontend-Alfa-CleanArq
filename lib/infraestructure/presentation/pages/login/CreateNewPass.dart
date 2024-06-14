@@ -1,5 +1,4 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/change_password/change_password_bloc.dart';
-import 'package:alpha_gymnastic_center/aplication/use_cases/user/change_password_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -26,43 +25,71 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
   Widget build(BuildContext context) {
     myColor = Theme.of(context).primaryColor;
     mediaSize = MediaQuery.of(context).size;
-    return Container(
-      decoration: BoxDecoration(
-        color: myColor,
-        image: DecorationImage(
-          image: const AssetImage("assets/images/fondo.png"),
-          fit: BoxFit.cover,
-          colorFilter:
-              ColorFilter.mode(myColor.withOpacity(0.2), BlendMode.color),
+
+    return BlocListener<ChangePasswordBloc, ChangePasswordState>(
+      listener: (context, state) {
+        if (state is ChangePasswordSuccess) {
+          print("date tu tiempo");
+          context.go('/passwordChanged'); // Navegar a la página PasswordChanged
+        } else if (state is ChangePasswordFailure) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Error"),
+                content: Text(
+                    "Password change failed. Error: ${state.failure.message}"),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("OK"),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: myColor,
+          image: DecorationImage(
+            image: const AssetImage("assets/images/fondo.png"),
+            fit: BoxFit.cover,
+            colorFilter:
+                ColorFilter.mode(myColor.withOpacity(0.2), BlendMode.color),
+          ),
         ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: [
-            Positioned(
-              top: 10,
-              left: 0,
-              right: 0,
-              child: Transform.scale(
-                scale: 0.5,
-                child: Image.asset(
-                  "assets/images/logoblanco.png",
-                  fit: BoxFit.cover,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            children: [
+              Positioned(
+                top: 10,
+                left: 0,
+                right: 0,
+                child: Transform.scale(
+                  scale: 0.5,
+                  child: Image.asset(
+                    "assets/images/logoblanco.png",
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: _buildBottom(),
-            ),
-          ],
+              Positioned(
+                bottom: 0,
+                child: _buildBottom(context),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildBottom() {
+  Widget _buildBottom(BuildContext context) {
     return SizedBox(
       width: mediaSize.width,
       child: Card(
@@ -74,64 +101,33 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
         ),
         child: Padding(
           padding: const EdgeInsets.all(60.0),
-          child: _buildForm(),
+          child: _buildForm(context),
         ),
       ),
     );
   }
 
-  Widget _buildForm() {
-    return BlocProvider(
-      create: (context) => ChangePasswordBloc(
-        changePasswordUseCase: GetIt.instance<ChangePasswordUseCase>(),
-      ),
-      child: BlocListener<ChangePasswordBloc, ChangePasswordState>(
-        listener: (context, state) {
-          if (state is ChangePasswordSuccess) {
-            context.push("/login");
-          } else if (state is ChangePasswordFailure) {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text("Error"),
-                  content: Text(
-                      "Password change failed. Error: ${state.failure.message}"),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text("OK"),
-                    ),
-                  ],
-                );
-              },
-            );
-          }
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              "Create Password",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 28,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            const SizedBox(height: 20),
-            _buildInputField(newPasswordController, labelText: "New Password"),
-            const SizedBox(height: 20),
-            _buildInputField(confirmPasswordController,
-                labelText: "Confirm Password"),
-            const SizedBox(height: 20),
-            _buildSubmitButton(),
-            const SizedBox(height: 10),
-          ],
+  Widget _buildForm(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text(
+          "Create Password",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 28,
+            fontWeight: FontWeight.w500,
+          ),
         ),
-      ),
+        const SizedBox(height: 20),
+        _buildInputField(newPasswordController, labelText: "New Password"),
+        const SizedBox(height: 20),
+        _buildInputField(confirmPasswordController,
+            labelText: "Confirm Password"),
+        const SizedBox(height: 20),
+        _buildSubmitButton(context),
+        const SizedBox(height: 10),
+      ],
     );
   }
 
@@ -147,7 +143,7 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
     );
   }
 
-  Widget _buildSubmitButton() {
+  Widget _buildSubmitButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
         if (newPasswordController.text == confirmPasswordController.text) {
