@@ -4,10 +4,11 @@ import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 class CreatePasswordPage extends StatefulWidget {
   final String email;
-  final int code;
+  final String code;
 
   const CreatePasswordPage(
       {super.key, required this.email, required this.code});
@@ -88,10 +89,7 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
       child: BlocListener<ChangePasswordBloc, ChangePasswordState>(
         listener: (context, state) {
           if (state is ChangePasswordSuccess) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const LoginPage()),
-            );
+            context.push("/login");
           } else if (state is ChangePasswordFailure) {
             showDialog(
               context: context,
@@ -157,7 +155,7 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
           BlocProvider.of<ChangePasswordBloc>(context).add(
             ChangePasswordSubmitted(
               email: widget.email,
-              code: widget.code,
+              code: int.parse(widget.code),
               newPassword: newPasswordController.text,
             ),
           );
