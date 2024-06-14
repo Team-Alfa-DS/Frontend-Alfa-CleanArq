@@ -11,7 +11,8 @@ class CourseDetailedScreen extends StatefulWidget {
   CourseDetailedScreen({super.key, required this.course});
 
   @override
-  _CourseDetailedScreenState createState() => _CourseDetailedScreenState(course: course);
+  _CourseDetailedScreenState createState() =>
+      _CourseDetailedScreenState(course: course);
 }
 
 class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
@@ -25,9 +26,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
     });
   }
 
-  _CourseDetailedScreenState({
-     required this.course
-  });
+  _CourseDetailedScreenState({required this.course});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +41,8 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
+                padding: const EdgeInsets.only(
+                    top: 10, left: 10, right: 10, bottom: 10),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image.network(
@@ -89,7 +89,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                 onPressed: _toggleSubscription,
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor:
-                                  _isSubscribed ? Colors.deepPurple : null,
+                                      _isSubscribed ? Colors.deepPurple : null,
                                 ),
                                 child: Text(
                                   _isSubscribed ? 'Unsubscribe' : 'Subscribe',
@@ -118,21 +118,24 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const Text('Level',
-                                        style: TextStyle(fontWeight: FontWeight.bold)),
-                                    Text(course.level),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    //Text(course.level),
                                   ],
                                 ),
                               ],
                             ),
                             Row(
                               children: [
-                                const Icon(Icons.calendar_today, color: Colors.blue),
+                                const Icon(Icons.calendar_today,
+                                    color: Colors.blue),
                                 const SizedBox(width: 8.0),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const Text('Weeks',
-                                        style: TextStyle(fontWeight: FontWeight.bold)),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
                                     Text(course.durationWeeks.toString()),
                                   ],
                                 ),
@@ -146,7 +149,8 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const Text('Mins per Lesson',
-                                        style: TextStyle(fontWeight: FontWeight.bold)),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
                                     Text(course.durationMinutes.toString()),
                                   ],
                                 ),
@@ -190,23 +194,29 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                       children: [
                                         Expanded(
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 lesson.content,
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodyMedium
-                                                    ?.copyWith(color: Colors.black),
+                                                    ?.copyWith(
+                                                        color: Colors.black),
                                               ),
                                               ElevatedButton(
                                                 onPressed: () {
                                                   navigateToComments(
-                                                      context, course.id!, "LESSON", course.title);
+                                                      context,
+                                                      course.id!,
+                                                      "LESSON",
+                                                      course.title);
                                                 },
                                                 child: const Text(
                                                   'View Comments',
-                                                  style: TextStyle(color: Colors.deepPurple),
+                                                  style: TextStyle(
+                                                      color: Colors.deepPurple),
                                                 ),
                                               ),
                                             ],
@@ -219,10 +229,16 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                               if (lesson.video != null)
                                                 GestureDetector(
                                                   onTap: () {
-                                                      navigateToPlayer(context, course.id!, lesson.id, lesson.video!);
+                                                    navigateToPlayer(
+                                                        context,
+                                                        course.id!,
+                                                        lesson.id,
+                                                        lesson.video!);
                                                   },
                                                   child: ClipRRect(
-                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
                                                     child: SizedBox(
                                                       height: 120,
                                                       child: Stack(
@@ -233,9 +249,12 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                                           ),
                                                           Center(
                                                             child: Icon(
-                                                              Icons.play_circle_filled,
+                                                              Icons
+                                                                  .play_circle_filled,
                                                               size: 60.0,
-                                                              color: Colors.grey.withOpacity(0.9),
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                      0.9),
                                                             ),
                                                           ),
                                                         ],
@@ -245,26 +264,32 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                                 ),
                                               if (lesson.image != null)
                                                 Padding(
-                                                  padding: const EdgeInsets.only(top: 8.0),
-                                                  child: ClipRRect(
-                                                    borderRadius: BorderRadius.circular(8.0),
-                                                    child: Stack(
-                                                      children: [
-                                                        Image.network(
-                                                          lesson.image!,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                        Center(
-                                                          child: Icon(
-                                                            Icons.camera_alt_outlined,
-                                                            size: 60.0,
-                                                            color: Colors.grey.withOpacity(0.4),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 8.0),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                      child: Stack(
+                                                        children: [
+                                                          Image.network(
+                                                            lesson.image!,
+                                                            fit: BoxFit.cover,
                                                           ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )
-                                                ),
+                                                          Center(
+                                                            child: Icon(
+                                                              Icons
+                                                                  .camera_alt_outlined,
+                                                              size: 60.0,
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                      0.4),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )),
                                             ],
                                           ),
                                         ),
@@ -273,7 +298,6 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                   ],
                                 ),
                               ),
-
                               const Divider(
                                 color: Colors.transparent,
                                 thickness: 0.3,
@@ -330,7 +354,6 @@ void navigateToComments(
 
 void navigateToPlayer(
     BuildContext context, String courseid, String lessonid, String urlPath) {
-
   /* aqui va hacer fetch
 
       /progress/one/:courseId [GET]
@@ -350,13 +373,11 @@ void navigateToPlayer(
   String lessonIdFound;
 
   for (var element in lessonIdIterator) {
-      if(element != lessonid) {
-        continue;
-      }
-      lessonIdFound = element;
+    if (element != lessonid) {
+      continue;
+    }
+    lessonIdFound = element;
   }
-
-
 
 /*
   Navigator.push(
@@ -366,7 +387,7 @@ void navigateToPlayer(
               _VideoPlayerScreenState(courseId: courseid, lessonId: lessonIdFound, videoPath: urlPath)));
 */
 
-   return;
+  return;
 }
 
 class RoundedTopCornerClipper extends CustomClipper<Path> {
@@ -375,7 +396,8 @@ class RoundedTopCornerClipper extends CustomClipper<Path> {
     final path = Path();
     path.moveTo(0, 0); // Start at the top-left corner
     path.lineTo(size.width, 0); // Draw a straight line across the top edge
-    path.lineTo(size.width, size.height); // Draw a straight line down the right edge
+    path.lineTo(
+        size.width, size.height); // Draw a straight line down the right edge
     path.lineTo(0, size.height); // Draw a straight line along the bottom edge
     path.close(); // Close the path by connecting the end point to the start point
     return path;

@@ -38,7 +38,8 @@ class ScrollHorizontal extends StatelessWidget {
   final bool isNew;
   final String conexion;
 
-  const ScrollHorizontal({super.key, 
+  const ScrollHorizontal({
+    super.key,
     required this.titulo,
     required this.descripcion,
     required this.categoria,
@@ -84,7 +85,7 @@ class ScrollHorizontal extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             image: DecorationImage(
-              image: AssetImage(foto),
+              image: NetworkImage(foto),
               fit: BoxFit.cover,
             ),
           ),

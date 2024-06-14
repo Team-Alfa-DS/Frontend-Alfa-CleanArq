@@ -15,36 +15,31 @@ class PopularProcessesCarousel extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           CourseListBloc(GetIt.instance<GetCourseDataUseCase>())
-            ..add(const LoadCourseList(courseId: '1', page: 1, perPage: 5)),
+            ..add(const LoadCourseList(page: 1, perPage: 5)),
       child: BlocBuilder<CourseListBloc, CourseListState>(
         builder: (context, state) {
           if (state is CourseListLoading) {
             return const CircularProgressIndicator();
           } else if (state is CourseListLoaded) {
-            final course =
-                state.courses.firstWhere((course) => course.id == "1");
-            if (course != null) {
-              return SizedBox(
-                height: 195,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    ScrollHorizontal(
-                      titulo: course.trainer.name,
-                      descripcion: course.title,
-                      categoria: course.category,
-                      fecha: course.date.toString(),
-                      foto: course.image,
-                      disposicion: 1,
-                      isNew: false,
-                      conexion: "/videos",
-                    ),
-                  ],
-                ),
-              );
-            } else {
-              return Text('No se encontró el curso con el ID "1".');
-            }
+            final courses = state.courses.sublist(0, 5);
+            return SizedBox(
+              height: 195,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: courses.map((course) {
+                  return ScrollHorizontal(
+                    titulo: course.trainer.name,
+                    descripcion: course.title,
+                    categoria: course.category,
+                    fecha: course.date.toString(),
+                    foto: course.image,
+                    disposicion: 1,
+                    isNew: false,
+                    conexion: "/videos",
+                  );
+                }).toList(),
+              ),
+            );
           } else if (state is CourseListFailed) {
             return Text('Error: ${state.failure}');
           } else {

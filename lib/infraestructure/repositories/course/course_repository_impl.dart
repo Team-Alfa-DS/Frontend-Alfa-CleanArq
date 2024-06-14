@@ -20,7 +20,6 @@ class CourseRepositoryImpl extends CourseRepository {
   Future<void> _addAuthorizationHeader() async {
     final token = await _localStorage.getAuthorizationToken();
     _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
-    print('Headers: ${_apiRequestManager.getHeaders()}');
   }
 
   @override
@@ -74,15 +73,11 @@ class CourseRepositoryImpl extends CourseRepository {
     _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
     final response = await _apiRequestManager
         .request<Course>('/course/one/${id}', 'GET', (data) {
+      //Por alguna razón el Mapper devuelve Null.
       return CourseMapper.fromJson(data);
     });
-
-    print("Response from repository");
-    print(response.value);
     if (response.hasValue()) {
       final course = response.value!;
-      print('Course ID: ${course.id}');
-      print('Course Title : ${course.title}');
     }
 
     return response;

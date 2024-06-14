@@ -17,8 +17,7 @@ class CourseListBloc extends Bloc<CourseListEvent, CourseListState> {
     emit(CourseListLoading());
 
     final result = await _getCourseDataUseCase.execute(
-      GetCourseDataUseCaseInput(
-          courseId: event.courseId, page: event.page, perPage: event.perPage),
+      GetCourseDataUseCaseInput(page: event.page, perPage: event.perPage),
     );
 
     if (result.hasValue()) {

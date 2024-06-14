@@ -19,7 +19,6 @@ class ApiRequestManagerImpl extends IApiRequestManager {
           data: body,
           options: Options(method: method),
           queryParameters: queryParameters);
-      print(response.statusCode);
       return Result<T>(
           value: mapper(response.data),
           failure: null,
@@ -28,7 +27,6 @@ class ApiRequestManagerImpl extends IApiRequestManager {
       // Corrected DioException to DioError
       return Result(failure: handleException(e));
     } catch (e) {
-      print(e);
       return Result(failure: const UnknownFailure());
     }
   }
@@ -40,8 +38,6 @@ class ApiRequestManagerImpl extends IApiRequestManager {
       case DioErrorType.receiveTimeout:
         return const NoInternetFailure();
       case DioErrorType.response:
-        print('Response');
-        print(e.response?.data['message']);
         if (e.response?.data['message'] is String) {
           return NoAuthorizeFailure(message: e.response?.data['message']);
         } else {
