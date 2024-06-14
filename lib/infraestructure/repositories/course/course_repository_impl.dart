@@ -57,6 +57,7 @@ class CourseRepositoryImpl extends CourseRepository {
   Future<Result<List<Course>>> getCourseMany(
       {required int page, required int perPage}) async {
     await _addAuthorizationHeader();
+    _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
     final response = await _apiRequestManager.request(
       '/course/many/?page=$page&per_page=$perPage',
       'GET',
