@@ -22,6 +22,12 @@ class RegisterUserRequest {
   });
 }
 
+class RegisterUserResponse {
+  final String id;
+
+  RegisterUserResponse({required this.id});
+}
+
 class ForgetPasswordRequest {
   final String email;
 
@@ -46,7 +52,7 @@ class ValidateCodeRequest {
 
 class ChangePasswordRequest {
   final String email;
-  final String code;
+  final int code;
   final String password;
 
   ChangePasswordRequest({

@@ -48,12 +48,13 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Result<User>> registerUser(RegisterUserRequest registerRequest) async {
-    final response = await _apiRequestManager.request<User>(
+  Future<Result<RegisterUserResponse>> registerUser(
+      RegisterUserRequest registerRequest) async {
+    final response = await _apiRequestManager.request<RegisterUserResponse>(
       '/auth/register',
       'POST',
       (data) {
-        return UserMapper.fromJson(data);
+        return RegisterUserResponse(id: data['id']);
       },
       body: {
         'email': registerRequest.email,
@@ -63,14 +64,6 @@ class UserRepositoryImpl extends UserRepository {
         'type': 'CLIENT', //registerRequest.type ?? 'CLIENT',
       },
     );
-
-    print("response");
-    print(response.value);
-
-    if (response.hasValue()) {
-      _apiRequestManager.setHeaders(
-          'Authorization', 'Bearer ${response.value!.token}');
-    }
 
     return response;
   }

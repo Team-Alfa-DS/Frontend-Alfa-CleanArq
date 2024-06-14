@@ -9,7 +9,7 @@ abstract class ChangePasswordEvent extends Equatable {
 
 class ChangePasswordSubmitted extends ChangePasswordEvent {
   final String email;
-  final String code;
+  final int code;
   final String newPassword;
 
   const ChangePasswordSubmitted({
