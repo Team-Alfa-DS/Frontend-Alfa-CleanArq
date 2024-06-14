@@ -9,8 +9,8 @@ class Course {
   String image;
   Trainer trainer;
   String level;
-  int durationWeeks;
-  int durationMinutes;
+  int DurationWeeks;
+  int DurationMinutes;
   List<String> tags;
   DateTime? date;
   List<Lesson> lessons;
@@ -24,11 +24,10 @@ class Course {
     required this.image,
     required this.trainer,
     required this.level,
-    required this.durationWeeks,
-    required this.durationMinutes,
+    required this.DurationWeeks,
+    required this.DurationMinutes,
     required this.tags,
     required this.date,
     required this.lessons,
   });
-
 }
