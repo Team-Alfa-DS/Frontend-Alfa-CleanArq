@@ -1,10 +1,10 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/validate_code/validate_code_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/validate_code_use_case.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/CreateNewPass.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 class VerificationScreen extends StatefulWidget {
   final String email;
@@ -32,10 +32,12 @@ class _VerificationScreenState extends State<VerificationScreen> {
       child: BlocListener<ValidateCodeBloc, ValidateCodeState>(
         listener: (context, state) {
           if (state is ValidateCodeSuccess) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const CreatePasswordPage()),
+            context.go(
+              '/createPassword',
+              extra: {
+                'email': widget.email,
+                'code': int.parse(codeController.text),
+              },
             );
           } else if (state is ValidateCodeFailure) {
             showDialog(

@@ -1,7 +1,16 @@
+import 'package:alpha_gymnastic_center/aplication/BLoC/user/change_password/change_password_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/user/change_password_use_case.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class CreatePasswordPage extends StatefulWidget {
-  const CreatePasswordPage({super.key});
+  final String email;
+  final int code;
+
+  const CreatePasswordPage(
+      {super.key, required this.email, required this.code});
 
   @override
   _CreatePasswordPageState createState() => _CreatePasswordPageState();
@@ -72,26 +81,60 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
   }
 
   Widget _buildForm() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const Text(
-          "Create Password",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 28,
-            fontWeight: FontWeight.w500,
-          ),
+    return BlocProvider(
+      create: (context) => ChangePasswordBloc(
+        changePasswordUseCase: GetIt.instance<ChangePasswordUseCase>(),
+      ),
+      child: BlocListener<ChangePasswordBloc, ChangePasswordState>(
+        listener: (context, state) {
+          if (state is ChangePasswordSuccess) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginPage()),
+            );
+          } else if (state is ChangePasswordFailure) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text("Error"),
+                  content: Text(
+                      "Password change failed. Error: ${state.failure.message}"),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text("OK"),
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              "Create Password",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 28,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 20),
+            _buildInputField(newPasswordController, labelText: "New Password"),
+            const SizedBox(height: 20),
+            _buildInputField(confirmPasswordController,
+                labelText: "Confirm Password"),
+            const SizedBox(height: 20),
+            _buildSubmitButton(),
+            const SizedBox(height: 10),
+          ],
         ),
-        const SizedBox(height: 20),
-        _buildInputField(newPasswordController, labelText: "New Password"),
-        const SizedBox(height: 20),
-        _buildInputField(confirmPasswordController,
-            labelText: "Confirm Password"),
-        const SizedBox(height: 20),
-        _buildSubmitButton(),
-        const SizedBox(height: 10),
-      ],
+      ),
     );
   }
 
@@ -110,14 +153,40 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
   Widget _buildSubmitButton() {
     return ElevatedButton(
       onPressed: () {
-        // Aquí iría la lógica para verificar las contraseñas y enviarlas al backend
-        Navigator.pushNamed(context, "/verification");
+        if (newPasswordController.text == confirmPasswordController.text) {
+          BlocProvider.of<ChangePasswordBloc>(context).add(
+            ChangePasswordSubmitted(
+              email: widget.email,
+              code: widget.code,
+              newPassword: newPasswordController.text,
+            ),
+          );
+        } else {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Error"),
+                content: const Text("Passwords do not match."),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("OK"),
+                  ),
+                ],
+              );
+            },
+          );
+        }
       },
       style: ElevatedButton.styleFrom(
-          shape: const StadiumBorder(),
-          elevation: 20,
-          minimumSize: const Size.fromHeight(60),
-          backgroundColor: Colors.deepPurple),
+        shape: const StadiumBorder(),
+        elevation: 20,
+        minimumSize: const Size.fromHeight(60),
+        backgroundColor: Colors.deepPurple,
+      ),
       child: const Text(
         "Create",
         style: TextStyle(color: Colors.white),

@@ -6,7 +6,7 @@ import 'package:alpha_gymnastic_center/domain/repositories/user_repository.dart'
 
 class ChangePasswordUseCaseInput extends IUseCaseInput {
   final String email;
-  final String code;
+  final int code;
   final String newPassword;
 
   ChangePasswordUseCaseInput({
