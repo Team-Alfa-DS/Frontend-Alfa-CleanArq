@@ -20,6 +20,7 @@ class CourseRepositoryImpl extends CourseRepository {
   Future<void> _addAuthorizationHeader() async {
     final token = await _localStorage.getAuthorizationToken();
     _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
+    print('Headers: ${_apiRequestManager.getHeaders()}');
   }
 
   @override
@@ -37,12 +38,12 @@ class CourseRepositoryImpl extends CourseRepository {
 
   @override
   Future<Result<List<Course>>> getCourseFiltered(
-      {required String Category,
+      {required String category,
       required String filter,
-      required String Trainer}) async {
+      required String trainer}) async {
     await _addAuthorizationHeader();
     final response = await _apiRequestManager.request(
-      '/course/many/?Filter=$filter&Trainer=$Trainer&Category=$Category',
+      '/course/many/?Filter=$filter&Trainer=$trainer&Category=$category',
       'GET',
       (data) => (data as List)
           .map((courseData) => CourseMapper.fromJson(courseData))
@@ -68,14 +69,22 @@ class CourseRepositoryImpl extends CourseRepository {
   }
 
   @override
-  Future<Result<List<Course>>> getSingleCourse({required String id}) async {
-    final response = await _apiRequestManager.request(
-      '/course/one/$id',
-      'GET',
-      (data) => (data as List)
-          .map((courseData) => CourseMapper.fromJson(courseData))
-          .toList(),
-    );
+  Future<Result<Course>> getSingleCourse({required String id}) async {
+    await _addAuthorizationHeader();
+    final token = _localStorage.getAuthorizationToken();
+    _apiRequestManager.setHeaders('token', token);
+    final response = await _apiRequestManager
+        .request<Course>('/course/one/:id', 'GET', (data) {
+      return CourseMapper.fromJson(data);
+    });
+
+    print("Response from repository");
+    print(response.value);
+    if (response.hasValue()) {
+      final course = response.value!;
+      print('Course ID: ${course.id}');
+      print('Course Title : ${course.title}');
+    }
 
     return response;
   }

@@ -1,4 +1,3 @@
-import 'package:alpha_gymnastic_center/domain/entities/course.dart';
 import 'package:alpha_gymnastic_center/domain/entities/lesson.dart';
 import 'package:alpha_gymnastic_center/domain/entities/trainer.dart';
 
