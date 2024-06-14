@@ -45,7 +45,7 @@ class CourseRepositoryImpl extends CourseRepository {
     final response = await _apiRequestManager.request(
       '/course/many/?Filter=$filter&Trainer=$trainer&Category=$category',
       'GET',
-      (data) => (data as List)
+      (data) => (data['courses'] as List)
           .map((courseData) => CourseMapper.fromJson(courseData))
           .toList(),
     );
@@ -58,9 +58,9 @@ class CourseRepositoryImpl extends CourseRepository {
       {required int page, required int perPage}) async {
     await _addAuthorizationHeader();
     final response = await _apiRequestManager.request(
-      '/course/many/?page=$page&per_page=$perPage',
+      '/course/many/?page=$page&perpage=$perPage',
       'GET',
-      (data) => (data as List)
+      (data) => (data['courses'] as List)
           .map((courseData) => CourseMapper.fromJson(courseData))
           .toList(),
     );
@@ -73,7 +73,7 @@ class CourseRepositoryImpl extends CourseRepository {
     final token = await _localStorage.getAuthorizationToken();
     _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
     final response = await _apiRequestManager
-        .request<Course>('/course/one/${1}', 'GET', (data) {
+        .request<Course>('/course/one/${id}', 'GET', (data) {
       return CourseMapper.fromJson(data);
     });
 
