@@ -183,8 +183,6 @@ class YogaBody extends StatelessWidget {
                 ]
               };
 
-              jsonResponse.putIfAbsent("id", () => CourseId);
-
               print(jsonResponse);
 
               var course = CourseMapper.fromJson(jsonResponse);
