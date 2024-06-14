@@ -18,7 +18,8 @@ class ForgotPasswordUseCase extends IUseCase<ForgotPasswordUseCaseInput, void> {
       {required this.userRepository, required this.localStorage});
 
   @override
-  Future<Result<void>> execute(ForgotPasswordUseCaseInput params) async {
+  Future<Result<ForgetPasswordResponse>> execute(
+      ForgotPasswordUseCaseInput params) async {
     ForgetPasswordRequest forgetPasswordRequest =
         ForgetPasswordRequest(email: params.email);
     final result = await userRepository.forgetPassword(forgetPasswordRequest);
