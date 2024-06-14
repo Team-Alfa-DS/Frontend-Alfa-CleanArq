@@ -36,7 +36,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               '/createPassword',
               extra: {
                 'email': widget.email,
-                'code': int.parse(codeController.text),
+                'code': codeController.text,
               },
             );
           } else if (state is ValidateCodeFailure) {
