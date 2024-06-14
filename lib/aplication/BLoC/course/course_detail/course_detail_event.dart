@@ -9,11 +9,8 @@ abstract class CourseDetailEvent extends Equatable {
 
 class LoadCourseDetail extends CourseDetailEvent {
   final String courseId;
-  final int page;
-  final int perPage;
 
-  const LoadCourseDetail(
-      {required this.courseId, required this.page, required this.perPage});
+  const LoadCourseDetail({required this.courseId});
 
   @override
   List<Object?> get props => [courseId];
