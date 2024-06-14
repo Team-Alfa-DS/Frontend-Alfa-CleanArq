@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_one_course_use_case.dart';
-import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_detail_bloc.dart';
-import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_detail_state.dart';
-import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_detail_event.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_detail/course_detail_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_detail/course_detail_state.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_detail/course_detail_event.dart';
 
 class PopularProcessesCarousel extends StatelessWidget {
   const PopularProcessesCarousel({super.key});
