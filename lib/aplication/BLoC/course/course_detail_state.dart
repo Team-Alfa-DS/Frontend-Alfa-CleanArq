@@ -14,12 +14,12 @@ class CourseDetailInitial extends CourseDetailState {}
 class CourseDetailLoading extends CourseDetailState {}
 
 class CourseDetailLoaded extends CourseDetailState {
-  final List<Course> courses;
+  final Course course;
 
-  const CourseDetailLoaded(this.courses);
+  const CourseDetailLoaded(this.course);
 
   @override
-  List<Object?> get props => [courses];
+  List<Object?> get props => [course];
 }
 
 class CourseDetailFailed extends CourseDetailState {

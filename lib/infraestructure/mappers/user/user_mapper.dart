@@ -3,12 +3,12 @@ import 'package:alpha_gymnastic_center/domain/entities/user.dart';
 class UserMapper {
   static User fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'],
-      name: json['name'],
-      email: json['email'],
-      phone: json['phone'],
+      id: json['user']['id'],
+      name: json['user']['name'],
+      email: json['user']['email'],
+      phone: json['user']['phone'],
       token: json['token'],
-      type: json['role'] == 'admin' ? UserRoles.admin : UserRoles.client,
+      type: json['type'] == 'admin' ? UserRoles.admin : UserRoles.client,
     );
   }
 

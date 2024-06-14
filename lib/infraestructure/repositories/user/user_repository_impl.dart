@@ -17,7 +17,7 @@ class UserRepositoryImpl extends UserRepository {
       '/auth/login',
       'POST',
       (data) {
-        return UserMapper.fromJson(data['user']);
+        return UserMapper.fromJson(data);
       },
       body: {
         'email': loginRequest.email,
@@ -33,6 +33,8 @@ class UserRepositoryImpl extends UserRepository {
       print('User Name: ${user.name}');
       print('User Email: ${user.email}');
       print('User Phone: ${user.phone}');
+      print('User Type: ${user.type}');
+      print('User Token : ${user.token}');
     } else {
       print('No user data received');
     }
@@ -46,12 +48,13 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Result<User>> registerUser(RegisterUserRequest registerRequest) async {
-    final response = await _apiRequestManager.request<User>(
+  Future<Result<RegisterUserResponse>> registerUser(
+      RegisterUserRequest registerRequest) async {
+    final response = await _apiRequestManager.request<RegisterUserResponse>(
       '/auth/register',
       'POST',
       (data) {
-        return UserMapper.fromJson(data);
+        return RegisterUserResponse(id: data['id']);
       },
       body: {
         'email': registerRequest.email,
@@ -62,24 +65,20 @@ class UserRepositoryImpl extends UserRepository {
       },
     );
 
-    print("response");
-    print(response.value);
-
-    if (response.hasValue()) {
-      _apiRequestManager.setHeaders(
-          'Authorization', 'Bearer ${response.value!.token}');
-    }
-
     return response;
   }
 
   @override
-  Future<Result<void>> forgetPassword(
+  Future<Result<ForgetPasswordResponse>> forgetPassword(
       ForgetPasswordRequest forgetPasswordRequest) async {
-    final response = await _apiRequestManager.request<void>(
+    final response = await _apiRequestManager.request<ForgetPasswordResponse>(
       '/auth/forget/password',
       'POST',
-      (data) {},
+      (data) {
+        print("la data");
+        print(data);
+        return ForgetPasswordResponse(date: data["date"]);
+      },
       body: {
         'email': forgetPasswordRequest.email,
       },

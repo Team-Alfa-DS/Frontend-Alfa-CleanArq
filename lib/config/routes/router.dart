@@ -1,7 +1,6 @@
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/profilescreen/profile.dart';
 import 'package:bloc/bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:alpha_gymnastic_center/infraestructure//presentation/pages/pages.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/pages.dart';
 
 final router = GoRouter(routes: [
   GoRoute(
@@ -10,9 +9,7 @@ final router = GoRouter(routes: [
   ),
   GoRoute(
     path: '/home',
-    builder: (context, state) => HomeScreen(
-      courses: [],
-    ),
+    builder: (context, state) => HomeScreen(),
   ),
   GoRoute(
     path: '/profile',
@@ -28,7 +25,10 @@ final router = GoRouter(routes: [
   ),
   GoRoute(
     path: '/verification',
-    builder: (context, state) => const VerificationScreen(),
+    builder: (context, state) {
+      final String email = state.extra as String;
+      return VerificationScreen(email: email);
+    },
   ),
   GoRoute(
     path: '/popularSearch',
@@ -75,6 +75,15 @@ final router = GoRouter(routes: [
     builder: (context, state) => const OnBoardingScreen3(),
   ),
   GoRoute(path: "/welcome", builder: (context, state) => const WelcomeScreen()),
+  GoRoute(
+    path: '/createPassword',
+    builder: (context, state) {
+      final Map<String, dynamic> extra = state.extra as Map<String, dynamic>;
+      final String email = extra['email'] as String;
+      final String code = extra['code'] as String;
+      return CreatePasswordPage(email: email, code: code);
+    },
+  ),
 ]);
 
 class RouterSimpleCubit extends Cubit<GoRouter> {

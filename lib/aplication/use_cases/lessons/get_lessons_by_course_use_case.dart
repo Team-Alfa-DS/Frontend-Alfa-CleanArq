@@ -7,28 +7,25 @@ import 'package:alpha_gymnastic_center/common/result.dart';
 class GetLessonsByCourseUseCaseInput extends IUseCaseInput {
   final String courseId;
 
-  GetLessonsByCourseUseCaseInput({
-    required this.courseId,
-  });
+  GetLessonsByCourseUseCaseInput({required this.courseId});
 }
 
 class GetLessonsByCourseUseCase
-    implements IUseCase<GetLessonsByCourseUseCaseInput, Result<List<Lesson>>> {
-  final CourseRepository _courseRepository;
+    implements IUseCase<GetLessonsByCourseUseCaseInput, List<Lesson>> {
+  final CourseRepository courseRepository;
 
-  GetLessonsByCourseUseCase(this._courseRepository);
+  GetLessonsByCourseUseCase({required this.courseRepository});
 
   @override
-  Future<Result<Result<List<Lesson>>>> execute(
+  Future<Result<List<Lesson>>> execute(
       GetLessonsByCourseUseCaseInput params) async {
-    Result<List<Course>> courseResult =
-        await _courseRepository.getSingleCourse(id: params.courseId);
+    Result<Course> courseResult =
+        await courseRepository.getSingleCourse(id: params.courseId);
     if (courseResult.hasValue()) {
-      Course course = courseResult.value!.first;
-      return Result<Result<List<Lesson>>>(
-          value: Result<List<Lesson>>(value: course.lessons));
+      Course course = courseResult.value!;
+      return Result<List<Lesson>>(value: course.lessons);
     } else {
-      return Result<Result<List<Lesson>>>(failure: courseResult.failure);
+      return Result<List<Lesson>>(failure: courseResult.failure!);
     }
   }
 }

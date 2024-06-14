@@ -1,23 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/progressbar.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/profilescreen/profile.dart'
-    as profile;
 
 import '../../../../domain/entities/blog.dart';
-import '../../../../domain/entities/course.dart';
 import '../../widgets/blogitem.dart';
 import '../../widgets/categoryItem.dart';
-import '../../widgets/courseitem.dart';
 
 class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<Course> courses;
   List<Blog>? blogs;
 
   List<String> categories = [
@@ -38,7 +31,6 @@ class HomeScreen extends StatelessWidget {
 
   HomeScreen({
     super.key,
-    required this.courses,
     this.blogs,
   });
 
@@ -82,11 +74,11 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 200,
               child: Column(
                 children: <Widget>[
-                  const Align(
+                  Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
                       padding: EdgeInsets.only(bottom: 3.0, top: 0.0, left: 10),
@@ -98,18 +90,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        for (int index = 0; index < courses.length; index++)
-                          courseItem(
-                            imageUrl: courses[index].trainer.name,
-                            imageSubtitle: courses[index].title,
-                            imageTitle: courses[index].title,
-                          ),
-                        const SizedBox(),
-                      ],
-                    ),
+                    child: PopularProcessesCarousel(),
                   ),
                 ],
               ),
@@ -226,7 +207,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
             backgroundImage: AssetImage('assets/images/user.png'),
           ),
           onPressed: () {
-            context.push("/profile");
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    const Placeholder(), // Replace with actual profile page
+              ),
+            );
           },
         ),
       ],

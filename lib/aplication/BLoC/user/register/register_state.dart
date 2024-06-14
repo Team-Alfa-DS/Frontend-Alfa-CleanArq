@@ -12,12 +12,12 @@ class RegisterInitial extends RegisterState {}
 class RegisterLoading extends RegisterState {}
 
 class RegisterSuccess extends RegisterState {
-  final User user;
+  final RegisterUserResponse registerUserResponse;
 
-  const RegisterSuccess({required this.user});
+  const RegisterSuccess({required this.registerUserResponse});
 
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [registerUserResponse];
 }
 
 class RegisterFailure extends RegisterState {

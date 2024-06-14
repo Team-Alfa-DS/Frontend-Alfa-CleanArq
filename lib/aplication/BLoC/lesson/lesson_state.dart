@@ -14,11 +14,11 @@ class LessonDetailLoading extends LessonDetailState {
 }
 
 class LessonDetailLoaded extends LessonDetailState {
-  final List<Lesson> lesson;
+  final List<Lesson> lessons;
 
-  const LessonDetailLoaded({required this.lesson});
+  const LessonDetailLoaded({required this.lessons});
 
-  List<Object?> get props => [lesson];
+  List<Object?> get props => [lessons];
 }
 
 class LessonDetailError extends LessonDetailState {

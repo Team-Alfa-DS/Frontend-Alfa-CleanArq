@@ -27,10 +27,13 @@ class LogInUseCase extends IUseCase<LogInUseCaseInput, User> {
     print(result.value);
     if (result.hasValue()) {
       final user = result.value!;
-      await localStorage.setKeyValue('appToken', user.id);
-      await localStorage.setKeyValue('role', user.type.toString());
+      print('User ID: ${user.id}');
+      print('User Token : ${user.token}');
+      await localStorage.setKeyValue('appToken', user.token!);
+      // await localStorage.setKeyValue('role', user.type.toString());
+      print(
+          'Token saved in local storage: ${await localStorage.getAuthorizationToken()}');
     }
-
     return result;
   }
 }
