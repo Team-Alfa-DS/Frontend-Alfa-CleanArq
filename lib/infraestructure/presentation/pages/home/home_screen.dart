@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +12,6 @@ import '../../widgets/categoryItem.dart';
 
 import '../../widgets/courseitem.dart';
 import '../../widgets/scrollHorizontal.dart';
-
 
 class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -77,8 +74,6 @@ class HomeScreen extends StatelessWidget {
     "Running"
   ];
 
-
-
   HomeScreen({
     super.key,
     this.blogs,
@@ -124,7 +119,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 180,
               child: Column(
                 children: <Widget>[
@@ -164,10 +159,8 @@ class HomeScreen extends StatelessWidget {
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: <Widget>[
-                        for (int index = 1;
-                        index < 7;
-                        index++)
-                           ScrollHorizontal(
+                        for (int index = 1; index < 7; index++)
+                          ScrollHorizontal(
                             titulo: " ",
                             descripcion: " ",
                             categoria: " ",
@@ -201,43 +194,41 @@ class HomeScreen extends StatelessWidget {
                   Expanded(
                     child: ListView(
                       scrollDirection: Axis.horizontal,
-                      children:
-                            const <Widget>[
-                              ScrollHorizontal(
-                                titulo:
-                                "15 Minutes yoga practice the beginner in 30 days",
-                                descripcion: "Descripcion",
-                                categoria: "Trainning",
-                                fecha: "Feb 17, 2020",
-                                foto: "assets/images/Yoga Ejemplo 5.png",
-                                disposicion: 2,
-                                isNew: false,
-                                conexion: "/blogs",
-                              ),
-                              ScrollHorizontal(
-                                titulo:
-                                "23 Minutes yoga practice the beginner in 30 days",
-                                descripcion: "Descripcion",
-                                categoria: "Morning",
-                                fecha: "Feb 18, 2020",
-                                foto: "assets/images/Yoga Ejemplo 6.png",
-                                disposicion: 2,
-                                isNew: false,
-                                conexion: "/blogs",
-                              ),
-                              ScrollHorizontal(
-                                titulo:
-                                "30 Minutes yoga practice the beginner in 30 days",
-                                descripcion: "Descripcion",
-                                categoria: "For Women",
-                                fecha: "Feb 20, 2020",
-                                foto: "assets/images/Yoga Ejemplo 4.png",
-                                disposicion: 2,
-                                isNew: false,
-                                conexion: "/blogs",
-                              ),
-                            ]
-                          ,
+                      children: const <Widget>[
+                        ScrollHorizontal(
+                          titulo:
+                              "15 Minutes yoga practice the beginner in 30 days",
+                          descripcion: "Descripcion",
+                          categoria: "Trainning",
+                          fecha: "Feb 17, 2020",
+                          foto: "assets/images/Yoga Ejemplo 5.png",
+                          disposicion: 2,
+                          isNew: false,
+                          conexion: "/blogs",
+                        ),
+                        ScrollHorizontal(
+                          titulo:
+                              "23 Minutes yoga practice the beginner in 30 days",
+                          descripcion: "Descripcion",
+                          categoria: "Morning",
+                          fecha: "Feb 18, 2020",
+                          foto: "assets/images/Yoga Ejemplo 6.png",
+                          disposicion: 2,
+                          isNew: false,
+                          conexion: "/blogs",
+                        ),
+                        ScrollHorizontal(
+                          titulo:
+                              "30 Minutes yoga practice the beginner in 30 days",
+                          descripcion: "Descripcion",
+                          categoria: "For Women",
+                          fecha: "Feb 20, 2020",
+                          foto: "assets/images/Yoga Ejemplo 4.png",
+                          disposicion: 2,
+                          isNew: false,
+                          conexion: "/blogs",
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -347,7 +338,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   borderRadius: BorderRadius.circular(9),
                   child: TextField(
                     onTap: () {
-                      context.push('/popularSearch');
+                      // context.push('/popularSearch');
                     },
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(
