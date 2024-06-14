@@ -1,7 +1,7 @@
 import 'package:alpha_gymnastic_center/domain/entities/course.dart';
 import 'package:alpha_gymnastic_center/domain/entities/user.dart';
 
-class Progress {
+class  Progress {
   String? id;
   User? user;
   List<Course>? courses;
@@ -11,7 +11,6 @@ class Progress {
   String? lessonid;
   String? lastTime;
   Course? course;
-
 
   Progress({
       this.id,

@@ -96,7 +96,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                   backgroundColor: _isSubscribed ? Colors.deepPurple : null,
                                 ),
                                 child: Text(
-                                  _isSubscribed ? 'Unsubscribe' : 'Subscribe',
+                                  _isSubscribed ? 'UnFollow' : 'Follow',
                                   style: TextStyle(
                                     color: _isSubscribed ? Colors.white : Colors.deepPurple,
                                   ),
