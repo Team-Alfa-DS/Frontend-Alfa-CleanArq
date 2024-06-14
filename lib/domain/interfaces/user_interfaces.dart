@@ -52,7 +52,7 @@ class ValidateCodeRequest {
 
 class ChangePasswordRequest {
   final String email;
-  final String code;
+  final int code;
   final String password;
 
   ChangePasswordRequest({
