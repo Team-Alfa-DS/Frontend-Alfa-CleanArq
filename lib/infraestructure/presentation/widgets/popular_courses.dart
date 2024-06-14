@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
-import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_one_course_use_case.dart';
-import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_detail/course_detail_bloc.dart';
-import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_detail/course_detail_state.dart';
-import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_detail/course_detail_event.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_course_data_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_many/course_many_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_many/course_many_state.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_many/course_many_event.dart';
 
 class PopularProcessesCarousel extends StatelessWidget {
   const PopularProcessesCarousel({super.key});
@@ -13,32 +13,39 @@ class PopularProcessesCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CourseDetailBloc(
-          GetIt.instance<GetSingleCourseUseCase>())
-        ..add(
-            const LoadCourseDetail(courseId: 'courseId', page: 1, perPage: 5)),
-      child: BlocBuilder<CourseDetailBloc, CourseDetailState>(
+      create: (context) =>
+          CourseListBloc(GetIt.instance<GetCourseDataUseCase>())
+            ..add(const LoadCourseList(courseId: '1', page: 1, perPage: 5)),
+      child: BlocBuilder<CourseListBloc, CourseListState>(
         builder: (context, state) {
-          if (state is CourseDetailLoading) {
+          if (state is CourseListLoading) {
             return const CircularProgressIndicator();
-          } else if (state is CourseDetailLoaded) {
-            var course = state.course;
-            return ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                ScrollHorizontal(
-                  titulo: course.trainer.name,
-                  descripcion: course.title,
-                  categoria: course.category,
-                  fecha: course.date.toString(),
-                  foto: course.image,
-                  disposicion: 1,
-                  isNew: false,
-                  conexion: "/videos",
+          } else if (state is CourseListLoaded) {
+            final course =
+                state.courses.firstWhere((course) => course.id == "1");
+            if (course != null) {
+              return SizedBox(
+                height: 195,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    ScrollHorizontal(
+                      titulo: course.trainer.name,
+                      descripcion: course.title,
+                      categoria: course.category,
+                      fecha: course.date.toString(),
+                      foto: course.image,
+                      disposicion: 1,
+                      isNew: false,
+                      conexion: "/videos",
+                    ),
+                  ],
                 ),
-              ],
-            );
-          } else if (state is CourseDetailFailed) {
+              );
+            } else {
+              return Text('No se encontró el curso con el ID "1".');
+            }
+          } else if (state is CourseListFailed) {
             return Text('Error: ${state.failure}');
           } else {
             return const SizedBox.shrink();

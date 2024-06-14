@@ -64,7 +64,6 @@ class CourseRepositoryImpl extends CourseRepository {
           .map((courseData) => CourseMapper.fromJson(courseData))
           .toList(),
     );
-
     return response;
   }
 
