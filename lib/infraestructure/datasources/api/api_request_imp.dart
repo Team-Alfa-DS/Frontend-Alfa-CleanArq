@@ -41,8 +41,7 @@ class ApiRequestManagerImpl extends IApiRequestManager {
         return const NoInternetFailure();
       case DioErrorType.response:
         print('Response');
-        print(e.response
-            ?.data['message']); // Accede a 'message' como una clave del mapa
+        print(e.response?.data['message']);
         if (e.response?.data['message'] is String) {
           return NoAuthorizeFailure(message: e.response?.data['message']);
         } else {

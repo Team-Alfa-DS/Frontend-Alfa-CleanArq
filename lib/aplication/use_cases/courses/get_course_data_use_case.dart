@@ -4,7 +4,7 @@ import 'package:alpha_gymnastic_center/domain/repositories/course_repository.dar
 import 'package:alpha_gymnastic_center/common/result.dart';
 
 class GetCourseDataUseCaseInput extends IUseCaseInput {
-  final String courseId;
+  final int courseId;
   final int page;
   final int perPage;
 

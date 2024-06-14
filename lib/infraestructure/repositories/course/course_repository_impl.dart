@@ -71,10 +71,10 @@ class CourseRepositoryImpl extends CourseRepository {
   @override
   Future<Result<Course>> getSingleCourse({required String id}) async {
     await _addAuthorizationHeader();
-    final token = _localStorage.getAuthorizationToken();
-    _apiRequestManager.setHeaders('token', token);
+    final token = await _localStorage.getAuthorizationToken();
+    _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
     final response = await _apiRequestManager
-        .request<Course>('/course/one/:id', 'GET', (data) {
+        .request<Course>('/course/one/${1}', 'GET', (data) {
       return CourseMapper.fromJson(data);
     });
 
