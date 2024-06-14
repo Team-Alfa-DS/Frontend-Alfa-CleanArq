@@ -5,6 +5,7 @@ import 'package:alpha_gymnastic_center/infraestructure/mappers/trainer/trainer_m
 class CourseMapper {
   static Course fromJson(Map<String, dynamic> json) {
     return Course(
+      id: json['id'] as String?,
       title: json['title'],
       description: json['description'],
       category: json['category'],
@@ -32,7 +33,7 @@ class CourseMapper {
       'durationWeeks': course.durationWeeks,
       'durationMinutes': course.durationMinutes,
       'tags': course.tags,
-      'date': course.date.toIso8601String(),
+      'date': course.date?.toIso8601String(),
       'lessons':
           course.lessons.map((lesson) => LessonMapper.toJson(lesson)).toList(),
     };

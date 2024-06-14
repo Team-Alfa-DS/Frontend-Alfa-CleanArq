@@ -48,6 +48,7 @@ class ValidateCodeRequest {
     required this.email,
     required this.code,
   });
+
 }
 
 class ChangePasswordRequest {

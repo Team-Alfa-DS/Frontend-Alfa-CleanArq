@@ -2,6 +2,9 @@ import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sear
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/navegation.dart';
+import '../../widgets/sidebarmenu.dart';
+
 class PopularSearch extends StatefulWidget {
   const PopularSearch({super.key});
 
@@ -18,6 +21,28 @@ class _PopularSearch extends State<PopularSearch> {
       body: SafeArea(
         child: _body(context),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Container(
+        height: 70.0,
+        width: 70.0,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          shape: BoxShape.circle,
+        ),
+        child: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          child: Image.asset('assets/icons/rayo.png',
+              color: Colors.white, width: 35.0, height: 35.0),
+        ),
+      ),
+      bottomNavigationBar: const BarraNavegacion(),
+      drawer: const SideBarMenu(),
     );
   }
 
