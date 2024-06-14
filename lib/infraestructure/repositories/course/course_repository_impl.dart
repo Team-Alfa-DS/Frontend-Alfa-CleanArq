@@ -48,22 +48,38 @@ class CourseRepositoryImpl extends CourseRepository {
           .map((courseData) => CourseMapper.fromJson(courseData))
           .toList(),
     );
-
     return response;
   }
 
   @override
   Future<Result<List<Course>>> getCourseMany(
       {required int page, required int perPage}) async {
+    print('Inicio de Many');
     await _addAuthorizationHeader();
-    final response = await _apiRequestManager.request(
-      '/course/many/?page=$page&perpage=$perPage',
-      'GET',
-      (data) => (data['courses'] as List)
-          .map((courseData) => CourseMapper.fromJson(courseData))
-          .toList(),
-    );
-    return response;
+    final token = await _localStorage.getAuthorizationToken();
+    _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
+    print('Mitad de Many');
+    try {
+      final response = await _apiRequestManager.request(
+        '/course/many/?page=$page&perpage=$perPage',
+        'GET',
+        (data) {
+          print('Data received in getCourseMany: $data');
+          List<Course> courses = (data['courses'] as List)
+              .map((courseData) => CourseMapper.fromJson(courseData))
+              .toList();
+          print('List of courses in getCourseMany:');
+          courses.forEach((course) => print(course));
+          return courses;
+        },
+      );
+      print('Response in getCourseMany:');
+      print(response);
+      return response;
+    } catch (e) {
+      print('Error in getCourseMany: $e');
+      throw e;
+    }
   }
 
   @override
@@ -73,13 +89,14 @@ class CourseRepositoryImpl extends CourseRepository {
     _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
     final response = await _apiRequestManager
         .request<Course>('/course/one/${id}', 'GET', (data) {
-      //Por alguna razón el Mapper devuelve Null.
+      print('Data received in getSingleCourse: $data');
       return CourseMapper.fromJson(data);
     });
     if (response.hasValue()) {
       final course = response.value!;
+      print('Course in getSingleCourse:');
+      print(course);
     }
-
     return response;
   }
 }

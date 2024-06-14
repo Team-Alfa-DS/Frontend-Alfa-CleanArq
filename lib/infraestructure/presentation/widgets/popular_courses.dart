@@ -15,13 +15,13 @@ class PopularProcessesCarousel extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           CourseListBloc(GetIt.instance<GetCourseDataUseCase>())
-            ..add(const LoadCourseList(page: 1, perPage: 5)),
+            ..add(const LoadCourseList(page: 1, perPage: 7)),
       child: BlocBuilder<CourseListBloc, CourseListState>(
         builder: (context, state) {
           if (state is CourseListLoading) {
             return const CircularProgressIndicator();
           } else if (state is CourseListLoaded) {
-            final courses = state.courses.sublist(0, 5);
+            final courses = state.courses.sublist(0, 2);
             return SizedBox(
               height: 195,
               child: ListView(

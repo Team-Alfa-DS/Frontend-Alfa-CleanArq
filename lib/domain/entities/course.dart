@@ -8,7 +8,7 @@ class Course {
   String category;
   String image;
   Trainer trainer;
-  int level;
+  String level;
   int durationWeeks;
   int durationMinutes;
   List<String> tags;
