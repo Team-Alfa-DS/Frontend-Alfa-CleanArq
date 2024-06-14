@@ -7,7 +7,7 @@ class ProgressSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(14),
       child: Container(
         color: Colors.white,
         child: const Column(
@@ -22,20 +22,20 @@ class ProgressSection extends StatelessWidget {
                       Text(
                         'Entrena tu cuerpo y se alguien saludable.',
                         style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
                           height: 10), // Añadí un espacio entre los dos textos
                       Text(
                         'Última actualización hace 30 minutos',
-                        style: TextStyle(fontSize: 13, color: Colors.grey),
+                        style: TextStyle(fontSize: 15, color: Colors.grey),
                       ),
                     ],
                   ),
                 ),
                 CustomCircularPercentIndicator(
-                  radius: 60,
-                  lineWidth: 5,
+                  radius: 65,
+                  lineWidth: 10,
                   percent: 0.2,
                   centerText: '20%\nHecho',
                   progressColor: Colors.deepPurple,
@@ -83,7 +83,7 @@ class CustomCircularPercentIndicator extends StatelessWidget {
           percent: percent,
           center: Text(
             centerText,
-            style: TextStyle(color: centerTextColor, fontSize: centerTextSize),
+            style: TextStyle(color: centerTextColor, fontSize: centerTextSize, fontStyle: FontStyle.italic),
             textAlign: TextAlign.center,
           ),
           progressColor: progressColor,

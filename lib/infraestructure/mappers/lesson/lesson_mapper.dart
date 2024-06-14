@@ -7,7 +7,7 @@ class LessonMapper {
       title: json['title'],
       content: json['content'],
       video: json['video'],
-      image: json['image'],
+      image: json['image']
     );
   }
 
@@ -17,7 +17,7 @@ class LessonMapper {
       'title': lesson.title,
       'content': lesson.content,
       'video': lesson.video,
-      'image': lesson.image,
+      'image': lesson.image
     };
   }
 }

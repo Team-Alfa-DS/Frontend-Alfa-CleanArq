@@ -1,16 +1,89 @@
+
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/progressbar.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/profilescreen/profile.dart'
-    as profile;
+
+import '../../../../domain/entities/blog.dart';
+import '../../widgets/blogitem.dart';
+import '../../widgets/categoryItem.dart';
+
+import '../../widgets/courseitem.dart';
+import '../../widgets/scrollHorizontal.dart';
+
 
 class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  List<Blog>? blogs;
+
+  List<String> categories = [
+    "assets/icons/cycling.png",
+    "assets/icons/running.png",
+    "assets/icons/streching.png",
+    "assets/icons/swimming.png",
+    "assets/icons/yoga.png",
+  ];
+
+  List<String> categoriesUnpicked = [
+    "assets/icons/cycling_unpicked.png",
+    "assets/icons/running_unpicked.png",
+    "assets/icons/streching_unpicked.png",
+    "assets/icons/swimming_unpicked.png",
+    "assets/icons/yoga_unpicked.png",
+  ];
+
+  List<String> Blog_images = [
+    "https://www.bupasalud.com/sites/default/files/styles/640_x_400/public/articulos/2023-09/fotos/mujeres-practicando-yoga-en-el-gimnasio.jpg",
+    "https://www.theclassyoga.com/wp-content/uploads/2021/08/yoga-1024x576.jpeg",
+    "https://awtsuprints.com/cdn/shop/articles/how-to-get-started-with-calisthenics.jpg",
+    "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/health/wp-content/uploads/2023/08/Calisthenic.jpeg.jpg",
+    "https://media.post.rvohealth.io/wp-content/uploads/2020/10/Female_Yoga_1200x628-facebook-1200x628.jpg",
+    "https://d2lcsjo4hzzyvz.cloudfront.net/blog/wp-content/uploads/2022/06/16173159/Recomendaciones-para-hacer-yoga-jpg.jpg"
+  ];
+  List<String> Blog_Title = [
+    "Yoga for Beginners",
+    "Mastering Gymnastics Skills",
+    "Cycling: The Ultimate Guide",
+    "Pilates for Core Strength",
+    "Exploring the World of Dance",
+    "Outdoor Running Tips"
+  ];
+  List<String> Blog_Desc = [
+    "A comprehensive guide to starting your yoga journey.",
+    "Key techniques for developing and mastering gymnastics skills.",
+    "Everything you need to know to become an efficient cyclist.",
+    "Build a strong core with these pilates exercises.",
+    "Discover various forms of dance and their health benefits.",
+    "Practical tips and strategies for improving your outdoor running experience."
+  ];
+  List<String> Blog_Dates = [
+    "14/06/2024",
+    "12/06/2024",
+    "10/06/2024",
+    "09/06/2024",
+    "08/06/2024",
+    "07/06/2024"
+  ];
+  List<String> Blog_Categories = [
+    "Wellness",
+    "Fitness",
+    "Cycling",
+    "Fitness",
+    "Dance",
+    "Running"
+  ];
+
+
+
+  HomeScreen({
+    super.key,
+    this.blogs,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,88 +96,43 @@ class HomeScreen extends StatelessWidget {
           children: <Widget>[
             const ProgressSection(),
             SizedBox(
-              height: 230,
+              height: 140,
               child: Column(
                 children: <Widget>[
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: 3.0, top: 3.0),
+                      padding: EdgeInsets.only(bottom: 3.0, top: 3.0, left: 10),
                       child: Text(
-                        'Categoría de Yoga',
+                        'Categorías',
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
                   Expanded(
-                    child: ListView(
+                    child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      children: const <Widget>[
-                        ScrollHorizontal(
-                          titulo: 'Ciclismo',
-                          descripcion: '',
-                          categoria: 'Ciclismo',
-                          fecha: '',
-                          foto: 'assets/icons/ciclismo.png',
-                          disposicion: 2,
-                          isNew: false,
-                          conexion: '/courses',
-                        ),
-                        ScrollHorizontal(
-                          titulo: 'Yoga',
-                          descripcion: '',
-                          categoria: 'Yoga',
-                          fecha: '',
-                          foto: 'assets/icons/meditacion.png',
-                          disposicion: 2,
-                          isNew: false,
-                          conexion: '/courses',
-                        ),
-                        ScrollHorizontal(
-                          titulo: 'Natación',
-                          descripcion: '',
-                          categoria: 'Natación',
-                          fecha: '',
-                          foto: 'assets/icons/nadador.png',
-                          disposicion: 2,
-                          isNew: false,
-                          conexion: '/courses',
-                        ),
-                        ScrollHorizontal(
-                          titulo: 'Trote',
-                          descripcion: '',
-                          categoria: 'Trote',
-                          fecha: '',
-                          foto: 'assets/icons/correr.png',
-                          disposicion: 2,
-                          isNew: false,
-                          conexion: '/courses',
-                        ),
-                        ScrollHorizontal(
-                          titulo: 'Estiramiento',
-                          descripcion: '',
-                          categoria: 'Estiramiento',
-                          fecha: '',
-                          foto: 'assets/icons/Estirar.png',
-                          disposicion: 2,
-                          isNew: false,
-                          conexion: '/courses',
-                        ),
-                      ],
+                      itemCount: categories.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return CategoryItem(
+                          imageUrlPicked: categories[index],
+                          imageUrlUnpicked: categoriesUnpicked[index],
+                        );
+                      },
                     ),
                   ),
                 ],
               ),
             ),
             SizedBox(
-              height: 250,
+              height: 180,
               child: Column(
                 children: <Widget>[
-                  const Align(
+                  Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: 3.0, top: 0.0),
+                      padding: EdgeInsets.only(bottom: 3.0, top: 0.0, left: 10),
                       child: Text(
                         'Procesos Populares',
                         style: TextStyle(
@@ -113,71 +141,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: const <Widget>[
-                        ScrollHorizontal(
-                          titulo: 'Tadasana Yaga',
-                          descripcion: 'Yoga App',
-                          categoria: 'Yoga',
-                          fecha: '',
-                          foto: 'assets/images/Yoga Ejemplo 1.png',
-                          disposicion: 2,
-                          isNew: false,
-                          conexion: '/tipsTopics',
-                        ),
-                        ScrollHorizontal(
-                          titulo: 'Marvin McKinny',
-                          descripcion: 'Yoga App',
-                          categoria: 'Yoga',
-                          fecha: '',
-                          foto: 'assets/images/Yoga Ejemplo 2.png',
-                          disposicion: 2,
-                          isNew: false,
-                          conexion: '/tipsTopics',
-                        ),
-                        ScrollHorizontal(
-                          titulo: 'Carlos Alonso',
-                          descripcion: 'Yogga App',
-                          categoria: 'Yoga',
-                          fecha: '',
-                          foto: 'assets/images/Yoga Ejemplo 4.png',
-                          disposicion: 2,
-                          isNew: false,
-                          conexion: '/tipsTopics',
-                        ),
-                        ScrollHorizontal(
-                          titulo: 'Ralph Tobirson',
-                          descripcion: 'Yoga App',
-                          categoria: 'Yoga',
-                          fecha: '',
-                          foto: 'assets/images/Yoga Ejemplo 6.png',
-                          disposicion: 2,
-                          isNew: false,
-                          conexion: '/tipsTopics',
-                        ),
-                        ScrollHorizontal(
-                          titulo: 'Maria Galvis',
-                          descripcion: 'Yoga App',
-                          categoria: 'Yoga',
-                          fecha: '',
-                          foto: 'assets/images/Yoga Ejemplo 5.png',
-                          disposicion: 2,
-                          isNew: false,
-                          conexion: '/tipsTopics',
-                        ),
-                        ScrollHorizontal(
-                          titulo: 'Haily Bieber',
-                          descripcion: 'Yoga App',
-                          categoria: 'Yoga',
-                          fecha: '',
-                          foto: 'assets/images/Yoga Ejemplo 7.png',
-                          disposicion: 2,
-                          isNew: false,
-                          conexion: '/tipsTopics',
-                        ),
-                      ],
-                    ),
+                    child: PopularProcessesCarousel(),
                   ),
                 ],
               ),
@@ -189,7 +153,7 @@ class HomeScreen extends StatelessWidget {
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: 0.5, top: 0.0),
+                      padding: EdgeInsets.only(bottom: 0.5, top: 0.0, left: 10),
                       child: Text(
                         'Videos de Cursos',
                         style: TextStyle(
@@ -200,57 +164,20 @@ class HomeScreen extends StatelessWidget {
                   Expanded(
                     child: ListView(
                       scrollDirection: Axis.horizontal,
-                      children: const <Widget>[
-                        ScrollHorizontal(
-                          titulo: '',
-                          descripcion: '',
-                          categoria: 'Yoga',
-                          fecha: '',
-                          foto: 'assets/images/yoga_video_1.png',
-                          disposicion: 3,
-                          isNew: true,
-                          conexion: '/videos',
-                        ),
-                        ScrollHorizontal(
-                          titulo: '',
-                          descripcion: '',
-                          categoria: 'Yoga',
-                          fecha: '',
-                          foto: 'assets/images/yoga_video_2.png',
-                          disposicion: 3,
-                          isNew: true,
-                          conexion: '/videos',
-                        ),
-                        ScrollHorizontal(
-                          titulo: '',
-                          descripcion: '',
-                          categoria: 'Yoga',
-                          fecha: '',
-                          foto: 'assets/images/yoga_video_3.png',
-                          disposicion: 3,
-                          isNew: false,
-                          conexion: '/videos',
-                        ),
-                        ScrollHorizontal(
-                          titulo: '',
-                          descripcion: '',
-                          categoria: 'Estiramiento',
-                          fecha: '',
-                          foto: 'assets/images/yoga_video_4.png',
-                          disposicion: 3,
-                          isNew: true,
-                          conexion: '/videos',
-                        ),
-                        ScrollHorizontal(
-                          titulo: '',
-                          descripcion: '',
-                          categoria: 'Estiramiento',
-                          fecha: '',
-                          foto: 'assets/images/yoga_video_5.png',
-                          disposicion: 3,
-                          isNew: false,
-                          conexion: '/videos',
-                        ),
+                      children: <Widget>[
+                        for (int index = 1;
+                        index < 7;
+                        index++)
+                           ScrollHorizontal(
+                            titulo: " ",
+                            descripcion: " ",
+                            categoria: " ",
+                            fecha: " ",
+                            foto: "assets/images/Yoga Ejemplo $index.png",
+                            disposicion: 3,
+                            isNew: false,
+                            conexion: "/videos",
+                          ),
                       ],
                     ),
                   ),
@@ -258,13 +185,13 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 200,
+              height: 265,
               child: Column(
                 children: <Widget>[
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: 0.5, top: 0.0),
+                      padding: EdgeInsets.only(bottom: 5, top: 0.0, left: 10),
                       child: Text(
                         'Nuestros últimos Blogs',
                         style: TextStyle(
@@ -275,51 +202,43 @@ class HomeScreen extends StatelessWidget {
                   Expanded(
                     child: ListView(
                       scrollDirection: Axis.horizontal,
-                      children: const <Widget>[
-                        ScrollHorizontal(
-                          titulo: 'Nuevo estilo de Yoga para este 2024',
-                          descripcion:
-                              'Expertos han desarrollado un efectivo tipo de Yoga...',
-                          categoria: 'Yoga',
-                          fecha: 'May 10, 2024',
-                          foto: 'assets/images/yoga_blog_1.png',
-                          disposicion: 1,
-                          isNew: false,
-                          conexion: '/blogs',
-                        ),
-                        ScrollHorizontal(
-                          titulo: 'Beneficios del Yoga para la tercera edad',
-                          descripcion:
-                              'Estudios medicos te hablan de las ventajas...',
-                          categoria: 'Yoga',
-                          fecha: 'May 11, 2024',
-                          foto: 'assets/images/yoga_blog_2.png',
-                          disposicion: 1,
-                          isNew: true,
-                          conexion: '/blogs',
-                        ),
-                        ScrollHorizontal(
-                          titulo: 'Herramientas para comenzar en Yoga',
-                          descripcion:
-                              'Te hablamos de lo indispensable para que...',
-                          categoria: 'Yoga',
-                          fecha: 'May 11, 2024',
-                          foto: 'assets/images/yoga_blog_3.png',
-                          disposicion: 1,
-                          isNew: true,
-                          conexion: '/blogs',
-                        ),
-                        ScrollHorizontal(
-                          titulo: 'Amistades en el Yoga',
-                          descripcion: 'Conoce cómo puedes relacionarte...',
-                          categoria: 'Yoga',
-                          fecha: 'May 12, 2024',
-                          foto: 'assets/images/yoga_blog_4.png',
-                          disposicion: 1,
-                          isNew: true,
-                          conexion: '/blogs',
-                        ),
-                      ],
+                      children:
+                            const <Widget>[
+                              ScrollHorizontal(
+                                titulo:
+                                "15 Minutes yoga practice the beginner in 30 days",
+                                descripcion: "Descripcion",
+                                categoria: "Trainning",
+                                fecha: "Feb 17, 2020",
+                                foto: "assets/images/Yoga Ejemplo 5.png",
+                                disposicion: 2,
+                                isNew: false,
+                                conexion: "/blogs",
+                              ),
+                              ScrollHorizontal(
+                                titulo:
+                                "23 Minutes yoga practice the beginner in 30 days",
+                                descripcion: "Descripcion",
+                                categoria: "Morning",
+                                fecha: "Feb 18, 2020",
+                                foto: "assets/images/Yoga Ejemplo 6.png",
+                                disposicion: 2,
+                                isNew: false,
+                                conexion: "/blogs",
+                              ),
+                              ScrollHorizontal(
+                                titulo:
+                                "30 Minutes yoga practice the beginner in 30 days",
+                                descripcion: "Descripcion",
+                                categoria: "For Women",
+                                fecha: "Feb 20, 2020",
+                                foto: "assets/images/Yoga Ejemplo 4.png",
+                                disposicion: 2,
+                                isNew: false,
+                                conexion: "/blogs",
+                              ),
+                            ]
+                          ,
                     ),
                   ),
                 ],
@@ -365,72 +284,65 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: AppBar(
-        automaticallyImplyLeading: false,
-        actions: <Widget>[
-          IconButton(
-            icon: const CircleAvatar(
-              backgroundImage: AssetImage('assets/images/user.png'),
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const profile.PerfilUsuario(),
-                ),
-              );
-            },
+    return AppBar(
+      automaticallyImplyLeading: false,
+      actions: <Widget>[
+        IconButton(
+          icon: const CircleAvatar(
+            backgroundImage: AssetImage('assets/images/user.png'),
           ),
-        ],
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
-            ),
-            borderRadius: BorderRadius.only(
-              bottomRight: Radius.circular(30.0), // Redondea la esquina aquí
-            ),
+          onPressed: () {
+            context.push('/profile');
+          },
+        ),
+      ],
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
           ),
-          child: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0,
-                      vertical: 20.0), // Aumenta el padding vertical aquí
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(name,
-                              style: const TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white)),
-                          Text(
-                              'ID: ${uuid.substring(0, 8)}', // Muestra solo los primeros 8 caracteres del ID aquí
-                              style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white)),
-                        ],
-                      ),
-                    ],
-                  ),
+          borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(30.0),
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(name,
+                            style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
+                        Text('ID: ${uuid.substring(0, 8)}',
+                            style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
+                      ],
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(9),
                   child: TextField(
                     onTap: () {
-                      Navigator.pushNamed(context, '/popularSearch');
+                      context.push('/popularSearch');
                     },
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(
@@ -441,29 +353,33 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: _days.map((day) {
-                      int index = _days.indexOf(day);
-                      return FilterChip(
-                        label: Text(day),
-                        selected: _selectedDayIndex == index,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _selectedDayIndex = selected ? index : null;
-                          });
-                        },
-                        selectedColor: Colors.transparent,
-                        checkmarkColor: Colors.black,
-                        backgroundColor: Colors.transparent,
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ],
-            ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: _days.map((day) {
+                  int index = _days.indexOf(day);
+                  return TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedDayIndex = index;
+                      });
+                    },
+                    child: Text(
+                      day,
+                      style: TextStyle(
+                        fontSize: 17,
+                        color: _selectedDayIndex == index
+                            ? Colors.white
+                            : Colors.white.withOpacity(0.5),
+                        fontWeight: _selectedDayIndex == index
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
           ),
         ),
       ),

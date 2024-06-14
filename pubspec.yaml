@@ -33,7 +33,9 @@ dependencies:
   percent_indicator: ^4.2.3
   shared_preferences: ^2.0.13
   flutter_bloc: ^8.1.5
+  flutter_dotenv: ^5.1.0
   bloc: ^8.1.4
+  bloc_test: ^9.0.0-dev.1
   equatable: ^2.0.5
   get_it: ^7.7.0
   go_router: ^10.1.0
@@ -45,21 +47,20 @@ dependencies:
   http: ^1.2.1
   connectivity: ^3.0.6
   email_validator: ^2.1.17
-  volume_control:
-    ^0.1.5
+  volume_control: ^0.1.5
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   flutter_launcher_icons: ^0.13.1
   fl_chart: ^0.36.4
   geolocator: ^10.0.0
   uuid: ^3.0.7
+  mocktail: ^0.1.0
 
   # The following adds the Cupertino Icons font to your application.
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -67,9 +68,12 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
 
+flutter_test:
+  test_environment_files:
+    .env
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter packages.
 flutter:
   # The following line ensures that the Material Icons font is
@@ -83,13 +87,12 @@ flutter:
     - assets/images/
     - assets/logo/
     - assets/videos/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a

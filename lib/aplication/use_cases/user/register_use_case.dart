@@ -1,4 +1,8 @@
 import 'package:alpha_gymnastic_center/common/use_case.dart';
+import 'package:alpha_gymnastic_center/domain/interfaces/user_interfaces.dart';
+import 'package:alpha_gymnastic_center/domain/repositories/user_repository.dart';
+import 'package:alpha_gymnastic_center/aplication/localStorage/local_storage.dart';
+import 'package:alpha_gymnastic_center/common/result.dart';
 
 class RegisterUseCaseInput extends IUseCaseInput {
   final String name;
@@ -13,20 +17,23 @@ class RegisterUseCaseInput extends IUseCaseInput {
       required this.phone});
 }
 
-// class RegisterUseCase extends IUseCase<RegisterUseCaseInput,User>{
-//   final UserRepository userRepository;
-//   final LocalStorage localStorage;
+class RegisterUseCase
+    extends IUseCase<RegisterUseCaseInput, RegisterUserResponse> {
+  final UserRepository userRepository;
+  final LocalStorage localStorage;
 
-//   RegisterUseCase({
-//     required this.userRepository, required this.localStorage
-//   });
+  RegisterUseCase({required this.userRepository, required this.localStorage});
 
-//   @override
-//   Future<Result<User>> execute(RegisterUseCaseInput params) {
-//     // RegisterUserRequest registerRequest = RegisterUserRequest(email: params.email,name: params.email,password: params.password,phone: params.phone );
-//     // result = await userRepository.registerUser(registerRequest);
-    
-//     // return result
-//   }
-
-// }
+  @override
+  Future<Result<RegisterUserResponse>> execute(
+      RegisterUseCaseInput params) async {
+    RegisterUserRequest registerRequest = RegisterUserRequest(
+        email: params.email,
+        name: params.email,
+        password: params.password,
+        phone: params.phone);
+    final result = await userRepository.registerUser(registerRequest);
+    if (result.hasValue()) {}
+    return result;
+  }
+}

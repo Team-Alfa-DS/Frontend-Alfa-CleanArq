@@ -4,6 +4,9 @@ class Lesson {
   String content;
   String? video;
   String? image;
+  String? percent;
+  int? time;
+
 
   Lesson({
     required this.id,

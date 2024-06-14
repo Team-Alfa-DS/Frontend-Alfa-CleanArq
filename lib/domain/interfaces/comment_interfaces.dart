@@ -1,7 +1,6 @@
 import '../entities/comment.dart';
 
 class ManyCommentsRequest {
-
     String token;
     QueryComment query;
     String id;
@@ -22,14 +21,13 @@ class ManyCommentsRequest {
 
 }
 
-class ReleaseComment {
+class SingleComment {
 
     String token;
     String target;
     targetType targettype;
     String body;
-
-    ReleaseComment({
+    SingleComment({
         required this.token,
         required this.target,
         required this.targettype,

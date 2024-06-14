@@ -32,3 +32,21 @@ class UnnableToCheckLocationFailure extends Failure {
 class UnknownFailure extends Failure {
   const UnknownFailure() : super('Oppss!! Algo salió mal, inténtalo de nuevo');
 }
+
+class CreateVideoFailure extends Failure {
+  const CreateVideoFailure(
+      {String message =
+          'Hubo un error creando el video. Inténtalo de nuevo más tarde'})
+      : super(message);
+}
+
+class VideoNotFoundFailure extends Failure {
+  const VideoNotFoundFailure(
+      {String message = 'No se pudo encontrar el video, vuelve a intentarlo'})
+      : super(message);
+}
+
+class GetVideoFailure extends Failure {
+  const GetVideoFailure({String message = 'Error obteniendo los videos'})
+      : super(message);
+}

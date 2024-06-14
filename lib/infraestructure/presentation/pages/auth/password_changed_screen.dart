@@ -1,5 +1,5 @@
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 void main() => runApp(const PasswordChanged());
 
@@ -111,9 +111,7 @@ class ButtomLogin extends StatelessWidget {
     return SafeArea(
       child: ElevatedButton(
         onPressed: () {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => const LoginPage(),
-          ));
+          context.push("/login");
         },
         style: ElevatedButton.styleFrom(
           shape: const StadiumBorder(),

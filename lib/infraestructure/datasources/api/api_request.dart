@@ -8,4 +8,5 @@ abstract class IApiRequestManager {
       String path, String method, T Function(dynamic) mapper,
       {dynamic body, Map<String, dynamic>? queryParameters});
   void setHeaders(String key, dynamic value);
+  Map<String, dynamic> getHeaders();
 }

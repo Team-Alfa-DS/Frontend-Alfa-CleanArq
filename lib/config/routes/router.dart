@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:alpha_gymnastic_center/infraestructure//presentation/pages/pages.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/pages.dart';
 
 final router = GoRouter(routes: [
   GoRoute(
@@ -12,6 +12,10 @@ final router = GoRouter(routes: [
     builder: (context, state) => HomeScreen(),
   ),
   GoRoute(
+    path: '/profile',
+    builder: (context, state) => const PerfilUsuario(),
+  ),
+  GoRoute(
     path: '/notification',
     builder: (context, state) => NotificationScreen(),
   ),
@@ -21,7 +25,10 @@ final router = GoRouter(routes: [
   ),
   GoRoute(
     path: '/verification',
-    builder: (context, state) => const VerificationScreen(),
+    builder: (context, state) {
+      final String email = state.extra as String;
+      return VerificationScreen(email: email);
+    },
   ),
   GoRoute(
     path: '/popularSearch',
@@ -32,16 +39,16 @@ final router = GoRouter(routes: [
     builder: (context, state) => const TrainingScreen(),
   ),
   GoRoute(
-    path: '/tipsTopics',
-    builder: (context, state) => const Tips_n_Topics_Screen(),
-  ),
-  GoRoute(
     path: '/videos',
     builder: (context, state) => const Videos(),
   ),
   GoRoute(
     path: '/courses',
     builder: (context, state) => const YogaHomePage(),
+  ),
+  GoRoute(
+    path: '/blogs',
+    builder: (context, state) => Blogs_Screen(),
   ),
   GoRoute(
     path: '/location',
@@ -56,10 +63,6 @@ final router = GoRouter(routes: [
     builder: (context, state) => const FAQScreen(),
   ),
   GoRoute(
-    path: '/blogs',
-    builder: (context, state) => const YogaBlogScreen(),
-  ),
-  GoRoute(
     path: '/onboarding1',
     builder: (context, state) => const OnBoardingScreen1(),
   ),
@@ -71,7 +74,16 @@ final router = GoRouter(routes: [
     path: '/onboarding3',
     builder: (context, state) => const OnBoardingScreen3(),
   ),
-  GoRoute(path: "/welcome", builder: (context, state) => const WelcomeScreen())
+  GoRoute(path: "/welcome", builder: (context, state) => const WelcomeScreen()),
+  GoRoute(
+    path: '/createPassword',
+    builder: (context, state) {
+      final Map<String, dynamic> extra = state.extra as Map<String, dynamic>;
+      final String email = extra['email'] as String;
+      final String code = extra['code'] as String;
+      return CreatePasswordPage(email: email, code: code);
+    },
+  ),
 ]);
 
 class RouterSimpleCubit extends Cubit<GoRouter> {

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import '../../../common/failure.dart';
 import '../../../common/result.dart';
@@ -19,11 +21,16 @@ class ApiRequestManagerImpl extends IApiRequestManager {
           data: body,
           options: Options(method: method),
           queryParameters: queryParameters);
-      return Result<T>(value: mapper(response.data['data']));
+      print(response.statusCode);
+      return Result<T>(
+          value: mapper(response.data),
+          failure: null,
+          statusCode: response.statusCode.toString());
     } on DioError catch (e) {
       // Corrected DioException to DioError
       return Result(failure: handleException(e));
     } catch (e) {
+      print(e);
       return Result(failure: const UnknownFailure());
     }
   }
@@ -35,7 +42,14 @@ class ApiRequestManagerImpl extends IApiRequestManager {
       case DioErrorType.receiveTimeout:
         return const NoInternetFailure();
       case DioErrorType.response:
-        return NoAuthorizeFailure(message: e.response?.data['message']);
+        print('Response');
+        print(e.response
+            ?.data['message']); // Accede a 'message' como una clave del mapa
+        if (e.response?.data['message'] is String) {
+          return NoAuthorizeFailure(message: e.response?.data['message']);
+        } else {
+          return const NoAuthorizeFailure(message: 'Error desconocido');
+        }
       case DioErrorType.other:
         if (e.message.contains('SocketException')) {
           return const NoInternetFailure();
@@ -49,4 +63,7 @@ class ApiRequestManagerImpl extends IApiRequestManager {
   @override
   void setHeaders(String key, dynamic value) =>
       _dio.options.headers[key] = value;
+
+  @override
+  Map<String, dynamic> getHeaders() => _dio.options.headers;
 }
