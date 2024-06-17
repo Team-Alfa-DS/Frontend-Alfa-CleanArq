@@ -51,6 +51,15 @@ class ScrollHorizontal extends StatelessWidget {
     required this.conexion,
   }) : super(key: key);
 
+
+  ImageProvider _getImageProvider(String image) {
+    if (image.startsWith('http')) {
+      return NetworkImage(image);
+    } else {
+      return AssetImage(image);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -85,51 +94,50 @@ class ScrollHorizontal extends StatelessWidget {
         children: <Widget>[
           Container(
             width: double.infinity,
-            height: disposicion == 1 ? 150.0 : 150.0,
+            height: disposicion == 1 ? 150.0 : 130.0,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
               image: DecorationImage(
-                image: AssetImage(foto),
+                image: _getImageProvider(foto),
                 fit: BoxFit.cover,
               ),
             ),
             child: disposicion == 1
                 ? Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  width: double.infinity,
+                  color: Colors.grey.withOpacity(0.7),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        width: double.infinity,
-                        color: Colors.grey.withOpacity(0.7),
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              titulo,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16.0,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text(
-                              descripcion,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.0,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
+                    children: [
+                      Text(
+                        titulo,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        descripcion,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.0,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
-                  )
-                : disposicion == 3
+                  ),
+                ),
+              ],
+            ) : disposicion == 3
                     ? Center(
                         child: Icon(
                           Icons.play_circle_filled,

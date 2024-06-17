@@ -7,7 +7,7 @@ abstract class CourseRepository {
 
   Future<Result<List<Course>>> getCourseMany({
     required int page,
-    required int perPage,
+    required int perpage,
   });
 
   Future<Result<List<Course>>> getCourseFiltered(

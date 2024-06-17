@@ -3,11 +3,11 @@ import 'package:alpha_gymnastic_center/domain/entities/trainer.dart';
 class TrainerMapper {
   static Trainer fromJson(Map<String, dynamic> json) {
     return Trainer(
-      id: json['id'] as String,
-      name: json['name'],
-      followers: json['followers'] as int,
-      userFollow: json['userFollow'] as bool,
-      location: json['location'] as String,
+      id: json['id'] as String?,
+      name: json['name']!,
+      followers: json['followers'] as int?,
+      userFollow: json['userFollow'] as bool?,
+      location: json['location'] as String?,
     );
   }
 

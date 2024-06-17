@@ -15,7 +15,7 @@ class PopularProcessesCarousel extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           CourseListBloc(GetIt.instance<GetCourseDataUseCase>())
-            ..add(const LoadCourseList(page: 1, perPage: 7)),
+            ..add(const LoadCourseList(page: 1, perpage: 7)),
       child: BlocBuilder<CourseListBloc, CourseListState>(
         builder: (context, state) {
           if (state is CourseListLoading) {
@@ -35,7 +35,7 @@ class PopularProcessesCarousel extends StatelessWidget {
                     foto: course.image,
                     disposicion: 1,
                     isNew: false,
-                    conexion: "/videos",
+                    conexion: "/courses",
                   );
                 }).toList(),
               ),

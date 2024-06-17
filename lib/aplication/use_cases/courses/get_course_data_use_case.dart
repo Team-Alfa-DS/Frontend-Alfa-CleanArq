@@ -5,9 +5,9 @@ import 'package:alpha_gymnastic_center/common/result.dart';
 
 class GetCourseDataUseCaseInput extends IUseCaseInput {
   final int page;
-  final int perPage;
+  final int perpage;
 
-  GetCourseDataUseCaseInput({required this.page, required this.perPage});
+  GetCourseDataUseCaseInput({required this.page, required this.perpage});
 }
 
 class GetCourseDataUseCase
@@ -20,6 +20,6 @@ class GetCourseDataUseCase
   Future<Result<List<Course>>> execute(GetCourseDataUseCaseInput params) async {
     print('Entro en getMany');
     return await courseRepository.getCourseMany(
-        page: params.page, perPage: params.perPage);
+        page: params.page, perpage: params.perpage);
   }
 }

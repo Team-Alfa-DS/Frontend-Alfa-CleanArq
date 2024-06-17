@@ -88,6 +88,7 @@ flutter:
     - assets/logo/
     - assets/videos/
     - .env
+    - lib/aplication/use_cases/blog/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

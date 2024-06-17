@@ -121,7 +121,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 180,
+              height: 200,
               child: Column(
                 children: <Widget>[
                   Align(
@@ -142,7 +142,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 200,
+              height: 190,
               child: Column(
                 children: <Widget>[
                   const Align(

@@ -53,7 +53,7 @@ class CourseRepositoryImpl extends CourseRepository {
 
   @override
   Future<Result<List<Course>>> getCourseMany(
-      {required int page, required int perPage}) async {
+      {required int page, required int perpage}) async {
     print('Inicio de Many');
     await _addAuthorizationHeader();
     final token = await _localStorage.getAuthorizationToken();
@@ -61,7 +61,7 @@ class CourseRepositoryImpl extends CourseRepository {
     print('Mitad de Many');
     try {
       final response = await _apiRequestManager.request(
-        '/course/many/?page=$page&perpage=$perPage',
+        '/course/many',
         'GET',
         (data) {
           print('Data received in getCourseMany: $data');

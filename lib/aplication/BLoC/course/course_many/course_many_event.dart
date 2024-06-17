@@ -9,10 +9,10 @@ abstract class CourseListEvent extends Equatable {
 
 class LoadCourseList extends CourseListEvent {
   final int page;
-  final int perPage;
+  final int perpage;
 
-  const LoadCourseList({required this.page, required this.perPage});
+  const LoadCourseList({required this.page, required this.perpage});
 
   @override
-  List<Object?> get props => [page, perPage];
+  List<Object?> get props => [page, perpage];
 }

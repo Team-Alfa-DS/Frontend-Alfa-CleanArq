@@ -6,9 +6,9 @@ class Blog {
   String id;
   String title;
   String description;
-  String? category;
+  String category;
   List<String>? images;
-  Trainer? trainer;
+  Trainer trainer;
   List<String>? tags;
   DateTime? date;
 
@@ -16,9 +16,9 @@ class Blog {
      required this.id,
      required this.title,
      required this.description,
-      this.category,
+     required this.category,
       this.images,
-      this.trainer,
+     required this.trainer,
       this.date,
       this.tags
   });

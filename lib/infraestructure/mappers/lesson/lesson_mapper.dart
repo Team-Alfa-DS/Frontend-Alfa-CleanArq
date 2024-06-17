@@ -6,8 +6,8 @@ class LessonMapper {
       id: json['id'],
       title: json['title'],
       content: json['content'],
-      video: json['video'],
-      image: json['image']
+      video: json['video'] as String?,
+      image: json['image'] as String?
     );
   }
 

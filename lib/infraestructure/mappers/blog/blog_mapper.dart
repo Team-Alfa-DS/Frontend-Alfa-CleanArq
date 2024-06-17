@@ -10,7 +10,7 @@ class BlogMapper {
       description: json['description'],
       category: json['category'],
       images: List<String>.from(json['images'] ?? []),
-      trainer: json['trainer'] != null ? TrainerMapper.fromJson(json['trainer']) : null,
+      trainer: json['trainer'],
       tags: List<String>.from(json['tags'] ?? []),
       date: json['date'] != null ? DateTime.parse(json['date']) : null,
     );
