@@ -30,5 +30,4 @@ class Course {
     required this.date,
     required this.lessons,
   });
-
 }

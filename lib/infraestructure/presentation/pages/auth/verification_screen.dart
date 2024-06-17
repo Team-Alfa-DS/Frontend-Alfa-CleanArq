@@ -32,13 +32,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
       child: BlocListener<ValidateCodeBloc, ValidateCodeState>(
         listener: (context, state) {
           if (state is ValidateCodeSuccess) {
-            context.go(
-              '/createPassword',
-              extra: {
-                'email': widget.email,
-                'code': codeController.text,
-              },
-            );
+            context.go('/createPassword', extra: {
+              'email': widget.email,
+              'code': codeController.text,
+            });
           } else if (state is ValidateCodeFailure) {
             showDialog(
               context: context,
