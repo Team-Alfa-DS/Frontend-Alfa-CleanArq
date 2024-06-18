@@ -15,7 +15,6 @@ class blogsCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-
       providers: [
         //ok ahora aca cuando construya esto hay que poner el trainer para probar y la categoria cuando se toca en el homescreen se refresca esta llamada
         BlocProvider(create: (context) => BlogListBloc(GetIt.instance<GetBlogDataUseCase>())
