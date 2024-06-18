@@ -1,3 +1,4 @@
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/blogsCaursel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -177,11 +178,11 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 265,
               child: Column(
                 children: <Widget>[
-                  const Align(
+                  Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
                       padding: EdgeInsets.only(bottom: 5, top: 0.0, left: 10),
@@ -193,45 +194,8 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: const <Widget>[
-                        ScrollHorizontal(
-                          titulo:
-                              "15 Minutes yoga practice the beginner in 30 days",
-                          descripcion: "Descripcion",
-                          categoria: "Trainning",
-                          fecha: "Feb 17, 2020",
-                          foto: "assets/images/Yoga Ejemplo 5.png",
-                          disposicion: 2,
-                          isNew: false,
-                          conexion: "/blogs",
-                        ),
-                        ScrollHorizontal(
-                          titulo:
-                              "23 Minutes yoga practice the beginner in 30 days",
-                          descripcion: "Descripcion",
-                          categoria: "Morning",
-                          fecha: "Feb 18, 2020",
-                          foto: "assets/images/Yoga Ejemplo 6.png",
-                          disposicion: 2,
-                          isNew: false,
-                          conexion: "/blogs",
-                        ),
-                        ScrollHorizontal(
-                          titulo:
-                              "30 Minutes yoga practice the beginner in 30 days",
-                          descripcion: "Descripcion",
-                          categoria: "For Women",
-                          fecha: "Feb 20, 2020",
-                          foto: "assets/images/Yoga Ejemplo 4.png",
-                          disposicion: 2,
-                          isNew: false,
-                          conexion: "/blogs",
-                        ),
-                      ],
+                    child: blogsCarousel(),
                     ),
-                  ),
                 ],
               ),
             ),

@@ -64,11 +64,11 @@ class CourseRepositoryImpl extends CourseRepository {
         '/course/many',
         'GET',
         (data) {
-          print('Data received in getCourseMany: $data');
+          //print('Data received in getCourseMany: $data');
           List<Course> courses = (data['courses'] as List)
               .map((courseData) => CourseMapper.fromJson(courseData))
               .toList();
-          print('List of courses in getCourseMany:');
+          //print('List of courses in getCourseMany:');
           courses.forEach((course) => print(course));
           return courses;
         },

@@ -21,7 +21,7 @@ class PopularProcessesCarousel extends StatelessWidget {
           if (state is CourseListLoading) {
             return const CircularProgressIndicator();
           } else if (state is CourseListLoaded) {
-            final courses = state.courses.sublist(0, 2);
+            final courses = state.courses.sublist(0, 4);
             return SizedBox(
               height: 195,
               child: ListView(

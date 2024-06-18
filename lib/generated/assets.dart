@@ -9,7 +9,8 @@ class Assets {
   static const String authPasswordChangedScreen = 'lib/infraestructure/presentation/pages/auth/password_changed_screen.dart';
   static const String authVerificationScreen = 'lib/infraestructure/presentation/pages/auth/verification_screen.dart';
   static const String blogBlogDetailed = 'lib/infraestructure/presentation/pages/blog/blog_detailed.dart';
-  static const String blogBlogMapper = 'lib/infraestructure/mappers/blog/blog_mapper.dart';
+  static const String blogBlogMapperMany = 'lib/infraestructure/mappers/blog/blog_mapper_many.dart';
+  static const String blogBlogMapperOne = 'lib/infraestructure/mappers/blog/blog_mapper_one.dart';
   static const String blogBlogRepositoryImpl = 'lib/infraestructure/repositories/blog/blog_repository_impl.dart';
   static const String blogBlogs = 'lib/infraestructure/presentation/pages/blog/blogs.dart';
   static const String blogGetBlogManyUseCase = 'lib/aplication/use_cases/blog/get_blog_many_use_case.dart';

@@ -28,7 +28,7 @@ class GetBlogDataUseCase
 
   @override
   Future<Result<List<Blog>>> execute(GetBlogDataUseCaseInput params) async {
-    print('Entro en getMany');
+    print('Entro en getManyBlogs');
     return await blogRepository.checkManyBlogs(
         page: params.page,
         perpage: params.perPage,

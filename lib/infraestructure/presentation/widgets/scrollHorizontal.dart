@@ -175,7 +175,7 @@ class ScrollHorizontal extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
           image: DecorationImage(
-            image: AssetImage(foto),
+            image: _getImageProvider(foto),
             fit: BoxFit.cover,
           ),
         ),
@@ -188,7 +188,7 @@ class ScrollHorizontal extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
           image: DecorationImage(
-            image: AssetImage(foto),
+            image: _getImageProvider(foto),
             fit: BoxFit.cover,
           ),
         ),

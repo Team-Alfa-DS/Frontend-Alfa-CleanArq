@@ -14,8 +14,7 @@ class blogsCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
+    return
         //ok ahora aca cuando construya esto hay que poner el trainer para probar y la categoria cuando se toca en el homescreen se refresca esta llamada
         BlocProvider(create: (context) => BlogListBloc(GetIt.instance<GetBlogDataUseCase>())
         ..add(const LoadBlogList(page: 1, perPage: 7, filter: "POPULAR", trainer: '', category: 'Yoga')),
@@ -31,11 +30,11 @@ class blogsCarousel extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       children: blogs.map((blogs) {
                         return ScrollHorizontal(
-                          titulo: blogs.trainer.name,
+                          titulo: blogs.trainerName!,
                           descripcion: blogs.title,
                           categoria: blogs.category,
                           fecha: blogs.date.toString(),
-                          foto: blogs.images!.first.toString(),
+                          foto: blogs.image!,
                           disposicion: 2,
                           isNew: false,
                           conexion: "/blogs",
@@ -50,10 +49,7 @@ class blogsCarousel extends StatelessWidget {
                 }
               },
             ),
-        ),
+        );
 
-      ],
-       child: SizedBox.fromSize(),
-    );
   }
 }
