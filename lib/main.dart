@@ -19,20 +19,14 @@ class BlocsProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        //lazy false hace que tan pronto se inicialice el proveedor de bloques, se ejecute el constructor
-
-        providers: [
-          //BlocProvider(create: (context) => UsernameCubit(), lazy: false)
-          BlocProvider(create: (context) => RouterSimpleCubit()),
-          BlocProvider(create: (context) => ThemeCubit()),
-          BlocProvider(
-              create: (context) => ChangePasswordBloc(
-                    changePasswordUseCase:
-                        GetIt.instance<ChangePasswordUseCase>(),
-                  )),
-        ],
-        child: const MyApp());
+    return MultiBlocProvider(providers: [
+      BlocProvider(create: (context) => RouterSimpleCubit()),
+      BlocProvider(create: (context) => ThemeCubit()),
+      BlocProvider(
+          create: (context) => ChangePasswordBloc(
+                changePasswordUseCase: GetIt.instance<ChangePasswordUseCase>(),
+              )),
+    ], child: const MyApp());
   }
 }
 

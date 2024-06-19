@@ -3,26 +3,6 @@ import 'package:go_router/go_router.dart';
 
 /*
     RECUERDEN LLAMAR A ESTA CLASE DE LA SIGUIENTE MANERA:
-                SizedBox(
-                  height: 195,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      ScrollHorizontal(
-                        titulo: "titulo",
-                        descripcion: "descripcion",
-                        categoria: "categoria",
-                        fecha: "Ene 1, 2024",
-                        foto: "assets/images/imagen.png",
-                        disposicion: 2,
-                        isNew: false,
-                        conexion: "/videos",
-                      ),
-                    ],
-                  ),
-                ),
-
-
     Disposicion 1: Foto grande y dentro de la foto esta el titulo y la descripcion
     Disposicion 2: Foto pequena y abajo esta el titulo, categoria y fecha
     Disposicion 3: Es simplemente La imagen con un icono de play 
@@ -34,22 +14,24 @@ class ScrollHorizontal extends StatelessWidget {
   final String descripcion;
   final String categoria;
   final String fecha;
-  final String foto;
   final int disposicion;
   final bool isNew;
   final String conexion;
+  final String? fotoString;
+  final ImageProvider? fotoProvider;
 
   const ScrollHorizontal({
-    Key? key,
+    super.key,
     required this.titulo,
     required this.descripcion,
     required this.categoria,
     required this.fecha,
-    required this.foto,
+    this.fotoString,
+    this.fotoProvider,
     required this.disposicion,
     required this.isNew,
     required this.conexion,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -63,17 +45,19 @@ class ScrollHorizontal extends StatelessWidget {
         height: disposicion == 4 ? 120.0 : (disposicion == 2 ? 80.0 : null),
         decoration: BoxDecoration(
           color: disposicion == 4
-              ? Color.fromARGB(255, 212, 212, 212)
+              ? const Color.fromARGB(255, 212, 212, 212)
               : (disposicion == 2 ? Colors.white : null),
           borderRadius: BorderRadius.circular(10.0),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            _buildImage(),
-            const SizedBox(height: 5.0),
-            _buildContent(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              _buildImage(),
+              const SizedBox(height: 5.0),
+              _buildContent(),
+            ],
+          ),
         ),
       ),
     );
@@ -89,7 +73,9 @@ class ScrollHorizontal extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
               image: DecorationImage(
-                image: AssetImage(foto),
+                image: fotoString != null
+                    ? AssetImage(fotoString!)
+                    : fotoProvider!,
                 fit: BoxFit.cover,
               ),
             ),
@@ -167,7 +153,7 @@ class ScrollHorizontal extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
           image: DecorationImage(
-            image: AssetImage(foto),
+            image: fotoString != null ? AssetImage(fotoString!) : fotoProvider!,
             fit: BoxFit.cover,
           ),
         ),
@@ -180,7 +166,7 @@ class ScrollHorizontal extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
           image: DecorationImage(
-            image: AssetImage(foto),
+            image: fotoString != null ? AssetImage(fotoString!) : fotoProvider!,
             fit: BoxFit.cover,
           ),
         ),
