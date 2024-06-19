@@ -52,8 +52,10 @@ class CourseRepositoryImpl extends CourseRepository {
   }
 
   @override
-  Future<Result<List<Course>>> getCourseMany(
-      {required int page, required int perPage}) async {
+  Future<Result<List<Course>>> getCourseMany({
+    required int page,
+    required int perPage,
+  }) async {
     print('Inicio de Many');
     await _addAuthorizationHeader();
     final token = await _localStorage.getAuthorizationToken();
@@ -69,7 +71,9 @@ class CourseRepositoryImpl extends CourseRepository {
               .map((courseData) => CourseMapper.fromJson(courseData))
               .toList();
           print('List of courses in getCourseMany:');
-          courses.forEach((course) => print(course));
+          for (var course in courses) {
+            print(course);
+          }
           return courses;
         },
       );
@@ -78,7 +82,7 @@ class CourseRepositoryImpl extends CourseRepository {
       return response;
     } catch (e) {
       print('Error in getCourseMany: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -88,7 +92,7 @@ class CourseRepositoryImpl extends CourseRepository {
     final token = await _localStorage.getAuthorizationToken();
     _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
     final response = await _apiRequestManager
-        .request<Course>('/course/one/${id}', 'GET', (data) {
+        .request<Course>('/course/one/$id', 'GET', (data) {
       print('Data received in getSingleCourse: $data');
       return CourseMapper.fromJson(data);
     });
