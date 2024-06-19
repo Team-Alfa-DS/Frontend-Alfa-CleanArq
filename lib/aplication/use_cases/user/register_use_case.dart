@@ -29,7 +29,7 @@ class RegisterUseCase
       RegisterUseCaseInput params) async {
     RegisterUserRequest registerRequest = RegisterUserRequest(
         email: params.email,
-        name: params.email,
+        name: params.name,
         password: params.password,
         phone: params.phone);
     final result = await userRepository.registerUser(registerRequest);
