@@ -188,7 +188,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                       course.lessons[index].title,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .subtitle2
+                                          .titleSmall
                                           ?.copyWith(color: Colors.black),
                                     ),
                                     const Divider(
@@ -380,12 +380,12 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
     List<Lesson> lessonIdIterator = course.lessons;
     String lessonIdFound = "";
 
-    lessonIdIterator.forEach((lesson) {
+    for (var lesson in lessonIdIterator) {
       if (lesson.id != lessonid) {
-        return;
+        continue;
       }
       lessonIdFound = lesson.id;
-    });
+    }
 
     Navigator.push(
         context,

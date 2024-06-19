@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,10 +7,8 @@ import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/side
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/progressbar.dart';
 
 import '../../../../domain/entities/blog.dart';
-import '../../widgets/blogitem.dart';
 import '../../widgets/categoryItem.dart';
 
-import '../../widgets/courseitem.dart';
 import '../../widgets/scrollHorizontal.dart';
 
 class HomeScreen extends StatelessWidget {
