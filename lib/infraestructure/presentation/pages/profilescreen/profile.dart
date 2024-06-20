@@ -225,7 +225,7 @@ class PerfilUsuario extends StatelessWidget {
 
   Future<UserData> _loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
-    String name = prefs.getString('name') ?? 'Nombre de Usuario';
+    String name = prefs.getString('name') ?? 'Brooklyn Simmons';
     int followers = prefs.getInt('followers') ??
         0; // Asegúrate de tener un valor por defecto
     int following = prefs.getInt('following') ??
@@ -251,122 +251,137 @@ class PerfilUsuario extends StatelessWidget {
           end: Alignment.bottomCenter,
         ),
         borderRadius: BorderRadius.only(
-          bottomRight: Radius.circular(30.0),
+          bottomRight: Radius.circular(50.0),
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 12),
         child: Column(
           children: [
             const SizedBox(height: 20.0), // Agrega espacio aquí
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              //* "Contenedo" Titulos y buttons de volver y editar!!
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                const SizedBox(width: 20.0),
-                const Text(
-                  'Profile',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-                const SizedBox(width: 220.0),
-                IconButton(
-                  icon: const Icon(Icons.edit, color: Colors.white),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-            const SizedBox(height: 10.0),
-            Row(
-              children: [
-                const CircleAvatar(
-                  radius: 35.0,
-                  backgroundImage: AssetImage('assets/images/user.png'),
-                ),
-                const SizedBox(width: 20.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
                   children: [
-                    Text(
-                      userData.name,
-                      style:
-                          const TextStyle(fontSize: 18.0, color: Colors.white),
+                    IconButton(
+                      icon: const Icon(Icons.keyboard_arrow_left,
+                          color: Colors.white),
+                      iconSize: 30,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
-                    Row(
-                      children: [
-                        const SizedBox(width: 30),
-                        SizedBox(
-                          width: 100,
-                          child: Text(
-                            '${userData.followers}',
-                            style: const TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Text(
-                          '${userData.following}',
-                          style: const TextStyle(
-                              fontSize: 20.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    const Row(
-                      children: [
-                        SizedBox(width: 0),
-                        SizedBox(
-                          width: 100,
-                          child: Text(
-                            'followers',
-                            style:
-                                TextStyle(fontSize: 16.0, color: Colors.white),
-                          ),
-                        ),
-                        Text(
-                          'followings',
-                          style: TextStyle(fontSize: 16.0, color: Colors.white),
-                        ),
-                      ],
+                    const SizedBox(width: 10.0),
+                    const Text(
+                      'Profile',
+                      style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
                     ),
                   ],
                 ),
+                IconButton(
+                  icon: const Icon(Icons.edit, color: Colors.white),
+                  onPressed: () {
+                    //TODO: Falta esto perfil.
+                  },
+                ),
               ],
+            ),
+            //const SizedBox(height: 10.0),
+            Padding(
+              // * "Contenedor" de foto de perfil y follows!!
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+              child: Row(
+                children: [
+                  const CircleAvatar(
+                    radius: 45.0,
+                    backgroundImage: AssetImage('assets/images/user.png'),
+                    backgroundColor: Colors.transparent,
+                  ),
+                  const SizedBox(width: 5.0),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        userData.name,
+                        style: const TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
+                      ),
+                      Row(
+                        children: [
+                          //const SizedBox(width: 5),
+                          SizedBox(
+                            width: 130,
+                            child: Text(
+                              '${userData.followers}',
+                              style: const TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          Text(
+                            '${userData.following}',
+                            style: const TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                      const Row(
+                        children: [
+                          //SizedBox(width: 0),
+                          SizedBox(
+                            width: 130,
+                            child: Text(
+                              'Seguidores',
+                              style: TextStyle(
+                                  fontSize: 16.0, color: Colors.white),
+                            ),
+                          ),
+                          Text(
+                            'Siguiendo',
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
             Row(
               children: [
-                const SizedBox(width: 65),
+                const SizedBox(width: 85),
                 const IconButton(
-                  icon: Icon(Icons.sentiment_satisfied_alt,
+                  icon: Icon(Icons.sentiment_satisfied_rounded,
                       color: Colors.white, size: 20),
                   onPressed: null,
                 ),
-                const SizedBox(width: 175),
+                const SizedBox(width: 150),
                 RichText(
                   text: TextSpan(
                     children: [
                       TextSpan(
                         text: ' ${profileData.time} ',
                         style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                            fontSize: 18.0,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600),
                       ),
                       const TextSpan(
-                        text: ' hrs',
+                        text: 'hrs',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: 14,
                         ),
                       ),
                     ],
@@ -374,11 +389,19 @@ class PerfilUsuario extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
-              height: 10.0,
-              width: 250,
-              child: LinearProgressIndicator(
-                  value: profileData.percent.toDouble(), color: Colors.green),
+            Row(
+              children: [
+                const SizedBox(width: 100),
+                SizedBox(
+                  height: 6.0,
+                  width: 225,
+                  child: LinearProgressIndicator(
+                      value: profileData.percent.toDouble(),
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(20),
+                      backgroundColor: Colors.white),
+                ),
+              ],
             ),
           ],
         ),
