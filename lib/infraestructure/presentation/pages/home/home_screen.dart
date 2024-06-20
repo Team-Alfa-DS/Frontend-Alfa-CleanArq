@@ -333,7 +333,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   borderRadius: BorderRadius.circular(9),
                   child: TextField(
                     onTap: () {
-                      // context.push('/popularSearch');
+                      context.push('/popularSearch');
                     },
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(

@@ -229,7 +229,7 @@ class _PopularSearch extends State<PopularSearch> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Wrap(
-          spacing: 10.0,
+          spacing: 15.0,
           runSpacing: 5.0,
           children: categorias.map((categoria) {
             bool isSelected = categoria == categoriaSeleccionada;
