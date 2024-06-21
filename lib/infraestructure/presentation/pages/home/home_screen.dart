@@ -10,10 +10,8 @@ import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/side
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/progressbar.dart';
 
 import '../../../../domain/entities/blog.dart';
-import '../../widgets/blogitem.dart';
 import '../../widgets/categoryItem.dart';
 
-import '../../widgets/courseitem.dart';
 import '../../widgets/scrollHorizontal.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -168,7 +166,7 @@ class HomeScreen extends StatelessWidget {
                             descripcion: " ",
                             categoria: " ",
                             fecha: " ",
-                            foto: "assets/images/Yoga Ejemplo $index.png",
+                            fotoString: "assets/images/Yoga Ejemplo $index.png",
                             disposicion: 3,
                             isNew: false,
                             conexion: "/videos",
@@ -204,7 +202,7 @@ class HomeScreen extends StatelessWidget {
                           descripcion: "Descripcion",
                           categoria: "Trainning",
                           fecha: "Feb 17, 2020",
-                          foto: "assets/images/Yoga Ejemplo 5.png",
+                          fotoString: "assets/images/Yoga Ejemplo 5.png",
                           disposicion: 2,
                           isNew: false,
                           conexion: "/blogs",
@@ -215,7 +213,7 @@ class HomeScreen extends StatelessWidget {
                           descripcion: "Descripcion",
                           categoria: "Morning",
                           fecha: "Feb 18, 2020",
-                          foto: "assets/images/Yoga Ejemplo 6.png",
+                          fotoString: "assets/images/Yoga Ejemplo 6.png",
                           disposicion: 2,
                           isNew: false,
                           conexion: "/blogs",
@@ -226,7 +224,7 @@ class HomeScreen extends StatelessWidget {
                           descripcion: "Descripcion",
                           categoria: "For Women",
                           fecha: "Feb 20, 2020",
-                          foto: "assets/images/Yoga Ejemplo 4.png",
+                          fotoString: "assets/images/Yoga Ejemplo 4.png",
                           disposicion: 2,
                           isNew: false,
                           conexion: "/blogs",

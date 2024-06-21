@@ -13,8 +13,18 @@ class CourseMapper {
         image: json['image'] as String? ?? '',
         trainer: TrainerMapper.fromJson(json['trainer']),
         level: json['level'] as String? ?? '',
-        durationWeeks: json['durationWeeks'] as int? ?? 0,
-        durationMinutes: json['durationMinutes'] as int? ?? 0,
+        DurationWeeks: json['DurationWeeks'] != null
+            ? (json['DurationWeeks'] is double
+                    ? json['DurationWeeks'] as double
+                    : json['DurationWeeks'] as int)
+                .toInt()
+            : 0,
+        DurationMinutes: json['DurationMinutes'] != null
+            ? (json['DurationMinutes'] is double
+                    ? json['DurationMinutes'] as double
+                    : json['DurationMinutes'] as int)
+                .toInt()
+            : 0,
         tags: List<String>.from(json['tags']),
         date: DateTime.parse(json['date']),
         lessons: (json['lessons'] as List)
@@ -23,7 +33,7 @@ class CourseMapper {
       );
     } catch (e) {
       print('Error in CourseMapper.fromJson: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -36,8 +46,8 @@ class CourseMapper {
       'image': course.image,
       'trainer': TrainerMapper.toJson(course.trainer),
       'level': course.level,
-      'durationWeeks': course.durationWeeks,
-      'durationMinutes': course.durationMinutes,
+      'DurationWeeks': course.DurationWeeks,
+      'DurationMinutes': course.DurationMinutes,
       'tags': course.tags,
       'date': course.date?.toIso8601String(),
       'lessons':

@@ -1,5 +1,4 @@
 import '../../../domain/entities/blog.dart';
-import '../../../domain/entities/trainer.dart';
 import '../trainer/trainer_mapper.dart';
 
 class BlogMapper {

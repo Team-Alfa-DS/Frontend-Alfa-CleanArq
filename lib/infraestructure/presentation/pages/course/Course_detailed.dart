@@ -139,7 +139,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                     const Text('Weeks',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
-                                    Text(course.durationWeeks.toString()),
+                                    Text(course.DurationWeeks.toString()),
                                   ],
                                 ),
                               ],
@@ -154,7 +154,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                     const Text('Mins per Lesson',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
-                                    Text(course.durationMinutes.toString()),
+                                    Text(course.DurationMinutes.toString()),
                                   ],
                                 ),
                               ],
@@ -188,7 +188,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                       course.lessons[index].title,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .subtitle2
+                                          .titleSmall
                                           ?.copyWith(color: Colors.black),
                                     ),
                                     const Divider(
@@ -380,12 +380,12 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
     List<Lesson> lessonIdIterator = course.lessons;
     String lessonIdFound = "";
 
-    lessonIdIterator.forEach((lesson) {
+    for (var lesson in lessonIdIterator) {
       if (lesson.id != lessonid) {
-        return;
+        continue;
       }
       lessonIdFound = lesson.id;
-    });
+    }
 
     Navigator.push(
         context,
