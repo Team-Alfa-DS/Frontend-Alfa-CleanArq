@@ -23,12 +23,26 @@ class SearchRepositoryImpl extends SearchRepository {
   }
 
   @override
-  Future<Result<SearchResult>> getSearchResult({String? term, List<String>? tag, required int page, required int perpage}) async {
+  Future<Result<SearchResult>> getSearchResult(int page, int perpage, List<String> tags, String? term ) async {
     await _addAuthorizationHeader();
     final token = await _localStorage.getAuthorizationToken();
     _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
 
-    final response = await _apiRequestManager.request('/search','GET', (data) {return SearchMapper.fromJson(data);});
+    String termQuery = ''; String tagsQuery = '';
+    if (term != null) {termQuery = '&term=$term&';}
+    if (tags.isNotEmpty) {
+      termQuery = '&tag=';
+      for (int i = 0; i < tags.length; i++) {
+        tagsQuery += tags[i];
+        if (i < tags.length - 1) {tagsQuery += ',';}
+        else {tagsQuery += '&';}
+      }
+    }
+
+    final response = await _apiRequestManager.request(
+      '/search?page=$termQuery$tagsQuery$page&perpage=$perpage',
+      'GET', 
+      (data) {return SearchMapper.fromJson(data);});
 
     return response;
   }
