@@ -344,7 +344,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.3"
-  geolocator_web:
+    geolocator_web:
     dependency: transitive
     description:
       name: geolocator_web
