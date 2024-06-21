@@ -47,8 +47,7 @@ class ProgressService {
     }
   }
 
-  Future<Progress> getProgressProfile(
-      String baseUrl, String token) async {
+  Future<Progress> getProgressProfile(String baseUrl, String token) async {
     final url = Uri.parse('$baseUrl/progress/profile');
 
     final headers = {
