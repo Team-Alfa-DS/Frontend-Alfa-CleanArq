@@ -1,5 +1,6 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/theme/theme_cubit.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/change_password/change_password_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/change_password_use_case.dart';
 import 'package:alpha_gymnastic_center/config/routes/router.dart';
 import 'package:alpha_gymnastic_center/config/theme/themes.dart';
@@ -19,14 +20,21 @@ class BlocsProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(providers: [
-      BlocProvider(create: (context) => RouterSimpleCubit()),
-      BlocProvider(create: (context) => ThemeCubit()),
-      BlocProvider(
-          create: (context) => ChangePasswordBloc(
-                changePasswordUseCase: GetIt.instance<ChangePasswordUseCase>(),
-              )),
-    ], child: const MyApp());
+    return MultiBlocProvider(
+        //lazy false hace que tan pronto se inicialice el proveedor de bloques, se ejecute el constructor
+
+        providers: [
+          //BlocProvider(create: (context) => UsernameCubit(), lazy: false)
+          BlocProvider(create: (context) => RouterSimpleCubit()),
+          BlocProvider(create: (context) => ThemeCubit()),
+          BlocProvider(
+              create: (context) => ChangePasswordBloc(
+                    changePasswordUseCase:
+                        GetIt.instance<ChangePasswordUseCase>(),
+                  )),
+          BlocProvider(create: (context) => UserBloc()),
+        ],
+        child: const MyApp());
   }
 }
 
