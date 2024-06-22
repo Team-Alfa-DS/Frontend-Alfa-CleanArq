@@ -1,5 +1,8 @@
+import 'package:alpha_gymnastic_center/aplication/BLoC/progress/trending/trending_progress_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_trending_progress_use_case.dart';
 import 'package:alpha_gymnastic_center/common/utils/string_utils.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/progressbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,11 +10,8 @@ import 'package:go_router/go_router.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/progressbar.dart';
-
 import '../../../../domain/entities/blog.dart';
 import '../../widgets/categoryItem.dart';
-
 import '../../widgets/scrollHorizontal.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -86,156 +86,179 @@ class HomeScreen extends StatelessWidget {
       key: _scaffoldKey,
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(),
-      body: MiScaffold(
-        body: ListView(
-          children: <Widget>[
-            const ProgressSection(),
-            SizedBox(
-              height: 140,
-              child: Column(
-                children: <Widget>[
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 3.0, top: 3.0, left: 10),
-                      child: Text(
-                        'Categorías',
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: categories.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return CategoryItem(
-                          imageUrlPicked: categories[index],
-                          imageUrlUnpicked: categoriesUnpicked[index],
-                        );
-                      },
-                    ),
-                  ),
-                ],
+      body: BlocProvider(
+        create: (context) => TrendingProgressBloc(
+          getTrendingProgressUseCase:
+              context.read<GetTrendingProgressUseCase>(),
+        )..add(LoadTrendingProgress()),
+        child: MiScaffold(
+          body: ListView(
+            children: <Widget>[
+              BlocBuilder<TrendingProgressBloc, TrendingProgressState>(
+                builder: (context, state) {
+                  if (state is TrendingProgressLoading) {
+                    return const CircularProgressIndicator();
+                  } else if (state is TrendingProgressLoaded) {
+                    return ProgressSection(
+                      percent: state.progress.percent,
+                    );
+                  } else if (state is TrendingProgressError) {
+                    return Text('Error: ${state.message}');
+                  }
+                  return Container();
+                },
               ),
-            ),
-            const SizedBox(
-              height: 180,
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 3.0, top: 0.0, left: 10),
-                      child: Text(
-                        'Procesos Populares',
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
+              SizedBox(
+                height: 140,
+                child: Column(
+                  children: <Widget>[
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding:
+                            EdgeInsets.only(bottom: 3.0, top: 3.0, left: 10),
+                        child: Text(
+                          'Categorías',
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: PopularProcessesCarousel(),
-                  ),
-                ],
+                    Expanded(
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: categories.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return CategoryItem(
+                            imageUrlPicked: categories[index],
+                            imageUrlUnpicked: categoriesUnpicked[index],
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 200,
-              child: Column(
-                children: <Widget>[
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 0.5, top: 0.0, left: 10),
-                      child: Text(
-                        'Videos de Cursos',
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
+              const SizedBox(
+                height: 180,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding:
+                            EdgeInsets.only(bottom: 3.0, top: 0.0, left: 10),
+                        child: Text(
+                          'Procesos Populares',
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: <Widget>[
-                        for (int index = 1; index < 7; index++)
+                    Expanded(
+                      child: PopularProcessesCarousel(),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 200,
+                child: Column(
+                  children: <Widget>[
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding:
+                            EdgeInsets.only(bottom: 0.5, top: 0.0, left: 10),
+                        child: Text(
+                          'Videos de Cursos',
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: <Widget>[
+                          for (int index = 1; index < 7; index++)
+                            ScrollHorizontal(
+                              titulo: " ",
+                              descripcion: " ",
+                              categoria: " ",
+                              fecha: " ",
+                              fotoString:
+                                  "assets/images/Yoga Ejemplo $index.png",
+                              disposicion: 3,
+                              isNew: false,
+                              conexion: "/videos",
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 265,
+                child: Column(
+                  children: <Widget>[
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 5, top: 0.0, left: 10),
+                        child: Text(
+                          'Nuestros últimos Blogs',
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: const <Widget>[
                           ScrollHorizontal(
-                            titulo: " ",
-                            descripcion: " ",
-                            categoria: " ",
-                            fecha: " ",
-                            fotoString: "assets/images/Yoga Ejemplo $index.png",
-                            disposicion: 3,
+                            titulo:
+                                "15 Minutes yoga practice the beginner in 30 days",
+                            descripcion: "Descripcion",
+                            categoria: "Trainning",
+                            fecha: "Feb 17, 2020",
+                            fotoString: "assets/images/Yoga Ejemplo 5.png",
+                            disposicion: 2,
                             isNew: false,
-                            conexion: "/videos",
+                            conexion: "/blogs",
                           ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 265,
-              child: Column(
-                children: <Widget>[
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 5, top: 0.0, left: 10),
-                      child: Text(
-                        'Nuestros últimos Blogs',
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
+                          ScrollHorizontal(
+                            titulo:
+                                "23 Minutes yoga practice the beginner in 30 days",
+                            descripcion: "Descripcion",
+                            categoria: "Morning",
+                            fecha: "Feb 18, 2020",
+                            fotoString: "assets/images/Yoga Ejemplo 6.png",
+                            disposicion: 2,
+                            isNew: false,
+                            conexion: "/blogs",
+                          ),
+                          ScrollHorizontal(
+                            titulo:
+                                "30 Minutes yoga practice the beginner in 30 days",
+                            descripcion: "Descripcion",
+                            categoria: "For Women",
+                            fecha: "Feb 20, 2020",
+                            fotoString: "assets/images/Yoga Ejemplo 4.png",
+                            disposicion: 2,
+                            isNew: false,
+                            conexion: "/blogs",
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: const <Widget>[
-                        ScrollHorizontal(
-                          titulo:
-                              "15 Minutes yoga practice the beginner in 30 days",
-                          descripcion: "Descripcion",
-                          categoria: "Trainning",
-                          fecha: "Feb 17, 2020",
-                          fotoString: "assets/images/Yoga Ejemplo 5.png",
-                          disposicion: 2,
-                          isNew: false,
-                          conexion: "/blogs",
-                        ),
-                        ScrollHorizontal(
-                          titulo:
-                              "23 Minutes yoga practice the beginner in 30 days",
-                          descripcion: "Descripcion",
-                          categoria: "Morning",
-                          fecha: "Feb 18, 2020",
-                          fotoString: "assets/images/Yoga Ejemplo 6.png",
-                          disposicion: 2,
-                          isNew: false,
-                          conexion: "/blogs",
-                        ),
-                        ScrollHorizontal(
-                          titulo:
-                              "30 Minutes yoga practice the beginner in 30 days",
-                          descripcion: "Descripcion",
-                          categoria: "For Women",
-                          fecha: "Feb 20, 2020",
-                          fotoString: "assets/images/Yoga Ejemplo 4.png",
-                          disposicion: 2,
-                          isNew: false,
-                          conexion: "/blogs",
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       drawer: const SideBarMenu(),

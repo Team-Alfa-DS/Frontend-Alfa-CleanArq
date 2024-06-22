@@ -61,21 +61,18 @@ class ProgressRepositoryImpl extends ProgressRepository {
   }
 
   @override
-  Future<Result<List<TrendingProgressResponse>>> getTrendingProgress() async {
+  Future<Result<TrendingProgressResponse>> getTrendingProgress() async {
     await _setAuthHeader();
-    final response =
-        await _apiRequestManager.request<List<TrendingProgressResponse>>(
+    final response = await _apiRequestManager.request<TrendingProgressResponse>(
       '/progress/trending',
       'GET',
       (data) {
-        return (data as List).map((progress) {
-          return TrendingProgressResponse(
-            percent: progress['Percent'],
-            courseTitle: progress['courseTitle'],
-            courseId: progress['courseId'],
-            lastTime: DateTime.parse(progress['lastTime']),
-          );
-        }).toList();
+        return TrendingProgressResponse(
+          percent: data['percent'],
+          courseTitle: data['courseTitle'],
+          courseId: data['courseId'],
+          lastTime: DateTime.parse(data['lastTime']),
+        );
       },
     );
 
