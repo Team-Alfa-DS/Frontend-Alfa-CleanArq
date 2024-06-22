@@ -5,7 +5,7 @@ import 'package:alpha_gymnastic_center/domain/interfaces/user_interfaces.dart';
 import 'package:alpha_gymnastic_center/domain/repositories/user_repository.dart';
 
 class UpdateUserUseCaseInput extends IUseCaseInput {
-  final String token;
+  // String token;
   final String? email;
   final String? name;
   final String? password;
@@ -13,7 +13,7 @@ class UpdateUserUseCaseInput extends IUseCaseInput {
   final String? image;
 
   UpdateUserUseCaseInput({
-    required this.token,
+    //required this.token,
     this.email,
     this.name,
     this.password,
@@ -39,7 +39,8 @@ class UpdateUserUseCase extends IUseCase<UpdateUserUseCaseInput, void> {
     );
 
     final result =
-        await userRepository.updateUser(params.token, updateUserRequest);
+        //await userRepository.updateUser(params.token, updateUserRequest);
+        await userRepository.updateUser(localStorage.getAuthorizationToken().toString(), updateUserRequest);
     if (result.hasValue()) {
       // Si es necesario, guarda algún dato en localStorage o realiza alguna acción adicional
     }

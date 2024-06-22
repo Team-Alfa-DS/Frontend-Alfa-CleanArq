@@ -188,7 +188,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                       course.lessons[index].title,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .subtitle2
+                                          .titleSmall
                                           ?.copyWith(color: Colors.black),
                                     ),
                                     const Divider(

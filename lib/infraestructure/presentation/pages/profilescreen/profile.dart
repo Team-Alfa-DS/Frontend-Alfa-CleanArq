@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -286,7 +288,7 @@ class PerfilUsuario extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.edit, color: Colors.white),
                   onPressed: () {
-                    //TODO: Falta esto perfil.
+                    context.push('/editProfile');
                   },
                 ),
               ],
