@@ -16,8 +16,8 @@ class CourseMapper {
         image: json['image'] as String? ?? '',
         trainer: TrainerMapper.fromJson(json['trainer'] as Map<String, dynamic>),
         level: json['level'] as String? ?? '',
-        durationWeeks: json['DurationWeeks'] != null ? json['DurationWeeks'] as int : 0,
-        durationMinutes: json['DurationMinutes'] != null ? json['DurationMinutes'] as int : 0,
+        DurationWeeks: json['DurationWeeks'] != null ? json['DurationWeeks'] as int : 0,
+        DurationMinutes: json['DurationMinutes'] != null ? json['DurationMinutes'] as int : 0,
         tags: (json['tags'] as List<dynamic>?)?.cast<String>() ?? [],
         date: json['date'] != null ? DateTime.parse(json['date']) : DateTime.now(),
         lessons: (json['lessons'] as List<dynamic>?)
@@ -40,8 +40,8 @@ class CourseMapper {
       'image': course.image,
       'trainer': TrainerMapper.toJson(course.trainer),
       'level': course.level,
-      'durationWeeks': course.durationWeeks,
-      'durationMinutes': course.durationMinutes,
+      'durationWeeks': course.DurationWeeks,
+      'durationMinutes': course.DurationMinutes,
       'tags': course.tags,
       'date': course.date?.toIso8601String(),
       'lessons':

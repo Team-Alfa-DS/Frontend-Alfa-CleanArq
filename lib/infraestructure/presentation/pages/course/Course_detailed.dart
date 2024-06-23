@@ -139,7 +139,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                     const Text('Weeks',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
-                                    Text(course.durationWeeks.toString()),
+                                    Text(course.DurationWeeks.toString()),
                                   ],
                                 ),
                               ],
@@ -154,7 +154,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                     const Text('Mins per Lesson',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
-                                    Text(course.durationMinutes.toString()),
+                                    Text(course.DurationMinutes.toString()),
                                   ],
                                 ),
                               ],
@@ -214,7 +214,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                                 onPressed: () {
                                                   navigateToComments(
                                                       context,
-                                                      course.id!,
+                                                      course.lessons[index].id,
                                                       "LESSON",
                                                       course.title);
                                                 },
@@ -348,14 +348,14 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
   }
 
   void navigateToComments(
-      BuildContext context, String courseid, String type, String title) {
+      BuildContext context, String lessonid, String type, String title) {
     //aqui la llamada del fectch del os comentarios request hacia el backend
 
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) =>
-                Widgets_Comments(id: courseid, Type: type, title: title)));
+                Widgets_Comments(id: lessonid, type: type, title: title)));
 
     return;
   }

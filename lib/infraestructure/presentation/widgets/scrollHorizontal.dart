@@ -64,7 +64,7 @@ class ScrollHorizontal extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.push(conexion);
+        context.push( conexion);
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: disposicion == 4 ? 5.0 : 10.0),
@@ -268,4 +268,5 @@ class ScrollHorizontal extends StatelessWidget {
         return const SizedBox(); // En caso de que disposicion no sea 1, 2, 3 o 4
     }
   }
+
 }

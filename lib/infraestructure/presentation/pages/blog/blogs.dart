@@ -397,11 +397,7 @@ class _HorizontalCarouselState extends State<HorizontalCarousel> {
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(
                                             Colors.transparent)),
-                                onPressed: () => navigateToDetailed(
-                                    context,
-                                    widget.titles[index],
-                                    widget.description[index],
-                                    widget.imageUrls[index]),
+                                onPressed: () => { },
                                 child: Text(
                                   widget.titles[index],
                                   style: const TextStyle(
@@ -476,17 +472,16 @@ class _HorizontalCarouselState extends State<HorizontalCarousel> {
     );
   }
 
-  void navigateToDetailed(
-      BuildContext context, String title, String description, String url_) {
+ /* void navigateToDetailed(
+      BuildContext context) {
 
     //busca en el repositorio un blog detallado dado el id que llega del parametro de esta funcion y luego se lo pones al la llamada del widget
 
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>  Blog_Detailed_Widget(id: '2', Title: title, Description: description, Images: [], Tags: [], date: "20/03/2020",
-               )));
-  }
+            builder: (context) =>  Blog_Detailed_Widget(item : )));
+  }*/
 }
 
 class Blogs_appbar extends StatefulWidget

@@ -178,20 +178,34 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(
+            SizedBox(
               height: 265,
               child: Column(
                 children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 5, top: 0.0, left: 10),
-                      child: Text(
-                        'Nuestros últimos Blogs',
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                         const Padding(
+                           padding: EdgeInsets.only(bottom: 5, top: 0.0, left: 10),
+                           child: Text(
+                             'Nuestros últimos Blogs',
+                             style: TextStyle(
+                                 fontSize: 24, fontWeight: FontWeight.bold),
+                             ),
+                         ),
+                        Padding(
+                            padding: EdgeInsets.only(bottom: 5, top: 0.0, left: 10),
+                            child: TextButton(
+                                onPressed: () {
+                                  navigateTo(context,'/blogs');
+                                 },
+                                child: const Text(
+                                  'See all >',
+                                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                ),
+                            )
+                        )
+                    ]
                   ),
                   Expanded(
                     child: blogsCarousel(),
@@ -204,6 +218,10 @@ class HomeScreen extends StatelessWidget {
       ),
       drawer: const SideBarMenu(),
     );
+  }
+
+  void navigateTo(BuildContext context, String route){
+    context.push(route);
   }
 }
 

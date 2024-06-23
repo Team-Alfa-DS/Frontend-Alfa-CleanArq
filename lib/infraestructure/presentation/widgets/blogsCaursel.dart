@@ -1,3 +1,4 @@
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/blog/blog_detailed.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,8 @@ import '../../../aplication/BLoC/blog/blog_many/blog_many_bloc.dart';
 import '../../../aplication/BLoC/blog/blog_many/blog_many_event.dart';
 import '../../../aplication/BLoC/blog/blog_many/blog_many_state.dart';
 import '../../../aplication/use_cases/blog/get_blog_many_use_case.dart';
+import '../../../domain/entities/blog.dart';
+import 'carruselh.dart';
 
 class blogsCarousel extends StatelessWidget {
   const blogsCarousel({super.key});
@@ -21,7 +24,7 @@ class blogsCarousel extends StatelessWidget {
             child: BlocBuilder<BlogListBloc, BlogListState>(
               builder: (context, state) {
                 if (state is BlogListLoading) {
-                  return const CircularProgressIndicator();
+                  return const CircularProgressIndicator.adaptive();
                 } else if (state is BlogListLoaded) {
                   final blogs = state.blogs.sublist(0, 3);
                   return SizedBox(
@@ -29,15 +32,35 @@ class blogsCarousel extends StatelessWidget {
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: blogs.map((blogs) {
-                        return ScrollHorizontal(
-                          titulo: blogs.trainerName!,
-                          descripcion: blogs.title,
-                          categoria: blogs.category,
-                          fecha: blogs.date.toString(),
-                          foto: blogs.image!,
+                        return ScrollH<Map<String, dynamic>>(
+                          item: {
+                            'titulo': blogs.title,
+                            'descripcion': blogs.title,
+                            'categoria': blogs.category,
+                            'fecha': blogs.date.toString(),
+                            'fotoUrl': blogs.image,
+                            'isNew':
+                            true, // Asegúrate de que isNew esté aquí como un parámetro
+                            'conexion': "/blogs",
+                          },
                           disposicion: 2,
-                          isNew: false,
-                          conexion: "/blogs",
+                          onTap: (item) {
+                            var selectedBlog = Blog(
+                                id: blogs.id,
+                                title: blogs.title,
+                                image: blogs.image,
+                                images: blogs.images,
+                                category: blogs.category,
+                            );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Blog_Detailed_Widget(
+                                  item: selectedBlog,
+                                ),
+                              ),
+                            );
+                          },
                         );
                       }).toList(),
                     ),

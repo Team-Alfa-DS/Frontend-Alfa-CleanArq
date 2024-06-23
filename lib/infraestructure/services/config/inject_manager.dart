@@ -11,6 +11,7 @@ import 'package:alpha_gymnastic_center/aplication/use_cases/user/validate_code_u
 import 'package:alpha_gymnastic_center/infraestructure/datasources/api/api_request_imp.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/localStorage/loca_storage_imp.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/blog/blog_repository_impl.dart';
+import 'package:alpha_gymnastic_center/infraestructure/repositories/comments/comment_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/course/course_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/user/user_repository_impl.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -18,6 +19,7 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../aplication/use_cases/blog/get_blog_one_use_case.dart';
+import '../../../aplication/use_cases/comment/get_comment_data_use_case.dart';
 
 class InjectManager {
   static Future<void> setUpInjections() async {
@@ -40,6 +42,11 @@ class InjectManager {
     );
 
     final blogRepository = BlogRepositoryImpl(
+        apiRequestManager: apiRequestManagerImpl,
+        localStorage: localStorage
+    );
+
+    final commentRepository = CommentRepositoryImpl(
         apiRequestManager: apiRequestManagerImpl,
         localStorage: localStorage
     );
@@ -95,6 +102,12 @@ class InjectManager {
         blogRepository: blogRepository
     );
 
+    //!Comments
+
+    final getCommentDataUseCase = GetCommentDataUseCase(
+        commentRepository: commentRepository
+    );
+
     // Registering singletons
 
     //!users
@@ -112,5 +125,8 @@ class InjectManager {
     //!Blogs
     getIt.registerSingleton<GetBlogDataUseCase>(getBlogDataUseCase);
     getIt.registerSingleton<GetSingleBlogUseCase>(getSingleBlogUseCase);
+
+    //!Comments
+    getIt.registerSingleton<GetCommentDataUseCase>( getCommentDataUseCase);
   }
 }

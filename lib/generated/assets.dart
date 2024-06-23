@@ -30,9 +30,11 @@ class Assets {
   static const String changePasswordChangePasswordBloc = 'lib/aplication/BLoC/user/change_password/change_password_bloc.dart';
   static const String changePasswordChangePasswordEvent = 'lib/aplication/BLoC/user/change_password/change_password_event.dart';
   static const String changePasswordChangePasswordState = 'lib/aplication/BLoC/user/change_password/change_password_state.dart';
-  static const String commentCommentCubit = 'lib/aplication/BLoC/comment/comment_cubit.dart';
+  static const String commentCommentListBloc = 'lib/aplication/BLoC/comment/comment_list_bloc.dart';
+  static const String commentCommentListEvent = 'lib/aplication/BLoC/comment/comment_list_event.dart';
+  static const String commentCommentListState = 'lib/aplication/BLoC/comment/comment_list_state.dart';
   static const String commentCommentMapper = 'lib/infraestructure/mappers/comment/comment_mapper.dart';
-  static const String commentCommentState = 'lib/aplication/BLoC/comment/comment_state.dart';
+  static const String commentGetCommentDataUseCase = 'lib/aplication/use_cases/comment/get_comment_data_use_case.dart';
   static const String commentsCommentRepositoryImpl = 'lib/infraestructure/repositories/comments/comment_repository_impl.dart';
   static const String commonFailure = 'lib/common/failure.dart';
   static const String commonMock = 'lib/common/mock.dart';
@@ -221,6 +223,7 @@ class Assets {
   static const String videosYogavideo = 'assets/videos/yogavideo.mp4';
   static const String widgetsBlogitem = 'lib/infraestructure/presentation/widgets/blogitem.dart';
   static const String widgetsBlogsCaursel = 'lib/infraestructure/presentation/widgets/blogsCaursel.dart';
+  static const String widgetsCarruselh = 'lib/infraestructure/presentation/widgets/carruselh.dart';
   static const String widgetsCategoryItem = 'lib/infraestructure/presentation/widgets/categoryItem.dart';
   static const String widgetsCommentsContainer = 'lib/infraestructure/presentation/widgets/comments_container.dart';
   static const String widgetsCourseitem = 'lib/infraestructure/presentation/widgets/courseitem.dart';
