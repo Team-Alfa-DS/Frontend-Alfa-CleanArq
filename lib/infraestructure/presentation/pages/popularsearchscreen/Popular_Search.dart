@@ -1,6 +1,10 @@
+import 'package:alpha_gymnastic_center/aplication/BLoC/search/search_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/search/search_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/searchbar.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../widgets/navegation.dart';
 import '../../widgets/sidebarmenu.dart';
@@ -9,17 +13,20 @@ class PopularSearch extends StatefulWidget {
   const PopularSearch({super.key});
 
   @override
-  _PopularSearch createState() => _PopularSearch();
+  _PopularSearchState createState() => _PopularSearchState();
 }
 
-class _PopularSearch extends State<PopularSearch> {
+class _PopularSearchState extends State<PopularSearch> {
   String? categoriaSeleccionada;
+  TextEditingController searchText = new TextEditingController();
+  
 
   @override
   Widget build(BuildContext context) {
+    // print('Entered search page');
     return Scaffold(
       body: SafeArea(
-        child: _body(context),
+        child: _buildBlocProvider() //_body(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
@@ -44,6 +51,12 @@ class _PopularSearch extends State<PopularSearch> {
       bottomNavigationBar: const BarraNavegacion(),
       drawer: const SideBarMenu(),
     );
+  }
+
+  Widget _buildBlocProvider() {
+    return BlocProvider(
+      create: (context) => SearchBloc(searchUseCase: GetIt.instance<SearchUseCase>()),
+      child: _body(context));
   }
 
   Widget _body(BuildContext context) {
@@ -75,19 +88,7 @@ class _PopularSearch extends State<PopularSearch> {
                     borderRadius: BorderRadius.circular(32.0),
                     color: Colors.white,
                   ),
-                  child: const Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: 0.0,
-                          left: 0,
-                          right: 0,
-                        ),
-                        child: BarraBusqueda(),
-                      ),
-                    ],
-                  ),
+                  child: _buildSearchBar()
                 ),
               ],
             ),
@@ -110,44 +111,7 @@ class _PopularSearch extends State<PopularSearch> {
                 const SizedBox(height: 20),
                 SizedBox(
                   height: 195,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: const [
-                      ScrollHorizontal(
-                        titulo:
-                            "15 Minutes yoga practice the beginner in 30 days",
-                        descripcion: "Descripcion",
-                        categoria: "Trainning",
-                        fecha: "Feb 17, 2020",
-                        foto: "assets/images/Yoga Ejemplo 1.png",
-                        disposicion: 2,
-                        isNew: false,
-                        conexion: "/videos",
-                      ),
-                      ScrollHorizontal(
-                        titulo:
-                            "23 Minutes yoga practice the beginner in 30 days",
-                        descripcion: "Descripcion",
-                        categoria: "Morning",
-                        fecha: "Feb 18, 2020",
-                        foto: "assets/images/Yoga Ejemplo 2.png",
-                        disposicion: 2,
-                        isNew: false,
-                        conexion: "/videos",
-                      ),
-                      ScrollHorizontal(
-                        titulo:
-                            "30 Minutes yoga practice the beginner in 30 days",
-                        descripcion: "Descripcion",
-                        categoria: "For Women",
-                        fecha: "Feb 20, 2020",
-                        foto: "assets/images/Yoga Ejemplo 3.png",
-                        disposicion: 2,
-                        isNew: false,
-                        conexion: "/videos",
-                      ),
-                    ],
-                  ),
+                  child: _buildCourseCards(),
                 ),
                 const SizedBox(height: 20),
                 const Text(
@@ -158,30 +122,34 @@ class _PopularSearch extends State<PopularSearch> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                programsMaster(
-                  '30 day yoga challenge',
-                  'Ralph Edwards',
-                  'Level 5',
-                  'assets/images/Yoga Ejemplo 4.png',
-                ),
-                programsMaster(
-                  '30 day yoga challenge',
-                  'Ralph Edwards',
-                  'Level 5',
-                  'assets/images/Yoga Ejemplo 5.png',
-                ),
-                programsMaster(
-                  '30 day yoga challenge',
-                  'Ralph Edwards',
-                  'Level 5',
-                  'assets/images/Yoga Ejemplo 6.png',
-                ),
-                programsMaster(
-                  '30 day yoga challenge',
-                  'Ralph Edwards',
-                  'Level 5',
-                  'assets/images/Yoga Ejemplo 7.png',
-                ),
+                SizedBox(
+                  height: 300,
+                  child: _buildBlogCards(),
+                )
+                // programsMaster(
+                //   '30 day yoga challenge',
+                //   'Ralph Edwards',
+                //   'Level 5',
+                //   'assets/images/Yoga Ejemplo 4.png',
+                // ),
+                // programsMaster(
+                //   '30 day yoga challenge',
+                //   'Ralph Edwards',
+                //   'Level 5',
+                //   'assets/images/Yoga Ejemplo 5.png',
+                // ),
+                // programsMaster(
+                //   '30 day yoga challenge',
+                //   'Ralph Edwards',
+                //   'Level 5',
+                //   'assets/images/Yoga Ejemplo 6.png',
+                // ),
+                // programsMaster(
+                //   '30 day yoga challenge',
+                //   'Ralph Edwards',
+                //   'Level 5',
+                //   'assets/images/Yoga Ejemplo 7.png',
+                // ),
               ],
             ),
           ),
@@ -403,5 +371,207 @@ class _PopularSearch extends State<PopularSearch> {
         ],
       ),
     );
+  }
+
+  Widget _buildSearchBar() {
+    return BlocBuilder<SearchBloc, SearchState>(
+      builder: (context, state) {
+        /*return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            borderRadius: BorderRadius.circular(20.0)
+          ),
+          child: */return TextField(
+            controller: searchText,
+            decoration: InputDecoration(
+              hintText: 'Buscar...',
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.clear),
+                onPressed: () => searchText.clear(),
+              ),
+              prefixIcon: _buildSearchButton(),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0)
+              )
+            ),
+            onSubmitted: (value) {
+              if (value.isNotEmpty) {
+                BlocProvider.of<SearchBloc>(context).add(
+                  SearchSent(0, 0, const [], value) //TODO: Test Search only, still need to add filter by tag and whatever the fuck i have to do with pagination
+                );
+              }
+            },
+          );
+        //);
+      }
+    );
+  }
+
+  Widget _buildSearchButton() {
+    // print('search button built');
+    return BlocBuilder<SearchBloc, SearchState>(
+      builder: (context, state) {
+        // print('Not exploded yet');
+        if (state is SearchLoading) {
+          return const CircularProgressIndicator();
+        }
+        return IconButton(
+          icon: const Icon(Icons.search),
+          onPressed: () {
+            if (searchText.text.isNotEmpty) {
+              // print('This should not get printed');
+              BlocProvider.of<SearchBloc>(context).add(
+                SearchSent(0, 3, const [], searchText.text) //TODO: Test Search only, still need to add filter by tag and whatever the fuck i have to do with pagination
+              );
+            }
+          }
+        );
+      }
+    );
+  }
+
+  Widget _buildCourseCards() {
+    return BlocBuilder<SearchBloc, SearchState>(
+      builder: (context, state) {
+        if (state is SearchLoading) {
+          return ListView(
+          scrollDirection: Axis.horizontal,
+          children: const [
+            Center(
+              heightFactor: 1,
+              widthFactor: 1,
+              child: SizedBox(
+                height: 150,
+                width: 150,
+                child: CircularProgressIndicator(
+                  strokeWidth: 1.5
+                ),
+              ),
+            )
+          ],
+        );
+        } else if (state is SearchSuccess) {
+          List<Widget> courseCards = [];
+          for (var course in state.result.courses) {
+            courseCards.add(ScrollHorizontal(
+              titulo: course.title,
+              descripcion: course.description, 
+              categoria: course.category, 
+              fecha: '${course.date!.day}/${course.date!.month}/${course.date!.year}', 
+              foto: course.image, 
+              disposicion: 2, 
+              isNew: false, 
+              conexion: '/videos'));
+          }
+          return ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: courseCards
+                  );
+        } else {
+          return ListView( //TODO: Default search here when I make it
+                    scrollDirection: Axis.horizontal,
+                    children: const [
+                      ScrollHorizontal(
+                        titulo:
+                            "15 Minutes yoga practice the beginner in 30 days",
+                        descripcion: "Descripcion",
+                        categoria: "Trainning",
+                        fecha: "Feb 17, 2020",
+                        foto: "assets/images/Yoga Ejemplo 1.png",
+                        disposicion: 2,
+                        isNew: false,
+                        conexion: "/videos",
+                      ),
+                      ScrollHorizontal(
+                        titulo:
+                            "23 Minutes yoga practice the beginner in 30 days",
+                        descripcion: "Descripcion",
+                        categoria: "Morning",
+                        fecha: "Feb 18, 2020",
+                        foto: "assets/images/Yoga Ejemplo 2.png",
+                        disposicion: 2,
+                        isNew: false,
+                        conexion: "/videos",
+                      ),
+                      ScrollHorizontal(
+                        titulo:
+                            "30 Minutes yoga practice the beginner in 30 days",
+                        descripcion: "Descripcion",
+                        categoria: "For Women",
+                        fecha: "Feb 20, 2020",
+                        foto: "assets/images/Yoga Ejemplo 3.png",
+                        disposicion: 2,
+                        isNew: false,
+                        conexion: "/videos",
+                      ),
+                    ],
+                  );
+        }
+      });
+  }
+
+  Widget _buildBlogCards() {
+    return BlocBuilder<SearchBloc, SearchState>(
+      builder: (context, state) {
+        if (state is SearchLoading) {
+          return ListView(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            children: const [
+              Center(
+                heightFactor: 1,
+                widthFactor: 1,
+                child: SizedBox(
+                  height: 150,
+                  width: 150,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1.5
+                  ),
+                ),
+              )
+            ],
+          );
+        } else if (state is SearchSuccess) {
+          List<Widget> blogCards = [];
+          for (var blog in state.result.blogs) {
+            blogCards.add(programsMaster(blog.title, blog.trainer!.name, blog.category!, blog.images!.first));
+          }
+          return ListView(
+            scrollDirection: Axis.vertical,
+            children: blogCards,
+          );
+        } else { //TODO: Default blog search when i have it
+          return ListView(
+            scrollDirection: Axis.vertical,
+            children: [
+              programsMaster(
+                '30 day yoga challenge',
+                'Ralph Edwards',
+                'Level 5',
+                'assets/images/Yoga Ejemplo 4.png',
+              ),
+              programsMaster(
+                '30 day yoga challenge',
+                'Ralph Edwards',
+                'Level 5',
+                'assets/images/Yoga Ejemplo 5.png',
+              ),
+              programsMaster(
+                '30 day yoga challenge',
+                'Ralph Edwards',
+                'Level 5',
+                'assets/images/Yoga Ejemplo 6.png',
+              ),
+              programsMaster(
+                '30 day yoga challenge',
+                'Ralph Edwards',
+                'Level 5',
+                'assets/images/Yoga Ejemplo 7.png',
+              )
+            ]
+          );
+        }
+      });
   }
 }

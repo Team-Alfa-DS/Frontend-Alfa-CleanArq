@@ -1,3 +1,4 @@
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -333,7 +334,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   borderRadius: BorderRadius.circular(9),
                   child: TextField(
                     onTap: () {
-                      context.push('/popularSearch');
+                      // print('going to popular search');
+                      // context.push('/popularSearch');
+                      Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const PopularSearch()));
                     },
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(

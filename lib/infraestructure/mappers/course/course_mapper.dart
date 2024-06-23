@@ -5,6 +5,7 @@ import 'package:alpha_gymnastic_center/infraestructure/mappers/trainer/trainer_m
 class CourseMapper {
   static Course fromJson(Map<String, dynamic> json) {
     try {
+      print(json['title']);
       return Course(
         id: json['id'] as String,
         title: json['title'] as String? ?? '',
@@ -13,8 +14,8 @@ class CourseMapper {
         image: json['image'] as String? ?? '',
         trainer: TrainerMapper.fromJson(json['trainer']),
         level: json['level'] as String? ?? '',
-        durationWeeks: json['durationWeeks'] as int? ?? 0,
-        durationMinutes: json['durationMinutes'] as int? ?? 0,
+        durationWeeks: json['DurationWeeks'] as int? ?? 0, //TODO: No olvidar cambiar de nuevo a durationWeeks cuando se cambie en el back
+        durationMinutes: json['DurationMinutes'] as int? ?? 0,
         tags: List<String>.from(json['tags']),
         date: DateTime.parse(json['date']),
         lessons: (json['lessons'] as List)
@@ -36,8 +37,8 @@ class CourseMapper {
       'image': course.image,
       'trainer': TrainerMapper.toJson(course.trainer),
       'level': course.level,
-      'durationWeeks': course.durationWeeks,
-      'durationMinutes': course.durationMinutes,
+      'DurationWeeks': course.durationWeeks,
+      'DurationMinutes': course.durationMinutes,
       'tags': course.tags,
       'date': course.date?.toIso8601String(),
       'lessons':
