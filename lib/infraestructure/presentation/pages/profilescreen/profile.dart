@@ -1,14 +1,10 @@
-// lib/infraestructure/presentation/pages/perfil_usuario.dart
-
-import 'dart:async';
 import 'package:alpha_gymnastic_center/aplication/BLoC/progress/profile/profile_progress_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_profile_progress_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:get_it/get_it.dart';
 
 class PerfilUsuario extends StatelessWidget {
   const PerfilUsuario({super.key});
@@ -17,7 +13,7 @@ class PerfilUsuario extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ProfileProgressBloc(
-        getProfileProgressUseCase: context.read<GetProfileProgressUseCase>(),
+        getProfileProgressUseCase: GetIt.instance<GetProfileProgressUseCase>(),
       )..add(LoadProfileProgress()),
       child: BlocBuilder<ProfileProgressBloc, ProfileProgressState>(
         builder: (context, state) {
@@ -361,27 +357,4 @@ class PerfilUsuario extends StatelessWidget {
       ),
     );
   }
-}
-
-class UserData {
-  final String name;
-  final int followers;
-  final int following;
-
-  UserData(
-      {required this.name, required this.followers, required this.following});
-}
-
-class WeekdayData {
-  final String day;
-  final int sales;
-
-  WeekdayData(this.day, this.sales);
-}
-
-class ProfileData {
-  final num percent;
-  final int time;
-
-  ProfileData({required this.percent, required this.time});
 }

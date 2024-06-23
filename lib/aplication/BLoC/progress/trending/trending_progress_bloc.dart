@@ -23,7 +23,8 @@ class TrendingProgressBloc
 
     final result = await getTrendingProgressUseCase
         .execute(GetTrendingProgressUseCaseInput());
-
+    print("xd hola");
+    print(result.value);
     if (result.hasValue()) {
       emit(TrendingProgressLoaded(progress: result.value!));
     } else {

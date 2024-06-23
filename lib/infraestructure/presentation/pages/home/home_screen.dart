@@ -6,6 +6,7 @@ import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/prog
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
@@ -89,7 +90,7 @@ class HomeScreen extends StatelessWidget {
       body: BlocProvider(
         create: (context) => TrendingProgressBloc(
           getTrendingProgressUseCase:
-              context.read<GetTrendingProgressUseCase>(),
+              GetIt.instance<GetTrendingProgressUseCase>(),
         )..add(LoadTrendingProgress()),
         child: MiScaffold(
           body: ListView(
