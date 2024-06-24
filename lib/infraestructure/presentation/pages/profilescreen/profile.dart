@@ -1,6 +1,8 @@
-import 'dart:async';
-
+import 'package:alpha_gymnastic_center/aplication/BLoC/progress/profile/profile_progress_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_profile_progress_use_case.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -494,46 +496,4 @@ class PerfilUsuario extends StatelessWidget {
       ),
     );
   }
-
-  List<BarChartGroupData> getBarGroups() {
-    List<int> weeklyData = [5, 25, 100, 75, 56, 45, 85];
-
-    return List.generate(weeklyData.length, (i) {
-      return BarChartGroupData(
-        x: i,
-        barRods: [
-          BarChartRodData(
-            y: weeklyData[i].toDouble(),
-            colors: [i % 2 == 0 ? Colors.purple : Colors.green],
-            borderRadius: const BorderRadius.all(Radius.circular(5)),
-          ),
-        ],
-      );
-    });
-  }
-
-  // ...
-}
-
-class UserData {
-  final String name;
-  final int followers;
-  final int following;
-
-  UserData(
-      {required this.name, required this.followers, required this.following});
-}
-
-class WeekdayData {
-  final String day;
-  final int sales;
-
-  WeekdayData(this.day, this.sales);
-}
-
-class ProfileData {
-  final num percent;
-  final int time;
-
-  ProfileData({required this.percent, required this.time});
 }

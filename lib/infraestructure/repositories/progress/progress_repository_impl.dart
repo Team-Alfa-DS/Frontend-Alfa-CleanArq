@@ -61,21 +61,21 @@ class ProgressRepositoryImpl extends ProgressRepository {
   }
 
   @override
-  Future<Result<List<TrendingProgressResponse>>> getTrendingProgress() async {
+  Future<Result<TrendingProgressResponse>> getTrendingProgress() async {
     await _setAuthHeader();
-    final response =
-        await _apiRequestManager.request<List<TrendingProgressResponse>>(
+
+    final response = await _apiRequestManager.request<TrendingProgressResponse>(
       '/progress/trending',
       'GET',
       (data) {
-        return (data as List).map((progress) {
-          return TrendingProgressResponse(
-            percent: progress['Percent'],
-            courseTitle: progress['courseTitle'],
-            courseId: progress['courseId'],
-            lastTime: DateTime.parse(progress['lastTime']),
-          );
-        }).toList();
+        print("la dataaaa");
+        print("data$data");
+        return TrendingProgressResponse(
+          percent: data['percent'].toDouble(),
+          courseTitle: data['courseTitle'],
+          courseId: data['courseId'],
+          lastTime: DateTime.parse(data['lastTime']),
+        );
       },
     );
 
@@ -89,9 +89,11 @@ class ProgressRepositoryImpl extends ProgressRepository {
       '/progress/profile',
       'GET',
       (data) {
+        print("AJSDJASDJASJD progres profileee");
+        print(data.toString());
         return ProfileProgressResponse(
-          percent: data['Percent'],
-          time: data['Time'],
+          percent: data['percent'].toDouble(),
+          time: data['time'] ?? 0,
         );
       },
     );

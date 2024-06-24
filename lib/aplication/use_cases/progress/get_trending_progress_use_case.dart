@@ -8,13 +8,13 @@ import 'package:alpha_gymnastic_center/domain/interfaces/progress_interfaces.dar
 class GetTrendingProgressUseCaseInput extends IUseCaseInput {}
 
 class GetTrendingProgressUseCase extends IUseCase<
-    GetTrendingProgressUseCaseInput, List<TrendingProgressResponse>> {
+    GetTrendingProgressUseCaseInput, TrendingProgressResponse> {
   final ProgressRepository progressRepository;
 
   GetTrendingProgressUseCase({required this.progressRepository});
 
   @override
-  Future<Result<List<TrendingProgressResponse>>> execute(
+  Future<Result<TrendingProgressResponse>> execute(
       GetTrendingProgressUseCaseInput params) async {
     final result = await progressRepository.getTrendingProgress();
     return result;
