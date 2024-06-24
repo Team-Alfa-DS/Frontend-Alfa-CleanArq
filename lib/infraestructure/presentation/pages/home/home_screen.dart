@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses_h.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/progressbar.dart';

@@ -10,7 +10,7 @@ export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/settin
 export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/settingscreen/settingsscreen.dart';
 export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/splashscreen/splash_screen.dart';
 export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/blog/blogs.dart';
-export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/trainingscreen/trainingscreen.dart';
+export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/trainingscreen/training_screen.dart';
 export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/videos.dart';
 export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/onboarding/onboarding_screen_1.dart';
 export 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/home.dart';

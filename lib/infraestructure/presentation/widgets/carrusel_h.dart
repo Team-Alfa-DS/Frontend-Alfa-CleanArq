@@ -6,18 +6,18 @@ class ScrollH<T> extends StatelessWidget {
   final Function(T item) onTap;
 
   const ScrollH({
-    Key? key,
+    super.key,
     required this.item,
     required this.disposicion,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => onTap(item),
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10.0),
+        margin: const EdgeInsets.symmetric(horizontal: 10.0),
         width: disposicion == 4 ? 80.0 : 200.0,
         height: disposicion == 4 ? 120.0 : null,
         decoration: BoxDecoration(
@@ -42,7 +42,7 @@ class ScrollH<T> extends StatelessWidget {
       case 4:
         return _buildSmallIconWithTitle();
       default:
-        return Container(); // Puedes definir un comportamiento por defecto aquí
+        return Container();
     }
   }
 
@@ -146,7 +146,7 @@ class ScrollH<T> extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              SizedBox(height: 5.0),
+              const SizedBox(height: 5.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -187,7 +187,7 @@ class ScrollH<T> extends StatelessWidget {
   }
 
   Widget _buildSmallIconWithTitle() {
-    return Column(
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(
@@ -198,7 +198,7 @@ class ScrollH<T> extends StatelessWidget {
         SizedBox(height: 5.0),
         Text(
           'Favorito',
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 12.0,
@@ -224,6 +224,6 @@ class ScrollH<T> extends StatelessWidget {
         return NetworkImage(fotoUrl);
       }
     }
-    return AssetImage('assets/images/placeholder_image.jpg');
+    return const AssetImage('assets/images/placeholder_image.jpg');
   }
 }
