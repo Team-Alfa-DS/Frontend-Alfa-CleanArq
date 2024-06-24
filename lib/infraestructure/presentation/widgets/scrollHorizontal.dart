@@ -3,9 +3,6 @@ import 'package:go_router/go_router.dart';
 
 /*
     RECUERDEN LLAMAR A ESTA CLASE DE LA SIGUIENTE MANERA:
-                flut
-
-
     Disposicion 1: Foto grande y dentro de la foto esta el titulo y la descripcion
     Disposicion 2: Foto pequena y abajo esta el titulo, categoria y fecha
     Disposicion 3: Es simplemente La imagen con un icono de play 
@@ -24,7 +21,7 @@ class ScrollHorizontal extends StatelessWidget {
   final ImageProvider? fotoProvider;
 
   const ScrollHorizontal({
-    Key? key,
+    super.key,
     required this.titulo,
     required this.descripcion,
     required this.categoria,
@@ -34,7 +31,7 @@ class ScrollHorizontal extends StatelessWidget {
     required this.disposicion,
     required this.isNew,
     required this.conexion,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +45,7 @@ class ScrollHorizontal extends StatelessWidget {
         height: disposicion == 4 ? 120.0 : (disposicion == 2 ? 80.0 : null),
         decoration: BoxDecoration(
           color: disposicion == 4
-              ? Color.fromARGB(255, 212, 212, 212)
+              ? const Color.fromARGB(255, 212, 212, 212)
               : (disposicion == 2 ? Colors.white : null),
           borderRadius: BorderRadius.circular(10.0),
         ),

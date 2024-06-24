@@ -5,19 +5,6 @@ import 'package:alpha_gymnastic_center/infraestructure/mappers/trainer/trainer_m
 class CourseMapper {
   static Course fromJson(Map<String, dynamic> json) {
     try {
-      print('id: ${json['id']}');
-      print('title: ${json['title']}');
-      print('description: ${json['description']}');
-      print('category: ${json['category']}');
-      print('image: ${json['image']}');
-      print('trainer: ${json['trainer']}');
-      print('level: ${json['level']}');
-      print('DurationWeeks: ${json['DurationWeeks']}');
-      print('DurationMinutes: ${json['DurationMinutes']}');
-      print('tags: ${json['tags']}');
-      print('date: ${json['date']}');
-      print('lessons: ${json['lessons']}');
-
       return Course(
         id: json['id'] as String,
         title: json['title'] as String? ?? '',
@@ -46,7 +33,7 @@ class CourseMapper {
       );
     } catch (e) {
       print('Error in CourseMapper.fromJson: $e');
-      throw e;
+      rethrow;
     }
   }
 
