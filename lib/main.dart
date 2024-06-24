@@ -1,6 +1,10 @@
+import 'package:alpha_gymnastic_center/aplication/BLoC/progress/profile/profile_progress_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/progress/trending/trending_progress_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/theme/theme_cubit.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/change_password/change_password_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_profile_progress_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_trending_progress_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/change_password_use_case.dart';
 import 'package:alpha_gymnastic_center/config/routes/router.dart';
 import 'package:alpha_gymnastic_center/config/theme/themes.dart';
