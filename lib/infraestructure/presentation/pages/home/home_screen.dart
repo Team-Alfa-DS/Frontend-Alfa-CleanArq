@@ -286,11 +286,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         String name = 'Nombre de Usuario';
-        String uuid = 'ID de Usuario';
+        String email = 'ID de Usuario';
 
         if (state is UserLoaded) {
           name = getFirstTwoWords(state.user.name ?? 'Nombre de Usuario');
-          uuid = state.user.id ?? 'ID de Usuario';
+          email = state.user.email ?? 'Email';
         }
 
         return AppBar(
@@ -335,7 +335,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white)),
-                            Text('ID: ${uuid.substring(0, 8)}',
+                            Text(email,
                                 style: const TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,

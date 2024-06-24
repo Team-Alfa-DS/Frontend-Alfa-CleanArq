@@ -1,10 +1,12 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/progress/profile/profile_progress_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_profile_progress_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:alpha_gymnastic_center/common/utils/string_utils.dart';
 
 class PerfilUsuario extends StatelessWidget {
   const PerfilUsuario({super.key});
@@ -43,146 +45,157 @@ class PerfilUsuario extends StatelessWidget {
   }
 
   Widget buildAppBar(BuildContext context, double percent, int time) {
-    return Container(
-      height: 260.0,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-        borderRadius: BorderRadius.only(
-          bottomRight: Radius.circular(30.0),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            const SizedBox(height: 20.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                const SizedBox(width: 20.0),
-                const Text(
-                  'Profile',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-                const SizedBox(width: 220.0),
-                IconButton(
-                  icon: const Icon(Icons.edit, color: Colors.white),
-                  onPressed: () {},
-                ),
-              ],
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        String userName = 'Nombre de Usuario';
+        if (state is UserLoaded) {
+          userName = getFirstTwoWords(state.user.name ?? 'Nombre de Usuario');
+        }
+
+        return Container(
+          height: 260.0,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
-            const SizedBox(height: 10.0),
-            const Row(
+            borderRadius: BorderRadius.only(
+              bottomRight: Radius.circular(30.0),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
               children: [
-                CircleAvatar(
-                  radius: 35.0,
-                  backgroundImage: AssetImage('assets/images/user.png'),
-                ),
-                SizedBox(width: 20.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                const SizedBox(height: 20.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      'Nombre de Usuario',
-                      style: TextStyle(fontSize: 18.0, color: Colors.white),
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
-                    Row(
-                      children: [
-                        SizedBox(width: 30),
-                        SizedBox(
-                          width: 100,
-                          child: Text(
-                            '0',
-                            style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Text(
-                          '0',
-                          style: TextStyle(
-                              fontSize: 20.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                    const SizedBox(width: 20.0),
+                    const Text(
+                      'Profile',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
                     ),
-                    Row(
+                    const SizedBox(width: 220.0),
+                    IconButton(
+                      icon: const Icon(Icons.edit, color: Colors.white),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10.0),
+                Row(
+                  children: [
+                    const CircleAvatar(
+                      radius: 35.0,
+                      backgroundImage: AssetImage('assets/images/user.png'),
+                    ),
+                    const SizedBox(width: 20.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(width: 0),
-                        SizedBox(
-                          width: 100,
-                          child: Text(
-                            'followers',
-                            style:
-                                TextStyle(fontSize: 16.0, color: Colors.white),
-                          ),
-                        ),
                         Text(
-                          'followings',
-                          style: TextStyle(fontSize: 16.0, color: Colors.white),
+                          userName,
+                          style: const TextStyle(
+                              fontSize: 18.0, color: Colors.white),
+                        ),
+                        const Row(
+                          children: [
+                            SizedBox(width: 30),
+                            SizedBox(
+                              width: 100,
+                              child: Text(
+                                '0',
+                                style: TextStyle(
+                                    fontSize: 20.0,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Text(
+                              '0',
+                              style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        const Row(
+                          children: [
+                            SizedBox(width: 0),
+                            SizedBox(
+                              width: 100,
+                              child: Text(
+                                'followers',
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white),
+                              ),
+                            ),
+                            Text(
+                              'followings',
+                              style: TextStyle(
+                                  fontSize: 16.0, color: Colors.white),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ],
                 ),
+                Row(
+                  children: [
+                    const SizedBox(width: 65),
+                    const IconButton(
+                      icon: Icon(Icons.sentiment_satisfied_alt,
+                          color: Colors.white, size: 20),
+                      onPressed: null,
+                    ),
+                    const SizedBox(width: 175),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: ' $time ',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const TextSpan(
+                            text: ' hrs',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10.0,
+                  width: 250,
+                  child: LinearProgressIndicator(
+                      value: percent, color: Colors.green),
+                ),
               ],
             ),
-            Row(
-              children: [
-                const SizedBox(width: 65),
-                const IconButton(
-                  icon: Icon(Icons.sentiment_satisfied_alt,
-                      color: Colors.white, size: 20),
-                  onPressed: null,
-                ),
-                const SizedBox(width: 175),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: ' $time ',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const TextSpan(
-                        text: ' hrs',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10.0,
-              width: 250,
-              child:
-                  LinearProgressIndicator(value: percent, color: Colors.green),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
