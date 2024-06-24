@@ -1,6 +1,9 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/progress/profile/profile_progress_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_profile_progress_use_case.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course_detailed.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/carruselh.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
@@ -28,9 +31,9 @@ class PerfilUsuario extends StatelessWidget {
                 child: Column(
                   children: [
                     buildAppBar(context, state.percent, state.time),
-                    const SizedBox(height: 80.0),
+                    const SizedBox(height: 10.0),
                     buildTrainningSection(),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 10),
                     buildYogaPhotosSection(),
                   ],
                 ),
@@ -62,32 +65,40 @@ class PerfilUsuario extends StatelessWidget {
               end: Alignment.bottomCenter,
             ),
             borderRadius: BorderRadius.only(
-              bottomRight: Radius.circular(30.0),
+              bottomRight: Radius.circular(50.0),
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding:
+                const EdgeInsets.only(left: 10, top: 30, right: 10, bottom: 20),
             child: Column(
               children: [
-                const SizedBox(height: 20.0),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back, color: Colors.white),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        //const SizedBox(width: 20.0),
+                        const Text(
+                          'Profile',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 20.0),
-                    const Text(
-                      'Profile',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                    const SizedBox(width: 220.0),
+                    //const SizedBox(width: 220.0),
                     IconButton(
                       icon: const Icon(Icons.edit, color: Colors.white),
                       onPressed: () {
@@ -96,23 +107,26 @@ class PerfilUsuario extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10.0),
+                //const SizedBox(height: 10.0),
                 Row(
                   children: [
                     const CircleAvatar(
-                      radius: 35.0,
+                      radius: 50.0,
                       backgroundImage: AssetImage('assets/images/user.png'),
+                      backgroundColor: Colors.transparent,
                     ),
-                    const SizedBox(width: 20.0),
+                    //const SizedBox(width: 10.0),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           userName,
                           style: const TextStyle(
-                              fontSize: 18.0, color: Colors.white),
+                              fontSize: 20.0,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500),
                         ),
-                        const Row(
+                        /*const Row(
                           children: [
                             SizedBox(width: 30),
                             SizedBox(
@@ -133,8 +147,8 @@ class PerfilUsuario extends StatelessWidget {
                                   fontWeight: FontWeight.bold),
                             ),
                           ],
-                        ),
-                        const Row(
+                        ),*/
+                        /*const Row(
                           children: [
                             SizedBox(width: 0),
                             SizedBox(
@@ -151,14 +165,14 @@ class PerfilUsuario extends StatelessWidget {
                                   fontSize: 16.0, color: Colors.white),
                             ),
                           ],
-                        ),
+                        ),*/
                       ],
                     ),
                   ],
                 ),
                 Row(
                   children: [
-                    const SizedBox(width: 65),
+                    const SizedBox(width: 50),
                     const IconButton(
                       icon: Icon(Icons.sentiment_satisfied_alt,
                           color: Colors.white, size: 20),
@@ -177,10 +191,10 @@ class PerfilUsuario extends StatelessWidget {
                             ),
                           ),
                           const TextSpan(
-                            text: ' hrs',
+                            text: 'hrs',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: 14,
                             ),
                           ),
                         ],
@@ -189,10 +203,14 @@ class PerfilUsuario extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: 10.0,
+                  height: 5.0,
                   width: 250,
                   child: LinearProgressIndicator(
-                      value: percent, color: Colors.green),
+                    backgroundColor: Colors.white,
+                    value: percent,
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                 ),
               ],
             ),
@@ -203,23 +221,23 @@ class PerfilUsuario extends StatelessWidget {
   }
 
   Widget buildTrainningSection() {
-    return SizedBox(
+    return const SizedBox(
       height: 230,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        //crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(left: 20.0),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             child: Row(
               children: [
-                const Text(
+                Text(
                   'My Trainning',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(width: 100),
-                SizedBox(
+                //const SizedBox(width: 100),
+                /*SizedBox(
                   height: 20,
-                  width: 107,
+                  width: 100,
                   child: TextButton(
                     onPressed: () {},
                     child: const Text(
@@ -231,12 +249,18 @@ class PerfilUsuario extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
+                ),*/
               ],
             ),
           ),
-          const SizedBox(height: 0),
-          Expanded(
+          SizedBox(height: 10),
+          Expanded(child: PopularProcessesCarousel()),
+        ],
+      ),
+    );
+  }
+
+/*Expanded(
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: const <Widget>[
@@ -282,11 +306,7 @@ class PerfilUsuario extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
-  }
+          ),*/
 
   Widget buildYogaPhotosSection() {
     return SizedBox(
