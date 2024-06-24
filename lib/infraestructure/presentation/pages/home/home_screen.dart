@@ -1,17 +1,17 @@
+import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
+import 'package:alpha_gymnastic_center/common/utils/string_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/progressbar.dart';
 
 import '../../../../domain/entities/blog.dart';
-import '../../widgets/blogitem.dart';
 import '../../widgets/categoryItem.dart';
 
-import '../../widgets/courseitem.dart';
 import '../../widgets/scrollHorizontal.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -254,126 +254,122 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-  String name = 'Nombre de Usuario';
-  String uuid = 'ID de Usuario';
   int? _selectedDayIndex = 1; // Por defecto, 'Hoy' está seleccionado
   final List<String> _days = ['Mañana', 'Hoy', 'Ayer'];
 
   @override
-  void initState() {
-    super.initState();
-    _loadUserData();
-  }
-
-  Future<void> _loadUserData() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      name = prefs.getString('name') ?? 'Nombre de Usuario';
-      uuid = prefs.getString('uuid') ?? 'ID de Usuario';
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return AppBar(
-      automaticallyImplyLeading: false,
-      actions: <Widget>[
-        IconButton(
-          icon: const CircleAvatar(
-            backgroundImage: AssetImage('assets/images/user.png'),
-          ),
-          onPressed: () {
-            context.push('/profile');
-          },
-        ),
-      ],
-      flexibleSpace: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
-          ),
-          borderRadius: BorderRadius.only(
-            bottomRight: Radius.circular(30.0),
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0, vertical: 20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        String name = 'Nombre de Usuario';
+        String uuid = 'ID de Usuario';
+
+        if (state is UserLoaded) {
+          name = getFirstTwoWords(state.user.name ?? 'Nombre de Usuario');
+          uuid = state.user.id ?? 'ID de Usuario';
+        }
+
+        return AppBar(
+          automaticallyImplyLeading: false,
+          actions: <Widget>[
+            IconButton(
+              icon: const CircleAvatar(
+                backgroundImage: AssetImage('assets/images/user.png'),
+              ),
+              onPressed: () {
+                context.push('/profile');
+              },
+            ),
+          ],
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
+              ),
+              borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(30.0),
+              ),
+            ),
+            child: SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(name,
-                            style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white)),
-                        Text('ID: ${uuid.substring(0, 8)}',
-                            style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white)),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(name,
+                                style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white)),
+                            Text('ID: ${uuid.substring(0, 8)}',
+                                style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white)),
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(9),
-                  child: TextField(
-                    onTap: () {
-                      // context.push('/popularSearch');
-                    },
-                    textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      hintText: 'Buscar...',
-                      filled: true,
-                      fillColor: Colors.white,
-                      prefixIcon: Icon(Icons.search),
-                    ),
                   ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: _days.map((day) {
-                  int index = _days.indexOf(day);
-                  return TextButton(
-                    onPressed: () {
-                      setState(() {
-                        _selectedDayIndex = index;
-                      });
-                    },
-                    child: Text(
-                      day,
-                      style: TextStyle(
-                        fontSize: 17,
-                        color: _selectedDayIndex == index
-                            ? Colors.white
-                            : Colors.white.withOpacity(0.5),
-                        fontWeight: _selectedDayIndex == index
-                            ? FontWeight.bold
-                            : FontWeight.normal,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(9),
+                      child: TextField(
+                        onTap: () {
+                          // context.push('/popularSearch');
+                        },
+                        textAlign: TextAlign.center,
+                        decoration: const InputDecoration(
+                          hintText: 'Buscar...',
+                          filled: true,
+                          fillColor: Colors.white,
+                          prefixIcon: Icon(Icons.search),
+                        ),
                       ),
                     ),
-                  );
-                }).toList(),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: _days.map((day) {
+                      int index = _days.indexOf(day);
+                      return TextButton(
+                        onPressed: () {
+                          setState(() {
+                            _selectedDayIndex = index;
+                          });
+                        },
+                        child: Text(
+                          day,
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: _selectedDayIndex == index
+                                ? Colors.white
+                                : Colors.white.withOpacity(0.5),
+                            fontWeight: _selectedDayIndex == index
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

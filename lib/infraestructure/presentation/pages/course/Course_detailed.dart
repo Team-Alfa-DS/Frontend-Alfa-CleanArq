@@ -380,12 +380,12 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
     List<Lesson> lessonIdIterator = course.lessons;
     String lessonIdFound = "";
 
-    lessonIdIterator.forEach((lesson) {
+    for (var lesson in lessonIdIterator) {
       if (lesson.id != lessonid) {
-        return;
+        continue;
       }
       lessonIdFound = lesson.id;
-    });
+    }
 
     Navigator.push(
         context,
