@@ -92,8 +92,8 @@ class ProgressRepositoryImpl extends ProgressRepository {
         print("AJSDJASDJASJD progres profileee");
         print(data.toString());
         return ProfileProgressResponse(
-          percent: data['percent'],
-          time: data['time'] ? 0 : data['time'],
+          percent: data['percent'].toDouble(),
+          time: data['time'] ?? 0,
         );
       },
     );

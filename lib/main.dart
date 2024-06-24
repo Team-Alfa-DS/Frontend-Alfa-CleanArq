@@ -37,15 +37,6 @@ class BlocsProvider extends StatelessWidget {
                         GetIt.instance<ChangePasswordUseCase>(),
                   )),
           BlocProvider(create: (context) => UserBloc()),
-          BlocProvider(
-              create: (context) => TrendingProgressBloc(
-                    getTrendingProgressUseCase:
-                        GetIt.instance<GetTrendingProgressUseCase>(),
-                  )),
-          BlocProvider(
-              create: (context) => ProfileProgressBloc(
-                  getProfileProgressUseCase:
-                      GetIt.instance<GetProfileProgressUseCase>()))
         ],
         child: const MyApp());
   }
