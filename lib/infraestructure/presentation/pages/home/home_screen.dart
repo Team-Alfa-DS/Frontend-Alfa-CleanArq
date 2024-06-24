@@ -2,6 +2,7 @@ import 'package:alpha_gymnastic_center/aplication/BLoC/progress/trending/trendin
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_trending_progress_use_case.dart';
 import 'package:alpha_gymnastic_center/common/utils/string_utils.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/no_progress_section.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/progressbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/side
 import '../../../../domain/entities/blog.dart';
 import '../../widgets/categoryItem.dart';
 import '../../widgets/scrollHorizontal.dart';
+// Importar el nuevo componente
 
 class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -104,7 +106,11 @@ class HomeScreen extends StatelessWidget {
                       percent: state.progress.percent,
                     );
                   } else if (state is TrendingProgressError) {
-                    return Text('Error: ${state.message}');
+                    if (state.message == "El usuario no posee progreso") {
+                      return const NoProgressSection();
+                    } else {
+                      return Text('Error: ${state.message}');
+                    }
                   }
                   return Container();
                 },
