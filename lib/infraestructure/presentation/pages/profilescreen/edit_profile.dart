@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -120,7 +121,7 @@ class _EditProfileState extends State<EditProfile> {
         ? CircleAvatar(
             //*Imagen actualizada
             radius: 80.0,
-            backgroundImage: MemoryImage(_image!),
+            backgroundImage: FileImage(selectedImage!) /*MemoryImage(_image!)*/,
             backgroundColor: Colors.transparent,
           )
         : const CircleAvatar(
@@ -201,6 +202,13 @@ class _EditProfileState extends State<EditProfile> {
       _image = File(returnImage.path).readAsBytesSync();
     });
     Navigator.of(context).pop();
+  }
+
+  String image64() {
+    List<int> imageBytes = selectedImage!.readAsBytesSync();
+    print(imageBytes);
+    String base64Image = base64Encode(imageBytes);
+    return base64Image;
   }
 
 //*Boton para registrar
@@ -334,7 +342,7 @@ class _EditProfileState extends State<EditProfile> {
               final password = (passwordController.text.isEmpty)
                   ? 'None'
                   : passwordController.text;
-              final image = (_image == null) ? 'None' : _image.toString();
+              final image = (_image == null) ? 'None' : image64();
 
               if (nameController.text.isNotEmpty ||
                   phoneController.text.isNotEmpty ||

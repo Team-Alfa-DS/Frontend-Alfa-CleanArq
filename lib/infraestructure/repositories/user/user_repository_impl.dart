@@ -33,6 +33,7 @@ class UserRepositoryImpl extends UserRepository {
       print('User Name: ${user.name}');
       print('User Email: ${user.email}');
       print('User Phone: ${user.phone}');
+      print('User Image: ${user.imagenPerfil}');
       print('User Type: ${user.type}');
       print('User Token : ${user.token}');
     } else {

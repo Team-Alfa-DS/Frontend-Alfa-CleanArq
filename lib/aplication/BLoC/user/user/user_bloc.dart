@@ -15,6 +15,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       print('XD User Name: ${event.user.name}');
       print('XD User Email: ${event.user.email}');
       print('XD User Phone: ${event.user.phone}');
+      print('XD User Image: ${event.user.imagenPerfil}');
       print('XD User Type: ${event.user.type}');
       print('XD User Token : ${event.user.token}');
       emit(UserLoaded(user: event.user));
