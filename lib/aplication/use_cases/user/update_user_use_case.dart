@@ -30,6 +30,9 @@ class UpdateUserUseCase extends IUseCase<UpdateUserUseCaseInput, void> {
 
   @override
   Future<Result<void>> execute(UpdateUserUseCaseInput params) async {
+    final user = await userRepository
+        .getCurrentUser(await localStorage.getAuthorizationToken());
+    
     UpdateUserRequest updateUserRequest = UpdateUserRequest(
       email: params.email,
       name: params.name,
@@ -40,7 +43,8 @@ class UpdateUserUseCase extends IUseCase<UpdateUserUseCaseInput, void> {
 
     final result =
         //await userRepository.updateUser(params.token, updateUserRequest);
-        await userRepository.updateUser(localStorage.getAuthorizationToken().toString(), updateUserRequest);
+        await userRepository.updateUser(
+            localStorage.getAuthorizationToken().toString(), updateUserRequest);
     if (result.hasValue()) {
       // Si es necesario, guarda algún dato en localStorage o realiza alguna acción adicional
     }

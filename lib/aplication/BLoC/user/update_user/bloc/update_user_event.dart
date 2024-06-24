@@ -6,19 +6,21 @@ class UpdateUserEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
 class UpdateUserSubmitted extends UpdateUserEvent {
   final String name;
   final String email;
   final String password;
   final String phone;
+  final String image;
 
-  const UpdateUserSubmitted({
-    required this.name,
-    required this.email,
-    required this.password,
-    required this.phone,
-  });
+  const UpdateUserSubmitted(
+      {required this.name,
+      required this.email,
+      required this.password,
+      required this.phone,
+      required this.image});
 
   @override
-  List<Object> get props => [name, email, password, phone];
+  List<Object> get props => [name, email, password, phone, image];
 }

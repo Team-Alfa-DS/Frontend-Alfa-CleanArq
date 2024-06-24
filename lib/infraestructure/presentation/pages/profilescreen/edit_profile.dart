@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditProfile extends StatefulWidget {
@@ -26,6 +27,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordCheckController = TextEditingController();
   Uint8List? _image;
   File? selectedImage;
 
@@ -37,13 +39,28 @@ class _EditProfileState extends State<EditProfile> {
       ),
       child: BlocListener<UpdateUserBloc, UpdateUserState>(
           listener: (context, state) {
-            /*if(state1){
-
-          }
-          else if(state2){
-
-          }*/
-            // TODO: implement listener
+            if (state is UpdateUserSuccess) {
+              context.pop();
+            } else if (state is UpdateUserFailure) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Error!!"),
+                    content: Text(
+                        "Actualizacion de usuario fallo. Error: ${state.failure.message}"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("OK"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
           },
           child: Scaffold(
             appBar: const YogaAppBar(title: "Editar Perfil"),
@@ -54,20 +71,7 @@ class _EditProfileState extends State<EditProfile> {
                   Stack(
                     alignment: AlignmentDirectional.bottomEnd,
                     children: [
-                      _image != null
-                          ? CircleAvatar(
-                              //*Imagen actualizada
-                              radius: 80.0,
-                              backgroundImage: MemoryImage(_image!),
-                              backgroundColor: Colors.transparent,
-                            )
-                          : const CircleAvatar(
-                              //*Imagen Vieja
-                              radius: 80.0,
-                              backgroundImage:
-                                  AssetImage('assets/images/user.png'),
-                              backgroundColor: Colors.transparent,
-                            ),
+                      _circleAvatar(),
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50.0),
@@ -76,6 +80,7 @@ class _EditProfileState extends State<EditProfile> {
                         child: IconButton(
                           onPressed: () {
                             showImagePickerOption(context);
+                            //mostrarCuadroTutorial();
                           },
                           icon: const Icon(Icons.flip_camera_ios_rounded),
                           color: Colors.white,
@@ -94,13 +99,11 @@ class _EditProfileState extends State<EditProfile> {
                   _buildInputField(phoneController, 'numero de telefono'),
                   const SizedBox(height: 5),
                   _buildGreyText("Nueva contraseña"),
-                  _buildInputField(
-                    passwordController,
-                    'contraseña',
-                  ),
+                  _buildInputField(passwordController, 'contraseña',
+                      isPassword: true),
                   const SizedBox(height: 5),
                   _buildGreyText("Repita la contraseña"),
-                  _buildInputField(passwordController, 'contraseña',
+                  _buildInputField(passwordCheckController, 'contraseña',
                       isPassword: true),
                   const SizedBox(height: 10),
                   _buildRegisterButton(),
@@ -110,6 +113,22 @@ class _EditProfileState extends State<EditProfile> {
             ),
           )),
     );
+  }
+
+  Widget _circleAvatar() {
+    return _image != null
+        ? CircleAvatar(
+            //*Imagen actualizada
+            radius: 80.0,
+            backgroundImage: MemoryImage(_image!),
+            backgroundColor: Colors.transparent,
+          )
+        : const CircleAvatar(
+            //*Imagen Vieja
+            radius: 80.0,
+            backgroundImage: AssetImage('assets/images/user.png'),
+            backgroundColor: Colors.transparent,
+          );
   }
 
   void showImagePickerOption(BuildContext context) {
@@ -125,8 +144,8 @@ class _EditProfileState extends State<EditProfile> {
                 children: [
                   Expanded(
                     child: InkWell(
-                      onTap: () {
-                        _pickImageFromGallery();
+                      onTap: () async {
+                        await _pickImageFromGallery();
                       },
                       child: const SizedBox(
                         child: Column(
@@ -195,50 +214,83 @@ class _EditProfileState extends State<EditProfile> {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: ElevatedButton(
             onPressed: () {
-              if (nameController.text.isNotEmpty &&
-                  phoneController.text.isNotEmpty &&
-                  emailController.text.isNotEmpty &&
-                  passwordController.text.isNotEmpty) {
-                if (nameController.text.length >= 3 &&
-                    nameController.text.length <= 30) {
-                  if (RegExp(r'^[0-9]+$').hasMatch(phoneController.text) &&
-                      phoneController.text.length == 11) {
-                    if (EmailValidator.validate(emailController.text)) {
-                      BlocProvider.of<UpdateUserBloc>(context).add(
-                        UpdateUserSubmitted(
-                          name: nameController.text,
-                          email: emailController.text,
-                          password: passwordController.text,
-                          phone: phoneController.text,
-                        ),
+              if (nameController.text.isNotEmpty) {
+                if (nameController.text.length < 3 ||
+                    nameController.text.length > 30) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text("¡Atención!"),
+                        content: const Text(
+                            "El nombre debe ser mayor a 3 caracteres o menor a 30!!"),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("OK"),
+                          ),
+                        ],
                       );
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text("¡Attention!"),
-                            content: const Text("You must put a email"),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text("OK"),
-                              ),
-                            ],
-                          );
-                        },
+                    },
+                  );
+                }
+              }
+              if (phoneController.text.isNotEmpty) {
+                if (!RegExp(r'^[0-9]+$').hasMatch(phoneController.text) ||
+                    phoneController.text.length != 11) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text("¡Atención!"),
+                        content: const Text(
+                            "Por favor, escribe un numero de telefono valido"),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("OK"),
+                          ),
+                        ],
                       );
-                    }
-                  } else {
+                    },
+                  );
+                }
+              }
+              if (emailController.text.isNotEmpty) {
+                if (!EmailValidator.validate(emailController.text)) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text("¡Atención!"),
+                        content: const Text("Debes colocar un correo!"),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("OK"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              }
+              if (passwordController.text.isNotEmpty) {
+                if (passwordCheckController.text.isNotEmpty) {
+                  if (passwordController.text != passwordCheckController.text) {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: const Text("¡Attention!"),
-                          content:
-                              const Text("Please write a phone number valid"),
+                          content: const Text(
+                              "Las contraseñas deben ser iguales, intente nuevamente"),
                           actions: [
                             TextButton(
                               onPressed: () {
@@ -256,9 +308,8 @@ class _EditProfileState extends State<EditProfile> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text("¡Attention!"),
-                        content: const Text(
-                            "The name must be between 3 and 30 caracters"),
+                        title: const Text("¡Atención!"),
+                        content: const Text("Confirma la nueva contraseña!!"),
                         actions: [
                           TextButton(
                             onPressed: () {
@@ -271,13 +322,39 @@ class _EditProfileState extends State<EditProfile> {
                     },
                   );
                 }
+              }
+              final name =
+                  (nameController.text.isEmpty) ? 'None' : nameController.text;
+              final phone = (phoneController.text.isEmpty)
+                  ? 'None'
+                  : phoneController.text;
+              final email = (emailController.text.isEmpty)
+                  ? 'None'
+                  : emailController.text;
+              final password = (passwordController.text.isEmpty)
+                  ? 'None'
+                  : passwordController.text;
+              final image = (_image == null) ? 'None' : _image.toString();
+
+              if (nameController.text.isNotEmpty ||
+                  phoneController.text.isNotEmpty ||
+                  emailController.text.isNotEmpty ||
+                  passwordController.text.isNotEmpty ||
+                  _image != null) {
+                BlocProvider.of<UpdateUserBloc>(context).add(
+                    UpdateUserSubmitted(
+                        name: name,
+                        email: email,
+                        password: password,
+                        phone: phone,
+                        image: image));
               } else {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: const Text("¡Attention!"),
-                      content: const Text("Please complete all the fields"),
+                      title: const Text("¡Atención!"),
+                      content: const Text("Llene el campo que desee modificar"),
                       actions: [
                         TextButton(
                           onPressed: () {
@@ -311,59 +388,6 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 }
-
-/*class FormGeneral extends StatelessWidget {
-  //final ValueChanged<String> onValue;
-
-  const FormGeneral({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final textController = TextEditingController();
-    final focusNode = FocusNode();
-    const outlineInputBorder = UnderlineInputBorder(
-      borderSide: BorderSide(color: Colors.black),
-      //borderRadius: BorderRadius.circular(40),
-    );
-
-    const inputDecoration = InputDecoration(
-        hintText: 'End your message with a "?"',
-        enabledBorder: outlineInputBorder,
-        focusedBorder: outlineInputBorder,
-        filled: true,
-        fillColor: Colors.white
-        /*suffixIcon: IconButton(
-        icon: const Icon(Icons.send_outlined),
-        onPressed: () {
-          final textValue = textController.value.text;
-          textController.clear();
-          onValue(textValue);
-        },
-      ),*/
-        );
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Column(
-        children: [
-          Text('Hola'),
-          TextFormField(
-            onTapOutside: (event) {
-              focusNode.unfocus();
-            },
-            focusNode: focusNode,
-            controller: textController,
-            decoration: inputDecoration,
-            onFieldSubmitted: (value) {
-              textController.clear();
-              focusNode.requestFocus();
-              //onValue(value);
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}*/
 
 Widget _buildInputField(TextEditingController controller, String tipo,
     {bool isPassword = false}) {
@@ -412,19 +436,3 @@ Widget _buildGreyText(String text) {
     textAlign: TextAlign.start,
   );
 }
-
-/*Widget _buildInputField(TextEditingController controller,
-    {bool isPassword = false}) {
-  return TextField(
-    controller: controller,
-    style: const TextStyle(color: Colors.black),
-    decoration: InputDecoration(
-      iconColor: Colors.black,
-      suffixIcon: isPassword ? const Icon(Icons.remove_red_eye) : null,
-    ),
-    obscureText: isPassword,
-  );
-}*/
-
-
-
