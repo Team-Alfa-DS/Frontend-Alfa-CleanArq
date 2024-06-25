@@ -3,16 +3,18 @@ import '../../../domain/entities/trainer.dart';
 import '../trainer/trainer_mapper.dart';
 
 class BlogMapper {
+  //! Los cambios hechos a este mapper son por problemas de compatibilidad con el endpoint de search, por favor no hacer merge
   static Blog fromJson(Map<String, dynamic> json) {
+    // print(json);
     return Blog(
       id: json['id'],
       title: json['title'],
-      description: json['description'],
+      description: json['content'],
       category: json['category'],
-      images: List<String>.from(json['images'] ?? []),
-      trainer: json['trainer'] != null ? TrainerMapper.fromJson(json['trainer']) : null,
-      tags: List<String>.from(json['tags'] ?? []),
-      date: json['date'] != null ? DateTime.parse(json['date']) : null,
+      images: [''],//List<String>.from(json['images']),
+      trainer:  new Trainer(id: json['trainer'], name: 'Not Provided'),//json['trainer'] != null ? TrainerMapper.fromJson(json['trainer']) : null,
+      tags: [''],  //List<String>.from(json['tags'] ?? []),
+      date: json['publication_date'] != null ? DateTime.parse(json['publication_date']) : null,
     );
   }
 

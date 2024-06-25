@@ -4,7 +4,7 @@ class TrainerMapper {
   static Trainer fromJson(Map<String, dynamic> json) {
     return Trainer(
       id: json['id'] as String,
-      name: json['name'],
+      name: json['name'] ?? '',
       followers: json['followers'] as int? ?? 0,
       userFollow: json['userFollow'] as bool? ?? false,
       location: json['location'] as String? ?? 'N/A',

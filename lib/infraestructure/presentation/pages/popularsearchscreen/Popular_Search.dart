@@ -1,5 +1,6 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/search/search_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/search/search_use_case.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/infiniteScrollingListView.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/searchbar.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,21 @@ class PopularSearch extends StatefulWidget {
 class _PopularSearchState extends State<PopularSearch> {
   String? categoriaSeleccionada;
   TextEditingController searchText = new TextEditingController();
-  
+  final List<Widget> _courseCards = [];/*  = [const ScrollHorizontal(
+                        titulo:
+                            "15 Minutes yoga practice the beginner in 30 days",
+                        descripcion: "Descripcion",
+                        categoria: "Trainning",
+                        fecha: "Feb 17, 2020",
+                        foto: "assets/images/Yoga Ejemplo 1.png",
+                        disposicion: 2,
+                        isNew: false,
+                        conexion: "/videos",
+                      )]; */
+  final List<Widget> _blogCards = [];
+  int _page = 0;
+  final int _perpage = 5;
+  final double _scrollThreshold = 1.0;
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +117,7 @@ class _PopularSearchState extends State<PopularSearch> {
                 categoriasBotones(),
                 const SizedBox(height: 30),
                 const Text(
-                  'Popular Courses',
+                  'Cursos',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -115,7 +130,7 @@ class _PopularSearchState extends State<PopularSearch> {
                 ),
                 const SizedBox(height: 20),
                 const Text(
-                  'Programs Master',
+                  'Blogs',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -123,7 +138,7 @@ class _PopularSearchState extends State<PopularSearch> {
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
-                  height: 300,
+                  height: 250,
                   child: _buildBlogCards(),
                 )
                 // programsMaster(
@@ -165,7 +180,7 @@ class _PopularSearchState extends State<PopularSearch> {
               title: const Row(
                 children: [
                   Text(
-                    'Popular Search',
+                    'Búsqueda',
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -397,8 +412,11 @@ class _PopularSearchState extends State<PopularSearch> {
             ),
             onSubmitted: (value) {
               if (value.isNotEmpty) {
+                _page = 0;
+                _courseCards.clear();
+                _blogCards.clear();
                 BlocProvider.of<SearchBloc>(context).add(
-                  SearchSent(0, 0, const [], value) //TODO: Test Search only, still need to add filter by tag and whatever the fuck i have to do with pagination
+                  SearchSent(_page, _perpage, const [], value) //TODO: Test Search only, still need to add filter by tag and whatever the fuck i have to do with pagination
                 );
               }
             },
@@ -413,16 +431,16 @@ class _PopularSearchState extends State<PopularSearch> {
     return BlocBuilder<SearchBloc, SearchState>(
       builder: (context, state) {
         // print('Not exploded yet');
-        if (state is SearchLoading) {
-          return const CircularProgressIndicator();
-        }
         return IconButton(
           icon: const Icon(Icons.search),
           onPressed: () {
             if (searchText.text.isNotEmpty) {
+              _page = 0;
+              _courseCards.clear();
+              _blogCards.clear();
               // print('This should not get printed');
               BlocProvider.of<SearchBloc>(context).add(
-                SearchSent(0, 3, const [], searchText.text) //TODO: Test Search only, still need to add filter by tag and whatever the fuck i have to do with pagination
+                SearchSent(_page, _perpage, const [], searchText.text) //TODO: Test Search only, still need to add filter by tag and whatever the fuck i have to do with pagination
               );
             }
           }
@@ -434,27 +452,12 @@ class _PopularSearchState extends State<PopularSearch> {
   Widget _buildCourseCards() {
     return BlocBuilder<SearchBloc, SearchState>(
       builder: (context, state) {
-        if (state is SearchLoading) {
-          return ListView(
-          scrollDirection: Axis.horizontal,
-          children: const [
-            Center(
-              heightFactor: 1,
-              widthFactor: 1,
-              child: SizedBox(
-                height: 150,
-                width: 150,
-                child: CircularProgressIndicator(
-                  strokeWidth: 1.5
-                ),
-              ),
-            )
-          ],
-        );
-        } else if (state is SearchSuccess) {
-          List<Widget> courseCards = [];
+        if (state is SearchSuccess) {
+          if (state.result.courses.isNotEmpty || state.result.blogs.isNotEmpty) {
+            _page++;
+          }
           for (var course in state.result.courses) {
-            courseCards.add(ScrollHorizontal(
+            _courseCards.add(ScrollHorizontal(
               titulo: course.title,
               descripcion: course.description, 
               categoria: course.category, 
@@ -464,57 +467,107 @@ class _PopularSearchState extends State<PopularSearch> {
               isNew: false, 
               conexion: '/videos'));
           }
-          return ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: courseCards
-                  );
-        } else {
-          return ListView( //TODO: Default search here when I make it
-                    scrollDirection: Axis.horizontal,
-                    children: const [
-                      ScrollHorizontal(
-                        titulo:
-                            "15 Minutes yoga practice the beginner in 30 days",
-                        descripcion: "Descripcion",
-                        categoria: "Trainning",
-                        fecha: "Feb 17, 2020",
-                        foto: "assets/images/Yoga Ejemplo 1.png",
-                        disposicion: 2,
-                        isNew: false,
-                        conexion: "/videos",
-                      ),
-                      ScrollHorizontal(
-                        titulo:
-                            "23 Minutes yoga practice the beginner in 30 days",
-                        descripcion: "Descripcion",
-                        categoria: "Morning",
-                        fecha: "Feb 18, 2020",
-                        foto: "assets/images/Yoga Ejemplo 2.png",
-                        disposicion: 2,
-                        isNew: false,
-                        conexion: "/videos",
-                      ),
-                      ScrollHorizontal(
-                        titulo:
-                            "30 Minutes yoga practice the beginner in 30 days",
-                        descripcion: "Descripcion",
-                        categoria: "For Women",
-                        fecha: "Feb 20, 2020",
-                        foto: "assets/images/Yoga Ejemplo 3.png",
-                        disposicion: 2,
-                        isNew: false,
-                        conexion: "/videos",
-                      ),
-                    ],
-                  );
+          // print(_courseCards);
         }
+        return InfiniteScrollingSearch(
+          widgetList: _courseCards, 
+          scrollThreshold: _scrollThreshold - 0.2, 
+          scrollAxis: Axis.horizontal,
+          page: _page,
+          perpage: _perpage,
+          tags: const [],
+          term: searchText.text
+        );
+        // if (state is SearchLoading) {
+        //   return const Center(
+        //       heightFactor: 1,
+        //       widthFactor: 1,
+        //       child: SizedBox(
+        //         height: 150,
+        //         width: 150,
+        //         child: CircularProgressIndicator(
+        //           strokeWidth: 1.5
+        //         ),
+        //       ),
+        //     );
+        // } else if (state is SearchSuccess) {
+        //   _page++;
+        //   // List<Widget> courseCards = [];
+        //   for (var course in state.result.courses) {
+        //     _courseCards.add(ScrollHorizontal(
+        //       titulo: course.title,
+        //       descripcion: course.description, 
+        //       categoria: course.category, 
+        //       fecha: '${course.date!.day}/${course.date!.month}/${course.date!.year}', 
+        //       foto: course.image, 
+        //       disposicion: 2, 
+        //       isNew: false, 
+        //       conexion: '/videos'));
+        //   }
+        //   return InfiniteScrollingSearch(
+        //     widgetList: _courseCards, 
+        //     scrollThreshold: _scrollThreshold, 
+        //     scrollAxis: Axis.horizontal,
+        //     page: _page,
+        //     perpage: _perpage,
+        //     tags: const [],
+        //     term: searchText.text
+        //   );
+        // } else {
+        //   return InfiniteScrollingSearch(
+        //     widgetList: [
+        //               ScrollHorizontal(
+        //                 titulo:
+        //                     "15 Minutes yoga practice the beginner in 30 days",
+        //                 descripcion: "Descripcion",
+        //                 categoria: "Trainning",
+        //                 fecha: "Feb 17, 2020",
+        //                 foto: "assets/images/Yoga Ejemplo 1.png",
+        //                 disposicion: 2,
+        //                 isNew: false,
+        //                 conexion: "/videos",
+        //               ),
+        //               ScrollHorizontal(
+        //                 titulo:
+        //                     "23 Minutes yoga practice the beginner in 30 days",
+        //                 descripcion: "Descripcion",
+        //                 categoria: "Morning",
+        //                 fecha: "Feb 18, 2020",
+        //                 foto: "assets/images/Yoga Ejemplo 2.png",
+        //                 disposicion: 2,
+        //                 isNew: false,
+        //                 conexion: "/videos",
+        //               ),
+        //               ScrollHorizontal(
+        //                 titulo:
+        //                     "30 Minutes yoga practice the beginner in 30 days",
+        //                 descripcion: "Descripcion",
+        //                 categoria: "For Women",
+        //                 fecha: "Feb 20, 2020",
+        //                 foto: "assets/images/Yoga Ejemplo 3.png",
+        //                 disposicion: 2,
+        //                 isNew: false,
+        //                 conexion: "/videos",
+        //               ),
+        //             ], 
+        //             scrollThreshold: _scrollThreshold, 
+        //             scrollAxis: Axis.horizontal,
+        //             page: _page,
+        //             perpage: _perpage,
+        //             tags: const [],
+        //             term: searchText.text);
+        //   // return ListView( //TODO: Default search here when I make it
+        //   //           scrollDirection: Axis.horizontal,
+        //   //           children: ,
+        //   //         );
+        // }
       });
   }
 
   Widget _buildBlogCards() {
     return BlocBuilder<SearchBloc, SearchState>(
       builder: (context, state) {
-        if (state is SearchLoading) {
+        /*if (state is SearchLoading) {
           return ListView(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
@@ -532,16 +585,22 @@ class _PopularSearchState extends State<PopularSearch> {
               )
             ],
           );
-        } else if (state is SearchSuccess) {
-          List<Widget> blogCards = [];
+        } else */ if (state is SearchSuccess) {
+          // _page++;
           for (var blog in state.result.blogs) {
-            blogCards.add(programsMaster(blog.title, blog.trainer!.name, blog.category!, blog.images!.first));
+            _blogCards.add(programsMaster(blog.title, blog.trainer!.name, blog.category!, blog.images!.first));
           }
-          return ListView(
-            scrollDirection: Axis.vertical,
-            children: blogCards,
-          );
-        } else { //TODO: Default blog search when i have it
+        } 
+        return InfiniteScrollingSearch(
+            widgetList: _blogCards,
+            scrollThreshold: _scrollThreshold, 
+            scrollAxis: Axis.vertical, 
+            page: _page, 
+            perpage: _perpage, 
+            tags: const [], 
+            term: searchText.text);
+        /*else { //TODO: Default blog search when i have it
+
           return ListView(
             scrollDirection: Axis.vertical,
             children: [
@@ -571,7 +630,7 @@ class _PopularSearchState extends State<PopularSearch> {
               )
             ]
           );
-        }
+        } */
       });
   }
 }
