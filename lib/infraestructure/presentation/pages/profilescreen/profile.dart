@@ -229,24 +229,39 @@ class PerfilUsuario extends StatelessWidget {
       }
       return Container(
         width: MediaQuery.of(context).size.width - 30,
-        height: MediaQuery.of(context).size.height / 5,
+        height: MediaQuery.of(context).size.height / 5.5,
         decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 22, 150, 255),
-            borderRadius: BorderRadius.circular(25)),
+            color: const Color.fromARGB(255, 243, 237, 247),
+            borderRadius: BorderRadius.circular(15)),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
+              const Center(
+                child: Text(
+                  'Mis datos',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Row(
                 children: [
-                  Icon(Icons.email),
+                  const Icon(Icons.email),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   Text(
-                    'Email: $userEmail',
+                    '$userEmail',
                     style: const TextStyle(
                         color: Colors.black,
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -254,26 +269,26 @@ class PerfilUsuario extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              Text(
-                'Phone: $userPhone',
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
+              Row(
+                children: [
+                  const Icon(Icons.phone_android),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '$userPhone',
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
               )
             ],
           ),
         ),
       );
     });
-  }
-
-  Widget _buildGreyText(String text) {
-    return Text(
-      text,
-      style: const TextStyle(color: Colors.blueGrey),
-      textAlign: TextAlign.start,
-    );
   }
 
   Widget buildTrainningSection() {
