@@ -229,7 +229,7 @@ class PerfilUsuario extends StatelessWidget {
       }
       return Container(
         width: MediaQuery.of(context).size.width - 30,
-        height: MediaQuery.of(context).size.height / 4,
+        height: MediaQuery.of(context).size.height / 5,
         decoration: BoxDecoration(
             color: const Color.fromARGB(255, 22, 150, 255),
             borderRadius: BorderRadius.circular(25)),
@@ -239,12 +239,20 @@ class PerfilUsuario extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Email: $userEmail',
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
+              Column(
+                children: [
+                  Icon(Icons.email),
+                  Text(
+                    'Email: $userEmail',
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 15,
               ),
               Text(
                 'Phone: $userPhone',
