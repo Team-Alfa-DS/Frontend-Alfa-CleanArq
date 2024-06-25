@@ -4,6 +4,8 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/update_user/bloc/update_user_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/user/get_current_user_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/update_user_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:email_validator/email_validator.dart';
@@ -36,8 +38,9 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => UpdateUserBloc(
-        updateUseCase: GetIt.instance<UpdateUserUseCase>(),
-      ),
+          updateUseCase: GetIt.instance<UpdateUserUseCase>(),
+          getCurrentUserUseCase: GetIt.instance<GetCurrentUserUseCase>(),
+          userBloc: BlocProvider.of<UserBloc>(context)),
       child: BlocListener<UpdateUserBloc, UpdateUserState>(
           listener: (context, state) {
             if (state is UpdateUserSuccess) {
