@@ -8,11 +8,11 @@ class NotificationScreen extends StatelessWidget {
 
   // Simulamos algunos datos de notificaciones
   final List<Map<String, String>> notifications = [
-    // {
-    //   'time': 'Today 9:47 AM',
-    //   'message': 'How do I start doing yoga at home?',
-    //   'status': 'Seen',
-    // },
+    {
+      'time': 'Today 9:47 AM',
+      'message': 'How do I start doing yoga at home?',
+      'status': 'Seen',
+    },
     // {
     //   'time': 'Today 9:47 AM',
     //   'message': 'What is the best time to do yoga?',

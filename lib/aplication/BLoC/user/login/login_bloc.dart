@@ -1,3 +1,4 @@
+import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user.blog.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/login_in_use_case.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -10,7 +11,8 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LogInUseCase loginUseCase;
 
-  LoginBloc({required this.loginUseCase}) : super(LoginInitial()) {
+  LoginBloc({required this.loginUseCase, required UserBloc userBloc})
+      : super(LoginInitial()) {
     on<LoginSubmitted>(_onSubmitted);
   }
 

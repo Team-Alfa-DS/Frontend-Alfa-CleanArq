@@ -3,13 +3,13 @@ class Notification {
   String title;
   String body;
   DateTime date;
-  bool userReaded;
+  bool? userReaded;
 
   Notification({
     required this.id,
     required this.title,
     required this.body,
     required this.date,
-    required this.userReaded,
+    this.userReaded,
   });
 }

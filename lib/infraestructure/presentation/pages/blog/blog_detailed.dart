@@ -16,29 +16,31 @@ class Blog_Detailed_Widget extends StatefulWidget {
 
   const Blog_Detailed_Widget(
       {super.key,
-        required this.id,
-        required this.Title,
-        required this.Description,
-        required this.Images,
-        required this.Tags,
-        required this.date
-      });
+      required this.id,
+      required this.Title,
+      required this.Description,
+      required this.Images,
+      required this.Tags,
+      required this.date});
 
   @override
-  Blog_Detailed createState() =>
-      Blog_Detailed(id: id, Title: Title, Description: Description, Images: Images, Tags:Tags, date: date);
+  Blog_Detailed createState() => Blog_Detailed(
+      id: id,
+      Title: Title,
+      Description: Description,
+      Images: Images,
+      Tags: Tags,
+      date: date);
 }
 
 class Blog_Detailed extends State<Blog_Detailed_Widget> {
-   List<String> MockImage = [
+  List<String> MockImage = [
     'https://i0.wp.com/www.muscleandfitness.com/wp-content/uploads/2018/12/Personal-Trainer-Training-Partner-GettyImages-654427364.jpg?quality=86&strip',
     'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/991px-Placeholder_view_vector.svg.png',
     'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/991px-Placeholder_view_vector.svg.png',
     'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/991px-Placeholder_view_vector.svg.png',
     'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/991px-Placeholder_view_vector.svg.png',
   ];
-
-
 
   final String id;
   final String Title;
@@ -50,15 +52,13 @@ class Blog_Detailed extends State<Blog_Detailed_Widget> {
   final List<String> Tags;
   final String date;
 
-
-  Blog_Detailed({
-      required this.id,
+  Blog_Detailed(
+      {required this.id,
       required this.Title,
       required this.Description,
       required this.Images,
       required this.Tags,
-      required this.date
-  });
+      required this.date});
   @override
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
@@ -103,7 +103,8 @@ class Blog_Detailed extends State<Blog_Detailed_Widget> {
                     children: [
                       const Text(
                         "All the Images!",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       TextButton(
                         style: const ButtonStyle(
@@ -112,7 +113,7 @@ class Blog_Detailed extends State<Blog_Detailed_Widget> {
                           ),
                         ),
                         onPressed: () {
-                            navigateToComments(context, id, "LESSON", Title);
+                          navigateToComments(context, id, "LESSON", Title);
                         },
                         child: const Text(
                           "Check Comments",
@@ -129,22 +130,21 @@ class Blog_Detailed extends State<Blog_Detailed_Widget> {
                     child: ListView.builder(
                       itemCount: MockImage.length,
                       itemBuilder: (context, index) {
-                          final panel = MockImage[index];
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Image.network(
-                                    panel,
-                                    fit: BoxFit.cover,
-                                  ),
+                        final panel = MockImage[index];
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Image.network(
+                                  panel,
+                                  fit: BoxFit.cover,
                                 ),
-                                const SizedBox(width: 16.0),
-                              ],
-                            ),
-                          );
-
+                              ),
+                              const SizedBox(width: 16.0),
+                            ],
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -179,10 +179,15 @@ class Blog_Detailed extends State<Blog_Detailed_Widget> {
     );
   }
 
-  void navigateToComments(BuildContext context, String id, String type, String title) {
+  void navigateToComments(
+      BuildContext context, String id, String type, String title) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => Widgets_Comments(id: id, Type: type, title: title,)));
+            builder: (context) => Widgets_Comments(
+                  id: id,
+                  Type: type,
+                  title: title,
+                )));
   }
 }

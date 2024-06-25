@@ -1,19 +1,26 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/theme/theme_cubit.dart';
 import 'package:alpha_gymnastic_center/config/routes/router.dart';
 import 'package:alpha_gymnastic_center/config/theme/themes.dart';
-import 'package:alpha_gymnastic_center/infraestructure/services/config/inject_manager.dart';
+//import 'package:alpha_gymnastic_center/infraestructure/services/config/firebase/fire_base_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+//import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await InjectManager.setUpInjections();
+  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const BlocsProvider());
 }
 
-class BlocsProvider extends StatelessWidget {
+class BlocsProvider extends StatefulWidget {
   const BlocsProvider({super.key});
 
+  @override
+  State<BlocsProvider> createState() => _BlocsProviderState();
+}
+
+class _BlocsProviderState extends State<BlocsProvider> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
