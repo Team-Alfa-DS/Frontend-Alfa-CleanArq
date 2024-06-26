@@ -3,7 +3,7 @@ class Video {
   final String title;
   final String url;
   final int duration;
-  final int idLesson;
+  final String idLesson;
 
   Video({
     required this.id,
