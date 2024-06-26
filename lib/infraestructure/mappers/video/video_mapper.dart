@@ -1,23 +1,26 @@
+import 'dart:convert';
 import 'package:alpha_gymnastic_center/domain/entities/video.dart';
 
 class VideoMapper {
-  static Video fromJson(Map<String, dynamic> json) {
+  static Video fromJson(String jsonString) {
+    final Map<String, dynamic> jsonMap = json.decode(jsonString);
     return Video(
-      id: json['id'],
-      title: json['title'],
-      url: json['url'],
-      duration: json['duration'],
-      idLesson: json['idLesson'],
+      id: jsonMap['id'] as String,
+      title: jsonMap['title'] as String,
+      url: jsonMap['url'] as String,
+      duration: jsonMap['duration'] as int,
+      idLesson: jsonMap['idLesson'] as String,
     );
   }
 
-  static Map<String, dynamic> toJson(Video video) {
-    return {
+  static String toJson(Video video) {
+    final Map<String, dynamic> jsonMap = {
       'id': video.id,
       'title': video.title,
       'url': video.url,
       'duration': video.duration,
       'idLesson': video.idLesson,
     };
+    return json.encode(jsonMap);
   }
 }

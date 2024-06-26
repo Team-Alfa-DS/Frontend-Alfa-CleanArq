@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/videoplayer.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/navegation/navigate_videoplayer.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 
 class Videos extends StatefulWidget {
@@ -196,15 +196,11 @@ class _VideosState extends State<Videos> {
       String courseId, String lessonId) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => VideoPlayerScreen(
-              videoPath: videoPath,
-              courseId: courseId,
-              lessonId: lessonId,
-            ),
-          ),
+        navigateToVideoPlayer(
+          context, // Pasar el contexto desde Videos
+          videoPath,
+          courseId,
+          lessonId,
         );
       },
       child: Padding(
