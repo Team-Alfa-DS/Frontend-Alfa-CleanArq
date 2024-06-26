@@ -19,6 +19,10 @@ final router = GoRouter(
       builder: (context, state) => const PerfilUsuario(),
     ),
     GoRoute(
+      path: '/editProfile',
+      builder: (context, state) => const EditProfile(),
+    ),
+    GoRoute(
       path: '/notification',
       builder: (context, state) => NotificationScreen(),
     ),

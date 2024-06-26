@@ -7,6 +7,7 @@ import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scro
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:alpha_gymnastic_center/common/utils/string_utils.dart';
+import 'package:go_router/go_router.dart';
 
 class PerfilUsuario extends StatelessWidget {
   const PerfilUsuario({super.key});
@@ -89,7 +90,9 @@ class PerfilUsuario extends StatelessWidget {
                     const SizedBox(width: 220.0),
                     IconButton(
                       icon: const Icon(Icons.edit, color: Colors.white),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.push('/editProfile');
+                      },
                     ),
                   ],
                 ),

@@ -33,6 +33,7 @@ class UserRepositoryImpl extends UserRepository {
       print('User Name: ${user.name}');
       print('User Email: ${user.email}');
       print('User Phone: ${user.phone}');
+      print('User Image: ${user.imagenPerfil}');
       print('User Type: ${user.type}');
       print('User Token : ${user.token}');
     } else {
@@ -123,16 +124,22 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Result<User>> getCurrentUser(String token) async {
-    _apiRequestManager.setHeaders('token', token);
-    final response = await _apiRequestManager.request<User>(
+  Future<Result<CurrentUserResponse>> getCurrentUser(
+      CurrentUserRequest currentUserRequest) async {
+    _apiRequestManager.setHeaders('token', currentUserRequest.token);
+    final response = await _apiRequestManager.request<CurrentUserResponse>(
       '/auth/current',
       'GET',
       (data) {
-        return UserMapper.fromJson(data);
+        return CurrentUserResponse(
+          id: data['id'],
+          email: data['email'],
+          name: data['name'],
+          phone: data['phone'],
+          image: data['image'],
+        );
       },
     );
-
     return response;
   }
 
@@ -153,7 +160,6 @@ class UserRepositoryImpl extends UserRepository {
         if (updateUserRequest.image != null) 'image': updateUserRequest.image,
       },
     );
-
     return response;
   }
 }

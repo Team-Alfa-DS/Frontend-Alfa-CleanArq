@@ -8,18 +8,17 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/sidebarmenu.dart';
 
-
 class Blogs_Screen extends StatelessWidget {
-
-
   //esto es un mimic o mock de como un item me va dar el backend como response:
   final List<Map<String, String>> MockBlogs = [
-    { 'id': 'asdasd',
+    {
+      'id': 'asdasd',
       'title': 'Blog 1',
-      'image': 'https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-trainer-in-gym-royalty-free-image-1584723855.jpg',
-      'date' : '20/04/23',
-      'category' : 'Category 1',
-      'trainer' : '12345'
+      'image':
+          'https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-trainer-in-gym-royalty-free-image-1584723855.jpg',
+      'date': '20/04/23',
+      'category': 'Category 1',
+      'trainer': '12345'
     },
   ];
 
@@ -136,7 +135,6 @@ class Blogs_Screen extends StatelessWidget {
 }
 
 class Tips_n_Topics_body extends StatelessWidget {
-
   final List<String> ids;
   final List<String> imageUrls;
   final List<String> titles;
@@ -145,16 +143,15 @@ class Tips_n_Topics_body extends StatelessWidget {
   final List<String> subtitles;
   final List<String> description;
 
-  const Tips_n_Topics_body({
-    super.key,
-    required this.ids,
-    required this.imageUrls,
-    required this.titles,
-    required this.categories,
-    required this.dates,
-    required this.subtitles,
-    required this.description
-  });
+  const Tips_n_Topics_body(
+      {super.key,
+      required this.ids,
+      required this.imageUrls,
+      required this.titles,
+      required this.categories,
+      required this.dates,
+      required this.subtitles,
+      required this.description});
 
   @override
   Widget build(BuildContext context) {
@@ -320,7 +317,6 @@ class NewYogaClassesPanelGrid extends StatelessWidget {
 }
 
 class HorizontalCarousel extends StatefulWidget {
-
   final List<String> ids;
   final List<String> imageUrls;
   final List<String> titles;
@@ -478,19 +474,23 @@ class _HorizontalCarouselState extends State<HorizontalCarousel> {
 
   void navigateToDetailed(
       BuildContext context, String title, String description, String url_) {
-
     //busca en el repositorio un blog detallado dado el id que llega del parametro de esta funcion y luego se lo pones al la llamada del widget
 
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>  Blog_Detailed_Widget(id: '2', Title: title, Description: description, Images: const [], Tags: const [], date: "20/03/2020",
-               )));
+            builder: (context) => Blog_Detailed_Widget(
+                  id: '2',
+                  Title: title,
+                  Description: description,
+                  Images: const [],
+                  Tags: const [],
+                  date: "20/03/2020",
+                )));
   }
 }
 
-class Blogs_appbar extends StatefulWidget
-    implements PreferredSizeWidget {
+class Blogs_appbar extends StatefulWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight + 50);
 
