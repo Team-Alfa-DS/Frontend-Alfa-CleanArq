@@ -1,4 +1,5 @@
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/notifications/notification_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/navegation.dart';
@@ -199,6 +200,18 @@ class NotificationScreen extends StatelessWidget {
           ),
           subtitle: Text(notification['message'] ?? ''),
           trailing: Text(notification['status'] ?? ''),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ScreenDetail(
+                  title: notification['title'] ?? '',
+                  message: notification['message'] ?? '',
+                  time: notification['time'] ?? '',
+                ),
+              ),
+            );
+          },
         );
       },
     );

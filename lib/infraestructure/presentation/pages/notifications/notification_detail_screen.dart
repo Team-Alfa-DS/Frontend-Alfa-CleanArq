@@ -2,7 +2,15 @@ import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course
 import 'package:flutter/material.dart';
 
 class ScreenDetail extends StatelessWidget {
-  const ScreenDetail({super.key});
+  const ScreenDetail(
+      {super.key,
+      required this.title,
+      required this.message,
+      required this.time});
+
+  final String title;
+  final String message;
+  final String time;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +41,7 @@ class ScreenDetail extends StatelessWidget {
                       size: 40, color: Color.fromARGB(255, 77, 6, 230)),
                   const SizedBox(height: 10),
                   // Título
-                  const Text('Título de la notificación',
+                  Text(title,
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 10),
@@ -41,11 +49,11 @@ class ScreenDetail extends StatelessWidget {
                   const Divider(color: Colors.grey),
                   const SizedBox(height: 10),
                   // Hora y Icono adicional
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Hora: 12:54',
+                        time,
                         style: TextStyle(fontSize: 17),
                       ),
                       Icon(Icons.star, size: 20, color: Colors.yellow),
@@ -53,8 +61,8 @@ class ScreenDetail extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   // Mensaje
-                  const Text(
-                    'Este mensaje es para agradecerte por la subcripcion al curso de yoga para mejorar la salud',
+                  Text(
+                    message,
                     style: TextStyle(fontSize: 17),
                   ),
                   const SizedBox(
