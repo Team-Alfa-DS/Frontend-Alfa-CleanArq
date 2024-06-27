@@ -13,16 +13,16 @@ class CourseMapper {
         image: json['image'] as String? ?? '',
         trainer: TrainerMapper.fromJson(json['trainer']),
         level: json['level'] as String? ?? '',
-        DurationWeeks: json['DurationWeeks'] != null
-            ? (json['DurationWeeks'] is double
-                    ? json['DurationWeeks'] as double
-                    : json['DurationWeeks'] as int)
+        DurationWeeks: json['durationWeeks'] != null
+            ? (json['durationWeeks'] is double
+                    ? json['durationWeeks'] as double
+                    : json['durationWeeks'] as int)
                 .toInt()
             : 0,
-        DurationMinutes: json['DurationMinutes'] != null
-            ? (json['DurationMinutes'] is double
-                    ? json['DurationMinutes'] as double
-                    : json['DurationMinutes'] as int)
+        DurationMinutes: json['durationMinutes'] != null
+            ? (json['durationMinutes'] is double
+                    ? json['durationMinutes'] as double
+                    : json['durationMinutes'] as int)
                 .toInt()
             : 0,
         tags: List<String>.from(json['tags']),

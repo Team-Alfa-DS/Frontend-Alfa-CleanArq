@@ -36,13 +36,16 @@ class CourseRepositoryImpl extends CourseRepository {
   }
 
   @override
-  Future<Result<List<Course>>> getCourseFiltered(
-      {required String category,
-      required String filter,
-      required String trainer}) async {
+  Future<Result<List<Course>>> getCourseFiltered({
+    required String category,
+    required String filter,
+    required String trainer,
+    required int page,
+    required int perPage,
+  }) async {
     await _addAuthorizationHeader();
     final response = await _apiRequestManager.request(
-      '/course/many/?Filter=$filter&Trainer=$trainer&Category=$category',
+      '/course/many?filter=$filter&trainer=$trainer&category=$category&page=${page.toString()}&perpage=${perPage.toString()}',
       'GET',
       (data) => (data['courses'] as List)
           .map((courseData) => CourseMapper.fromJson(courseData))
@@ -52,20 +55,20 @@ class CourseRepositoryImpl extends CourseRepository {
   }
 
   @override
-  Future<Result<List<Course>>> getCourseMany(
-      {required int page, required int perPage}) async {
+  Future<Result<List<Course>>> getCourseMany({
+    required int page,
+    required int perPage,
+    required String filter,
+  }) async {
     await _addAuthorizationHeader();
-    final token = await _localStorage.getAuthorizationToken();
-    _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
     try {
       final response = await _apiRequestManager.request(
-        '/course/many',
+        '/course/many?page=${page.toString()}&perpage=${perPage.toString()}&filter=$filter',
         'GET',
         (data) {
           List<Course> courses = (data['courses'] as List)
               .map((courseData) => CourseMapper.fromJson(courseData))
               .toList();
-          for (var course in courses) {}
           return courses;
         },
       );
@@ -78,15 +81,10 @@ class CourseRepositoryImpl extends CourseRepository {
   @override
   Future<Result<Course>> getSingleCourse({required String id}) async {
     await _addAuthorizationHeader();
-    final token = await _localStorage.getAuthorizationToken();
-    _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
     final response = await _apiRequestManager
         .request<Course>('/course/one/$id', 'GET', (data) {
       return CourseMapper.fromJson(data);
     });
-    if (response.hasValue()) {
-      final course = response.value!;
-    }
     return response;
   }
 }

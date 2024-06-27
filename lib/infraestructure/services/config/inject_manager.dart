@@ -1,6 +1,5 @@
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_course_data_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_one_course_use_case.dart';
-import 'package:alpha_gymnastic_center/aplication/use_cases/lessons/get_lessons_by_course_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/change_password_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/forgot_password_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/login_in_use_case.dart';
@@ -11,6 +10,8 @@ import 'package:alpha_gymnastic_center/infraestructure/datasources/api/api_reque
 import 'package:alpha_gymnastic_center/infraestructure/datasources/localStorage/loca_storage_imp.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/course/course_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/user/user_repository_impl.dart';
+import 'package:alpha_gymnastic_center/domain/repositories/course_repository.dart';
+import 'package:alpha_gymnastic_center/domain/repositories/user_repository.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,9 +36,12 @@ class InjectManager {
       localStorage: localStorage,
     );
 
+    // Register repositories with GetIt
+    getIt.registerSingleton<UserRepository>(userRepository);
+    getIt.registerSingleton<CourseRepository>(courseRepository);
+
     // UseCases
 
-    //! users
     final updateUserUseCase = UpdateUserUseCase(
       userRepository: userRepository,
       localStorage: localStorage,
@@ -52,8 +56,11 @@ class InjectManager {
       userRepository: userRepository,
       localStorage: localStorage,
     );
+
     final forgotPasswordUseCase = ForgotPasswordUseCase(
-        userRepository: userRepository, localStorage: localStorage);
+      userRepository: userRepository,
+      localStorage: localStorage,
+    );
 
     final validateCodeUseCase = ValidateCodeUseCase(
       userRepository: userRepository,
@@ -61,9 +68,10 @@ class InjectManager {
     );
 
     final changePasswordUseCase = ChangePasswordUseCase(
-        userRepository: userRepository, localStorage: localStorage);
+      userRepository: userRepository,
+      localStorage: localStorage,
+    );
 
-    //! users
     final getCourseDataUseCase = GetCourseDataUseCase(
       courseRepository: courseRepository,
     );
@@ -72,23 +80,14 @@ class InjectManager {
       courseRepository: courseRepository,
     );
 
-    final getLessonsByCourseUseCase = GetLessonsByCourseUseCase(
-      courseRepository: courseRepository,
-    );
-
-    // Registering singletons
-
-    //!users
+    // Register use cases with GetIt
     getIt.registerSingleton<UpdateUserUseCase>(updateUserUseCase);
     getIt.registerSingleton<LogInUseCase>(logInUseCase);
     getIt.registerSingleton<RegisterUseCase>(registerUserCase);
     getIt.registerSingleton<ForgotPasswordUseCase>(forgotPasswordUseCase);
     getIt.registerSingleton<ValidateCodeUseCase>(validateCodeUseCase);
     getIt.registerSingleton<ChangePasswordUseCase>(changePasswordUseCase);
-    //!Course
     getIt.registerSingleton<GetCourseDataUseCase>(getCourseDataUseCase);
     getIt.registerSingleton<GetSingleCourseUseCase>(getSingleCourseUseCase);
-    getIt.registerSingleton<GetLessonsByCourseUseCase>(
-        getLessonsByCourseUseCase);
   }
 }

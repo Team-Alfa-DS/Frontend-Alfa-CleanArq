@@ -5,8 +5,7 @@ import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popu
 class CourseDetailedScreen extends StatefulWidget {
   final Course course;
 
-  const CourseDetailedScreen({Key? key, required this.course})
-      : super(key: key);
+  const CourseDetailedScreen({super.key, required this.course});
 
   @override
   _CourseDetailedScreenState createState() => _CourseDetailedScreenState();
