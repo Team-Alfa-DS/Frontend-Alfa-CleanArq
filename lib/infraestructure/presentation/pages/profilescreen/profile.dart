@@ -1,17 +1,15 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/progress/profile/profile_progress_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_profile_progress_use_case.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course_detailed.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/carruselh.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:alpha_gymnastic_center/common/utils/string_utils.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../widgets/my_training.dart';
+import '../../widgets/popular_courses.dart';
 
 class PerfilUsuario extends StatelessWidget {
   const PerfilUsuario({super.key});
@@ -258,11 +256,11 @@ class PerfilUsuario extends StatelessWidget {
                     width: 10,
                   ),
                   Text(
-                    '$userEmail',
+                    userEmail,
                     style: const TextStyle(
                         color: Colors.black,
                         fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
@@ -276,11 +274,11 @@ class PerfilUsuario extends StatelessWidget {
                     width: 10,
                   ),
                   Text(
-                    '$userPhone',
+                    userPhone,
                     style: const TextStyle(
                         color: Colors.black,
                         fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.w500),
                   )
                 ],
               )
@@ -325,7 +323,7 @@ class PerfilUsuario extends StatelessWidget {
             ),
           ),
           SizedBox(height: 10),
-          Expanded(child: PopularProcessesCarousel()),
+          Expanded(child: PopularProcessesCarousel() /*MyTrainingCarrousel()*/),
         ],
       ),
     );
