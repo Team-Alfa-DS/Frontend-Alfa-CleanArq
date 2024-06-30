@@ -12,7 +12,7 @@ class InfiniteScrollingSearch extends StatefulWidget {
   final int perpage;
   final List<String> tags;
   final String term;
-  // int lastPage = 0;
+  final bool noMoreContent;
   
   const InfiniteScrollingSearch(
     {
@@ -23,7 +23,8 @@ class InfiniteScrollingSearch extends StatefulWidget {
       required this.page,
       required this.perpage,
       required this.tags,
-      required this.term
+      required this.term,
+      required this.noMoreContent
     }
   );
   
@@ -34,14 +35,14 @@ class InfiniteScrollingSearch extends StatefulWidget {
 
 class InfiniteScrollingSearchState extends State<InfiniteScrollingSearch> {
   late final ScrollController _scrollController;
-
-  // IS_ListViewState({required this.scrollThreshold});
+  late int _lastListLength;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
+    _lastListLength = 0;
   }
 
   @override
@@ -60,7 +61,7 @@ class InfiniteScrollingSearchState extends State<InfiniteScrollingSearch> {
           return ListView.builder(
             controller: _scrollController,
             scrollDirection: widget.scrollAxis,
-            itemCount: widget.widgetList.length + 1, //((state is SearchLoading) ? 1 : 0),
+            itemCount: widget.widgetList.length + 1,
             itemBuilder: _itemBuilder);
             }
         ) 
@@ -74,10 +75,13 @@ class InfiniteScrollingSearchState extends State<InfiniteScrollingSearch> {
   }
 
   void _scrollListener() {
-    if (_scrollController.offset >=
-            _scrollController.position.maxScrollExtent * widget.scrollThreshold &&
-        !_scrollController.position.outOfRange) {
-      BlocProvider.of<SearchBloc>(context).add(SearchSent(widget.page, widget.perpage, widget.tags, widget.term));
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      if(_lastListLength != widget.widgetList.length) {
+        _lastListLength = widget.widgetList.length;
+        if (!widget.noMoreContent) {
+          BlocProvider.of<SearchBloc>(context).add(SearchSent(widget.page, widget.perpage, widget.tags, widget.term));
+        }
+      }
     }
   }
 

@@ -1,9 +1,9 @@
-import 'package:alpha_gymnastic_center/domain/entities/blog.dart';
-import 'package:alpha_gymnastic_center/domain/entities/course.dart';
+import 'package:alpha_gymnastic_center/domain/entities/searchBlog.dart';
+import 'package:alpha_gymnastic_center/domain/entities/searchCourse.dart';
 
 class SearchResult {
-  List<Course> courses;
-  List<Blog> blogs;
+  List<SearchCourse> courses;
+  List<SearchBlog> blogs;
 
   SearchResult({
     required this.courses,

@@ -1,6 +1,10 @@
+import 'package:alpha_gymnastic_center/aplication/BLoC/search/search_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/search/search_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses.dart';
@@ -259,6 +263,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   String uuid = 'ID de Usuario';
   int? _selectedDayIndex = 1; // Por defecto, 'Hoy' está seleccionado
   final List<String> _days = ['Mañana', 'Hoy', 'Ayer'];
+  TextEditingController searchText = new TextEditingController();
 
   @override
   void initState() {
@@ -328,27 +333,35 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(9),
-                  child: TextField(
-                    onTap: () {
-                      // print('going to popular search');
-                      // context.push('/popularSearch');
-                      Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const PopularSearch()));
-                    },
-                    textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      hintText: 'Buscar...',
-                      filled: true,
-                      fillColor: Colors.white,
-                      prefixIcon: Icon(Icons.search),
-                    ),
+              Container(
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.white,
                   ),
+                  child: _buildSearchBar()
                 ),
-              ),
+              // Padding( //SearchBar here
+              //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              //   child: ClipRRect(
+              //     borderRadius: BorderRadius.circular(9),
+              //     child: TextField(
+              //       onTap: () {
+              //         // print('going to popular search');
+              //         // context.push('/popularSearch');
+              //         Navigator.push(context,
+              //         MaterialPageRoute(builder: (context) => const PopularSearch()));
+              //       },
+              //       textAlign: TextAlign.center,
+              //       decoration: const InputDecoration(
+              //         hintText: 'Buscar...',
+              //         filled: true,
+              //         fillColor: Colors.white,
+              //         prefixIcon: Icon(Icons.search),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: _days.map((day) {
@@ -379,5 +392,50 @@ class _CustomAppBarState extends State<CustomAppBar> {
         ),
       ),
     );
+  }
+
+  Widget _buildSearchBar() {
+    return BlocProvider(
+      create: (context) => SearchBloc(searchUseCase: GetIt.instance<SearchUseCase>()),
+      child: BlocBuilder<SearchBloc, SearchState>(
+        builder: (context, state) {
+          return TextField(
+            controller: searchText,
+            decoration: InputDecoration(
+              hintText: 'Buscar...',
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.clear),
+                onPressed: () => searchText.clear(),
+              ),
+              prefixIcon: IconButton(
+                icon: const Icon(Icons.search),
+                onPressed: () {
+                  if (searchText.text.isNotEmpty) {
+                    Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PopularSearch(initialSearch: searchText.text))
+                    );
+                  }
+                }
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0)
+              )
+            ),
+            onSubmitted: (value) {
+              if (value.isNotEmpty) {
+                BlocProvider.of<SearchBloc>(context).add(
+                  SearchSent(0, 5, const [], searchText.text) //TODO: Test Search only, still need to add filter by tag and whatever the fuck i have to do with pagination
+                );
+                Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PopularSearch(initialSearch: value,))
+                );
+              }
+            },
+          );
+        //);
+      }
+    )
+      );
+    
   }
 }

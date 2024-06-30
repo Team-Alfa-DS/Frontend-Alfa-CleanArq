@@ -40,7 +40,7 @@ class SearchRepositoryImpl extends SearchRepository {
     }
 
     final response = await _apiRequestManager.request(
-      '/search?page=$page$termQuery$tagsQuery&perpage=$perpage',
+      '/search/all?page=$page$termQuery$tagsQuery&perpage=$perpage',
       'GET', 
       (data) {return SearchMapper.fromJson(data);});
 

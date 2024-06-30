@@ -21,6 +21,7 @@ class CourseListBloc extends Bloc<CourseListEvent, CourseListState> {
     );
 
     if (result.hasValue()) {
+      print(result.value!);
       emit(CourseListLoaded(result.value!));
     } else {
       emit(CourseListFailed(result.failure!));

@@ -33,10 +33,10 @@ final router = GoRouter(
         return VerificationScreen(email: email);
       },
     ),
-    GoRoute(
+    /*GoRoute(
       path: '/popularSearch',
       builder: (context, state) => const PopularSearch(),
-    ),
+    ),*/
     GoRoute(
       path: '/trainingScreen',
       builder: (context, state) => const TrainingScreen(),
