@@ -1,12 +1,11 @@
 import 'package:alpha_gymnastic_center/domain/entities/lesson.dart';
-import 'package:alpha_gymnastic_center/domain/entities/trainer.dart';
 
 class CreateCourseRequest {
   final String title;
   final String description;
   final String category;
   final String image;
-  final Trainer trainer;
+  final String trainer;
   final String level;
   final int durationWeeks;
   final int durationMinutes;
@@ -27,5 +26,4 @@ class CreateCourseRequest {
     required this.date,
     required this.lessons,
   });
-
 }

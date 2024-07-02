@@ -36,25 +36,6 @@ class CourseRepositoryImpl extends CourseRepository {
   }
 
   @override
-  Future<Result<List<Course>>> getCourseFiltered({
-    required String category,
-    required String filter,
-    required String trainer,
-    required int page,
-    required int perPage,
-  }) async {
-    await _addAuthorizationHeader();
-    final response = await _apiRequestManager.request(
-      '/course/many?filter=$filter&trainer=$trainer&category=$category&page=${page.toString()}&perpage=${perPage.toString()}',
-      'GET',
-      (data) => (data['courses'] as List)
-          .map((courseData) => CourseMapper.fromJson(courseData))
-          .toList(),
-    );
-    return response;
-  }
-
-  @override
   Future<Result<List<Course>>> getCourseMany({
     required int page,
     required int perPage,
@@ -63,7 +44,7 @@ class CourseRepositoryImpl extends CourseRepository {
     await _addAuthorizationHeader();
     try {
       final response = await _apiRequestManager.request(
-        '/course/many?page=${page.toString()}&perpage=${perPage.toString()}&filter=$filter',
+        '/course/many?filter=$filter&page=$page&perpage=$perPage',
         'GET',
         (data) {
           List<Course> courses = (data['courses'] as List)
@@ -76,6 +57,28 @@ class CourseRepositoryImpl extends CourseRepository {
     } catch (e) {
       rethrow;
     }
+  }
+
+  @override
+  Future<Result<List<Course>>> getCourseFiltered({
+    required String filter,
+    required String category,
+    required String trainer,
+    required int page,
+    required int perPage,
+  }) async {
+    await _addAuthorizationHeader();
+    final response = await _apiRequestManager.request(
+      '/course/many?filter=$filter&trainer=$trainer&category=$category&page=$page&perpage=$perPage',
+      'GET',
+      (data) {
+        List<Course> courses = (data['courses'] as List)
+            .map((courseData) => CourseMapper.fromJson(courseData))
+            .toList();
+        return courses;
+      },
+    );
+    return response;
   }
 
   @override

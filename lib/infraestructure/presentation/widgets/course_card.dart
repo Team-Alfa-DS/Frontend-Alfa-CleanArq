@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:alpha_gymnastic_center/domain/entities/course.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course_details.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/course_details.dart';
 
 class CourseCard extends StatelessWidget {
   final Course course;
@@ -18,7 +18,8 @@ class CourseCard extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => CourseDetailedScreen(course: course),
+                builder: (context) =>
+                    CourseDetailedScreen(courseId: course.id!),
               ),
             );
           },

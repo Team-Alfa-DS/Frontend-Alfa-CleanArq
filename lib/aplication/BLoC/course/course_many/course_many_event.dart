@@ -10,7 +10,7 @@ abstract class CourseListEvent extends Equatable {
 class LoadCourseList extends CourseListEvent {
   final int page;
   final int perPage;
-  final String filter; // Nuevo campo para manejar el filtro
+  final String filter;
 
   const LoadCourseList(
       {required this.page, required this.perPage, required this.filter});

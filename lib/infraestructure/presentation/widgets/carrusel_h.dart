@@ -6,7 +6,6 @@ class ScrollH<T> extends StatelessWidget {
   final Function(T item) onTap;
 
   const ScrollH({
-    super.key,
     required this.item,
     required this.disposicion,
     required this.onTap,
@@ -14,18 +13,16 @@ class ScrollH<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => onTap(item),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10.0),
-        width: disposicion == 4 ? 80.0 : 200.0,
-        height: disposicion == 4 ? 120.0 : null,
-        decoration: BoxDecoration(
-          color: disposicion == 4
-              ? const Color.fromARGB(255, 212, 212, 212)
-              : (disposicion == 2 ? Colors.white : null),
-          borderRadius: BorderRadius.circular(10.0),
-        ),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10.0),
+      width: disposicion == 4 ? 80.0 : 200.0,
+      height: disposicion == 4 ? 120.0 : null,
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 212, 212, 212),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10.0),
         child: _buildContent(),
       ),
     );
@@ -60,61 +57,37 @@ class ScrollH<T> extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                width: double.infinity,
-                color: Colors.grey.withOpacity(0.7),
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      itemMap['titulo'] ?? 'Titulo',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      itemMap['descripcion'] ?? 'Descripción',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.0,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
         ),
-        if (itemMap['isNew'] ?? false)
-          Positioned(
-            top: 5.0,
-            right: 5.0,
-            child: Container(
-              padding: const EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                color: Colors.purple,
-                borderRadius: BorderRadius.circular(5.0),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: Container(
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(10.0),
+                bottomRight: Radius.circular(10.0),
               ),
-              child: const Text(
-                'New',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+              color: Colors.grey.withOpacity(0.7),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  itemMap['titulo'] ?? 'Titulo',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
+              ],
             ),
           ),
+        ),
       ],
     );
   }

@@ -20,7 +20,8 @@ class CourseListBloc extends Bloc<CourseListEvent, CourseListState> {
         final currentState = state;
 
         final result = await _getCourseDataUseCase.execute(
-          GetCourseDataUseCaseInput(page: event.page, perPage: event.perPage),
+          GetCourseDataUseCaseInput(
+              page: event.page, perPage: event.perPage, filter: event.filter),
         );
 
         if (result.hasValue()) {

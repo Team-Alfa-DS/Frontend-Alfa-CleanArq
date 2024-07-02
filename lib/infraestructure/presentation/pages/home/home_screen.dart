@@ -133,7 +133,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: PopularProcessesCarousel(),
+                    child: PopularCoursesCarousel(),
                   ),
                 ],
               ),

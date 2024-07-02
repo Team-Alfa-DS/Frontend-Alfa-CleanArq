@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:alpha_gymnastic_center/domain/entities/course.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/carrusel_h.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_course_data_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_many/course_many_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_many/course_many_state.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_many/course_many_event.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course_details.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/course_details.dart';
 
-class PopularProcessesCarousel extends StatelessWidget {
-  const PopularProcessesCarousel({super.key});
+class PopularCoursesCarousel extends StatelessWidget {
+  const PopularCoursesCarousel({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,55 +20,51 @@ class PopularProcessesCarousel extends StatelessWidget {
       child: BlocBuilder<CourseListBloc, CourseListState>(
         builder: (context, state) {
           if (state is CourseListLoading) {
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           } else if (state is CourseListLoaded) {
-            final courses = state.courses.sublist(0, 3);
+            final courses = state.courses.take(3).toList();
             return SizedBox(
               height: 195,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: courses.map((course) {
-                  return ScrollH<Map<String, dynamic>>(
-                    item: {
-                      'titulo': course.trainer.name,
-                      'descripcion': course.title,
-                      'categoria': course.category,
-                      'fecha': course.date.toString(),
-                      'fotoUrl': course.image,
-                      'isNew': true,
-                      'conexion': "/videos",
-                    },
-                    disposicion: 1,
-                    onTap: (item) {
-                      var selectedCourse = Course(
-                        id: course.id,
-                        title: course.title,
-                        description: course.description,
-                        category: course.category,
-                        image: course.image,
-                        trainer: course.trainer,
-                        level: course.level,
-                        DurationWeeks: course.DurationWeeks,
-                        DurationMinutes: course.DurationMinutes,
-                        tags: course.tags,
-                        date: course.date,
-                        lessons: course.lessons,
-                      );
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CourseDetailedScreen(
-                            course: selectedCourse,
+                  return GestureDetector(
+                    onTap: () {
+                      if (course.id != null) {
+                        print('Navigating to course with id: ${course.id}');
+                        Navigator.of(context, rootNavigator: true).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                CourseDetailedScreen(courseId: course.id!),
                           ),
-                        ),
-                      );
+                        );
+                      } else {
+                        print('Error: course.id is null');
+                        // Manejar caso donde course.id es nulo
+                      }
                     },
+                    child: ScrollH<Map<String, dynamic>>(
+                      item: {
+                        'titulo': course.title,
+                        'descripcion': course.description,
+                        'categoria': course.category,
+                        'fecha': course.date.toString(),
+                        'fotoUrl': course.image,
+                        'isNew': true,
+                        'conexion': "/videos",
+                      },
+                      disposicion: 1,
+                      onTap: (item) {
+                        // Puedes manejar eventos adicionales si es necesario
+                        print('onTap inside ScrollH');
+                      },
+                    ),
                   );
                 }).toList(),
               ),
             );
           } else if (state is CourseListFailed) {
-            return Text('Error: ${state.failure}');
+            return Center(child: Text('Error: ${state.failure}'));
           } else {
             return const SizedBox.shrink();
           }

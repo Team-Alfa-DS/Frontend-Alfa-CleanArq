@@ -24,7 +24,7 @@ class TrainingViewState extends State<TrainingView> {
   bool _hasLoadedAllCourses = false;
   bool _isReloading = false;
   int _previousCourseCount = 0;
-  int _currentPage = 1;
+  int _currentPage = 0;
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class TrainingViewState extends State<TrainingView> {
       GetCourseDataUseCase(courseRepository: courseRepository),
     );
     _courseListBloc
-        .add(LoadCourseList(page: _currentPage, perPage: 4, filter: 'RECENT'));
+        .add(LoadCourseList(page: _currentPage, perPage: 3, filter: 'RECENT'));
     _scrollController.addListener(_onScroll);
   }
 
@@ -54,7 +54,7 @@ class TrainingViewState extends State<TrainingView> {
         });
         _currentPage++;
         _courseListBloc.add(
-            LoadCourseList(page: _currentPage, perPage: 4, filter: 'RECENT'));
+            LoadCourseList(page: _currentPage, perPage: 3, filter: 'RECENT'));
       }
     }
   }
@@ -71,9 +71,7 @@ class TrainingViewState extends State<TrainingView> {
         }
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16.0,
-        ), // Ajuste del padding horizontal
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -82,13 +80,13 @@ class TrainingViewState extends State<TrainingView> {
               style: TextStyle(
                 color: isSelected ? Colors.white : Colors.white,
                 fontWeight: FontWeight.bold,
-                fontSize: 18, // Aumento del tamaño de la fuente
+                fontSize: 18,
               ),
             ),
             if (isSelected) const SizedBox(width: 10),
             if (isSelected)
               const CircleAvatar(
-                radius: 7, // Aumento del radio
+                radius: 7,
                 backgroundColor: Colors.white,
               ),
           ],
@@ -103,14 +101,13 @@ class TrainingViewState extends State<TrainingView> {
       create: (context) => _courseListBloc,
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize:
-              const Size.fromHeight(100.0), // Ajuste de la altura del AppBar
+          preferredSize: const Size.fromHeight(100.0),
           child: AppBar(
             title: const Text(
               'Entrenamiento',
               style: TextStyle(
                 color: Colors.white,
-                fontWeight: FontWeight.bold, // Texto en negritas
+                fontWeight: FontWeight.bold,
               ),
             ),
             flexibleSpace: Container(
@@ -125,9 +122,7 @@ class TrainingViewState extends State<TrainingView> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 8.0,
-                    ), // Padding para posicionar botones abajo
+                    padding: const EdgeInsets.only(bottom: 8.0),
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
@@ -166,16 +161,14 @@ class TrainingViewState extends State<TrainingView> {
               const SizedBox(height: 10),
               const SizedBox(
                 height: 100,
-                child: PopularProcessesCarousel(),
+                child: PopularCoursesCarousel(),
               ),
               const SizedBox(height: 20),
               Container(
                 height: 1,
                 color: Colors.grey[300],
-                margin: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 20,
-                ),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               ),
               const Text(
                 'Programador Maestro',
@@ -231,10 +224,7 @@ class TrainingViewState extends State<TrainingView> {
   Widget _buildEndOfListMessage() {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 16.0,
-          horizontal: 20.0,
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -322,14 +312,8 @@ class TrainingViewState extends State<TrainingView> {
       if (state is CourseListLoaded) {
         setState(() {
           _isReloading = false;
-
-          // Actualiza _hasLoadedAllCourses
           _hasLoadedAllCourses = state.hasReachedMax;
-
-          // Actualiza _isLoadingMore
           _isLoadingMore = false;
-
-          // Si hay cursos nuevos, actualiza el contador
           if (state.courses.length > _previousCourseCount) {
             _previousCourseCount = state.courses.length;
           }
