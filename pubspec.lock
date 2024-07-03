@@ -1028,15 +1028,7 @@ packages:
       sha256: b3d56ff4341b8f182b96aceb2fa20e3dcb336b9f867bc0eafc0de10f1048e957
       url: "https://pub.dev"
     source: hosted
-    version: "13.0.0"
-  volume_control:
-    dependency: "direct main"
-    description:
-      name: volume_control
-      sha256: "2c370083dd3892b8e5f5650275e452fb97e90a1e1abff65b5f6a761e2bc8b754"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.5"
+    version: "14.2.1"
   wakelock_plus:
     dependency: transitive
     description:
