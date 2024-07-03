@@ -139,7 +139,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                     const Text('Weeks',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
-                                    Text(course.DurationWeeks.toString()),
+                                    Text(course.durationWeeks.toString()),
                                   ],
                                 ),
                               ],
@@ -154,7 +154,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                     const Text('Mins per Lesson',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
-                                    Text(course.DurationMinutes.toString()),
+                                    Text(course.durationMinutes.toString()),
                                   ],
                                 ),
                               ],

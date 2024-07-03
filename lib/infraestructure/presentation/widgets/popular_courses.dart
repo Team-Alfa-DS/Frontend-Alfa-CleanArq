@@ -18,13 +18,13 @@ class PopularProcessesCarousel extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           CourseListBloc(GetIt.instance<GetCourseDataUseCase>())
-            ..add(const LoadCourseList(page: 1, perpage: 7)),
+            ..add(const LoadCourseList(page: 1, perpage: 15)),
       child: BlocBuilder<CourseListBloc, CourseListState>(
         builder: (context, state) {
           if (state is CourseListLoading) {
             return const CircularProgressIndicator();
           } else if (state is CourseListLoaded) {
-            final courses = state.courses.sublist(0, 4);
+            final courses = state.courses.sublist(0, 15);
             return SizedBox(
               height: 195,
               child: ListView(
@@ -51,12 +51,13 @@ class PopularProcessesCarousel extends StatelessWidget {
                         image: course.image,
                         trainer: course.trainer,
                         level: course.level,
-                        DurationWeeks: course.DurationWeeks,
-                        DurationMinutes: course.DurationMinutes,
+                        durationWeeks: course.durationWeeks,
+                        durationMinutes: course.durationMinutes,
                         tags: course.tags,
                         date: course.date,
                         lessons: course.lessons,
                       );
+                      print(course.lessons);
                       Navigator.push(
                         context,
                         MaterialPageRoute(

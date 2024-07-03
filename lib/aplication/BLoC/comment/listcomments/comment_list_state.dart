@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../common/failure.dart';
-import '../../../domain/entities/comment.dart';
+import '../../../../common/failure.dart';
+import '../../../../domain/entities/comment.dart';
 
 abstract class CommentListState extends Equatable {
   const CommentListState();

@@ -67,30 +67,23 @@ class CommentRepositoryImpl extends CommentRepository {
   }) async {
     try {
 
-      // Add authorization header
       await _addAuthorizationHeader();
       final token = await _localStorage.getAuthorizationToken();
       _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
 
-      // Prepare request body
       final requestBody = CommentMapper.toJson(
-        Comment_(id: targetid, body: body, targetType: targetType),
+        Comment_(targetId: targetid, body: body, targetType: targetType),
       );
-
-      // Make API request
       final response = await _apiRequestManager.request(
-        '/comment/release',
+        '/comments/release',
         'POST',
             (data) => CommentMapper.fromJson(data),
         body: requestBody,
       );
 
-      // Log the response (for debugging purposes)
       print('Release comment response: $response');
-
       return response;
     } catch (e) {
-      // Handle exceptions
       print('Error releasing comment: $e');
       rethrow;
     }

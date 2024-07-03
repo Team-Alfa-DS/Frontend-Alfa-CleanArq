@@ -30,11 +30,9 @@ class Assets {
   static const String changePasswordChangePasswordBloc = 'lib/aplication/BLoC/user/change_password/change_password_bloc.dart';
   static const String changePasswordChangePasswordEvent = 'lib/aplication/BLoC/user/change_password/change_password_event.dart';
   static const String changePasswordChangePasswordState = 'lib/aplication/BLoC/user/change_password/change_password_state.dart';
-  static const String commentCommentListBloc = 'lib/aplication/BLoC/comment/comment_list_bloc.dart';
-  static const String commentCommentListEvent = 'lib/aplication/BLoC/comment/comment_list_event.dart';
-  static const String commentCommentListState = 'lib/aplication/BLoC/comment/comment_list_state.dart';
   static const String commentCommentMapper = 'lib/infraestructure/mappers/comment/comment_mapper.dart';
   static const String commentGetCommentDataUseCase = 'lib/aplication/use_cases/comment/get_comment_data_use_case.dart';
+  static const String commentPostNewCommentUseCase = 'lib/aplication/use_cases/comment/post_new_comment_use_case.dart';
   static const String commentsCommentRepositoryImpl = 'lib/infraestructure/repositories/comments/comment_repository_impl.dart';
   static const String commonFailure = 'lib/common/failure.dart';
   static const String commonMock = 'lib/common/mock.dart';
@@ -94,7 +92,7 @@ class Assets {
   static const String iconsSwimmingUnpicked = 'assets/icons/swimming_unpicked.png';
   static const String iconsUser = 'assets/icons/user.png';
   static const String iconsYoga = 'assets/icons/yoga.png';
-  static const String iconsYogaEjemplo1 = 'assets/icons/Yoga Ejemplo 1.png';
+  static const String iconsYoga Ejemplo 1 = 'assets/icons/Yoga Ejemplo 1.png';
   static const String iconsYogaUnpicked = 'assets/icons/yoga_unpicked.png';
   static const String imagesBg = 'assets/images/bg.png';
   static const String imagesCheck = 'assets/images/check.png';
@@ -103,7 +101,7 @@ class Assets {
   static const String imagesGmail = 'assets/images/gmail.png';
   static const String imagesGym = 'assets/images/gym.png';
   static const String imagesLogo = 'assets/images/logo.png';
-  static const String imagesLogoapp = 'assets/images/Logo app.svg';
+  static const String imagesLogo app = 'assets/images/Logo app.svg';
   static const String imagesLogoblanco = 'assets/images/logoblanco.png';
   static const String imagesNoImageFound360x250 = 'assets/images/no-image-found-360x250.png';
   static const String imagesSplash = 'assets/images/splash.png';
@@ -112,14 +110,14 @@ class Assets {
   static const String imagesUser = 'assets/images/user.png';
   static const String imagesV1 = 'assets/images/v1.png';
   static const String imagesVector = 'assets/images/vector.png';
-  static const String imagesYogaEjemplo1 = 'assets/images/Yoga Ejemplo 1.png';
-  static const String imagesYogaEjemplo2 = 'assets/images/Yoga Ejemplo 2.png';
-  static const String imagesYogaEjemplo3 = 'assets/images/Yoga Ejemplo 3.png';
-  static const String imagesYogaEjemplo4 = 'assets/images/Yoga Ejemplo 4.png';
-  static const String imagesYogaEjemplo5 = 'assets/images/Yoga Ejemplo 5.png';
-  static const String imagesYogaEjemplo6 = 'assets/images/Yoga Ejemplo 6.png';
-  static const String imagesYogaEjemplo7 = 'assets/images/Yoga Ejemplo 7.png';
-  static const String imagesYogaEjemplo8 = 'assets/images/Yoga Ejemplo 8.png';
+  static const String imagesYoga Ejemplo 1 = 'assets/images/Yoga Ejemplo 1.png';
+  static const String imagesYoga Ejemplo 2 = 'assets/images/Yoga Ejemplo 2.png';
+  static const String imagesYoga Ejemplo 3 = 'assets/images/Yoga Ejemplo 3.png';
+  static const String imagesYoga Ejemplo 4 = 'assets/images/Yoga Ejemplo 4.png';
+  static const String imagesYoga Ejemplo 5 = 'assets/images/Yoga Ejemplo 5.png';
+  static const String imagesYoga Ejemplo 6 = 'assets/images/Yoga Ejemplo 6.png';
+  static const String imagesYoga Ejemplo 7 = 'assets/images/Yoga Ejemplo 7.png';
+  static const String imagesYoga Ejemplo 8 = 'assets/images/Yoga Ejemplo 8.png';
   static const String imagesYoga1 = 'assets/images/yoga1.png';
   static const String imagesYoga2 = 'assets/images/yoga2.png';
   static const String imagesYoga3 = 'assets/images/yoga3.png';
@@ -148,6 +146,9 @@ class Assets {
   static const String lessonLessonState = 'lib/aplication/BLoC/lesson/lesson_state.dart';
   static const String lessonsGetLessonsByCourseUseCase = 'lib/aplication/use_cases/lessons/get_lessons_by_course_use_case.dart';
   static const String libMain = 'lib/main.dart';
+  static const String listcommentsCommentListBloc = 'lib/aplication/BLoC/comment/listcomments/comment_list_bloc.dart';
+  static const String listcommentsCommentListEvent = 'lib/aplication/BLoC/comment/listcomments/comment_list_event.dart';
+  static const String listcommentsCommentListState = 'lib/aplication/BLoC/comment/listcomments/comment_list_state.dart';
   static const String localStorageLocaStorageImp = 'lib/infraestructure/datasources/localStorage/loca_storage_imp.dart';
   static const String localStorageLocalStorage = 'lib/aplication/localStorage/local_storage.dart';
   static const String loginCreateNewPass = 'lib/infraestructure/presentation/pages/login/CreateNewPass.dart';
@@ -159,8 +160,8 @@ class Assets {
   static const String loginLoginState = 'lib/aplication/BLoC/user/login/login_state.dart';
   static const String loginPassChanged = 'lib/infraestructure/presentation/pages/login/PassChanged.dart';
   static const String loginRegister = 'lib/infraestructure/presentation/pages/login/register.dart';
-  static const String logoFondoMorado = 'assets/logo/Fondo Morado.png';
-  static const String logoLogoGymnasticCenter = 'assets/logo/Logo Gymnastic Center.png';
+  static const String logoFondo Morado = 'assets/logo/Fondo Morado.png';
+  static const String logoLogo Gymnastic Center = 'assets/logo/Logo Gymnastic Center.png';
   static const String networkApiConnection = 'lib/core/network/api_connection.dart';
   static const String notificationGetNotificationDataUseCase = 'lib/aplication/use_cases/notification/get_notification_data_use_case.dart';
   static const String notificationNotificationDetailBloc = 'lib/aplication/BLoC/notification/notification_detail_bloc.dart';
@@ -175,6 +176,9 @@ class Assets {
   static const String pagesPages = 'lib/infraestructure/presentation/pages/pages.dart';
   static const String pagesVideos = 'lib/infraestructure/presentation/pages/videos.dart';
   static const String popularsearchscreenPopularSearch = 'lib/infraestructure/presentation/pages/popularsearchscreen/Popular_Search.dart';
+  static const String postCommentPostBloc = 'lib/aplication/BLoC/comment/post/comment_post_bloc.dart';
+  static const String postCommentPostEvent = 'lib/aplication/BLoC/comment/post/comment_post_event.dart';
+  static const String postCommentPostState = 'lib/aplication/BLoC/comment/post/comment_post_state.dart';
   static const String profilescreenProfile = 'lib/infraestructure/presentation/pages/profilescreen/profile.dart';
   static const String progressProgressCourseMapper = 'lib/infraestructure/mappers/progress/progress_course_mapper.dart';
   static const String progressProgressMapper = 'lib/infraestructure/mappers/progress/progress_mapper.dart';
@@ -234,6 +238,7 @@ class Assets {
   static const String widgetsScrollHorizontal = 'lib/infraestructure/presentation/widgets/scrollHorizontal.dart';
   static const String widgetsSearchbar = 'lib/infraestructure/presentation/widgets/searchbar.dart';
   static const String widgetsSidebarmenu = 'lib/infraestructure/presentation/widgets/sidebarmenu.dart';
+  static const String widgetsSnackbarComment = 'lib/infraestructure/presentation/widgets/snackbarComment.dart';
   static const String widgetsVideoplayer = 'lib/infraestructure/presentation/widgets/videoplayer.dart';
 
 }

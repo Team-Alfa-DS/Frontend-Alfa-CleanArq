@@ -17,15 +17,9 @@ class CommentMapper {
 
   static Map<String, dynamic> toJson(Comment_ comment) {
     return {
-      'id': comment.id,
-      'user': comment.user,
-      'body': comment.body,
-      'countDislikes': comment.countDislikes,
-      'countLikes': comment.countLikes,
-      'userLiked': comment.userLiked,
-      'userDisliked': comment.userDisliked,
-      'date': comment.date,
+      'target': comment.targetId,
       'targetType': comment.targetType,
+      'body': comment.body
     };
   }
 }

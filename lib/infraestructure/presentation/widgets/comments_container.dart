@@ -1,12 +1,18 @@
-import 'package:alpha_gymnastic_center/aplication/BLoC/comment/comment_list_state.dart';
+
 import 'package:alpha_gymnastic_center/aplication/use_cases/comment/get_comment_data_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/snackbarComment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../../aplication/BLoC/comment/comment_list_bloc.dart';
-import '../../../aplication/BLoC/comment/comment_list_event.dart';
+import '../../../aplication/BLoC/comment/listcomments/comment_list_bloc.dart';
+import '../../../aplication/BLoC/comment/listcomments/comment_list_event.dart';
+import '../../../aplication/BLoC/comment/listcomments/comment_list_state.dart';
+import '../../../aplication/BLoC/comment/post/comment_post_bloc.dart';
+import '../../../aplication/BLoC/comment/post/comment_post_event.dart';
+import '../../../aplication/BLoC/comment/post/comment_post_state.dart';
+import '../../../aplication/use_cases/comment/post_new_comment_use_case.dart';
 import '../pages/course/Course.dart';
 import 'navegation.dart';
 
@@ -15,7 +21,7 @@ class Widgets_Comments extends StatelessWidget {
   final String type;
   final String title;
 
-  const Widgets_Comments({
+   Widgets_Comments({
     Key? key,
     required this.id,
     required this.type,
@@ -100,32 +106,7 @@ class _CommentsState extends State<Comments> {
                                     comment.body,
                                     style: const TextStyle(fontSize: 16.0),
                                   ),
-                                  const SizedBox(height: 8.0),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        comment.countLikes.toString(),
-                                        style: const TextStyle(fontSize: 16.0),
-                                      ),
-                                      IconButton(
-                                        icon: const Icon(Icons.thumb_up),
-                                        onPressed: () {
-                                          // Like logic
-                                        },
-                                      ),
-                                      const SizedBox(width: 8.0),
-                                      Text(
-                                        comment.countDislikes.toString(),
-                                        style: const TextStyle(fontSize: 16.0),
-                                      ),
-                                      IconButton(
-                                        icon: const Icon(Icons.thumb_down),
-                                        onPressed: () {
-                                          // Dislike logic
-                                        },
-                                      ),
-                                    ],
-                                  ),
+                                  const SizedBox(height: 6.0),
                                   const Divider(),
                                 ],
                               ),
@@ -157,6 +138,7 @@ class _CommentsState extends State<Comments> {
                             onPressed: () {
                               // Handle send comment logic here
                               print('Sent comment: ${_commentController.text}');
+                              snackbarComment(id: widget.id, type: widget.type, text: _commentController.text);
                               _commentController.clear();
                             },
                           ),
@@ -199,4 +181,5 @@ class _CommentsState extends State<Comments> {
       drawer: const SideBarMenu(),
     );
   }
+
 }

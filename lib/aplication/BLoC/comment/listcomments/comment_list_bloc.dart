@@ -1,8 +1,8 @@
-import 'package:alpha_gymnastic_center/aplication/BLoC/comment/comment_list_state.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/comment/listcomments/comment_list_state.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/comment/get_comment_data_use_case.dart';
 import 'package:bloc/bloc.dart';
 
-import '../../use_cases/courses/get_course_data_use_case.dart';
+import '../../../use_cases/courses/get_course_data_use_case.dart';
 import 'comment_list_event.dart';
 
 class CommentListBloc extends Bloc<CommentListEvent, CommentListState> {
