@@ -14,6 +14,8 @@ import 'package:alpha_gymnastic_center/infraestructure/datasources/localStorage/
 import 'package:alpha_gymnastic_center/infraestructure/repositories/course/course_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/progress/progress_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/user/user_repository_impl.dart';
+import 'package:alpha_gymnastic_center/domain/repositories/course_repository.dart';
+import 'package:alpha_gymnastic_center/domain/repositories/user_repository.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,9 +45,12 @@ class InjectManager {
       localStorage: localStorage,
     );
 
+    // Register repositories with GetIt
+    getIt.registerSingleton<UserRepository>(userRepository);
+    getIt.registerSingleton<CourseRepository>(courseRepository);
+
     // UseCases
 
-    //! users
     final updateUserUseCase = UpdateUserUseCase(
       userRepository: userRepository,
       localStorage: localStorage,
@@ -60,8 +65,11 @@ class InjectManager {
       userRepository: userRepository,
       localStorage: localStorage,
     );
+
     final forgotPasswordUseCase = ForgotPasswordUseCase(
-        userRepository: userRepository, localStorage: localStorage);
+      userRepository: userRepository,
+      localStorage: localStorage,
+    );
 
     final validateCodeUseCase = ValidateCodeUseCase(
       userRepository: userRepository,
@@ -69,7 +77,9 @@ class InjectManager {
     );
 
     final changePasswordUseCase = ChangePasswordUseCase(
-        userRepository: userRepository, localStorage: localStorage);
+      userRepository: userRepository,
+      localStorage: localStorage,
+    );
 
     //! Courses
     final getCourseDataUseCase = GetCourseDataUseCase(
@@ -102,7 +112,6 @@ class InjectManager {
     getIt.registerSingleton<ForgotPasswordUseCase>(forgotPasswordUseCase);
     getIt.registerSingleton<ValidateCodeUseCase>(validateCodeUseCase);
     getIt.registerSingleton<ChangePasswordUseCase>(changePasswordUseCase);
-    //!Course
     getIt.registerSingleton<GetCourseDataUseCase>(getCourseDataUseCase);
     getIt.registerSingleton<GetSingleCourseUseCase>(getSingleCourseUseCase);
     getIt.registerSingleton<GetLessonsByCourseUseCase>(

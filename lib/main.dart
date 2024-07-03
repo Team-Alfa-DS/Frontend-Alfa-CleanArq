@@ -57,10 +57,6 @@ class MyApp extends StatelessWidget {
     final themeCubit = context.watch<ThemeCubit>();
     return MaterialApp.router(
       title: 'Gymnastic Center',
-      // theme: ThemeData(
-      //   primarySwatch: Colors.grey,
-      //   scaffoldBackgroundColor: Colors.white,
-      // ),
       theme: AppTheme(isDarkmode: themeCubit.state.isDark).getTheme(),
       routerConfig: appRouter,
     );

@@ -36,36 +36,20 @@ class CourseRepositoryImpl extends CourseRepository {
   }
 
   @override
-  Future<Result<List<Course>>> getCourseFiltered(
-      {required String category,
-      required String filter,
-      required String trainer}) async {
+  Future<Result<List<Course>>> getCourseMany({
+    required int page,
+    required int perPage,
+    required String filter,
+  }) async {
     await _addAuthorizationHeader();
-    final response = await _apiRequestManager.request(
-      '/course/many/?Filter=$filter&Trainer=$trainer&Category=$category',
-      'GET',
-      (data) => (data['courses'] as List)
-          .map((courseData) => CourseMapper.fromJson(courseData))
-          .toList(),
-    );
-    return response;
-  }
-
-  @override
-  Future<Result<List<Course>>> getCourseMany(
-      {required int page, required int perPage}) async {
-    await _addAuthorizationHeader();
-    final token = await _localStorage.getAuthorizationToken();
-    _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
     try {
       final response = await _apiRequestManager.request(
-        '/course/many',
+        '/course/many?filter=$filter&page=$page&perpage=$perPage',
         'GET',
         (data) {
           List<Course> courses = (data['courses'] as List)
               .map((courseData) => CourseMapper.fromJson(courseData))
               .toList();
-          for (var course in courses) {}
           return courses;
         },
       );
@@ -76,17 +60,34 @@ class CourseRepositoryImpl extends CourseRepository {
   }
 
   @override
+  Future<Result<List<Course>>> getCourseFiltered({
+    required String filter,
+    required String category,
+    required String trainer,
+    required int page,
+    required int perPage,
+  }) async {
+    await _addAuthorizationHeader();
+    final response = await _apiRequestManager.request(
+      '/course/many?filter=$filter&trainer=$trainer&category=$category&page=$page&perpage=$perPage',
+      'GET',
+      (data) {
+        List<Course> courses = (data['courses'] as List)
+            .map((courseData) => CourseMapper.fromJson(courseData))
+            .toList();
+        return courses;
+      },
+    );
+    return response;
+  }
+
+  @override
   Future<Result<Course>> getSingleCourse({required String id}) async {
     await _addAuthorizationHeader();
-    final token = await _localStorage.getAuthorizationToken();
-    _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
     final response = await _apiRequestManager
         .request<Course>('/course/one/$id', 'GET', (data) {
       return CourseMapper.fromJson(data);
     });
-    if (response.hasValue()) {
-      final course = response.value!;
-    }
     return response;
   }
 }

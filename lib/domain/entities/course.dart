@@ -9,12 +9,11 @@ class Course {
   String image;
   Trainer trainer;
   String level;
-  int DurationWeeks;
-  int DurationMinutes;
+  int durationWeeks;
+  int durationMinutes;
   List<String> tags;
   DateTime? date;
   List<Lesson> lessons;
-  int? percent;
 
   Course({
     this.id,
@@ -24,8 +23,8 @@ class Course {
     required this.image,
     required this.trainer,
     required this.level,
-    required this.DurationWeeks,
-    required this.DurationMinutes,
+    required this.durationWeeks,
+    required this.durationMinutes,
     required this.tags,
     required this.date,
     required this.lessons,

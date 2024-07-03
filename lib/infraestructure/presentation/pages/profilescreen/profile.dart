@@ -2,8 +2,8 @@ import 'package:alpha_gymnastic_center/aplication/BLoC/progress/profile/profile_
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_profile_progress_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course_detailed.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/carruselh.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/carrusel_h.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses_h.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -325,7 +325,7 @@ class PerfilUsuario extends StatelessWidget {
             ),
           ),
           SizedBox(height: 10),
-          Expanded(child: PopularProcessesCarousel()),
+          Expanded(child: PopularCoursesCarousel()),
         ],
       ),
     );

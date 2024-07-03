@@ -4,18 +4,16 @@ import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_trendin
 import 'package:alpha_gymnastic_center/common/utils/string_utils.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/no_progress_section.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/progressbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses_h.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
 import '../../../../domain/entities/blog.dart';
 import '../../widgets/categoryItem.dart';
 import '../../widgets/scrollHorizontal.dart';
-// Importar el nuevo componente
 
 class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -163,7 +161,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: PopularProcessesCarousel(),
+                      child: PopularCoursesCarousel(),
                     ),
                   ],
                 ),
