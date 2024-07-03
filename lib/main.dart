@@ -12,6 +12,8 @@ import 'package:alpha_gymnastic_center/infraestructure/services/config/inject_ma
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'aplication/BLoC/video/video_bloc.dart';
+import 'aplication/serviceAplication/progress/progress_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,21 +26,25 @@ class BlocsProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        //lazy false hace que tan pronto se inicialice el proveedor de bloques, se ejecute el constructor
-
+    return MultiRepositoryProvider(
         providers: [
-          //BlocProvider(create: (context) => UsernameCubit(), lazy: false)
-          BlocProvider(create: (context) => RouterSimpleCubit()),
-          BlocProvider(create: (context) => ThemeCubit()),
-          BlocProvider(
-              create: (context) => ChangePasswordBloc(
-                    changePasswordUseCase:
-                        GetIt.instance<ChangePasswordUseCase>(),
-                  )),
-          BlocProvider(create: (context) => UserBloc()),
-        ],
-        child: const MyApp());
+        RepositoryProvider<ProgressService>(
+        create: (context) => ProgressService(),
+    ),
+    ],
+    child: MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => RouterSimpleCubit()),
+        BlocProvider(create: (context) => ThemeCubit()),
+        BlocProvider(create: (context) => ChangePasswordBloc(
+          changePasswordUseCase: GetIt.instance<ChangePasswordUseCase>(),
+        )),
+        BlocProvider(create: (context) => UserBloc()),
+        BlocProvider(create: (context) => VideoBloc(context.read<ProgressService>())), // Agrega VideoBloc aquí
+      ],
+      child: const MyApp(),
+    ),
+    );
   }
 }
 
