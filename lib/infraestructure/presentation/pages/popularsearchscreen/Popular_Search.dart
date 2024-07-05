@@ -113,39 +113,6 @@ class _PopularSearch extends State<PopularSearch> {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: const [
-                      ScrollHorizontal(
-                        titulo:
-                            "15 Minutes yoga practice the beginner in 30 days",
-                        descripcion: "Descripcion",
-                        categoria: "Trainning",
-                        fecha: "Feb 17, 2020",
-                        foto: "assets/images/Yoga Ejemplo 1.png",
-                        disposicion: 2,
-                        isNew: false,
-                        conexion: "/videos",
-                      ),
-                      ScrollHorizontal(
-                        titulo:
-                            "23 Minutes yoga practice the beginner in 30 days",
-                        descripcion: "Descripcion",
-                        categoria: "Morning",
-                        fecha: "Feb 18, 2020",
-                        foto: "assets/images/Yoga Ejemplo 2.png",
-                        disposicion: 2,
-                        isNew: false,
-                        conexion: "/videos",
-                      ),
-                      ScrollHorizontal(
-                        titulo:
-                            "30 Minutes yoga practice the beginner in 30 days",
-                        descripcion: "Descripcion",
-                        categoria: "For Women",
-                        fecha: "Feb 20, 2020",
-                        foto: "assets/images/Yoga Ejemplo 3.png",
-                        disposicion: 2,
-                        isNew: false,
-                        conexion: "/videos",
-                      ),
                     ],
                   ),
                 ),

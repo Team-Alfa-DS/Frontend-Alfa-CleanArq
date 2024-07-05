@@ -10,7 +10,7 @@ import '../../../aplication/BLoC/blog/blog_many/blog_many_event.dart';
 import '../../../aplication/BLoC/blog/blog_many/blog_many_state.dart';
 import '../../../aplication/use_cases/blog/get_blog_many_use_case.dart';
 import '../../../domain/entities/blog.dart';
-import 'carruselh.dart';
+import 'carrusel_h.dart';
 
 class blogsCarousel extends StatelessWidget {
   const blogsCarousel({super.key});

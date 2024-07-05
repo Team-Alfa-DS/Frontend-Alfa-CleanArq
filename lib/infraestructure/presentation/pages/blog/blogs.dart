@@ -475,7 +475,7 @@ class _HorizontalCarouselState extends State<HorizontalCarousel> {
  /* void navigateToDetailed(
       BuildContext context) {
 
-    //busca en el repositorio un blog detallado dado el id que llega del parametro de esta funcion y luego se lo pones al la llamada del widget
+    //busca en el repositorio un bloc detallado dado el id que llega del parametro de esta funcion y luego se lo pones al la llamada del widget
 
     Navigator.push(
         context,

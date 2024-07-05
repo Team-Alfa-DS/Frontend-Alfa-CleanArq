@@ -1,318 +1,329 @@
-import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
+import 'package:get_it/get_it.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/course_card.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses_h.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_course_data_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_many/course_many_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_many/course_many_state.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_many/course_many_event.dart';
+import 'package:alpha_gymnastic_center/domain/repositories/course_repository.dart';
 
-class TrainingScreen extends StatefulWidget {
-  const TrainingScreen({super.key});
+class TrainingView extends StatefulWidget {
+  const TrainingView({Key? key}) : super(key: key);
 
   @override
-  _TrainingScreenState createState() => _TrainingScreenState();
+  TrainingViewState createState() => TrainingViewState();
 }
 
-class _TrainingScreenState extends State<TrainingScreen> {
+class TrainingViewState extends State<TrainingView> {
+  late final CourseListBloc _courseListBloc;
+  final ScrollController _scrollController = ScrollController();
+  String? _selectedLevel;
+  bool _isLoadingMore = false;
+  bool _hasLoadedAllCourses = false;
+  bool _isReloading = false;
+  int _previousCourseCount = 0;
+  int _currentPage = 0;
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const TrainingAppBar(title: "Training"),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+  void initState() {
+    super.initState();
+    final courseRepository = GetIt.instance<CourseRepository>();
+    _courseListBloc = CourseListBloc(
+      GetCourseDataUseCase(courseRepository: courseRepository),
+    );
+    _courseListBloc
+        .add(LoadCourseList(page: _currentPage, perPage: 3, filter: 'RECENT'));
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _courseListBloc.close();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      if (!_isLoadingMore && !_hasLoadedAllCourses) {
+        setState(() {
+          _isLoadingMore = true;
+        });
+        _currentPage++;
+        _courseListBloc.add(
+            LoadCourseList(page: _currentPage, perPage: 3, filter: 'RECENT'));
+      }
+    }
+  }
+
+  Widget _buildLevelButton(String level) {
+    bool isSelected = _selectedLevel == level;
+
+    return GestureDetector(
+      onTap: () {
+        if (!isSelected) {
+          setState(() {
+            _selectedLevel = level;
+          });
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(height: 20),
-            _buildPopularCoursesSection(),
-            const SizedBox(height: 20),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0),
-              child: Text(
-                "Programs Master",
-                style: TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+            Text(
+              level,
+              style: TextStyle(
+                color: isSelected ? Colors.white : Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
               ),
             ),
-            const SizedBox(height: 10),
-            programsMaster(
-              '30 day yoga challenge',
-              'Ralph Edwards',
-              'Level 5',
-              'assets/icons/Yoga Ejemplo 1.png',
-            ),
-            programsMaster(
-              '45 day advanced yoga',
-              'Sarah Conner',
-              'Level 7',
-              'assets/icons/Yoga Ejemplo 1.png',
-            ),
-            programsMaster(
-              '15 day relax program',
-              'Mike Tyson',
-              'Level 3',
-              'assets/icons/Yoga Ejemplo 1.png',
-            ),
+            if (isSelected) const SizedBox(width: 10),
+            if (isSelected)
+              const CircleAvatar(
+                radius: 7,
+                backgroundColor: Colors.white,
+              ),
           ],
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
-        height: 70.0,
-        width: 70.0,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-          shape: BoxShape.circle,
-        ),
-        child: FloatingActionButton(
-          onPressed: () {
-            // Aquí va la acción del botón
-          },
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          child: Image.asset('assets/icons/rayo.png',
-              color: Colors.white, width: 35.0, height: 35.0),
-        ),
-      ),
-      bottomNavigationBar: const BarraNavegacion(),
     );
   }
 
-  Widget _buildPopularCoursesSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Most Popular Courses',
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/videos');
-                },
-                child: const Text('See all >'),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 200,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return _buildCourseCard(index);
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCourseCard(int index) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Stack(
-        alignment: Alignment.topRight,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              'assets/images/v1.png', // Your image paths as placeholders
-              width: 150,
-              height: 150,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-            decoration: const BoxDecoration(
-              color: Colors.purple,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10),
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => _courseListBloc,
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(100.0),
+          child: AppBar(
+            title: const Text(
+              'Entrenamiento',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            child: const Text(
-              'New!',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
+            flexibleSpace: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    ['Savannah Nguyen', 'Theresa Webb', 'Mike Tyson'][index],
-                    style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  const Text(
-                    'Yoga app',
-                    style: TextStyle(color: Colors.white),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buildLevelButton('Avanzado'),
+                          _buildLevelButton('Intermedio'),
+                          _buildLevelButton('Principiante'),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget programsMaster(
-      String title, String instructor, String difficulty, String imagePath) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
-      padding: const EdgeInsets.all(5.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 5.0),
-                Text(
-                  instructor,
-                  style: const TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.grey,
-                  ),
-                ),
-                const SizedBox(height: 5.0),
-                Text(
-                  difficulty,
-                  style: const TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.deepPurple,
-                  ),
-                ),
-              ],
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
             ),
           ),
-          const SizedBox(width: 10.0),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
-            child: Image.asset(
-              imagePath,
-              width: 80.0,
-              height: 80.0,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Cursos más Populares',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              const SizedBox(
+                height: 100,
+                child: PopularCoursesCarousel(),
+              ),
+              const SizedBox(height: 20),
+              Container(
+                height: 1,
+                color: Colors.grey[300],
+                margin:
+                const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              ),
+              const Text(
+                'Programador Maestro',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Expanded(
+                child: BlocBuilder<CourseListBloc, CourseListState>(
+                  builder: (context, state) {
+                    if (state is CourseListLoading && state.courses.isEmpty) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is CourseListLoaded) {
+                      _hasLoadedAllCourses = state.hasReachedMax;
+                      _isLoadingMore = false;
 
-class TrainingAppBar extends StatefulWidget implements PreferredSizeWidget {
-  @override
-  Size get preferredSize =>
-      const Size.fromHeight(100); // Ajustado para acomodar los botones
-
-  final String title;
-
-  const TrainingAppBar({
-    super.key,
-    required this.title,
-  });
-
-  @override
-  _TrainingAppBarState createState() => _TrainingAppBarState();
-}
-
-class _TrainingAppBarState extends State<TrainingAppBar> {
-  int _selectedTabIndex = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      title: Text(
-        widget.title,
-        style: const TextStyle(
-            color: Colors.white), // Asegura que el título es blanco
-      ),
-      backgroundColor: Colors.deepPurple,
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(48),
-        child: Container(
-          color: Colors.deepPurple,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              _buildTabItem(0, 'Master'),
-              _buildTabItem(1, 'Skilled'),
-              _buildTabItem(2, 'Beginner'),
+                      return ListView.builder(
+                        controller: _scrollController,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: state.courses.length +
+                            (_hasLoadedAllCourses ? 1 : 0),
+                        itemBuilder: (context, index) {
+                          if (index < state.courses.length) {
+                            return CourseCard(course: state.courses[index]);
+                          } else if (_hasLoadedAllCourses) {
+                            return _buildEndOfListMessage();
+                          } else {
+                            return const SizedBox.shrink();
+                          }
+                        },
+                      );
+                    } else if (state is CourseListFailed) {
+                      return _buildEndOfListMessage();
+                    } else {
+                      return const Center(
+                        child: Text('No hay cursos disponibles'),
+                      );
+                    }
+                  },
+                ),
+              ),
             ],
           ),
         ),
       ),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomRight: Radius.circular(50),
+    );
+  }
+
+  Widget _buildEndOfListMessage() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: _reloadCourses,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                padding: const EdgeInsets.all(8.0),
+                child: const Icon(Icons.refresh, color: Colors.white),
+              ),
+            ),
+            const SizedBox(height: 10),
+            if (_hasLoadedAllCourses)
+              Text(
+                'Llegaste al final.\nVuelve pronto para más cursos.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                  foreground: Paint()
+                    ..shader = const LinearGradient(
+                      colors: <Color>[Color(0xFF4F14A0), Color(0xFF8066FF)],
+                    ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
+                ),
+              ),
+            if (_isReloading && _hasLoadedAllCourses)
+              Column(
+                children: [
+                  Text(
+                    'No se encontraron cursos nuevos al recargar.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      foreground: Paint()
+                        ..shader = const LinearGradient(
+                          colors: <Color>[Color(0xFF4F14A0), Color(0xFF8066FF)],
+                        ).createShader(
+                            const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    'Presiona de nuevo para recargar.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
+                      foreground: Paint()
+                        ..shader = const LinearGradient(
+                          colors: <Color>[Color(0xFF4F14A0), Color(0xFF8066FF)],
+                        ).createShader(
+                            const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
+                    ),
+                  ),
+                ],
+              ),
+          ],
         ),
-      ),
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.white),
-        onPressed: () => Navigator.of(context).pop(),
       ),
     );
   }
 
-  Widget _buildTabItem(int index, String title) {
-    return TextButton(
-      onPressed: () {
+  void _reloadCourses() {
+    setState(() {
+      _isReloading = true;
+    });
+
+    final currentState = _courseListBloc.state;
+    if (currentState is CourseListLoaded) {
+      _previousCourseCount = currentState.courses.length;
+    }
+
+    _courseListBloc
+        .add(LoadCourseList(page: _currentPage, perPage: 4, filter: 'RECENT'));
+
+    _courseListBloc.stream.listen((state) {
+      if (state is CourseListLoaded) {
         setState(() {
-          _selectedTabIndex = index;
+          _isReloading = false;
+          _hasLoadedAllCourses = state.hasReachedMax;
+          _isLoadingMore = false;
+          if (state.courses.length > _previousCourseCount) {
+            _previousCourseCount = state.courses.length;
+          }
         });
-      },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Circulo a la izquierda del texto
-          if (_selectedTabIndex == index)
-            const Padding(
-              padding: EdgeInsets.only(right: 8),
-              child: CircleAvatar(
-                radius: 4,
-                backgroundColor: Colors.white,
-              ),
-            ),
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: _selectedTabIndex == index
-                  ? FontWeight.bold
-                  : FontWeight.normal,
-            ),
-          ),
-        ],
-      ),
-    );
+      } else if (state is CourseListFailed) {
+        setState(() {
+          _isReloading = false;
+          _hasLoadedAllCourses = true;
+        });
+      }
+    });
   }
 }

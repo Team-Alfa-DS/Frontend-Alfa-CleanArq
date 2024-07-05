@@ -5,21 +5,27 @@ import 'package:alpha_gymnastic_center/common/result.dart';
 
 class GetCourseDataUseCaseInput extends IUseCaseInput {
   final int page;
-  final int perpage;
+  final int perPage;
+  final String filter;
 
-  GetCourseDataUseCaseInput({required this.page, required this.perpage});
+  GetCourseDataUseCaseInput({
+    required this.page,
+    required this.perPage,
+    required this.filter,
+  });
 }
 
-class GetCourseDataUseCase
-    implements IUseCase<GetCourseDataUseCaseInput, List<Course>> {
-  final CourseRepository courseRepository;
+class GetCourseDataUseCase {
+  final CourseRepository _courseRepository;
 
-  GetCourseDataUseCase({required this.courseRepository});
+  GetCourseDataUseCase({required CourseRepository courseRepository})
+      : _courseRepository = courseRepository;
 
-  @override
-  Future<Result<List<Course>>> execute(GetCourseDataUseCaseInput params) async {
-    print('Entro en getMany');
-    return await courseRepository.getCourseMany(
-        page: params.page, perpage: params.perpage);
+  Future<Result<List<Course>>> execute(GetCourseDataUseCaseInput input) {
+    return _courseRepository.getCourseMany(
+      page: input.page,
+      perPage: input.perPage,
+      filter: input.filter,
+    );
   }
 }

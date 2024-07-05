@@ -20,10 +20,10 @@ class CreateProgressCourseRequest {
 
   CreateProgressCourseRequest(
       {required this.user,
-      required this.courses,
-      required this.percent,
-      required this.time,
-      required this.markAsComplete});
+        required this.courses,
+        required this.percent,
+        required this.time,
+        required this.markAsComplete});
 }
 
 class PostProgress {
@@ -34,9 +34,9 @@ class PostProgress {
 
   PostProgress(
       {required this.courseId,
-      required this.markAsComplete,
-      required this.lessonId,
-      this.time});
+        required this.markAsComplete,
+        required this.lessonId,
+        this.time});
 }
 
 class SingleCourseProgress {
@@ -54,7 +54,93 @@ class TrendingProgress {
 
   TrendingProgress(
       {required this.percent,
-      required this.courseTitle,
-      required this.courseId,
-      required this.lastTime});
+        required this.courseTitle,
+        required this.courseId,
+        required this.lastTime});
+}
+
+class MarkEndProgressRequest {
+  final String courseId;
+  final bool markAsCompleted;
+  final String lessonId;
+  final int? time;
+
+  MarkEndProgressRequest({
+    required this.courseId,
+    required this.markAsCompleted,
+    required this.lessonId,
+    this.time,
+  });
+}
+
+class ProgressOneResponse {
+  final double percent;
+  final List<LessonProgress> lessons;
+
+  ProgressOneResponse({
+    required this.percent,
+    required this.lessons,
+  });
+}
+
+class LessonProgress {
+  final String lessonId;
+  final int? time;
+  final double percent;
+
+  LessonProgress({
+    required this.lessonId,
+    this.time,
+    required this.percent,
+  });
+}
+
+class TrendingProgressResponse {
+  final double percent;
+  final String courseTitle;
+  final String courseId;
+  final DateTime lastTime;
+
+  TrendingProgressResponse({
+    required this.percent,
+    required this.courseTitle,
+    required this.courseId,
+    required this.lastTime,
+  });
+}
+
+class ProfileProgressResponse {
+  final double percent;
+  final int time;
+
+  ProfileProgressResponse({
+    required this.percent,
+    required this.time,
+  });
+}
+
+class CoursesProgressResponse {
+  final List<CourseProgress> courses;
+
+  CoursesProgressResponse({required this.courses});
+}
+
+class CourseProgress {
+  final String id;
+  final String title;
+  final String image;
+  final DateTime date;
+  final String category;
+  final String trainer;
+  final double percent;
+
+  CourseProgress({
+    required this.id,
+    required this.title,
+    required this.image,
+    required this.date,
+    required this.category,
+    required this.trainer,
+    required this.percent,
+  });
 }

@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'video_event.dart';
 import 'video_state.dart';
 import 'package:alpha_gymnastic_center/aplication/serviceAplication/progress/progress_service.dart';
@@ -25,7 +26,7 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
       url: event.videoUrl,
       duration:
           360, // Puedes cambiar esta duración si tienes un valor dinámico.
-      idLesson: int.parse(event.lessonId),
+      idLesson: event.lessonId,
     );
 
     try {

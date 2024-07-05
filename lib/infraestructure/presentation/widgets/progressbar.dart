@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class ProgressSection extends StatelessWidget {
-  const ProgressSection({super.key});
+  final double percent;
+
+  const ProgressSection({super.key, required this.percent});
 
   @override
   Widget build(BuildContext context) {
@@ -10,12 +12,12 @@ class ProgressSection extends StatelessWidget {
       padding: const EdgeInsets.all(14),
       child: Container(
         color: Colors.white,
-        child: const Column(
+        child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
+                const Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -36,8 +38,8 @@ class ProgressSection extends StatelessWidget {
                 CustomCircularPercentIndicator(
                   radius: 65,
                   lineWidth: 10,
-                  percent: 0.2,
-                  centerText: '20%\nHecho',
+                  percent: percent / 100,
+                  centerText: '${percent.toInt()}%\nHecho',
                   progressColor: Colors.deepPurple,
                   centerTextColor: Colors.deepPurple,
                   centerTextSize: 20,
@@ -83,7 +85,10 @@ class CustomCircularPercentIndicator extends StatelessWidget {
           percent: percent,
           center: Text(
             centerText,
-            style: TextStyle(color: centerTextColor, fontSize: centerTextSize, fontStyle: FontStyle.italic),
+            style: TextStyle(
+                color: centerTextColor,
+                fontSize: centerTextSize,
+                fontStyle: FontStyle.italic),
             textAlign: TextAlign.center,
           ),
           progressColor: progressColor,

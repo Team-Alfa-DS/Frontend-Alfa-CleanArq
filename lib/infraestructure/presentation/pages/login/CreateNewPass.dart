@@ -1,7 +1,6 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/change_password/change_password_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 class CreatePasswordPage extends StatefulWidget {
@@ -59,7 +58,7 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
             image: const AssetImage("assets/images/fondo.png"),
             fit: BoxFit.cover,
             colorFilter:
-                ColorFilter.mode(myColor.withOpacity(0.2), BlendMode.color),
+            ColorFilter.mode(myColor.withOpacity(0.2), BlendMode.color),
           ),
         ),
         child: Scaffold(

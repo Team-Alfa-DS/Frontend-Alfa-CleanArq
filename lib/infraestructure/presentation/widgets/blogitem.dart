@@ -106,7 +106,7 @@ class blogItem extends StatelessWidget {
   /*
   void navigateToDetailed(BuildContext context, String id_, String title,
       String description, String url_) {
-    //busca en el repositorio un blog detallado dado el id que llega del parametro de esta funcion y luego se lo pones al la llamada del widget
+    //busca en el repositorio un bloc detallado dado el id que llega del parametro de esta funcion y luego se lo pones al la llamada del widget
 
     Navigator.push(
         context,

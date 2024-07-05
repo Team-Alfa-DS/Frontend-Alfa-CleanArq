@@ -20,6 +20,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../aplication/use_cases/blog/get_blog_one_use_case.dart';
 import '../../../aplication/use_cases/comment/get_comment_data_use_case.dart';
+import '../../../aplication/use_cases/progress/get_profile_progress_use_case.dart';
+import '../../../aplication/use_cases/progress/get_trending_progress_use_case.dart';
+import '../../../domain/repositories/course_repository.dart';
+import '../../../domain/repositories/user_repository.dart';
+import '../../repositories/progress/progress_repository_impl.dart';
 
 class InjectManager {
   static Future<void> setUpInjections() async {
@@ -50,6 +55,15 @@ class InjectManager {
         apiRequestManager: apiRequestManagerImpl,
         localStorage: localStorage
     );
+
+    final progressRepository = ProgressRepositoryImpl(
+      apiRequestManager: apiRequestManagerImpl,
+      localStorage: localStorage,
+    );
+
+    // Register repositories with GetIt
+    getIt.registerSingleton<UserRepository>(userRepository);
+    getIt.registerSingleton<CourseRepository>(courseRepository);
 
     // UseCases
 
@@ -108,6 +122,15 @@ class InjectManager {
         commentRepository: commentRepository
     );
 
+    //!Progress
+    final getTrendingProgressUseCase = GetTrendingProgressUseCase(
+      progressRepository: progressRepository,
+    );
+
+    final getProfileProgressUseCase = GetProfileProgressUseCase(
+      progressRepository: progressRepository,
+    );
+
     // Registering singletons
 
     //!users
@@ -128,5 +151,12 @@ class InjectManager {
 
     //!Comments
     getIt.registerSingleton<GetCommentDataUseCase>( getCommentDataUseCase);
+
+    //!Progress
+    getIt.registerSingleton<GetTrendingProgressUseCase>(
+        getTrendingProgressUseCase);
+    getIt.registerSingleton<GetProfileProgressUseCase>(
+        getProfileProgressUseCase);
+
   }
 }

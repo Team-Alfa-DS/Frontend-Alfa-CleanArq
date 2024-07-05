@@ -38,7 +38,7 @@ class BlogRepositoryImpl extends BlogRepository {
     try {
       final response = await _apiRequestManager.request(
         //Esto tengo que ver bien en el Swagger como se pone con todos los parametros que si filter categories etc
-        '/blog/many',
+        '/bloc/many',
         'GET',
             (data) {
           print('Data received in checkManyBlogs: $data');
@@ -67,7 +67,7 @@ class BlogRepositoryImpl extends BlogRepository {
     final token = await _localStorage.getAuthorizationToken();
     _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
     final response = await _apiRequestManager
-        .request<Blog>('/blog/one/${id}', 'GET', (data) {
+        .request<Blog>('/bloc/one/${id}', 'GET', (data) {
       print('Data received in checkOneBlog: $data');
       return BlogMapperOne.fromJson(data);
     });

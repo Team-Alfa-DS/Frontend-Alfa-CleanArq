@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:alpha_gymnastic_center/domain/entities/course.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/carruselh.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/carrusel_h.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_course_data_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_many/course_many_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_many/course_many_state.dart';
@@ -18,7 +18,7 @@ class PopularProcessesCarousel extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           CourseListBloc(GetIt.instance<GetCourseDataUseCase>())
-            ..add(const LoadCourseList(page: 1, perpage: 15)),
+            ..add(const LoadCourseList(page: 1, perPage: 15, filter: 'POPULAR')),
       child: BlocBuilder<CourseListBloc, CourseListState>(
         builder: (context, state) {
           if (state is CourseListLoading) {

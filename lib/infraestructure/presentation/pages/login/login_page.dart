@@ -1,4 +1,5 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/login/login_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/login_in_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/forgotpass.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
           image: const AssetImage("assets/images/fondo.png"),
           fit: BoxFit.cover,
           colorFilter:
-              ColorFilter.mode(myColor.withOpacity(0.2), BlendMode.color),
+          ColorFilter.mode(myColor.withOpacity(0.2), BlendMode.color),
         ),
       ),
       child: Scaffold(
@@ -81,6 +82,7 @@ class _LoginPageState extends State<LoginPage> {
     return BlocProvider(
       create: (context) => LoginBloc(
         loginUseCase: GetIt.instance<LogInUseCase>(),
+        userBloc: BlocProvider.of<UserBloc>(context), // <-- Add this
       ),
       child: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
@@ -93,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                 return AlertDialog(
                   title: const Text("Error"),
                   content:
-                      Text("Login failed. Error: ${state.failure.message}"),
+                  Text("Login failed. Error: ${state.failure.message}"),
                   actions: [
                     TextButton(
                       onPressed: () {

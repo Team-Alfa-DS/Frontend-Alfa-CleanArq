@@ -9,10 +9,21 @@ abstract class CourseListEvent extends Equatable {
 
 class LoadCourseList extends CourseListEvent {
   final int page;
-  final int perpage;
+  final int perPage;
+  final String filter;
 
-  const LoadCourseList({required this.page, required this.perpage});
+  const LoadCourseList(
+      {required this.page, required this.perPage, required this.filter});
 
   @override
-  List<Object?> get props => [page, perpage];
+  List<Object?> get props => [page, perPage, filter];
+}
+
+class RefreshCourseList extends CourseListEvent {
+  final String filter;
+
+  const RefreshCourseList({required this.filter});
+
+  @override
+  List<Object?> get props => [filter];
 }

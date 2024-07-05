@@ -16,7 +16,7 @@ class UserRepositoryImpl extends UserRepository {
     final response = await _apiRequestManager.request<User>(
       '/auth/login',
       'POST',
-      (data) {
+          (data) {
         return UserMapper.fromJson(data);
       },
       body: {
@@ -33,6 +33,7 @@ class UserRepositoryImpl extends UserRepository {
       print('User Name: ${user.name}');
       print('User Email: ${user.email}');
       print('User Phone: ${user.phone}');
+      print('User Image: ${user.imagenPerfil}');
       print('User Type: ${user.type}');
       print('User Token : ${user.token}');
     } else {
@@ -53,7 +54,7 @@ class UserRepositoryImpl extends UserRepository {
     final response = await _apiRequestManager.request<RegisterUserResponse>(
       '/auth/register',
       'POST',
-      (data) {
+          (data) {
         return RegisterUserResponse(id: data['id']);
       },
       body: {
@@ -76,7 +77,7 @@ class UserRepositoryImpl extends UserRepository {
     final response = await _apiRequestManager.request<ForgetPasswordResponse>(
       '/auth/forget/password',
       'POST',
-      (data) {
+          (data) {
         print("la data");
         print(data);
         return ForgetPasswordResponse(date: data["date"]);
@@ -95,7 +96,7 @@ class UserRepositoryImpl extends UserRepository {
     final response = await _apiRequestManager.request<void>(
       '/auth/code/validate',
       'POST',
-      (data) {},
+          (data) {},
       body: {
         'email': validateCodeRequest.email,
         'code': validateCodeRequest.code,
@@ -111,7 +112,7 @@ class UserRepositoryImpl extends UserRepository {
     final response = await _apiRequestManager.request<void>(
       '/auth/change/password',
       'PUT',
-      (data) {},
+          (data) {},
       body: {
         'email': changePasswordRequest.email,
         'code': changePasswordRequest.code,
@@ -128,11 +129,10 @@ class UserRepositoryImpl extends UserRepository {
     final response = await _apiRequestManager.request<User>(
       '/auth/current',
       'GET',
-      (data) {
-        return UserMapper.fromJson(data);
+          (data) {
+        return UserMapper.fromJson2(data);
       },
     );
-
     return response;
   }
 
@@ -143,7 +143,7 @@ class UserRepositoryImpl extends UserRepository {
     final response = await _apiRequestManager.request<void>(
       '/user/update',
       'PUT',
-      (data) {},
+          (data) {},
       body: {
         if (updateUserRequest.email != null) 'email': updateUserRequest.email,
         if (updateUserRequest.name != null) 'name': updateUserRequest.name,
@@ -153,7 +153,6 @@ class UserRepositoryImpl extends UserRepository {
         if (updateUserRequest.image != null) 'image': updateUserRequest.image,
       },
     );
-
     return response;
   }
 }

@@ -37,7 +37,7 @@ class CommentRepositoryImpl extends CommentRepository {
 
     try {
       final Result<List<Comment_>> response = await _apiRequestManager.request(
-        '/comments/many?perPage=$perpage&page=$page&lesson=$lesson&blog=$blog',
+        '/comments/many?perPage=$perpage&page=$page&lesson=$lesson&bloc=$blog',
         'GET',
             (data) {
           print('Data received in comments: $data');

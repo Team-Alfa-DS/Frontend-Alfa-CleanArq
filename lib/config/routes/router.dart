@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/pages.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../infraestructure/presentation/pages/profilescreen/edit_profile.dart';
+
 final router = GoRouter(
   routes: [
     GoRoute(
@@ -17,6 +19,10 @@ final router = GoRouter(
     GoRoute(
       path: '/profile',
       builder: (context, state) => const PerfilUsuario(),
+    ),
+    GoRoute(
+      path: '/editProfile',
+      builder: (context, state) => const EditProfile(),
     ),
     GoRoute(
       path: '/notification',
@@ -39,7 +45,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/trainingScreen',
-      builder: (context, state) => const TrainingScreen(),
+      builder: (context, state) => const TrainingView(),
     ),
     GoRoute(
       path: '/videos',
