@@ -150,7 +150,10 @@ class _CommentsState extends State<Comments> {
               ),
             );
           }
-          return const SizedBox.shrink();
+          return const SizedBox.shrink(
+             child:
+               Text("Comentarios no encontrados!")
+          );
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

@@ -35,9 +35,16 @@ class CommentRepositoryImpl extends CommentRepository {
     _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
     print('Mitad de getManyComments');
 
+    print("blog id: $blog");
+    print("lesson id: $lesson");
+    print("perpage: $perpage");
+    print("page: $page");
+
+    print('/comments/many?perPage=$perpage&page=$page&lesson=$lesson&blog=$blog');
+
     try {
       final Result<List<Comment_>> response = await _apiRequestManager.request(
-        '/comments/many?perPage=$perpage&page=$page&lesson=$lesson&bloc=$blog',
+        '/comments/many?perPage=$perpage&page=$page&lesson=$lesson&blog=$blog',
         'GET',
             (data) {
           print('Data received in comments: $data');
