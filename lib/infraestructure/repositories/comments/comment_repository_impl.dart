@@ -3,49 +3,93 @@ import 'package:alpha_gymnastic_center/common/result.dart';
 import 'package:alpha_gymnastic_center/domain/entities/comment.dart';
 import 'package:alpha_gymnastic_center/infraestructure/mappers/comment/comment_mapper.dart';
 
-import '../../../domain/interfaces/comment_interfaces.dart';
+import '../../../aplication/localStorage/local_storage.dart';
 import '../../../domain/repositories/comment_repository.dart';
 import '../../datasources/api/api_request.dart';
 
 class CommentRepositoryImpl extends CommentRepository {
   final IApiRequestManager _apiRequestManager;
+  final LocalStorage _localStorage;
 
-  CommentRepositoryImpl({required IApiRequestManager apiRequestManager})
-      : _apiRequestManager = apiRequestManager;
+  CommentRepositoryImpl({
+    required IApiRequestManager apiRequestManager,
+    required LocalStorage localStorage,
+  })  : _apiRequestManager = apiRequestManager,
+        _localStorage = localStorage;
+
+  Future<void> _addAuthorizationHeader() async {
+    final token = await _localStorage.getAuthorizationToken();
+    _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
+  }
 
   @override
-  Future<Result<comment>> ReleaseComment(SingleComment POSTRequest) async {
-    final response = await _apiRequestManager.request<comment>(
-        '/comment/release',
-        'POST',
+  Future<Result<List<Comment_>>> getManyComments({
+    String? blog,
+    String? lesson,
+    required int page,
+    required int perpage,
+  }) async {
+    print('Inicio de getManyComments');
+    await _addAuthorizationHeader();
+    final token = await _localStorage.getAuthorizationToken();
+    _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
+    print('Mitad de getManyComments');
+
+    try {
+      final Result<List<Comment_>> response = await _apiRequestManager.request(
+        '/comments/many?perPage=$perpage&page=$page&lesson=$lesson&bloc=$blog',
+        'GET',
             (data) {
-          return CommentMapper.fromJson(data['comment']);
+          print('Data received in comments: $data');
+          List<Comment_> comments = (data['blogComments'] as List)
+              .map((commentData) => CommentMapper.fromJson(commentData))
+              .toList();
+          print('List of comments:');
+          comments.forEach((comment) => print(comment));
+          return comments;
         },
-        body: {
-          'target': POSTRequest.target,
-          'targetType': POSTRequest.targettype,
-          'body': POSTRequest.body,
-          'token': POSTRequest.token,
-        },
-    );
+      );
 
-    return response;
+      print('Response in getManyComments:');
+      print(response);
+      return response;
+    } catch (e) {
+      print('Error in getManyComments: $e');
+      throw e;
+    }
   }
 
   @override
-  Future<Result<comment>> checkManyComments(ManyCommentsRequest GETrequest) async {
-    final response = await _apiRequestManager.request<comment>(
-      '/comments/many',
-      'GET',
-      (data) {
-            return CommentMapper.fromJson(data);
-      }
+  Future<Result<Comment_>> releaseComment({
+    required String targetid,
+    required String targetType,
+    required String body,
+  }) async {
+    try {
 
+      await _addAuthorizationHeader();
+      final token = await _localStorage.getAuthorizationToken();
+      _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
 
-    );
+      final requestBody = CommentMapper.toJson(
+        Comment_(targetId: targetid, body: body, targetType: targetType),
+      );
+      final response = await _apiRequestManager.request(
+        '/comments/release',
+        'POST',
+            (data) => CommentMapper.fromJson(data),
+        body: requestBody,
+      );
 
-    return response;
+      print('Release comment response: $response');
+      return response;
+    } catch (e) {
+      print('Error releasing comment: $e');
+      rethrow;
+    }
   }
+
+
 
 
 }

@@ -351,11 +351,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
       BuildContext context, String courseid, String type, String title) {
     //aqui la llamada del fectch del os comentarios request hacia el backend
 
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                Widgets_Comments(id: courseid, Type: type, title: title)));
+
 
     return;
   }

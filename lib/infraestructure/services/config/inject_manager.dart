@@ -20,6 +20,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../aplication/use_cases/blog/get_blog_many_use_case.dart';
+import '../../../aplication/use_cases/blog/get_blog_one_use_case.dart';
+import '../../../aplication/use_cases/comment/get_comment_data_use_case.dart';
+import '../../repositories/blog/blog_repository_impl.dart';
+import '../../repositories/comments/comment_repository_impl.dart';
+
 class InjectManager {
   static Future<void> setUpInjections() async {
     final getIt = GetIt.instance;
@@ -38,6 +44,16 @@ class InjectManager {
     final progressRepository = ProgressRepositoryImpl(
       apiRequestManager: apiRequestManagerImpl,
       localStorage: localStorage,
+    );
+
+    final blogRepository = BlogRepositoryImpl(
+        apiRequestManager: apiRequestManagerImpl,
+        localStorage: localStorage
+    );
+
+    final commentRepository = CommentRepositoryImpl(
+        apiRequestManager: apiRequestManagerImpl,
+        localStorage: localStorage
     );
 
     final courseRepository = CourseRepositoryImpl(
@@ -103,6 +119,23 @@ class InjectManager {
       progressRepository: progressRepository,
     );
 
+    //!Blogs
+
+    final getBlogDataUseCase = GetBlogDataUseCase(
+      blogRepository: blogRepository,
+    );
+
+    final getSingleBlogUseCase = GetSingleBlogUseCase(
+        blogRepository: blogRepository
+    );
+
+    //!Comments
+
+    final getCommentDataUseCase = GetCommentDataUseCase(
+        commentRepository: commentRepository
+    );
+
+
     // Registering singletons
 
     //!users
@@ -121,5 +154,12 @@ class InjectManager {
         getTrendingProgressUseCase);
     getIt.registerSingleton<GetProfileProgressUseCase>(
         getProfileProgressUseCase);
+
+    //!Blogs
+    getIt.registerSingleton<GetBlogDataUseCase>(getBlogDataUseCase);
+    getIt.registerSingleton<GetSingleBlogUseCase>(getSingleBlogUseCase);
+
+    //!Comments
+    getIt.registerSingleton<GetCommentDataUseCase>( getCommentDataUseCase);
   }
 }
