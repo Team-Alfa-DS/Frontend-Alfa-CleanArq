@@ -1,18 +1,21 @@
 import '../../../domain/entities/blog.dart';
+import '../../../domain/entities/trainer.dart';
 import '../trainer/trainer_mapper.dart';
 
-class BlogMapper {
+class BlogMapperMany {
   static Blog fromJson(Map<String, dynamic> json) {
-    return Blog(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      category: json['category'],
-      images: List<String>.from(json['images'] ?? []),
-      trainer: json['trainer'] != null ? TrainerMapper.fromJson(json['trainer']) : null,
-      tags: List<String>.from(json['tags'] ?? []),
-      date: json['date'] != null ? DateTime.parse(json['date']) : null,
-    );
+    try {
+      return Blog(
+        id: json['Id'] as String? ?? '',
+        title: json['Name'] as String? ?? '',
+        category: json['Category'] as String? ?? '',
+        image: json['Image'] as String? ?? '',
+        trainerName: json['Trainer'] as String? ?? '',
+        date: json['Date'] != null ? DateTime.parse(json['Date']) : null,
+      );
+    }catch(e){
+      throw e;
+    }
   }
 
   static Map<String, dynamic> toJson(Blog blog) {

@@ -2,6 +2,7 @@ import 'package:alpha_gymnastic_center/aplication/BLoC/progress/trending/trendin
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_trending_progress_use_case.dart';
 import 'package:alpha_gymnastic_center/common/utils/string_utils.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/blogsCaursel.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/no_progress_section.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/progressbar.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,6 @@ import '../../widgets/scrollHorizontal.dart';
 
 class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<Blog>? blogs;
 
   List<String> categories = [
     "assets/icons/cycling.png",
@@ -35,50 +35,8 @@ class HomeScreen extends StatelessWidget {
     "assets/icons/yoga_unpicked.png",
   ];
 
-  List<String> Blog_images = [
-    "https://www.bupasalud.com/sites/default/files/styles/640_x_400/public/articulos/2023-09/fotos/mujeres-practicando-yoga-en-el-gimnasio.jpg",
-    "https://www.theclassyoga.com/wp-content/uploads/2021/08/yoga-1024x576.jpeg",
-    "https://awtsuprints.com/cdn/shop/articles/how-to-get-started-with-calisthenics.jpg",
-    "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/health/wp-content/uploads/2023/08/Calisthenic.jpeg.jpg",
-    "https://media.post.rvohealth.io/wp-content/uploads/2020/10/Female_Yoga_1200x628-facebook-1200x628.jpg",
-    "https://d2lcsjo4hzzyvz.cloudfront.net/blog/wp-content/uploads/2022/06/16173159/Recomendaciones-para-hacer-yoga-jpg.jpg"
-  ];
-  List<String> Blog_Title = [
-    "Yoga for Beginners",
-    "Mastering Gymnastics Skills",
-    "Cycling: The Ultimate Guide",
-    "Pilates for Core Strength",
-    "Exploring the World of Dance",
-    "Outdoor Running Tips"
-  ];
-  List<String> Blog_Desc = [
-    "A comprehensive guide to starting your yoga journey.",
-    "Key techniques for developing and mastering gymnastics skills.",
-    "Everything you need to know to become an efficient cyclist.",
-    "Build a strong core with these pilates exercises.",
-    "Discover various forms of dance and their health benefits.",
-    "Practical tips and strategies for improving your outdoor running experience."
-  ];
-  List<String> Blog_Dates = [
-    "14/06/2024",
-    "12/06/2024",
-    "10/06/2024",
-    "09/06/2024",
-    "08/06/2024",
-    "07/06/2024"
-  ];
-  List<String> Blog_Categories = [
-    "Wellness",
-    "Fitness",
-    "Cycling",
-    "Fitness",
-    "Dance",
-    "Running"
-  ];
-
   HomeScreen({
     super.key,
-    this.blogs,
   });
 
   @override
@@ -204,11 +162,11 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 265,
                 child: Column(
                   children: <Widget>[
-                    const Align(
+                    Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 5, top: 0.0, left: 10),
@@ -219,49 +177,10 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: const <Widget>[
-                          ScrollHorizontal(
-                            titulo:
-                                "15 Minutes yoga practice the beginner in 30 days",
-                            descripcion: "Descripcion",
-                            categoria: "Trainning",
-                            fecha: "Feb 17, 2020",
-                            fotoString: "assets/images/Yoga Ejemplo 5.png",
-                            disposicion: 2,
-                            isNew: false,
-                            conexion: "/blogs",
-                          ),
-                          ScrollHorizontal(
-                            titulo:
-                                "23 Minutes yoga practice the beginner in 30 days",
-                            descripcion: "Descripcion",
-                            categoria: "Morning",
-                            fecha: "Feb 18, 2020",
-                            fotoString: "assets/images/Yoga Ejemplo 6.png",
-                            disposicion: 2,
-                            isNew: false,
-                            conexion: "/blogs",
-                          ),
-                          ScrollHorizontal(
-                            titulo:
-                                "30 Minutes yoga practice the beginner in 30 days",
-                            descripcion: "Descripcion",
-                            categoria: "For Women",
-                            fecha: "Feb 20, 2020",
-                            fotoString: "assets/images/Yoga Ejemplo 4.png",
-                            disposicion: 2,
-                            isNew: false,
-                            conexion: "/blogs",
-                          ),
-                        ],
-                      ),
-                    ),
                   ],
                 ),
               ),
+              const blogsCarousel()
             ],
           ),
         ),

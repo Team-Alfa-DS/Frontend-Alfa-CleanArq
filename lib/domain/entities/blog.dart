@@ -5,21 +5,25 @@ class Blog {
 
   String id;
   String title;
-  String description;
-  String? category;
+  String? description;
+  String category;
+  String? image;
   List<String>? images;
   Trainer? trainer;
+  String? trainerName;
   List<String>? tags;
   DateTime? date;
 
   Blog({
      required this.id,
      required this.title,
-     required this.description,
-      this.category,
+    this.description,
+     required this.category,
+      this.image,
       this.images,
       this.trainer,
       this.date,
-      this.tags
+      this.tags,
+      this.trainerName,
   });
 }
