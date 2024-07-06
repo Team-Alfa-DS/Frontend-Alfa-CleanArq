@@ -4,7 +4,7 @@ import 'package:alpha_gymnastic_center/domain/entities/searchResult.dart';
 
 class SearchMapper {
   static SearchResult fromJson(Map<String, dynamic> json) {
-    // print('Json: ' + json.toString()); Debug
+    
     return SearchResult(
       courses: (json['courses'] as List).map((courseData) => mapSearchCourse(courseData)).toList(), 
       blogs: (json['blogs'] as List).map((blogData) => mapSearchBlog(blogData)).toList()

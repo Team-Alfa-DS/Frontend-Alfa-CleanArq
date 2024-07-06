@@ -15,15 +15,15 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Future<void> _onSent(SearchSent event, Emitter<SearchState> emit) async {
-  emit(SearchLoading());
-  print('SearchSent: $event');
-  final result = await searchUseCase.execute(new GetSearchResultUseCaseInput(event.page, event.perpage, event.tags, event.term));
-  
-  if (result.hasValue()) {
-    emit(SearchSuccess(result: result.value!));
-  } else {
-    emit(SearchFailure(failure: result.failure!));
-  }
+    emit(SearchLoading());
+    print('Search Sent $event');
+    final result = await searchUseCase.execute( GetSearchResultUseCaseInput(event.page, event.perpage, event.tags, event.term));
+    
+    if (result.hasValue()) {
+      emit(SearchSuccess(result: result.value!));
+    } else {
+      emit(SearchFailure(failure: result.failure!));
+    }
 
   }
 }

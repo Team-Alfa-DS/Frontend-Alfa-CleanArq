@@ -18,9 +18,6 @@ class SearchUseCase extends IUseCase<GetSearchResultUseCaseInput, SearchResult> 
 
     return result;
   }
-
-  
-
 }
 
 class GetSearchResultUseCaseInput extends IUseCaseInput {
@@ -34,11 +31,5 @@ class GetSearchResultUseCaseInput extends IUseCaseInput {
     this.perpage,
     this.tag,
     this.term
-    // {
-    //   required this.page,
-    //   required this.perpage,
-    //   required this.tag,
-    //   this.term
-    // }
   );
 }

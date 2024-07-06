@@ -4,6 +4,7 @@ import 'package:alpha_gymnastic_center/domain/entities/searchResult.dart';
 import 'package:alpha_gymnastic_center/domain/repositories/search_repository.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/api/api_request.dart';
 import 'package:alpha_gymnastic_center/infraestructure/mappers/search/search_mapper.dart';
+import 'package:alpha_gymnastic_center/infraestructure/mappers/search/tag_mapper.dart';
 
 class SearchRepositoryImpl extends SearchRepository {
   final IApiRequestManager _apiRequestManager;
@@ -47,4 +48,24 @@ class SearchRepositoryImpl extends SearchRepository {
     return response;
   }
 
+
+  @override
+  Future<Result<List<String>>> getSearchTags(int page, int perpage) async {
+    await _addAuthorizationHeader();
+    final token = await _localStorage.getAuthorizationToken();
+    _apiRequestManager.setHeaders('Authorization', 'Bearer $token'); 
+
+    final response = await _apiRequestManager.request(
+      '/search/popular/tags?page=$page&perpage=$perpage',
+      'GET', 
+      (data) {
+        List<String> tags = [];
+        for (var tag in data) {
+          tags.add(tag.toString());
+        }
+        return tags;
+      });
+
+    return response;
+  }
 }

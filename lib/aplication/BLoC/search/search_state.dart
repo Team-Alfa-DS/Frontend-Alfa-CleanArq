@@ -7,7 +7,7 @@ abstract class SearchState extends Equatable {
   List<Object?> get props => [];
 }
 
-class SearchInit extends SearchState {} //? si no mal entiendo los props son los elementos que van con ese estado, creo que si quiero tener un estado inicial con cosas llenas en la pantalla tengo que ponerlo aquí
+class SearchInit extends SearchState {}
 
 class SearchLoading extends SearchState {}
 

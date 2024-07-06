@@ -1,4 +1,5 @@
 import 'package:alpha_gymnastic_center/common/result.dart';
+
 import 'package:alpha_gymnastic_center/domain/entities/searchResult.dart';
 
 abstract class SearchRepository {
@@ -13,5 +14,10 @@ abstract class SearchRepository {
     //   required int page,
     //   required int perpage
     // }
+  );
+
+  Future<Result<List<String>>> getSearchTags(
+    int page,
+    int perpage
   );
 }

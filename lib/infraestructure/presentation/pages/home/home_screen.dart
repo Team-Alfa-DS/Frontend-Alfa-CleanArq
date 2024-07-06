@@ -423,9 +423,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
             ),
             onSubmitted: (value) {
               if (value.isNotEmpty) {
-                BlocProvider.of<SearchBloc>(context).add(
-                  SearchSent(0, 5, const [], searchText.text) //TODO: Test Search only, still need to add filter by tag and whatever the fuck i have to do with pagination
-                );
+                // BlocProvider.of<SearchBloc>(context).add(
+                //   SearchSent(0, 5, const [], searchText.text) //TODO: Test Search only, still need to add filter by tag and whatever the fuck i have to do with pagination
+                // );
                 Navigator.push(context,
                       MaterialPageRoute(builder: (context) => PopularSearch(initialSearch: value,))
                 );

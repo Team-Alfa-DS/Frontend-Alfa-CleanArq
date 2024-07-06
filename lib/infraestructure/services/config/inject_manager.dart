@@ -1,6 +1,7 @@
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_course_data_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_one_course_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/lessons/get_lessons_by_course_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/search/searchTags_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/search/search_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/change_password_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/forgot_password_use_case.dart';
@@ -84,6 +85,8 @@ class InjectManager {
     //! Search
     final searchUseCase = SearchUseCase(searchRepository: searchRepository);
 
+    final searchTagsUseCase = SearchTagsUseCase(searchRepository: searchRepository);
+
 
     // Registering singletons
 
@@ -102,5 +105,6 @@ class InjectManager {
 
     //!Search
     getIt.registerSingleton<SearchUseCase>(searchUseCase);
+    getIt.registerSingleton<SearchTagsUseCase>(searchTagsUseCase);
   }
 }

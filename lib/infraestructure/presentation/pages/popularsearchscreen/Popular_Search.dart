@@ -1,4 +1,6 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/search/search_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/search/tagSearch_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/search/searchTags_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/search/search_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/infiniteScrollingListView.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
@@ -20,19 +22,24 @@ class PopularSearch extends StatefulWidget {
 
 class _PopularSearchState extends State<PopularSearch> {
   String? categoriaSeleccionada;
-  TextEditingController searchTextController = new TextEditingController();
-  SearchBloc searchBloc = new SearchBloc(searchUseCase: GetIt.instance<SearchUseCase>());
+  List<String> categorias = [];
+  TextEditingController searchTextController = TextEditingController();
+  SearchBloc searchBloc = SearchBloc(searchUseCase: GetIt.instance<SearchUseCase>());
+  TagSearchBloc tagSearchBloc = TagSearchBloc(searchTagsUseCase: GetIt.instance<SearchTagsUseCase>());
   final List<Widget> _courseCards = [];
   final List<Widget> _blogCards = [];
   int _page = 0;
   final int _perpage = 5;
   final double _scrollThreshold = 0.8;
   bool noMoreContent = false;
+  String searchText = '';
   
   @override
   void initState() {
     super.initState();
-    searchBloc.add(SearchSent(0, _perpage, const [], widget.initialSearch));
+    searchText = widget.initialSearch;
+    searchBloc.add(SearchSent(0, _perpage, const [], searchText));
+    tagSearchBloc.add(const TagSearchSent(0, 20));
   }
 
   @override
@@ -40,7 +47,7 @@ class _PopularSearchState extends State<PopularSearch> {
     // print('Entered search page');
     return Scaffold(
       body: SafeArea(
-        child: _buildBlocProvider() //_body(context),
+        child: _buildBlocProvider()
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
@@ -68,9 +75,16 @@ class _PopularSearchState extends State<PopularSearch> {
   }
 
   Widget _buildBlocProvider() {
-    return BlocProvider(
-      create: (context) => searchBloc,
-      child: _body(context));
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => searchBloc),
+        BlocProvider(create: (context) => tagSearchBloc)
+      ], 
+      child: _body(context)
+    );
+    // return BlocProvider(
+    //   create: (context) => searchBloc,
+    //   child: _body(context));
   }
 
   Widget _body(BuildContext context) {
@@ -113,7 +127,7 @@ class _PopularSearchState extends State<PopularSearch> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                categoriasBotones(),
+                _tagBlocBuilder(),
                 const SizedBox(height: 30),
                 const Text(
                   'Cursos',
@@ -140,30 +154,6 @@ class _PopularSearchState extends State<PopularSearch> {
                   height: 250,
                   child: _buildBlogCards(),
                 )
-                // programsMaster(
-                //   '30 day yoga challenge',
-                //   'Ralph Edwards',
-                //   'Level 5',
-                //   'assets/images/Yoga Ejemplo 4.png',
-                // ),
-                // programsMaster(
-                //   '30 day yoga challenge',
-                //   'Ralph Edwards',
-                //   'Level 5',
-                //   'assets/images/Yoga Ejemplo 5.png',
-                // ),
-                // programsMaster(
-                //   '30 day yoga challenge',
-                //   'Ralph Edwards',
-                //   'Level 5',
-                //   'assets/images/Yoga Ejemplo 6.png',
-                // ),
-                // programsMaster(
-                //   '30 day yoga challenge',
-                //   'Ralph Edwards',
-                //   'Level 5',
-                //   'assets/images/Yoga Ejemplo 7.png',
-                // ),
               ],
             ),
           ),
@@ -193,20 +183,27 @@ class _PopularSearchState extends State<PopularSearch> {
     );
   }
 
-  Widget categoriasBotones() {
-    List<String> categorias = [
-      'Prenatal',
-      'For Women',
-      'Trainning',
-      'Courses',
-      'Videos',
-      'Morning',
-      'Yoga',
-      'Restorative',
-      'Recent Post',
-      'Most Popular',
-    ];
+  Widget _tagBlocBuilder() {
+    /*return BlocProvider(
+      create: (context) => tagSearchBloc,
+      child:*/ return BlocBuilder(
+        bloc: tagSearchBloc,
+        builder: (context, state) {
+          if (state is TagSearchLoading) {
+            return const CircularProgressIndicator();
+          }
 
+          if (state is TagSearchSuccess) {
+            categorias = state.tags;
+          }
+
+          return categoriasBotones();
+        }
+      );
+    // );
+  }
+
+  Widget categoriasBotones() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -225,6 +222,8 @@ class _PopularSearchState extends State<PopularSearch> {
                     categoriaSeleccionada = categoria;
                   }
                 });
+                // print('Category pressed');
+                _newSearch();
               },
               style: ButtonStyle(
                 padding: MaterialStateProperty.all<EdgeInsets>(
@@ -388,8 +387,9 @@ class _PopularSearchState extends State<PopularSearch> {
   }
 
   Widget _buildSearchBar() {
-    return BlocBuilder<SearchBloc, SearchState>(
-      builder: (context, state) {
+    // return BlocBuilder<SearchBloc, SearchState>(
+    //   bloc: searchBloc,
+    //   builder: (context, state) {
         return TextField(
             controller: searchTextController,
             decoration: InputDecoration(
@@ -402,13 +402,8 @@ class _PopularSearchState extends State<PopularSearch> {
                 icon: const Icon(Icons.search),
                 onPressed: () {
                   if (searchTextController.text.isNotEmpty) {
-                    _page = 0;
-                    _courseCards.clear();
-                    _blogCards.clear();
-                    noMoreContent = false;
-                    BlocProvider.of<SearchBloc>(context).add(
-                      SearchSent(_page, _perpage, const [], searchTextController.text) //TODO: Test Search only, still need to add filter by tag and whatever the fuck i have to do with pagination
-                    );
+                    searchText = searchTextController.text;
+                    _newSearch();
                   }
                 }
               ),
@@ -418,45 +413,19 @@ class _PopularSearchState extends State<PopularSearch> {
             ),
             onSubmitted: (value) {
               if (value.isNotEmpty) {
-                _page = 0;
-                _courseCards.clear();
-                _blogCards.clear();
-                noMoreContent = false;
-                //  print('This should not get printed twice');
-                BlocProvider.of<SearchBloc>(context).add(
-                  SearchSent(_page, _perpage, const [], value) //TODO: Test Search only, still need to add filter by tag
-                );
+                searchText = value;
+                _newSearch();
               }
             },
           );
         //);
-      }
-    );
+      // }
+    // );
   }
-
-  // Widget _buildSearchButton() {
-  //   return BlocBuilder<SearchBloc, SearchState>(
-  //     builder: (context, state) {
-  //       return IconButton(
-  //         icon: const Icon(Icons.search),
-  //         onPressed: () {
-  //           if (searchText.text.isNotEmpty) {
-  //             _page = 0;
-  //             _courseCards.clear();
-  //             _blogCards.clear();
-  //             noMoreContent = false;
-  //             BlocProvider.of<SearchBloc>(context).add(
-  //               SearchSent(_page, _perpage, const [], searchText.text) //TODO: Test Search only, still need to add filter by tag and whatever the fuck i have to do with pagination
-  //             );
-  //           }
-  //         }
-  //       );
-  //     }
-  //   );
-  // }
 
   Widget _buildCourseCards() {
     return BlocBuilder<SearchBloc, SearchState>(
+      bloc: searchBloc,
       builder: (context, state) {
         if (state is SearchSuccess) {
           if (state.result.courses.isNotEmpty || state.result.blogs.isNotEmpty) {
@@ -477,14 +446,18 @@ class _PopularSearchState extends State<PopularSearch> {
           }
           // print(_courseCards);
         }
+        List<String> tags = [];
+        if (categoriaSeleccionada != null) {
+          tags = [categoriaSeleccionada!];
+        }
         return InfiniteScrollingSearch(
           widgetList: _courseCards, 
           scrollThreshold: _scrollThreshold - 0.2, 
           scrollAxis: Axis.horizontal,
           page: _page,
           perpage: _perpage,
-          tags: const [],
-          term: searchTextController.text,
+          tags: tags,
+          term: searchText,
           noMoreContent: noMoreContent,
         );
       });
@@ -492,22 +465,49 @@ class _PopularSearchState extends State<PopularSearch> {
 
   Widget _buildBlogCards() {
     return BlocBuilder<SearchBloc, SearchState>(
+      bloc: searchBloc,
       builder: (context, state) {
         if (state is SearchSuccess) {
           for (var blog in state.result.blogs) {
             _blogCards.add(programsMaster(blog.title, blog.trainerName, blog.categoryName, blog.image));
           }
-        } 
+        }
+        List<String> tags = [];
+        if (categoriaSeleccionada != null) {
+          tags = [categoriaSeleccionada!];
+        }
         return InfiniteScrollingSearch(
             widgetList: _blogCards,
             scrollThreshold: _scrollThreshold, 
             scrollAxis: Axis.vertical, 
             page: _page, 
             perpage: _perpage, 
-            tags: const [], 
-            term: searchTextController.text,
+            tags: tags, 
+            term: searchText,
             noMoreContent: noMoreContent,
             );
       });
+  }
+
+  void _newSearch() {
+  // print('newSearch');
+  _page = 0;
+  _courseCards.clear();
+  _blogCards.clear();
+  noMoreContent = false;
+  if (categoriaSeleccionada != null) {
+    searchBloc.add(
+      SearchSent(_page, _perpage, [categoriaSeleccionada!], searchText) //TODO: Test Search only, still need to add filter by tag and whatever the fuck i have to do with pagination
+    );
+  } else {
+    searchBloc.add(
+      SearchSent(_page, _perpage, const [], searchText) //TODO: Test Search only, still need to add filter by tag and whatever the fuck i have to do with pagination
+    );
+  }
+  //  BlocListener(
+  //   bloc: searchBloc,
+  //   listener: (context, state) {
+      
+  //   });
   }
 }
