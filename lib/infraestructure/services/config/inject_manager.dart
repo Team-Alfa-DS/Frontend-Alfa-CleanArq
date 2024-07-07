@@ -101,6 +101,9 @@ class InjectManager {
       localStorage: localStorage,
     );
 
+    final getCurrentUserUseCase = GetCurrentUserUseCase(
+        userRepository: userRepository, localStorage: localStorage);
+
     //! Courses
     final getCourseDataUseCase = GetCourseDataUseCase(
       courseRepository: courseRepository,
@@ -159,6 +162,7 @@ class InjectManager {
     getIt.registerSingleton<GetSingleCourseUseCase>(getSingleCourseUseCase);
     getIt.registerSingleton<GetLessonsByCourseUseCase>(
         getLessonsByCourseUseCase);
+    getIt.registerSingleton<GetCurrentUserUseCase>(getCurrentUserUseCase);
     //!Progress
     getIt.registerSingleton<GetTrendingProgressUseCase>(
         getTrendingProgressUseCase);

@@ -24,6 +24,7 @@ class GetCurrentUserUseCase
 
     if (result.hasValue()) {
       final user = result.value!;
+      print("Current user");
       print('User ID: ${user.id}');
       print('User Name: ${user.name}');
       print('User Email: ${user.email}');

@@ -31,23 +31,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
 
     if (loginResult.hasValue()) {
-      final user = loginResult.value!;
+      final loginUser = loginResult.value!;
       final currentUserResult = await getCurrentUserUseCase.execute(
         GetCurrentUserUseCaseInput(),
       );
 
       if (currentUserResult.hasValue()) {
         final currentUser = currentUserResult.value;
-        userBloc.add(LoadUser(
-            user: {
-          'id': currentUser!.id,
-          'name': currentUser.name,
-          'email': currentUser.email,
-          'phone': currentUser.phone,
-          'image': currentUser.image,
-          'type': user.type,
-          'token': user.token
-        } as User));
+        final user = User(
+            id: currentUser!.id,
+            email: currentUser.email,
+            imagenPerfil: currentUser.image,
+            name: currentUser.name,
+            phone: currentUser.phone,
+            token: loginUser.token,
+            type: loginUser.type);
+        userBloc.add(LoadUser(user: user));
         emit(LoginSuccess(user: user));
       } else {
         emit(LoginFailure(failure: currentUserResult.failure!));

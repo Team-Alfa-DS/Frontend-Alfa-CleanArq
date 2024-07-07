@@ -29,6 +29,7 @@ class UserRepositoryImpl extends UserRepository {
     print(response.value);
     final user = response.value;
     if (user != null) {
+      print("User repo logn");
       print('User ID: ${user.id}');
       print('User Name: ${user.name}');
       print('User Email: ${user.email}');
