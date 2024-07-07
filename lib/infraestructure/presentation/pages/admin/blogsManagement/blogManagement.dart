@@ -2,6 +2,7 @@ import 'package:alpha_gymnastic_center/domain/entities/blog.dart';
 //import 'package:alpha_gymnastic_center/domain/entities/tag.dart';
 import 'package:alpha_gymnastic_center/domain/entities/trainer.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/blogsManagement/createBlogScreen.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/blogsManagement/updateBlogScreen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/commons/COlors.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:flutter/material.dart';
@@ -104,12 +105,15 @@ class _BlogManagementScreenState extends State<BlogManagementScreen> {
                     elevation: 5,
                     child: ListTile(
                       onTap: () {
-                        //Navigator.push(
-                        //  context,
-                        //  MaterialPageRoute(
-                        //    builder: (context) => UpdateBlogScreen(blog: _blogs[index]),
-                        //  ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UpdateBlogScreen(
+                              blog: _blogs[index],
+                              trainers: _trainers,
+                            ),
+                          ),
+                        );
                       },
                       leading: CircleAvatar(
                         backgroundColor: AppColors.primaryLightColor,
