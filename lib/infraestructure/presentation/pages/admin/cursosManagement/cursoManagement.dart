@@ -3,6 +3,7 @@ import 'package:alpha_gymnastic_center/domain/entities/lesson.dart';
 import 'package:alpha_gymnastic_center/domain/entities/trainer.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/commons/COlors.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/cursosManagement/createCourseScreen.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/cursosManagement/updateCourseScreen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:flutter/material.dart';
 
@@ -72,7 +73,7 @@ class _CourseManagementScreenState extends State<CourseManagementScreen> {
         durationMinutes: 120,
         tags: ['diseño', 'ux'],
         date: DateTime.now(),
-        lessons: [_lessons[1], _lessons[4]],
+        lessons: [_lessons[1], _lessons[3]],
       ),
       //...
     ];
@@ -117,16 +118,16 @@ class _CourseManagementScreenState extends State<CourseManagementScreen> {
                     elevation: 5,
                     child: ListTile(
                       onTap: () {
-                        //Navigator.push(
-                        //context,
-                        //MaterialPageRoute(
-                        // builder: (context) => UpdateCourseScreen(
-                        //  course: _courses[index],
-                        // trainers: _trainers,
-                        // lessons: _lessons,
-                        // ),
-                        //),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UpdateCourseScreen(
+                              course: _courses[index],
+                              trainers: _trainers,
+                              lessons: _lessons,
+                            ),
+                          ),
+                        );
                       },
                       leading: CircleAvatar(
                         backgroundColor: AppColors.primaryLightColor,
