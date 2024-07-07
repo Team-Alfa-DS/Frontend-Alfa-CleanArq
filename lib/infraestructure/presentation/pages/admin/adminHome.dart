@@ -1,4 +1,5 @@
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/commons/COlors.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/trainersManagement/trainerManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/userManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:flutter/material.dart';
@@ -104,6 +105,12 @@ class AdminDashboardScreen extends StatelessWidget {
                   onPressed: () {
                     // Navegar a la pantalla de entrenadores
                     //Navigator.pushNamed(context, '/trainer-management');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const TrainerManagementScreen()),
+                    );
                   },
                   backgroundColor: AppColors.primaryLightColor,
                 ),
