@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/video/video_bloc.dart';
-import 'package:alpha_gymnastic_center/aplication/BLoC/video/video_event.dart';
-import 'package:alpha_gymnastic_center/aplication/BLoC/video/video_state.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   final String videoPath;
@@ -11,11 +9,11 @@ class VideoPlayerScreen extends StatefulWidget {
   final String lessonId;
 
   const VideoPlayerScreen({
-    Key? key,
+    super.key,
     required this.videoPath,
     required this.courseId,
     required this.lessonId,
-  }) : super(key: key);
+  });
 
   @override
   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
@@ -90,17 +88,21 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   void _skipForward() {
     if (_isControllerInitialized) {
-      final newPosition = _controller.value.position + Duration(seconds: 5);
+      final newPosition =
+          _controller.value.position + const Duration(seconds: 5);
       _controller.seekTo(newPosition);
-      _controller.play(); // Asegurar que el video se reproduzca después del salto
+      _controller
+          .play(); // Asegurar que el video se reproduzca después del salto
     }
   }
 
   void _skipBackward() {
     if (_isControllerInitialized) {
-      final newPosition = _controller.value.position - Duration(seconds: 5);
+      final newPosition =
+          _controller.value.position - const Duration(seconds: 5);
       _controller.seekTo(newPosition);
-      _controller.play(); // Asegurar que el video se reproduzca después del salto
+      _controller
+          .play(); // Asegurar que el video se reproduzca después del salto
     }
   }
 
@@ -115,25 +117,26 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     return OrientationBuilder(
       builder: (context, orientation) {
         if (orientation == Orientation.portrait) {
-          _showControls = true; // Asegurar que los controles estén visibles en vertical automáticamente
+          _showControls =
+              true; // Asegurar que los controles estén visibles en vertical automáticamente
         }
         return Scaffold(
           appBar: (orientation == Orientation.portrait || _showControls)
               ? AppBar(
-            backgroundColor: Colors.black,
-            title: const Text(
-              'Video Player',
-              style: TextStyle(color: Colors.white),
-            ),
-            automaticallyImplyLeading: false,
-            leading: IconButton(
-              icon: const Icon(
-                Icons.close,
-                color: Colors.white,
-              ),
-              onPressed: _closeVideoPlayer,
-            ),
-          )
+                  backgroundColor: Colors.black,
+                  title: const Text(
+                    'Video Player',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  automaticallyImplyLeading: false,
+                  leading: IconButton(
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.white,
+                    ),
+                    onPressed: _closeVideoPlayer,
+                  ),
+                )
               : null,
           body: GestureDetector(
             onTap: () {
@@ -141,7 +144,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 _toggleControlsVisibility();
               } else {
                 setState(() {
-                  _showControls = true; // Asegurar que los controles estén visibles en vertical
+                  _showControls =
+                      true; // Asegurar que los controles estén visibles en vertical
                 });
               }
             },
@@ -151,8 +155,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state is VideoLoaded) {
                   if (!_isControllerInitialized) {
-                    _controller = VideoPlayerController.network(state.video.url);
-                    _initializeVideoPlayerFuture = _controller.initialize().then((_) {
+                    _controller =
+                        VideoPlayerController.network(state.video.url);
+                    _initializeVideoPlayerFuture =
+                        _controller.initialize().then((_) {
                       _controller.seekTo(Duration(seconds: state.currentTime));
                       _controller.setLooping(true);
                       _controller.play();
@@ -164,7 +170,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                       _controller.addListener(() {
                         if (_controller.value.isPlaying && !_isDraggingSlider) {
                           setState(() {
-                            _sliderValue = _controller.value.position.inSeconds.toDouble();
+                            _sliderValue =
+                                _controller.value.position.inSeconds.toDouble();
                           });
                         }
                       });
@@ -215,7 +222,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               IconButton(
-                icon: Icon(Icons.fast_rewind, color: Colors.white),
+                icon: const Icon(Icons.fast_rewind, color: Colors.white),
                 onPressed: _skipBackward,
               ),
               IconButton(
@@ -234,7 +241,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 },
               ),
               IconButton(
-                icon: Icon(Icons.fast_forward, color: Colors.white),
+                icon: const Icon(Icons.fast_forward, color: Colors.white),
                 onPressed: _skipForward,
               ),
             ],
