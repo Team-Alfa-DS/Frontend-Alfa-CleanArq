@@ -1,7 +1,11 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/progress/profile/profile_progress_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_profile_progress_use_case.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course_detailed.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/carrusel_h.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses_h.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
@@ -28,10 +32,10 @@ class PerfilUsuario extends StatelessWidget {
                 child: Column(
                   children: [
                     buildAppBar(context, state.percent, state.time),
-                    const SizedBox(height: 80.0),
+                    const SizedBox(height: 10.0),
+                    buildUserData(context),
+                    const SizedBox(height: 10.0),
                     buildTrainningSection(),
-                    const SizedBox(height: 40),
-                    buildYogaPhotosSection(),
                   ],
                 ),
               ),
@@ -54,7 +58,7 @@ class PerfilUsuario extends StatelessWidget {
         }
 
         return Container(
-          height: 260.0,
+          height: 220.0,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
@@ -62,57 +66,67 @@ class PerfilUsuario extends StatelessWidget {
               end: Alignment.bottomCenter,
             ),
             borderRadius: BorderRadius.only(
-              bottomRight: Radius.circular(30.0),
+              bottomRight: Radius.circular(50.0),
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                const SizedBox(height: 20.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back, color: Colors.white),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    const SizedBox(width: 20.0),
-                    const Text(
-                      'Profile',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                    const SizedBox(width: 220.0),
-                    IconButton(
-                      icon: const Icon(Icons.edit, color: Colors.white),
-                      onPressed: () {
-                        context.push('/editProfile');
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10.0),
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 35.0,
-                      backgroundImage: AssetImage('assets/images/user.png'),
-                    ),
-                    const SizedBox(width: 20.0),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          userName,
-                          style: const TextStyle(
-                              fontSize: 18.0, color: Colors.white),
+            padding:
+                const EdgeInsets.only(left: 10, top: 30, right: 10, bottom: 20),
+            child: Column(children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                          size: 20,
                         ),
-                        const Row(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      //const SizedBox(width: 20.0),
+                      const Text(
+                        'Profile',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  //const SizedBox(width: 220.0),
+                  IconButton(
+                    icon: const Icon(Icons.edit, color: Colors.white),
+                    onPressed: () {
+                      context.push('/editProfile');
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15.0),
+              Row(
+                children: [
+                  const CircleAvatar(
+                    radius: 50.0,
+                    backgroundImage: AssetImage('assets/images/user.png'),
+                    backgroundColor: Colors.transparent,
+                  ),
+                  const SizedBox(width: 10.0),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        userName,
+                        style: const TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      /*const Row(
                           children: [
                             SizedBox(width: 30),
                             SizedBox(
@@ -133,8 +147,8 @@ class PerfilUsuario extends StatelessWidget {
                                   fontWeight: FontWeight.bold),
                             ),
                           ],
-                        ),
-                        const Row(
+                        ),*/
+                      /*const Row(
                           children: [
                             SizedBox(width: 0),
                             SizedBox(
@@ -151,75 +165,150 @@ class PerfilUsuario extends StatelessWidget {
                                   fontSize: 16.0, color: Colors.white),
                             ),
                           ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const SizedBox(width: 65),
-                    const IconButton(
-                      icon: Icon(Icons.sentiment_satisfied_alt,
-                          color: Colors.white, size: 20),
-                      onPressed: null,
-                    ),
-                    const SizedBox(width: 175),
-                    RichText(
-                      text: TextSpan(
+                        ),*/
+                      Row(
                         children: [
-                          TextSpan(
-                            text: ' $time ',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          //const SizedBox(width: 50),
+                          const IconButton(
+                            icon: Icon(Icons.sentiment_satisfied_alt,
+                                color: Colors.white, size: 20),
+                            onPressed: null,
                           ),
-                          const TextSpan(
-                            text: ' hrs',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
+                          const SizedBox(width: 130),
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: ' $time ',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const TextSpan(
+                                  text: 'hrs',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10.0,
-                  width: 250,
-                  child: LinearProgressIndicator(
-                      value: percent, color: Colors.green),
-                ),
-              ],
-            ),
+                      SizedBox(
+                        height: 5.0,
+                        width: 230,
+                        child: LinearProgressIndicator(
+                          backgroundColor: Colors.white,
+                          value: percent,
+                          color: Colors.green,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ]),
           ),
         );
       },
     );
   }
 
+  Widget buildUserData(BuildContext context) {
+    return BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+      String userEmail = 'example@gmail.com';
+      String userPhone = '04141234567';
+      if (state is UserLoaded) {
+        userEmail = state.user.email ?? 'example@gmail.com';
+        userPhone = state.user.phone ?? '04141234567';
+      }
+      return Container(
+        width: MediaQuery.of(context).size.width - 30,
+        height: MediaQuery.of(context).size.height / 5.5,
+        decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 243, 237, 247),
+            borderRadius: BorderRadius.circular(15)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Center(
+                child: Text(
+                  'Mis datos',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  const Icon(Icons.email),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '$userEmail',
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  const Icon(Icons.phone_android),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '$userPhone',
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      );
+    });
+  }
+
   Widget buildTrainningSection() {
-    return SizedBox(
+    return const SizedBox(
       height: 230,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        //crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(left: 20.0),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             child: Row(
               children: [
-                const Text(
+                Text(
                   'My Trainning',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(width: 100),
-                SizedBox(
+                //const SizedBox(width: 100),
+                /*SizedBox(
                   height: 20,
-                  width: 107,
+                  width: 100,
                   child: TextButton(
                     onPressed: () {},
                     child: const Text(
@@ -231,12 +320,18 @@ class PerfilUsuario extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
+                ),*/
               ],
             ),
           ),
-          const SizedBox(height: 0),
-          Expanded(
+          SizedBox(height: 10),
+          Expanded(child: PopularCoursesCarousel()),
+        ],
+      ),
+    );
+  }
+
+/*Expanded(
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: const <Widget>[
@@ -282,95 +377,5 @@ class PerfilUsuario extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildYogaPhotosSection() {
-    return SizedBox(
-      height: 200,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0),
-            child: Row(
-              children: [
-                const Text(
-                  'My Yoga Photos',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(width: 70),
-                SizedBox(
-                  height: 20,
-                  width: 107,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'See all >',
-                      style: TextStyle(
-                        color: Colors.purple,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 0),
-          Expanded(
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: const <Widget>[
-                ScrollHorizontal(
-                  titulo: '',
-                  descripcion: '',
-                  categoria: '',
-                  fecha: '',
-                  fotoString: 'assets/images/yoga_video_1.png',
-                  disposicion: 2,
-                  isNew: false,
-                  conexion: '',
-                ),
-                ScrollHorizontal(
-                  titulo: '',
-                  descripcion: '',
-                  categoria: '',
-                  fecha: '',
-                  fotoString: 'assets/images/yoga_video_2.png',
-                  disposicion: 2,
-                  isNew: false,
-                  conexion: '',
-                ),
-                ScrollHorizontal(
-                  titulo: '',
-                  descripcion: '',
-                  categoria: '',
-                  fecha: '',
-                  fotoString: 'assets/images/yoga_video_3.png',
-                  disposicion: 2,
-                  isNew: false,
-                  conexion: '',
-                ),
-                ScrollHorizontal(
-                  titulo: '',
-                  descripcion: '',
-                  categoria: '',
-                  fecha: '',
-                  fotoString: 'assets/images/yoga_video_4.png',
-                  disposicion: 2,
-                  isNew: false,
-                  conexion: '',
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+          ),*/
 }

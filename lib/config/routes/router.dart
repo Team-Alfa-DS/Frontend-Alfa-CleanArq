@@ -43,7 +43,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/trainingScreen',
-      builder: (context, state) => const TrainingScreen(),
+      builder: (context, state) => const TrainingView(),
     ),
     GoRoute(
       path: '/videos',

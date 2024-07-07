@@ -8,12 +8,16 @@ abstract class CourseRepository {
   Future<Result<List<Course>>> getCourseMany({
     required int page,
     required int perPage,
+    required String filter,
   });
 
-  Future<Result<List<Course>>> getCourseFiltered(
-      {required String filter,
-      required String category,
-      required String trainer});
+  Future<Result<List<Course>>> getCourseFiltered({
+    required String filter,
+    required String category,
+    required String trainer,
+    required int page,
+    required int perPage,
+  });
 
   Future<Result<Course>> getSingleCourse({required String id});
 }
