@@ -1,3 +1,4 @@
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/categoryManagement/categoryManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/commons/COlors.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/trainersManagement/trainerManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/userManagement.dart';
@@ -97,6 +98,12 @@ class AdminDashboardScreen extends StatelessWidget {
                   onPressed: () {
                     //Navigator.pushNamed(context, '/category-management');
                     // Navegar a la pantalla de categorías
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const CategoryManagementScreen()),
+                    );
                   },
                   backgroundColor: AppColors.primaryLightColor,
                 ),

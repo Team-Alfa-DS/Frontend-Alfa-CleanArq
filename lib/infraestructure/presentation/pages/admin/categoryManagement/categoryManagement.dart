@@ -1,76 +1,64 @@
-import 'package:alpha_gymnastic_center/domain/entities/trainer.dart';
+import 'package:alpha_gymnastic_center/domain/entities/category.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/commons/COlors.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/trainersManagement/createTrainerScreen.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/trainersManagement/updateTrainerScreen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:flutter/material.dart';
 
-class TrainerManagementScreen extends StatefulWidget {
-  const TrainerManagementScreen({super.key});
+class CategoryManagementScreen extends StatefulWidget {
+  const CategoryManagementScreen({super.key});
 
   @override
-  _TrainerManagementScreenState createState() =>
-      _TrainerManagementScreenState();
+  _CategoryManagementScreenState createState() =>
+      _CategoryManagementScreenState();
 }
 
-class _TrainerManagementScreenState extends State<TrainerManagementScreen> {
-  List<Trainer> _Trainers = [];
+class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
+  List<Category> _Categorys = [];
 
   @override
   void initState() {
     super.initState();
-    _loadTrainers();
+    _loadCategorys();
   }
 
-  void _loadTrainers() async {
-    // Llamar a la función para traer todos los entrenadores
-    // Aquí puedes agregar la lógica para traer los entrenadores desde tu base de datos
-    List<Trainer> trainers = await _getAllTrainers();
+  void _loadCategorys() async {
+    // Llamar a la función para traer todos los usuarios
+    // agregar la lógica para traer los usuarios desde tu base de datos
+    List<Category> users = await _getAllCategorys();
     setState(() {
-      _Trainers = trainers;
+      _Categorys = users;
     });
   }
 
-  Future<List<Trainer>> _getAllTrainers() async {
+  Future<List<Category>> _getAllCategorys() async {
     // Simulación de datos
-    List<Trainer> trainers = [
-      Trainer(
+    List<Category> Categorys = [
+      Category(
+        icon: 'icono',
         id: '1',
-        name: 'Mailo Mendez',
-        followers: 100,
-        userFollow: true,
-        location: 'New York',
+        name: 'yoga',
       ),
-      Trainer(
+      Category(
+        icon: 'icono',
         id: '2',
-        name: 'Juan Perez',
-        followers: 50,
-        userFollow: false,
-        location: 'Los Angeles',
+        name: 'terapia',
       ),
-      Trainer(
+      Category(
+        icon: 'icono',
         id: '3',
-        name: 'Miguel Molina',
-        followers: 50,
-        userFollow: false,
-        location: 'Caracas',
+        name: 'fitness',
       ),
-      Trainer(
+      Category(
+        icon: 'icono',
         id: '4',
-        name: 'Jane Moreno',
-        followers: 50,
-        userFollow: false,
-        location: 'Amsterdan',
+        name: 'ciclismo',
       ),
-      Trainer(
+      Category(
+        icon: 'icono',
         id: '5',
-        name: 'Ricardo Sanchez',
-        followers: 50,
-        userFollow: false,
-        location: 'Los Angeles',
+        name: 'natacion',
       ),
     ];
-    return trainers;
+    return Categorys;
   }
 
   final _searchController = TextEditingController();
@@ -78,7 +66,7 @@ class _TrainerManagementScreenState extends State<TrainerManagementScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const YogaAppBar(title: "Trainers Management"),
+      appBar: const YogaAppBar(title: "Categorys Management"),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -93,7 +81,7 @@ class _TrainerManagementScreenState extends State<TrainerManagementScreen> {
                       controller: _searchController,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.search),
-                        labelText: 'Buscar entrenador',
+                        labelText: 'Buscar categoria',
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -101,34 +89,34 @@ class _TrainerManagementScreenState extends State<TrainerManagementScreen> {
                 ],
               ),
             ),
-            // Lista de entrenadores
+            // Lista de usuarios
             Expanded(
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
-                itemCount: _Trainers.length,
+                itemCount: _Categorys.length,
                 itemBuilder: (context, index) {
                   return Card(
                     elevation: 5,
                     child: ListTile(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                UpdateTrainerScreen(trainer: _Trainers[index]),
-                          ),
-                        );
+                        //Navigator.push(
+                        //  context,
+                        //  MaterialPageRoute(
+                        //   builder: (context) => UpdateCategoryScreen(
+                        //       category: _Categorys[index]),
+                        //  ),
+                        // );
                       },
                       leading: CircleAvatar(
                         backgroundColor: AppColors.primaryLightColor,
                         child: Text(
-                          _Trainers[index].name.substring(0, 1),
+                          _Categorys[index].name,
                           style: const TextStyle(
                               fontSize: 24, color: Colors.white),
                         ),
                       ),
-                      title: Text(_Trainers[index].name),
-                      subtitle: Text(_Trainers[index].location ?? ''),
+                      title: Text(_Categorys[index].name),
+                      subtitle: Text(_Categorys[index].id),
                       trailing: const Icon(Icons.arrow_right),
                     ),
                   );
@@ -140,15 +128,10 @@ class _TrainerManagementScreenState extends State<TrainerManagementScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _ManagementButton(
-                  title: 'Crear Entrenador',
+                  title: 'Crear Categoria',
                   onPressed: () {
-                    // Navegar a la pantalla de crear entrenador
-                    //Navigator.pushNamed(context, '/create-trainer');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CreateTrainerScreen()),
-                    );
+                    // Navegar a la pantalla de crear usuario
+                    Navigator.pushNamed(context, '/create-category');
                   },
                   backgroundColor: AppColors.primaryLightColor,
                 ),
