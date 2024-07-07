@@ -2,6 +2,7 @@ import 'package:alpha_gymnastic_center/domain/entities/course.dart';
 import 'package:alpha_gymnastic_center/domain/entities/lesson.dart';
 import 'package:alpha_gymnastic_center/domain/entities/trainer.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/commons/COlors.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/cursosManagement/createCourseScreen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,12 @@ class _CourseManagementScreenState extends State<CourseManagementScreen> {
     Trainer(id: '3', name: 'Diana'),
     Trainer(id: '3', name: 'Mario'),
   ]; // lista de trainers existentes
-  List<Lesson> _lessons = []; // lista de lecciones existentes
+  List<Lesson> _lessons = [
+    Lesson(id: '1', title: 'Lección 1', content: 'Descripción de la lección 1'),
+    Lesson(id: '2', title: 'Lección 2', content: 'Descripción de la lección 2'),
+    Lesson(id: '3', title: 'Lección 3', content: 'Descripción de la lección 3'),
+    Lesson(id: '4', title: 'Lección 4', content: 'Descripción de la lección 4'),
+  ]; // lista de lecciones existentes
 
   @override
   void initState() {
@@ -52,16 +58,7 @@ class _CourseManagementScreenState extends State<CourseManagementScreen> {
         durationMinutes: 60,
         tags: ['programación', 'desarrollo'],
         date: DateTime.now(),
-        lessons: [
-          Lesson(
-              id: '1',
-              title: 'Lección 1',
-              content: 'Descripción de la lección 1'),
-          Lesson(
-              id: '2',
-              title: 'Lección 2',
-              content: 'Descripción de la lección 2'),
-        ],
+        lessons: [_lessons[0], _lessons[2]],
       ),
       Course(
         id: '2',
@@ -75,16 +72,7 @@ class _CourseManagementScreenState extends State<CourseManagementScreen> {
         durationMinutes: 120,
         tags: ['diseño', 'ux'],
         date: DateTime.now(),
-        lessons: [
-          Lesson(
-              id: '3',
-              title: 'Lección 3',
-              content: 'Descripción de la lección 3'),
-          Lesson(
-              id: '4',
-              title: 'Lección 4',
-              content: 'Descripción de la lección 4'),
-        ],
+        lessons: [_lessons[1], _lessons[4]],
       ),
       //...
     ];
@@ -164,14 +152,14 @@ class _CourseManagementScreenState extends State<CourseManagementScreen> {
                   title: 'Crear Curso',
                   onPressed: () {
                     // Navegar a la pantalla de crear curso
-                    //Navigator.push(
-                    // context,
-                    //                    MaterialPageRoute(
-                    //  builder: (context) => CreateCourseScreen(
-                    //       trainers: _trainers,
-                    //       lessons: _lessons,
-                    //     )),
-                    //  );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CreateCourseScreen(
+                                trainers: _trainers,
+                                lessons: _lessons,
+                              )),
+                    );
                   },
                   backgroundColor: AppColors.primaryLightColor,
                 ),
