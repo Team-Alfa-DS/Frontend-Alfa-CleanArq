@@ -1,5 +1,7 @@
 import 'package:alpha_gymnastic_center/domain/entities/category.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/categoryManagement/createCategoryScreen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/commons/COlors.dart';
+//import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/trainersManagement/trainerManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:flutter/material.dart';
 
@@ -130,8 +132,12 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                 _ManagementButton(
                   title: 'Crear Categoria',
                   onPressed: () {
-                    // Navegar a la pantalla de crear usuario
-                    Navigator.pushNamed(context, '/create-category');
+                    //Navigator.pushNamed(context, '/create-category');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CreateCategoryScreen()),
+                    );
                   },
                   backgroundColor: AppColors.primaryLightColor,
                 ),
