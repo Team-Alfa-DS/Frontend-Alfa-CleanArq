@@ -21,24 +21,54 @@ class PopularProcessesCarousel extends StatelessWidget {
         builder: (context, state) {
           if (state is CourseDetailLoading) {
             return const CircularProgressIndicator();
-          } else if (state is CourseDetailLoaded) {
-            var course = state.course;
-            return ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                ScrollHorizontal(
-                  titulo: course.trainer.name,
-                  descripcion: course.title,
-                  categoria: course.category,
-                  fecha: course.date.toString(),
-                  foto: course.image,
-                  disposicion: 1,
-                  isNew: false,
-                  conexion: "/videos",
-                ),
-              ],
+          } else if (state is CourseListLoaded) {
+            final courses = state.courses.sublist(0, 4);
+            return SizedBox(
+              height: 195,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: courses.map((course) {
+                  return ScrollH<Map<String, dynamic>>(
+                    item: {
+                      'titulo': course.trainer.name,
+                      'descripcion': course.title,
+                      'categoria': course.category,
+                      'fecha': course.date.toString(),
+                      'fotoUrl': course.image,
+                      'isNew':
+                          true, // Asegúrate de que isNew esté aquí como un parámetro
+                      'conexion': "/videos",
+                    },
+                    disposicion: 1,
+                    onTap: (item) {
+                      var selectedCourse = Course(
+                        id: course.id,
+                        title: course.title,
+                        description: course.description,
+                        category: course.category,
+                        image: course.image,
+                        trainer: course.trainer,
+                        level: course.level,
+                        durationWeeks: course.durationWeeks,
+                        durationMinutes: course.durationMinutes,
+                        tags: course.tags,
+                        date: course.date,
+                        lessons: course.lessons,
+                      );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CourseDetailedScreen(
+                            course: selectedCourse,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }).toList(),
+              ),
             );
-          } else if (state is CourseDetailFailed) {
+          } else if (state is CourseListFailed) {
             return Text('Error: ${state.failure}');
           } else {
             return const SizedBox.shrink();

@@ -1,19 +1,14 @@
+import 'package:alpha_gymnastic_center/domain/entities/notification.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:flutter/material.dart';
 
 class ScreenDetail extends StatelessWidget {
-  const ScreenDetail(
-      {super.key,
-      required this.title,
-      required this.message,
-      required this.time});
-
-  final String title;
-  final String message;
-  final String time;
+  final Notifications notification;
+  const ScreenDetail({super.key, required this.notification});
 
   @override
   Widget build(BuildContext context) {
+    String formattedDate = notification.date.toString();
     return Scaffold(
       appBar: const YogaAppBar(title: "Detalles de Notificación"),
       body: Container(
@@ -41,9 +36,9 @@ class ScreenDetail extends StatelessWidget {
                       size: 40, color: Color.fromARGB(255, 77, 6, 230)),
                   const SizedBox(height: 10),
                   // Título
-                  Text(title,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text(notification.title,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 10),
                   // Separador
                   const Divider(color: Colors.grey),
@@ -53,17 +48,17 @@ class ScreenDetail extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        time,
-                        style: TextStyle(fontSize: 17),
+                        formattedDate,
+                        style: const TextStyle(fontSize: 17),
                       ),
-                      Icon(Icons.star, size: 20, color: Colors.yellow),
+                      const Icon(Icons.star, size: 20, color: Colors.yellow),
                     ],
                   ),
                   const SizedBox(height: 10),
                   // Mensaje
                   Text(
-                    message,
-                    style: TextStyle(fontSize: 17),
+                    notification.body,
+                    style: const TextStyle(fontSize: 17),
                   ),
                   const SizedBox(
                       height: 20), // Espacio adicional antes del botón

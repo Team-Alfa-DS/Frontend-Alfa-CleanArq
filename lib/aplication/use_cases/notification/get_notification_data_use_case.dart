@@ -7,19 +7,24 @@ class GetNotificationDataUseCaseInput extends IUseCaseInput {
   final int page;
   final int perPage;
 
-  GetNotificationDataUseCaseInput({required this.page, required this.perPage});
+  GetNotificationDataUseCaseInput({
+    required this.page,
+    required this.perPage,
+  });
 }
 
-class GetNotificationDataUseCase
-    implements IUseCase<GetNotificationDataUseCaseInput, List<Notification>> {
-  final NotificationRepository notificationRepository;
+class GetNotificationDataUseCase {
+  final NotificationRepository _notificationRepository;
 
-  GetNotificationDataUseCase({required this.notificationRepository});
+  GetNotificationDataUseCase(
+      {required NotificationRepository notificationRepository})
+      : _notificationRepository = notificationRepository;
 
-  @override
-  Future<Result<List<Notification>>> execute(
-      GetNotificationDataUseCaseInput params) async {
-    return await notificationRepository.getManyNotification(
-        page: params.page, perPage: params.perPage);
+  Future<Result<List<Notifications>>> execute(
+      GetNotificationDataUseCaseInput input) {
+    return _notificationRepository.getNotificationMany(
+      page: input.page,
+      perPage: input.perPage,
+    );
   }
 }

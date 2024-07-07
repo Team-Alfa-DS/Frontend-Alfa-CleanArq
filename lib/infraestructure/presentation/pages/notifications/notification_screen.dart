@@ -1,5 +1,5 @@
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/notifications/notification_detail_screen.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/notification_many.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/navegation.dart';
@@ -85,9 +85,7 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const YogaAppBar(title: "Notifications"),
-      body: notifications.isEmpty
-          ? buildNoNotifications(context)
-          : buildNotificationsList(context),
+      body: const NotificationMany(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
         height: 70.0,

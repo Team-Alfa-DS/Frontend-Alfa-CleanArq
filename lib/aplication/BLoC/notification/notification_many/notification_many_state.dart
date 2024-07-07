@@ -14,7 +14,7 @@ class NotificationListInitial extends NotificationListState {}
 class NotificationListLoading extends NotificationListState {}
 
 class NotificationListLoaded extends NotificationListState {
-  final List<Notification> notification;
+  final List<Notifications> notification;
 
   const NotificationListLoaded(this.notification);
 
