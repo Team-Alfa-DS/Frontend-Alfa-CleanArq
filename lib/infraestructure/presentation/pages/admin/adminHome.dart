@@ -1,4 +1,5 @@
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/commons/COlors.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/userManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:flutter/material.dart';
 
@@ -68,6 +69,11 @@ class AdminDashboardScreen extends StatelessWidget {
                   onPressed: () {
                     //Navigator.pushNamed(context, '/user-management');
                     // Navegar a la pantalla de usuarios
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const UserManagementScreen()),
+                    );
                   },
                   backgroundColor: AppColors.primaryLightColor,
                 ),

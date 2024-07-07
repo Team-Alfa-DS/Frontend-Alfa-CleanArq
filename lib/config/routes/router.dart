@@ -1,4 +1,5 @@
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/adminHome.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/userManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/auth/password_changed_screen.dart';
 import 'package:bloc/bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -69,6 +70,10 @@ final router = GoRouter(
     GoRoute(
       path: '/adminHome',
       builder: (context, state) => const AdminDashboardScreen(),
+    ),
+    GoRoute(
+      path: '/adminUser',
+      builder: (context, state) => const UserManagementScreen(),
     ),
     GoRoute(
       path: '/faq',
