@@ -24,9 +24,9 @@ class CoursesSubscribedBloc
     emit(CoursesSubscribedLoading());
 
     //* Obtener todos los cursos
-    final courses = await _getCourseDataUseCase.execute(
+    /*final courses = await _getCourseDataUseCase.execute(
       GetCourseDataUseCaseInput(page: event.page, perPage: event.perPage),
-    );
+    );*/
 
     //*Obtener Trainers
     final trainers = await _getManyTrainersUseCase.execute(

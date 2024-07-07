@@ -16,7 +16,7 @@ import 'package:alpha_gymnastic_center/common/utils/string_utils.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../widgets/my_training.dart';
-import '../../widgets/popular_courses.dart';
+//import '../../widgets/popular_courses.dart';
 
 class PerfilUsuario extends StatelessWidget {
   const PerfilUsuario({super.key});
@@ -62,7 +62,7 @@ class PerfilUsuario extends StatelessWidget {
         if (state is UserLoaded) {
           userName = getFirstTwoWords(state.user.name ?? 'Nombre de Usuario');
           image = (state.user.imagenPerfil == null)
-              ? 'Mango'
+              ? 'assets/images/user.png'
               : state.user.imagenPerfil!;
           print(image);
           print('imagen locaa!!');
