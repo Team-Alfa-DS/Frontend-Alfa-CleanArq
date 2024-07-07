@@ -30,8 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  percent_indicator: ^4.2.3
-  shared_preferences: ^2.0.13
   flutter_bloc: ^8.1.5
   flutter_dotenv: ^5.1.0
   bloc: ^8.1.4
@@ -58,8 +56,6 @@ dependencies:
   path_provider: ^2.1.3
   percent_indicator: ^4.2.3
   shared_preferences: ^2.0.13
-  uuid: ^3.0.7
-  video_player: ^2.2.8
   volume_control: ^0.1.5
 
 dev_dependencies:
@@ -73,8 +69,7 @@ dev_dependencies:
   flutter_lints: ^3.0.0
 
 flutter_test:
-  test_environment_files:
-    .env
+  test_environment_files: .env
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
