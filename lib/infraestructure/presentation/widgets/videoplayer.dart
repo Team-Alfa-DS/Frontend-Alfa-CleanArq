@@ -21,7 +21,8 @@ class VideoPlayerScreen extends StatefulWidget {
   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
 }
 
-class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
+class _VideoPlayerScreenState extends State<VideoPlayerScreen>
+    with WidgetsBindingObserver {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
   bool _isControllerInitialized = false;
@@ -32,11 +33,29 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _initializeVideoController();
     BlocProvider.of<VideoBloc>(context).add(LoadVideoDetailEvent(
       courseId: widget.courseId,
       lessonId: widget.lessonId,
     ));
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    if (_isControllerInitialized) {
+      _controller.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.paused) {
+      _saveVideoProgress();
+    }
   }
 
   Future<void> _initializeVideoController() async {
@@ -58,32 +77,23 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     });
   }
 
-  @override
-  void dispose() {
+  void _saveVideoProgress() {
     if (_isControllerInitialized) {
       final currentPosition = _controller.value.position.inSeconds;
+      final totalTime = _controller.value.duration.inSeconds;
       print("ping");
       print(currentPosition);
       BlocProvider.of<VideoBloc>(context).add(SaveVideoProgressEvent(
         courseId: widget.courseId,
         lessonId: widget.lessonId,
         time: currentPosition,
+        totalTime: totalTime,
       ));
-      _controller.dispose();
     }
-    super.dispose();
   }
 
   void _closeVideoPlayer() {
-    if (_isControllerInitialized) {
-      final currentPosition = _controller.value.position.inSeconds;
-      BlocProvider.of<VideoBloc>(context).add(SaveVideoProgressEvent(
-        courseId: widget.courseId,
-        lessonId: widget.lessonId,
-        time: currentPosition,
-      ));
-      _controller.dispose();
-    }
+    _saveVideoProgress();
     Navigator.of(context).pop();
   }
 

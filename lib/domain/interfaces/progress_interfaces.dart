@@ -26,17 +26,19 @@ class CreateProgressCourseRequest {
       required this.markAsComplete});
 }
 
-class PostProgress {
+class PostProgressRequest {
   final String courseId;
   final bool markAsComplete;
   final String lessonId;
   final int? time;
+  final int totalTime;
 
-  PostProgress(
+  PostProgressRequest(
       {required this.courseId,
       required this.markAsComplete,
       required this.lessonId,
-      this.time});
+      this.time,
+      required this.totalTime});
 }
 
 class SingleCourseProgress {

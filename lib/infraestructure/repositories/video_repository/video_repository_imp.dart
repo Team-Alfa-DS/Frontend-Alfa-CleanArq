@@ -1,5 +1,6 @@
 import 'package:alpha_gymnastic_center/common/result.dart';
 import 'package:alpha_gymnastic_center/domain/entities/video.dart';
+import 'package:alpha_gymnastic_center/domain/interfaces/progress_interfaces.dart';
 import 'package:alpha_gymnastic_center/domain/repositories/video_repository.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/api/api_request.dart';
 
@@ -30,19 +31,28 @@ class VideoRepositoryImpl implements VideoRepository {
 
   @override
   Future<Result<void>> saveVideoProgress(
-      String courseId, String lessonId, int time,
-      {bool markAsCompleted = false}) async {
+      PostProgressRequest postProgressRequest) async {
+    print("PostPrgressRequest");
+    print(postProgressRequest.courseId);
+    print(postProgressRequest.lessonId);
+    print(postProgressRequest.time);
+    print(postProgressRequest.markAsComplete);
+    print(postProgressRequest.totalTime);
     final response = await _apiRequestManager.request<void>(
       '/progress/mark/end',
       'POST',
       (data) {},
       body: {
-        'courseId': courseId,
-        'lessonId': lessonId,
-        'time': time,
-        'markAsCompleted': markAsCompleted,
+        'courseId': postProgressRequest.courseId,
+        'lessonId': postProgressRequest.lessonId,
+        'time': postProgressRequest.time,
+        'markAsCompleted': postProgressRequest.markAsComplete,
+        'totalTime': postProgressRequest.totalTime
       },
     );
+
+    print("Response");
+    print(response);
 
     return response;
   }

@@ -26,14 +26,13 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
 
   Future<void> _onSaveVideoProgress(
       SaveVideoProgressEvent event, Emitter<VideoState> emit) async {
-    print("Video Event data");
-    print(event.courseId);
-    print(event.lessonId);
     final result = await saveVideoProgressUseCase.execute(
       SaveVideoProgressUseCaseInput(
         courseId: event.courseId,
         lessonId: event.lessonId,
         time: event.time,
+        totalTime: event.totalTime,
+        markAsCompleted: event.time == event.totalTime,
       ),
     );
 

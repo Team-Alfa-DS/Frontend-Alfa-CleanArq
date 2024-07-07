@@ -21,11 +21,13 @@ class SaveVideoProgressEvent extends VideoEvent {
   final String courseId;
   final String lessonId;
   final int time;
+  final int totalTime;
 
   const SaveVideoProgressEvent({
     required this.courseId,
     required this.lessonId,
     required this.time,
+    required this.totalTime,
   });
 
   @override
