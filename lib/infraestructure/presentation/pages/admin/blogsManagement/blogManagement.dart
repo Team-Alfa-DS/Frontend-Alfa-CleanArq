@@ -1,5 +1,7 @@
 import 'package:alpha_gymnastic_center/domain/entities/blog.dart';
+//import 'package:alpha_gymnastic_center/domain/entities/tag.dart';
 import 'package:alpha_gymnastic_center/domain/entities/trainer.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/blogsManagement/createBlogScreen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/commons/COlors.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,13 @@ class BlogManagementScreen extends StatefulWidget {
 
 class _BlogManagementScreenState extends State<BlogManagementScreen> {
   List<Blog> _blogs = [];
+  List<Trainer> _trainers = [
+    Trainer(id: '1', name: 'Juan'),
+    Trainer(id: '2', name: 'Elisa'),
+    Trainer(id: '3', name: 'Diana'),
+    Trainer(id: '3', name: 'Mario'),
+  ]; // lista de trainers existentes
+// lista de tags existentes
 
   @override
   void initState() {
@@ -38,9 +47,9 @@ class _BlogManagementScreenState extends State<BlogManagementScreen> {
         description: 'Descripción del blog 1',
         category: 'Categoria 1',
         image: 'imagen1.jpg',
-        trainer: Trainer(name: 'Trainer 1'),
+        trainer: _trainers[0],
         date: DateTime.now(),
-        tags: ['tag1', 'tag2'],
+        tags: ['relax', 'yoga'],
       ),
       Blog(
         id: '2',
@@ -48,9 +57,9 @@ class _BlogManagementScreenState extends State<BlogManagementScreen> {
         description: 'Descripción del blog 2',
         category: 'Categoria 2',
         image: 'imagen2.jpg',
-        trainer: Trainer(name: 'Trainer 2'),
+        trainer: _trainers[1],
         date: DateTime.now(),
-        tags: ['tag3', 'tag4'],
+        tags: ['meditacion'],
       ),
       //...
     ];
@@ -96,10 +105,10 @@ class _BlogManagementScreenState extends State<BlogManagementScreen> {
                     child: ListTile(
                       onTap: () {
                         //Navigator.push(
-                        // context,
-                        // MaterialPageRoute(
-                        //   builder: (context) => UpdateBlogScreen(blog: _blogs[index]),
-                        // ),
+                        //  context,
+                        //  MaterialPageRoute(
+                        //    builder: (context) => UpdateBlogScreen(blog: _blogs[index]),
+                        //  ),
                         // );
                       },
                       leading: CircleAvatar(
@@ -126,11 +135,13 @@ class _BlogManagementScreenState extends State<BlogManagementScreen> {
                   title: 'Crear Blog',
                   onPressed: () {
                     // Navegar a la pantalla de crear blog
-                    //Navigator.push(
-                    //  context,
-                    // MaterialPageRoute(
-                    //      builder: (context) => const CreateBlogScreen()),
-                    //);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CreateBlogScreen(
+                                trainers: _trainers,
+                              )),
+                    );
                   },
                   backgroundColor: AppColors.primaryLightColor,
                 ),

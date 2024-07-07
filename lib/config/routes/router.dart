@@ -1,12 +1,13 @@
-import 'package:alpha_gymnastic_center/domain/entities/user.dart';
+//import 'package:alpha_gymnastic_center/domain/entities/user.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/adminHome.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/blogsManagement/blogManagement.dart';
+//import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/blogsManagement/createBlogScreen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/categoryManagement/categoryManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/categoryManagement/createCategoryScreen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/trainersManagement/createTrainerScreen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/trainersManagement/trainerManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/createUserScreen.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/updateUserScreen.dart';
+//import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/updateUserScreen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/userManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/auth/password_changed_screen.dart';
 import 'package:bloc/bloc.dart';
