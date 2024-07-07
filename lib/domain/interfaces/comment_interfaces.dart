@@ -1,37 +1,24 @@
 import '../entities/comment.dart';
 
-class ManyCommentsRequest {
-    String token;
-    QueryComment query;
+class CommentRequest{
     String id;
     String user;
-    int? countlikes;
-    int? countdislikes;
-    DateTime date;
-
-    ManyCommentsRequest({
-        required this.token,
-        required this.date,
-        required this.countdislikes,
-        required this.countlikes,
-        required this.id,
-        required this.query,
-        required this.user
-    });
-
-}
-
-class SingleComment {
-
-    String token;
-    String target;
-    targetType targettype;
+    int? countLikes;
+    int? countDislikes;
     String body;
-    SingleComment({
-        required this.token,
-        required this.target,
-        required this.targettype,
+    bool? userLiked;
+    bool? userDisliked;
+    String? date;
+
+    CommentRequest({
+        required this.id,
+        required this.user,
+        this.countLikes,
+        this.countDislikes,
         required this.body,
+        this.userLiked,
+        this.userDisliked,
+        this.date,
     });
 
 }
