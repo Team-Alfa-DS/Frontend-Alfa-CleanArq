@@ -32,7 +32,8 @@ class UpdateUserUseCase extends IUseCase<UpdateUserUseCaseInput, void> {
   Future<Result<void>> execute(UpdateUserUseCaseInput params) async {
     /*final user = await userRepository
         .getCurrentUser(await localStorage.getAuthorizationToken());*/
-
+    print('USE CASE UPDATE');
+    print(params.image);
     UpdateUserRequest updateUserRequest = UpdateUserRequest(
       email: params.email,
       name: params.name,

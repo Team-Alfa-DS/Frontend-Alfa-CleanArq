@@ -11,6 +11,7 @@ class UserMapper {
       type: json['type'] == 'admin' ? UserRoles.admin : UserRoles.client,
     );
   }
+
   static User fromJson2(Map<String, dynamic> json) {
     return User(
       id: json['id'],
@@ -19,6 +20,7 @@ class UserMapper {
       phone: json['phone'],
       token: json['token'],
       type: json['type'] == 'admin' ? UserRoles.admin : UserRoles.client,
+      imagenPerfil: json['image'],
     );
   }
 
