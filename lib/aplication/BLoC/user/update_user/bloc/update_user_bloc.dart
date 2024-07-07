@@ -16,14 +16,15 @@ class UpdateUserBloc extends Bloc<UpdateUserEvent, UpdateUserState> {
   Future<void> _onSubmitted(
       UpdateUserSubmitted event, Emitter<UpdateUserState> emit) async {
     emit(UpdateUserLoading());
-
+    print('USER BLOC');
+    print(event.image);
     final result = await updateUseCase.execute(
       UpdateUserUseCaseInput(
         name: (event.name == 'None') ? null : event.name,
         email: (event.email == 'None') ? null : event.email,
         password: (event.password == 'None') ? null : event.password,
         phone: (event.phone == 'None') ? null : event.phone,
-        image: (event.image == 'None') ? null : event.phone,
+        image: (event.image == 'None') ? null : event.image,
       ),
     );
     emit(UpdateUserSuccess(updateUserResponse: result.hasValue()));
