@@ -1,5 +1,6 @@
 import 'package:alpha_gymnastic_center/domain/entities/category.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/categoryManagement/createCategoryScreen.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/categoryManagement/updateCategoryScreen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/commons/COlors.dart';
 //import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/trainersManagement/trainerManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
@@ -101,13 +102,13 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                     elevation: 5,
                     child: ListTile(
                       onTap: () {
-                        //Navigator.push(
-                        //  context,
-                        //  MaterialPageRoute(
-                        //   builder: (context) => UpdateCategoryScreen(
-                        //       category: _Categorys[index]),
-                        //  ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UpdateCategoryScreen(
+                                category: _Categorys[index]),
+                          ),
+                        );
                       },
                       leading: CircleAvatar(
                         backgroundColor: AppColors.primaryLightColor,
