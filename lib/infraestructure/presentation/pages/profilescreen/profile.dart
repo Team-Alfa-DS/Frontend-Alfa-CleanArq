@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:alpha_gymnastic_center/aplication/BLoC/progress/profile/profile_progress_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_profile_progress_use_case.dart';
@@ -5,13 +9,14 @@ import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/carrusel_h.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses_h.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:alpha_gymnastic_center/common/utils/string_utils.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../widgets/my_training.dart';
+import '../../widgets/popular_courses.dart';
 
 class PerfilUsuario extends StatelessWidget {
   const PerfilUsuario({super.key});
@@ -53,10 +58,18 @@ class PerfilUsuario extends StatelessWidget {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         String userName = 'Nombre de Usuario';
+        String image = 'image';
         if (state is UserLoaded) {
           userName = getFirstTwoWords(state.user.name ?? 'Nombre de Usuario');
+          image = (state.user.imagenPerfil == null)
+              ? 'Mango'
+              : state.user.imagenPerfil!;
+          print(image);
+          print('imagen locaa!!');
         }
-
+        File imageBytes = File(_imageFromBase64String(image));
+        print('ES EL FILE');
+        print(imageBytes);
         return Container(
           height: 220.0,
           decoration: const BoxDecoration(
@@ -110,9 +123,13 @@ class PerfilUsuario extends StatelessWidget {
               const SizedBox(height: 15.0),
               Row(
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 50.0,
-                    backgroundImage: AssetImage('assets/images/user.png'),
+                    backgroundImage: AssetImage(_imageFromBase64String(image)),
+                    /*MemoryImage(_imageFromBase64String(image)),*/
+                    /*AssetImage('assets/images/user.png'),*/
+                    /*MemoryImage(convertStringToUint8List(image)),*/
+                    /*MemoryImage(imageBytes),*/
                     backgroundColor: Colors.transparent,
                   ),
                   const SizedBox(width: 10.0),
@@ -126,46 +143,6 @@ class PerfilUsuario extends StatelessWidget {
                             color: Colors.white,
                             fontWeight: FontWeight.w500),
                       ),
-                      /*const Row(
-                          children: [
-                            SizedBox(width: 30),
-                            SizedBox(
-                              width: 100,
-                              child: Text(
-                                '0',
-                                style: TextStyle(
-                                    fontSize: 20.0,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Text(
-                              '0',
-                              style: TextStyle(
-                                  fontSize: 20.0,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),*/
-                      /*const Row(
-                          children: [
-                            SizedBox(width: 0),
-                            SizedBox(
-                              width: 100,
-                              child: Text(
-                                'followers',
-                                style: TextStyle(
-                                    fontSize: 16.0, color: Colors.white),
-                              ),
-                            ),
-                            Text(
-                              'followings',
-                              style: TextStyle(
-                                  fontSize: 16.0, color: Colors.white),
-                            ),
-                          ],
-                        ),*/
                       Row(
                         children: [
                           //const SizedBox(width: 50),
@@ -219,6 +196,59 @@ class PerfilUsuario extends StatelessWidget {
     );
   }
 
+  String _normalizeBase64(String base64String) {
+    int length = base64String.length;
+    int remainder = length % 4;
+
+    if (remainder != 0) {
+      base64String += '=' * (4 - remainder);
+    }
+
+    return base64String;
+  }
+
+  String _imageFromBase64String(String base64String) {
+    String normalizedBase64 = _normalizeBase64(base64String);
+    print('BASE 64 LOCOCHON!!!');
+    print(normalizedBase64);
+    // print(decoded);
+    // final decode = base64Decode(normalizedBase64);
+    // print(decode);
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String decoded = stringToBase64.decode(normalizedBase64);
+    // Quitar "File: " del principio
+    decoded = decoded.replaceAll("File: ", "");
+
+    // Quitar comillas simples (') del principio y del final
+    decoded = decoded.replaceAll("'", "");
+    print(decoded);
+    return decoded;
+  }
+
+  Image _imageFromUint8List(Uint8List uint8List) {
+    return Image.memory(uint8List);
+  }
+
+  Image imageFromBase64String(String base64String) {
+    return Image.memory(base64Decode(base64String));
+  }
+
+  Uint8List dataFromBase64String(String base64String) {
+    return base64Decode(base64String);
+  }
+
+  String base64String(Uint8List data) {
+    return base64Encode(data);
+  }
+
+  Uint8List convertStringToUint8List(String str) {
+    final List<int> codeUnits = str.codeUnits;
+    final Uint8List unit8List = Uint8List.fromList(codeUnits);
+    print(unit8List);
+    print('IMAGEN UNIT8LIST');
+    return unit8List;
+  }
+
   Widget buildUserData(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(builder: (context, state) {
       String userEmail = 'example@gmail.com';
@@ -258,11 +288,11 @@ class PerfilUsuario extends StatelessWidget {
                     width: 10,
                   ),
                   Text(
-                    '$userEmail',
+                    userEmail,
                     style: const TextStyle(
                         color: Colors.black,
                         fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
@@ -276,11 +306,11 @@ class PerfilUsuario extends StatelessWidget {
                     width: 10,
                   ),
                   Text(
-                    '$userPhone',
+                    userPhone,
                     style: const TextStyle(
                         color: Colors.black,
                         fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.w500),
                   )
                 ],
               )
@@ -325,7 +355,7 @@ class PerfilUsuario extends StatelessWidget {
             ),
           ),
           SizedBox(height: 10),
-          Expanded(child: PopularCoursesCarousel()),
+          Expanded(child: PopularCoursesCarousel() /*MyTrainingCarrousel()*/),
         ],
       ),
     );
