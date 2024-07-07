@@ -1,4 +1,4 @@
-import 'package:alpha_gymnastic_center/aplication/BLoC/course/courses_subscribed/courses_subscribed_bloc.dart';
+/*import 'package:alpha_gymnastic_center/aplication/BLoC/course/courses_subscribed/courses_subscribed_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/course/courses_subscribed/courses_subscribed_event.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/course/courses_subscribed/courses_subscribed_state.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/trainer/get_many_trainers_use_case.dart';
@@ -81,4 +81,4 @@ class MyTrainingCarrousel extends StatelessWidget {
       ),
     );
   }
-}
+}*/

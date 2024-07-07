@@ -1053,6 +1053,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "14.2.1"
+  volume_control:
+    dependency: "direct main"
+    description:
+      name: volume_control
+      sha256: "2c370083dd3892b8e5f5650275e452fb97e90a1e1abff65b5f6a761e2bc8b754"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.5"
   wakelock_plus:
     dependency: transitive
     description:
@@ -1134,5 +1142,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.3.4 <4.0.0"
-  flutter: ">=3.19.0"
+  dart: ">=3.4.0 <4.0.0"
+  flutter: ">=3.22.0"
