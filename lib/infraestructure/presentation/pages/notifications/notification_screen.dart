@@ -1,3 +1,4 @@
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/adminHome.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:flutter/material.dart';
 
@@ -159,7 +160,13 @@ class NotificationScreen extends StatelessWidget {
             ),
             child: TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                //Navigator.pop(context);
+                //Ruta para pasar a la pestaña de administrador, SOLO PARA PRUEBA
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AdminDashboardScreen()),
+                );
               },
               style: TextButton.styleFrom(
                 foregroundColor: Colors.white,
