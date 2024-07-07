@@ -1,3 +1,4 @@
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/blogsManagement/blogManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/categoryManagement/categoryManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/commons/COlors.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/trainersManagement/trainerManagement.dart';
@@ -90,6 +91,11 @@ class AdminDashboardScreen extends StatelessWidget {
                   title: 'Blogs',
                   onPressed: () {
                     // Navegar a la pantalla de blogs
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const BlogManagementScreen()),
+                    );
                   },
                   backgroundColor: AppColors.primaryLightColor,
                 ),
