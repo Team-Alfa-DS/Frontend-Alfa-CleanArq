@@ -1,5 +1,7 @@
+import 'package:alpha_gymnastic_center/domain/entities/user.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/adminHome.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/createUserScreen.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/updateUserScreen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/userManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/auth/password_changed_screen.dart';
 import 'package:bloc/bloc.dart';
@@ -77,7 +79,7 @@ final router = GoRouter(
       builder: (context, state) => const UserManagementScreen(),
     ),
     GoRoute(
-      path: '/adminUser',
+      path: '/createUser',
       builder: (context, state) => const CreateUserScreen(),
     ),
     GoRoute(

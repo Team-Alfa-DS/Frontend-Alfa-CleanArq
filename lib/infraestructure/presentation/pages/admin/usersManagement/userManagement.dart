@@ -1,6 +1,7 @@
 import 'package:alpha_gymnastic_center/domain/entities/user.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/commons/COlors.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/createUserScreen.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/updateUserScreen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:flutter/material.dart';
 
@@ -159,13 +160,13 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                     elevation: 5,
                     child: ListTile(
                       onTap: () {
-                        //Navigator.push(
-                        // context,
-                        // MaterialPageRoute(
-                        //  builder: (context) =>
-                        //     UpdateUserScreen(user: _users[index]),
-                        // ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                UpdateUserScreen(user: _users[index]),
+                          ),
+                        );
                       },
                       leading: CircleAvatar(
                         backgroundColor: AppColors.primaryLightColor,
