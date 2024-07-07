@@ -1,5 +1,6 @@
 import 'package:alpha_gymnastic_center/domain/entities/user.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/adminHome.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/trainersManagement/createTrainerScreen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/trainersManagement/trainerManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/createUserScreen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/updateUserScreen.dart';
@@ -86,6 +87,10 @@ final router = GoRouter(
     GoRoute(
       path: '/adminTrainer',
       builder: (context, state) => const TrainerManagementScreen(),
+    ),
+    GoRoute(
+      path: '/createTrainer',
+      builder: (context, state) => const CreateTrainerScreen(),
     ),
     GoRoute(
       path: '/faq',

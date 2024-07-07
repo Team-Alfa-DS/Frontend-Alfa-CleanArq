@@ -1,5 +1,6 @@
 import 'package:alpha_gymnastic_center/domain/entities/trainer.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/commons/COlors.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/trainersManagement/createTrainerScreen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:flutter/material.dart';
 
@@ -142,6 +143,11 @@ class _TrainerManagementScreenState extends State<TrainerManagementScreen> {
                   onPressed: () {
                     // Navegar a la pantalla de crear entrenador
                     //Navigator.pushNamed(context, '/create-trainer');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CreateTrainerScreen()),
+                    );
                   },
                   backgroundColor: AppColors.primaryLightColor,
                 ),
