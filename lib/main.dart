@@ -23,23 +23,25 @@ class BlocsProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
-        providers: [
-        RepositoryProvider<ProgressService>(
-        create: (context) => ProgressService(),
-    ),
-    ],
-    child: MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => RouterSimpleCubit()),
-        BlocProvider(create: (context) => ThemeCubit()),
-        BlocProvider(create: (context) => ChangePasswordBloc(
-          changePasswordUseCase: GetIt.instance<ChangePasswordUseCase>(),
-        )),
-        BlocProvider(create: (context) => UserBloc()),
-        BlocProvider(create: (context) => VideoBloc(context.read<ProgressService>())), // Agrega VideoBloc aquí
+        RepositoryProvider<ProgressService>(
+          create: (context) => ProgressService(),
+        ),
       ],
-      child: const MyApp(),
-    ),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => RouterSimpleCubit()),
+          BlocProvider(create: (context) => ThemeCubit()),
+          BlocProvider(
+              create: (context) => ChangePasswordBloc(
+                    changePasswordUseCase:
+                        GetIt.instance<ChangePasswordUseCase>(),
+                  )),
+          BlocProvider(create: (context) => UserBloc()),
+          //BlocProvider(create: (context) => VideoBloc(context.read<ProgressService>())), // Agrega VideoBloc aquí
+        ],
+        child: const MyApp(),
+      ),
     );
   }
 }

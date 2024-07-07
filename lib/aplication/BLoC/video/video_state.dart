@@ -1,7 +1,8 @@
-import 'package:equatable/equatable.dart';
-import 'package:alpha_gymnastic_center/domain/entities/video.dart';
+part of 'video_bloc.dart';
 
 abstract class VideoState extends Equatable {
+  const VideoState();
+
   @override
   List<Object?> get props => [];
 }
@@ -14,16 +15,18 @@ class VideoLoaded extends VideoState {
   final Video video;
   final int currentTime;
 
-  VideoLoaded(this.video, this.currentTime);
+  const VideoLoaded({required this.video, required this.currentTime});
 
   @override
   List<Object?> get props => [video, currentTime];
 }
 
+class VideoProgressSaved extends VideoState {}
+
 class VideoError extends VideoState {
   final String message;
 
-  VideoError(this.message);
+  const VideoError({required this.message});
 
   @override
   List<Object?> get props => [message];
