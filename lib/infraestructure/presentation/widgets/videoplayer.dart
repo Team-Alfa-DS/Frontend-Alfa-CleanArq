@@ -5,12 +5,14 @@ import 'package:alpha_gymnastic_center/aplication/BLoC/video/video_bloc.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   final String videoPath;
+  final String lessonTitle;
   final String courseId;
   final String lessonId;
 
   const VideoPlayerScreen({
     super.key,
     required this.videoPath,
+    required this.lessonTitle,
     required this.courseId,
     required this.lessonId,
   });
@@ -30,16 +32,38 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   void initState() {
     super.initState();
+    _initializeVideoController();
     BlocProvider.of<VideoBloc>(context).add(LoadVideoDetailEvent(
       courseId: widget.courseId,
       lessonId: widget.lessonId,
     ));
   }
 
+  Future<void> _initializeVideoController() async {
+    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoPath));
+    _initializeVideoPlayerFuture = _controller.initialize();
+    await _initializeVideoPlayerFuture;
+    setState(() {
+      _isControllerInitialized = true;
+    });
+    _controller.setLooping(true);
+    _controller.play();
+
+    _controller.addListener(() {
+      if (_controller.value.isPlaying && !_isDraggingSlider) {
+        setState(() {
+          _sliderValue = _controller.value.position.inSeconds.toDouble();
+        });
+      }
+    });
+  }
+
   @override
   void dispose() {
     if (_isControllerInitialized) {
       final currentPosition = _controller.value.position.inSeconds;
+      print("ping");
+      print(currentPosition);
       BlocProvider.of<VideoBloc>(context).add(SaveVideoProgressEvent(
         courseId: widget.courseId,
         lessonId: widget.lessonId,
@@ -90,8 +114,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       final newPosition =
           _controller.value.position + const Duration(seconds: 5);
       _controller.seekTo(newPosition);
-      _controller
-          .play(); // Asegurar que el video se reproduzca después del salto
+      _controller.play();
     }
   }
 
@@ -100,8 +123,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       final newPosition =
           _controller.value.position - const Duration(seconds: 5);
       _controller.seekTo(newPosition);
-      _controller
-          .play(); // Asegurar que el video se reproduzca después del salto
+      _controller.play();
     }
   }
 
@@ -116,16 +138,15 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     return OrientationBuilder(
       builder: (context, orientation) {
         if (orientation == Orientation.portrait) {
-          _showControls =
-              true; // Asegurar que los controles estén visibles en vertical automáticamente
+          _showControls = true;
         }
         return Scaffold(
           appBar: (orientation == Orientation.portrait || _showControls)
               ? AppBar(
                   backgroundColor: Colors.black,
-                  title: const Text(
-                    'Video Player',
-                    style: TextStyle(color: Colors.white),
+                  title: Text(
+                    widget.lessonTitle,
+                    style: const TextStyle(color: Colors.white),
                   ),
                   automaticallyImplyLeading: false,
                   leading: IconButton(
@@ -143,42 +164,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 _toggleControlsVisibility();
               } else {
                 setState(() {
-                  _showControls =
-                      true; // Asegurar que los controles estén visibles en vertical
+                  _showControls = true;
                 });
               }
             },
-            child: BlocBuilder<VideoBloc, VideoState>(
-              builder: (context, state) {
-                if (state is VideoLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (state is VideoLoaded) {
-                  if (!_isControllerInitialized) {
-                    _controller =
-                        VideoPlayerController.network(state.video.url);
-                    _initializeVideoPlayerFuture =
-                        _controller.initialize().then((_) {
-                      _controller.seekTo(Duration(seconds: state.currentTime));
-                      _controller.setLooping(true);
-                      _controller.play();
-                      setState(() {
-                        _isControllerInitialized = true;
-                      });
-
-                      // Actualizar el estado del slider mientras el video está reproduciéndose
-                      _controller.addListener(() {
-                        if (_controller.value.isPlaying && !_isDraggingSlider) {
-                          setState(() {
-                            _sliderValue =
-                                _controller.value.position.inSeconds.toDouble();
-                          });
-                        }
-                      });
-                    });
-                  }
-
-                  return Container(
-                    color: Colors.black, // Establecer el fondo negro
+            child: _isControllerInitialized
+                ? Container(
+                    color: Colors.black,
                     child: Stack(
                       children: <Widget>[
                         Center(
@@ -196,14 +188,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           ),
                       ],
                     ),
-                  );
-                } else if (state is VideoError) {
-                  return Center(child: Text(state.message));
-                } else {
-                  return Container();
-                }
-              },
-            ),
+                  )
+                : const Center(child: CircularProgressIndicator()),
           ),
         );
       },

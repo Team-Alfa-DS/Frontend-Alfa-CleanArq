@@ -9,11 +9,9 @@ part 'video_event.dart';
 part 'video_state.dart';
 
 class VideoBloc extends Bloc<VideoEvent, VideoState> {
-  final GetVideoDetailsUseCase getVideoDetailsUseCase;
   final SaveVideoProgressUseCase saveVideoProgressUseCase;
 
   VideoBloc({
-    required this.getVideoDetailsUseCase,
     required this.saveVideoProgressUseCase,
   }) : super(VideoInitial()) {
     on<LoadVideoDetailEvent>(_onLoadVideoDetail);
@@ -22,23 +20,15 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
 
   Future<void> _onLoadVideoDetail(
       LoadVideoDetailEvent event, Emitter<VideoState> emit) async {
-    emit(VideoLoading());
-
-    final result = await getVideoDetailsUseCase.execute(
-      GetVideoDetailsUseCaseInput(
-          courseId: event.courseId, lessonId: event.lessonId),
-    );
-
-    if (result.hasValue()) {
-      emit(VideoLoaded(
-          video: result.value!, currentTime: result.value!.progress ?? 0));
-    } else {
-      emit(VideoError(message: result.failure!.message));
-    }
+    //emit(VideoLoading());
+    //emit(VideoLoaded(video: video, currentTime: currentTime))
   }
 
   Future<void> _onSaveVideoProgress(
       SaveVideoProgressEvent event, Emitter<VideoState> emit) async {
+    print("Video Event data");
+    print(event.courseId);
+    print(event.lessonId);
     final result = await saveVideoProgressUseCase.execute(
       SaveVideoProgressUseCaseInput(
         courseId: event.courseId,

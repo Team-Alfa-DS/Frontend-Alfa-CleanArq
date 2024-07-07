@@ -241,7 +241,9 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                                         course
                                                             .lessons[index].id,
                                                         course.lessons[index]
-                                                            .video!);
+                                                            .video!,
+                                                        course.lessons[index]
+                                                            .title);
                                                   },
                                                   child: ClipRRect(
                                                     borderRadius:
@@ -351,26 +353,24 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
       BuildContext context, String courseid, String type, String title) {
     //aqui la llamada del fectch del os comentarios request hacia el backend
 
-
-
     return;
   }
 
-  void navigateToPlayer(
-      BuildContext context, String courseid, String lessonid, String urlPath) {
-    /* aqui va hacer fetch
+  void navigateToPlayer(BuildContext context, String courseid, String lessonid,
+      String urlPath, String lessonTitle) {
+    /* aquí va hacer fetch
 
-      /progress/one/:courseId [GET]
-      Headers:
-      Authorization: string Bearer token
-      Response {
+    /progress/one/:courseId [GET]
+    Headers:
+    Authorization: string Bearer token
+    Response {
+      Percent: number
+      Lessons: [{
+        lessonId: string
+        Time?: number //segundos
         Percent: number
-        Lessons: [{
-          lessonId: string
-          Time?: number //segundos
-          Percent: number
-        }]
-      }
+      }]
+    }
   */
 
     List<Lesson> lessonIdIterator = course.lessons;
@@ -387,9 +387,12 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
         context,
         MaterialPageRoute(
             builder: (context) => VideoPlayerScreen(
-                courseId: courseid,
-                lessonId: lessonIdFound,
-                videoPath: urlPath)));
+                  courseId: courseid,
+                  lessonId: lessonIdFound,
+                  videoPath: urlPath,
+                  lessonTitle:
+                      lessonTitle, // Asegúrate de pasar lessonTitle aquí
+                )));
 
     return;
   }
