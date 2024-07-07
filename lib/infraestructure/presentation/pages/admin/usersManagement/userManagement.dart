@@ -1,5 +1,6 @@
 import 'package:alpha_gymnastic_center/domain/entities/user.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/commons/COlors.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/createUserScreen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:flutter/material.dart';
 
@@ -190,7 +191,11 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                   title: 'Crear Usuario',
                   onPressed: () {
                     // Navegar a la pantalla de crear usuario
-                    Navigator.pushNamed(context, '/create-user');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CreateUserScreen()),
+                    );
                   },
                   backgroundColor: AppColors.primaryLightColor,
                 ),
