@@ -33,7 +33,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     BlocProvider.of<VideoBloc>(context).add(LoadVideoDetailEvent(
       courseId: widget.courseId,
       lessonId: widget.lessonId,
-      videoUrl: widget.videoPath,
     ));
   }
 
