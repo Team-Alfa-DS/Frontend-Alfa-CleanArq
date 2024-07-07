@@ -1,6 +1,7 @@
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/blogsManagement/blogManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/categoryManagement/categoryManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/commons/COlors.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/cursosManagement/cursoManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/trainersManagement/trainerManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/userManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
@@ -84,6 +85,11 @@ class AdminDashboardScreen extends StatelessWidget {
                   title: 'Courses',
                   onPressed: () {
                     // Navegar a la pantalla de cursos
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CourseManagementScreen()),
+                    );
                   },
                   backgroundColor: AppColors.primaryLightColor,
                 ),
