@@ -14,7 +14,7 @@ class NotificationOneInitial extends NotificationOneState {}
 class NotificationOneLoading extends NotificationOneState {}
 
 class NotificationOneLoaded extends NotificationOneState {
-  final Notification notification;
+  final Notifications notification;
 
   const NotificationOneLoaded(this.notification);
 

@@ -3,13 +3,15 @@ class Notifications {
   String title;
   String body;
   DateTime date;
-  bool? userReaded;
+  bool? readed;
+  num? count;
 
   Notifications({
     required this.id,
     required this.title,
     required this.body,
     required this.date,
-    this.userReaded,
+    this.readed,
+    this.count,
   });
 }

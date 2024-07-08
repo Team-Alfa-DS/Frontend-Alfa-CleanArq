@@ -31,10 +31,11 @@ class NotificationMany extends StatelessWidget {
                 children: notification.map((notification) {
                   return ListV<Map<String, dynamic>>(
                     item: {
+                      'id': notification.id,
                       'titulo': notification.title,
                       'cuerpo': notification.body,
                       'fecha': notification.date.toString(),
-                      'leido': notification.userReaded,
+                      'leido': notification.readed,
                     },
                     onTap: (item) {
                       var selectedNotification = Notifications(
@@ -42,6 +43,7 @@ class NotificationMany extends StatelessWidget {
                         title: notification.title,
                         body: notification.body,
                         date: notification.date,
+                        readed: notification.readed,
                       );
                       Navigator.push(
                         context,

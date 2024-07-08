@@ -6,4 +6,7 @@ abstract class NotificationRepository {
     required int page,
     required int perPage,
   });
+  Future<Result<int>> getNotificationNotReaded();
+  Future<Result<Notifications>> getSingleNotification({required String id});
+  Future<Result<bool>> deleteNotifications();
 }

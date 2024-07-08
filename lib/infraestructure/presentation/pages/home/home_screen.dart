@@ -1,10 +1,8 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses.dart';
+//import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/progressbar.dart';
@@ -15,7 +13,6 @@ import '../../widgets/categoryItem.dart';
 
 import '../../widgets/courseitem.dart';
 import '../../widgets/scrollHorizontal.dart';
-
 
 class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -78,8 +75,6 @@ class HomeScreen extends StatelessWidget {
     "Running"
   ];
 
-
-
   HomeScreen({
     super.key,
     this.blogs,
@@ -140,9 +135,9 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: PopularProcessesCarousel(),
-                  ),
+                  //Expanded(
+                  //child: PopularProcessesCarousel(),
+                  //),
                 ],
               ),
             ),
@@ -165,10 +160,8 @@ class HomeScreen extends StatelessWidget {
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: <Widget>[
-                        for (int index = 1;
-                        index < 7;
-                        index++)
-                           ScrollHorizontal(
+                        for (int index = 1; index < 7; index++)
+                          ScrollHorizontal(
                             titulo: " ",
                             descripcion: " ",
                             categoria: " ",
@@ -202,43 +195,41 @@ class HomeScreen extends StatelessWidget {
                   Expanded(
                     child: ListView(
                       scrollDirection: Axis.horizontal,
-                      children:
-                            const <Widget>[
-                              ScrollHorizontal(
-                                titulo:
-                                "15 Minutes yoga practice the beginner in 30 days",
-                                descripcion: "Descripcion",
-                                categoria: "Trainning",
-                                fecha: "Feb 17, 2020",
-                                foto: "assets/images/Yoga Ejemplo 5.png",
-                                disposicion: 2,
-                                isNew: false,
-                                conexion: "/blogs",
-                              ),
-                              ScrollHorizontal(
-                                titulo:
-                                "23 Minutes yoga practice the beginner in 30 days",
-                                descripcion: "Descripcion",
-                                categoria: "Morning",
-                                fecha: "Feb 18, 2020",
-                                foto: "assets/images/Yoga Ejemplo 6.png",
-                                disposicion: 2,
-                                isNew: false,
-                                conexion: "/blogs",
-                              ),
-                              ScrollHorizontal(
-                                titulo:
-                                "30 Minutes yoga practice the beginner in 30 days",
-                                descripcion: "Descripcion",
-                                categoria: "For Women",
-                                fecha: "Feb 20, 2020",
-                                foto: "assets/images/Yoga Ejemplo 4.png",
-                                disposicion: 2,
-                                isNew: false,
-                                conexion: "/blogs",
-                              ),
-                            ]
-                          ,
+                      children: const <Widget>[
+                        ScrollHorizontal(
+                          titulo:
+                              "15 Minutes yoga practice the beginner in 30 days",
+                          descripcion: "Descripcion",
+                          categoria: "Trainning",
+                          fecha: "Feb 17, 2020",
+                          foto: "assets/images/Yoga Ejemplo 5.png",
+                          disposicion: 2,
+                          isNew: false,
+                          conexion: "/blogs",
+                        ),
+                        ScrollHorizontal(
+                          titulo:
+                              "23 Minutes yoga practice the beginner in 30 days",
+                          descripcion: "Descripcion",
+                          categoria: "Morning",
+                          fecha: "Feb 18, 2020",
+                          foto: "assets/images/Yoga Ejemplo 6.png",
+                          disposicion: 2,
+                          isNew: false,
+                          conexion: "/blogs",
+                        ),
+                        ScrollHorizontal(
+                          titulo:
+                              "30 Minutes yoga practice the beginner in 30 days",
+                          descripcion: "Descripcion",
+                          categoria: "For Women",
+                          fecha: "Feb 20, 2020",
+                          foto: "assets/images/Yoga Ejemplo 4.png",
+                          disposicion: 2,
+                          isNew: false,
+                          conexion: "/blogs",
+                        ),
+                      ],
                     ),
                   ),
                 ],

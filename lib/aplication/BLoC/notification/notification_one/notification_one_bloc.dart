@@ -1,6 +1,6 @@
-import 'package:alpha_gymnastic_center/aplication/BLoC/notification/notification_one.dart/notification_one_event.dart';
-import 'package:alpha_gymnastic_center/aplication/BLoC/notification/notification_one.dart/notification_one_state.dart';
-import 'package:alpha_gymnastic_center/aplication/use_cases/notification/get_one_notification_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/notification/notification_one/notification_one_event.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/notification/notification_one/notification_one_state.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/notification/get_one_notification_data_use_case.dart';
 import 'package:bloc/bloc.dart';
 
 class NotificationOneBloc

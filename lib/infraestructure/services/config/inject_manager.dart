@@ -2,8 +2,8 @@ import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_course_d
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_one_course_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/lessons/get_lessons_by_course_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/notification/get_notification_data_use_case.dart';
-import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_profile_progress_use_case.dart';
-import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_trending_progress_use_case.dart';
+//import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_profile_progress_use_case.dart';
+//import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_trending_progress_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/change_password_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/forgot_password_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/login_in_use_case.dart';
@@ -86,13 +86,13 @@ class InjectManager {
     );
 
     //!Progress
-    final getTrendingProgressUseCase = GetTrendingProgressUseCase(
-      progressRepository: progressRepository,
-    );
+    //final getTrendingProgressUseCase = GetTrendingProgressUseCase(
+    //  progressRepository: progressRepository,
+    //);
 
-    final getProfileProgressUseCase = GetProfileProgressUseCase(
-      progressRepository: progressRepository,
-    );
+    //final getProfileProgressUseCase = GetProfileProgressUseCase(
+    //  progressRepository: progressRepository,
+    //);
 
     //!Notification
     final getNotificationDataUseCase = GetNotificationDataUseCase(
@@ -110,10 +110,10 @@ class InjectManager {
     getIt.registerSingleton<GetLessonsByCourseUseCase>(
         getLessonsByCourseUseCase);
     //!Progress
-    getIt.registerSingleton<GetTrendingProgressUseCase>(
-        getTrendingProgressUseCase);
-    getIt.registerSingleton<GetProfileProgressUseCase>(
-        getProfileProgressUseCase);
+    //getIt.registerSingleton<GetTrendingProgressUseCase>(
+    //    getTrendingProgressUseCase);
+    //getIt.registerSingleton<GetProfileProgressUseCase>(
+    //    getProfileProgressUseCase);
     //!Notification
     getIt.registerSingleton<GetNotificationDataUseCase>(
         getNotificationDataUseCase);

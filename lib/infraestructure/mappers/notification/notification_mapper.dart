@@ -1,7 +1,33 @@
 import 'package:alpha_gymnastic_center/domain/entities/notification.dart';
-import 'package:alpha_gymnastic_center/domain/interfaces/notification_interfaces.dart';
 
-class NotificationMapper {
+class NotificationMapperMany {
+  static Notifications fromJson(Map<String, dynamic> json) {
+    try {
+      return Notifications(
+        id: json['id'] as String? ?? '',
+        title: json['title'] as String? ?? '',
+        body: json['body'] as String? ?? '',
+        date: DateTime.parse(json['date'] as String),
+        readed: json['readed'] as bool? ?? false,
+      );
+    } catch (e) {
+      print('Error in NotificationMapper.fromJson: $e');
+      rethrow;
+    }
+  }
+
+  static Map<String, dynamic> toJson(Notifications notifications) {
+    return {
+      'id': notifications.id,
+      'title': notifications.title,
+      'body': notifications.body,
+      'date': notifications.date.toIso8601String(),
+      'readed': notifications.readed,
+    };
+  }
+}
+
+class NotificationMapperOne {
   static Notifications fromJson(Map<String, dynamic> json) {
     try {
       return Notifications(

@@ -199,16 +199,16 @@ class NotificationScreen extends StatelessWidget {
           subtitle: Text(notification['message'] ?? ''),
           trailing: Text(notification['status'] ?? ''),
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ScreenDetail(
-                  title: notification['title'] ?? '',
-                  message: notification['message'] ?? '',
-                  time: notification['time'] ?? '',
-                ),
-              ),
-            );
+            //Navigator.push(
+            //  context,
+            //  MaterialPageRoute(
+            //    builder: (context) => ScreenDetail(
+            //      title: notification['title'] ?? '',
+            //      message: notification['message'] ?? '',
+            //      time: notification['time'] ?? '',
+            //    ),
+            //  ),
+            //);
           },
         );
       },

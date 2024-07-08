@@ -2,7 +2,6 @@ import 'package:alpha_gymnastic_center/aplication/localStorage/local_storage.dar
 import 'package:alpha_gymnastic_center/domain/entities/notification.dart';
 import 'package:alpha_gymnastic_center/domain/repositories/notification_repository.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/api/api_request.dart';
-import 'package:alpha_gymnastic_center/aplication/localStorage/local_storage.dart';
 import 'package:alpha_gymnastic_center/common/result.dart';
 import 'package:alpha_gymnastic_center/infraestructure/mappers/notification/notification_mapper.dart';
 
@@ -34,10 +33,59 @@ class NotificationRepositoryImpl extends NotificationRepository {
         (data) {
           List<Notifications> notifications = (data['notifications'] as List)
               .map((notificationData) =>
-                  NotificationMapper.fromJson(notificationData))
+                  NotificationMapperMany.fromJson(notificationData))
               .toList();
           return notifications;
         },
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<Result<int>> getNotificationNotReaded() async {
+    await _addAuthorizationHeader();
+    try {
+      final response = await _apiRequestManager.request(
+        '/notification/count/not-readed',
+        'GET',
+        (data) => data['count'] as int,
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<Result<Notifications>> getSingleNotification(
+      {required String id}) async {
+    await _addAuthorizationHeader();
+    final token = await _localStorage.getAuthorizationToken();
+    _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
+    final response = await _apiRequestManager
+        .request<Notifications>('/notification/one/$id', 'GET', (data) {
+      print('Data received in getSingleNotification: $data');
+      return NotificationMapperOne.fromJson(data);
+    });
+    if (response.hasValue()) {
+      final notification = response.value!;
+      print('Notification in getSingleNotification:');
+      print(notification);
+    }
+    return response;
+  }
+
+  @override
+  Future<Result<bool>> deleteNotifications() async {
+    await _addAuthorizationHeader();
+    try {
+      final response = await _apiRequestManager.request(
+        '/notifications/delete-all',
+        'DELETE',
+        (data) => true,
       );
       return response;
     } catch (e) {
