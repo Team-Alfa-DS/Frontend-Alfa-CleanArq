@@ -2,6 +2,9 @@ import 'package:alpha_gymnastic_center/aplication/BLoC/search/search_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/search/tagSearch_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/search/searchTags_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/search/search_use_case.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/blog/blog_detailed.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/course_details.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/carrusel_h.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/infiniteScrollingListView.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/scrollHorizontal.dart';
 import 'package:flutter/material.dart';
@@ -434,17 +437,42 @@ class _PopularSearchState extends State<PopularSearch> {
             noMoreContent = true;
           }
           for (var course in state.result.courses) {
-            _courseCards.add(ScrollHorizontal(
-              titulo: course.title,
-              descripcion: '', 
-              categoria: course.categoryName, 
-              fecha: '${course.date.day}/${course.date.month}/${course.date.year}', 
-              foto: course.image, 
-              disposicion: 2, 
-              isNew: false, 
-              conexion: '/videos'));
+            // _courseCards.add(ScrollHorizontal(
+            //   titulo: course.title,
+            //   descripcion: '', 
+            //   categoria: course.categoryName, 
+            //   fecha: '${course.date.day}/${course.date.month}/${course.date.year}', 
+            //   fotoProvider: NetworkImage(course.image), 
+            //   disposicion: 2, 
+            //   isNew: false, 
+            //   conexion: '/videos'));
+            _courseCards.add(
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context, rootNavigator: true).push(
+                    MaterialPageRoute(
+                      builder: (context) => CourseDetailedScreen(courseId: course.id)
+                    )
+                  );
+                },
+                child: ScrollH<Map<String, dynamic>>(
+                  item: {
+                    'titulo': course.title,
+                    'descripcion': '',
+                    'categoria': course.categoryName,
+                    'fecha': '${course.date.day}/${course.date.month}/${course.date.year}',
+                    'fotoUrl': course.image,
+                    'isNew': false,
+                    'conexion': '/videos'
+                  }, 
+                  disposicion: 2, 
+                  onTap: (item) {
+                    //doNothingExtra
+                  }
+                ),
+              )
+            );
           }
-          // print(_courseCards);
         }
         List<String> tags = [];
         if (categoriaSeleccionada != null) {
@@ -469,7 +497,18 @@ class _PopularSearchState extends State<PopularSearch> {
       builder: (context, state) {
         if (state is SearchSuccess) {
           for (var blog in state.result.blogs) {
-            _blogCards.add(programsMaster(blog.title, blog.trainerName, blog.categoryName, blog.image));
+            _blogCards.add(
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context, rootNavigator: true).push(
+                    MaterialPageRoute(
+                      builder: (context) => Blog_Detailed_Widget(blogId: blog.id)
+                    )
+                  );
+                },
+                child: programsMaster(blog.title, blog.trainerName, blog.categoryName, blog.image),
+              )
+            );
           }
         }
         List<String> tags = [];

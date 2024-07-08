@@ -1,7 +1,10 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/progress/trending/trending_progress_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/search/search_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_trending_progress_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/search/search_use_case.dart';
 import 'package:alpha_gymnastic_center/common/utils/string_utils.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/popularsearchscreen/Popular_Search.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/blogsCaursel.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/no_progress_section.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/progressbar.dart';
@@ -12,6 +15,7 @@ import 'package:go_router/go_router.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses_h.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../domain/entities/blog.dart';
 import '../../widgets/categoryItem.dart';
 import '../../widgets/scrollHorizontal.dart';
@@ -205,19 +209,19 @@ class _CustomAppBarState extends State<CustomAppBar> {
   final List<String> _days = ['Mañana', 'Hoy', 'Ayer'];
   TextEditingController searchText = new TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    _loadUserData();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _loadUserData();
+  // }
 
-  Future<void> _loadUserData() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      name = prefs.getString('name') ?? 'Nombre de Usuario';
-      uuid = prefs.getString('uuid') ?? 'ID de Usuario';
-    });
-  }
+  // Future<void> _loadUserData() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     name = prefs.getString('name') ?? 'Nombre de Usuario';
+  //     uuid = prefs.getString('uuid') ?? 'ID de Usuario';
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -372,9 +376,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
             ),
             onSubmitted: (value) {
               if (value.isNotEmpty) {
-                // BlocProvider.of<SearchBloc>(context).add(
-                //   SearchSent(0, 5, const [], searchText.text) //TODO: Test Search only, still need to add filter by tag and whatever the fuck i have to do with pagination
-                // );
                 Navigator.push(context,
                       MaterialPageRoute(builder: (context) => PopularSearch(initialSearch: value,))
                 );
