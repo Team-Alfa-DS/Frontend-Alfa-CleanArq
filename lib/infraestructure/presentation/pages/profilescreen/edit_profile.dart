@@ -199,14 +199,12 @@ class _EditProfileState extends State<EditProfile> {
 //*Camera
   Future _pickImageFromCamera() async {
     final String pathRuta =
-        (await getTemporaryDirectory()).path + '${DateTime.now()}.png';
+        '${(await getTemporaryDirectory()).path}${DateTime.now()}.png';
     final returnImage =
         await ImagePicker().pickImage(source: ImageSource.camera);
 
     File localImage = File(returnImage!.path);
-    localImage = await localImage.copy('$pathRuta');
-
-    if (returnImage == null) return;
+    localImage = await localImage.copy(pathRuta);
     setState(() {
       selectedImage = localImage;
       imagenRuta = pathRuta;
