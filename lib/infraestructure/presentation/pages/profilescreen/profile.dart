@@ -67,9 +67,6 @@ class PerfilUsuario extends StatelessWidget {
           print(image);
           print('imagen locaa!!');
         }
-        File imageBytes = File(_imageFromBase64String(image));
-        print('ES EL FILE');
-        print(imageBytes);
         return Container(
           height: 220.0,
           decoration: const BoxDecoration(
@@ -125,7 +122,9 @@ class PerfilUsuario extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 50.0,
-                    backgroundImage: AssetImage(_imageFromBase64String(image)),
+                    backgroundImage: (image == 'assets/images/user.png')
+                        ? AssetImage(image)
+                        : AssetImage(_imageFromBase64String(image)),
                     /*MemoryImage(_imageFromBase64String(image)),*/
                     /*AssetImage('assets/images/user.png'),*/
                     /*MemoryImage(convertStringToUint8List(image)),*/
