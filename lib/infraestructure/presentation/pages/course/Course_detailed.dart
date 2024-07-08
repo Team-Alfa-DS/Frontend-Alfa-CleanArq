@@ -188,7 +188,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                       course.lessons[index].title,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodySmall
+                                          .titleSmall
                                           ?.copyWith(color: Colors.black),
                                     ),
                                     const Divider(
@@ -351,11 +351,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
       BuildContext context, String courseid, String type, String title) {
     //aqui la llamada del fectch del os comentarios request hacia el backend
 
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                Widgets_Comments(id: courseid, Type: type, title: title)));
+
 
     return;
   }
@@ -380,12 +376,12 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
     List<Lesson> lessonIdIterator = course.lessons;
     String lessonIdFound = "";
 
-    lessonIdIterator.forEach((lesson) {
+    for (var lesson in lessonIdIterator) {
       if (lesson.id != lessonid) {
-        return;
+        continue;
       }
       lessonIdFound = lesson.id;
-    });
+    }
 
     Navigator.push(
         context,

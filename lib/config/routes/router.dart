@@ -19,6 +19,10 @@ final router = GoRouter(
       builder: (context, state) => const PerfilUsuario(),
     ),
     GoRoute(
+      path: '/editProfile',
+      builder: (context, state) => const EditProfile(),
+    ),
+    GoRoute(
       path: '/notification',
       builder: (context, state) => NotificationScreen(),
     ),
@@ -39,7 +43,7 @@ final router = GoRouter(
     ),*/
     GoRoute(
       path: '/trainingScreen',
-      builder: (context, state) => const TrainingScreen(),
+      builder: (context, state) => const TrainingView(),
     ),
     GoRoute(
       path: '/videos',

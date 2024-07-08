@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import '../../../domain/entities/progress.dart';
 
 
 class ProgressCircle extends StatefulWidget{
+  const ProgressCircle({super.key});
+
 
   @override
   _ProgressSectionState createState() => _ProgressSectionState();
