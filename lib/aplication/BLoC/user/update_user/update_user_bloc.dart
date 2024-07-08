@@ -42,14 +42,14 @@ class UpdateUserBloc extends Bloc<UpdateUserEvent, UpdateUserState> {
 
       if (currentUserResult.hasValue()) {
         final currentUser = currentUserResult.value;
-        userBloc.add(LoadUser(
-            user: {
-          'id': currentUser!.id,
-          'name': currentUser.name,
-          'email': currentUser.email,
-          'phone': currentUser.phone,
-          'image': currentUser.image,
-        } as User));
+        final user = User(
+          id: currentUser!.id,
+          email: currentUser.email,
+          imagenPerfil: currentUser.image,
+          name: currentUser.name,
+          phone: currentUser.phone,
+        );
+        userBloc.add(LoadUser(user: user));
         emit(UpdateUserSuccess(updateUserResponse: result.hasValue()));
       }
     } else {

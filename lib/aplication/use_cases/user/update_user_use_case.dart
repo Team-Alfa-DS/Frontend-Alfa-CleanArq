@@ -49,8 +49,9 @@ class UpdateUserUseCase extends IUseCase<UpdateUserUseCaseInput, void> {
     print('Status code de update user');
     print(result.statusCode);
     if (result.statusCode == '200') {
-      // Si es necesario, guarda algún dato en localStorage o realiza alguna acción adicional
-    }
+  
+      
+      }
     return result;
   }
 }
