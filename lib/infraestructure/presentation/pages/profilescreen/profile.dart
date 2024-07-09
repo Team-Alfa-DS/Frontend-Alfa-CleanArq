@@ -9,6 +9,7 @@ import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/carrusel_h.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses_h.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:get_it/get_it.dart';
@@ -62,7 +63,7 @@ class PerfilUsuario extends StatelessWidget {
         if (state is UserLoaded) {
           userName = getFirstTwoWords(state.user.name ?? 'Nombre de Usuario');
           image = (state.user.imagenPerfil == null)
-              ? 'assets/images/user.png'
+              ? 'assets/images/userDefault.png'
               : state.user.imagenPerfil!;
           print(image);
           print('imagen locaa!!');
@@ -122,13 +123,7 @@ class PerfilUsuario extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 50.0,
-                    backgroundImage: (image == 'assets/images/user.png')
-                        ? AssetImage(image)
-                        : AssetImage(_imageFromBase64String(image)),
-                    /*MemoryImage(_imageFromBase64String(image)),*/
-                    /*AssetImage('assets/images/user.png'),*/
-                    /*MemoryImage(convertStringToUint8List(image)),*/
-                    /*MemoryImage(imageBytes),*/
+                    backgroundImage: _imagenFinal(image),
                     backgroundColor: Colors.transparent,
                   ),
                   const SizedBox(width: 10.0),
@@ -195,6 +190,15 @@ class PerfilUsuario extends StatelessWidget {
     );
   }
 
+  ImageProvider _imagenFinal(String img) {
+    if (img == 'assets/images/userDefault.png') {
+      return AssetImage(img);
+    } else{
+      return FileImage(_imageFromBase64String(img));
+    }
+      
+  }
+
   String _normalizeBase64(String base64String) {
     int length = base64String.length;
     int remainder = length % 4;
@@ -206,46 +210,27 @@ class PerfilUsuario extends StatelessWidget {
     return base64String;
   }
 
-  String _imageFromBase64String(String base64String) {
+  File _imageFromBase64String(String base64String) {
     String normalizedBase64 = _normalizeBase64(base64String);
+
     print('BASE 64 LOCOCHON!!!');
     print(normalizedBase64);
-    // print(decoded);
-    // final decode = base64Decode(normalizedBase64);
-    // print(decode);
+
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String decoded = stringToBase64.decode(normalizedBase64);
+
     // Quitar "File: " del principio
     decoded = decoded.replaceAll("File: ", "");
-
     // Quitar comillas simples (') del principio y del final
     decoded = decoded.replaceAll("'", "");
+
     print(decoded);
-    return decoded;
-  }
 
-  Image _imageFromUint8List(Uint8List uint8List) {
-    return Image.memory(uint8List);
-  }
+    final File img = File(decoded);
 
-  Image imageFromBase64String(String base64String) {
-    return Image.memory(base64Decode(base64String));
-  }
+    print(img);
 
-  Uint8List dataFromBase64String(String base64String) {
-    return base64Decode(base64String);
-  }
-
-  String base64String(Uint8List data) {
-    return base64Encode(data);
-  }
-
-  Uint8List convertStringToUint8List(String str) {
-    final List<int> codeUnits = str.codeUnits;
-    final Uint8List unit8List = Uint8List.fromList(codeUnits);
-    print(unit8List);
-    print('IMAGEN UNIT8LIST');
-    return unit8List;
+    return img;
   }
 
   Widget buildUserData(BuildContext context) {

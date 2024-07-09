@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:alpha_gymnastic_center/aplication/BLoC/progress/trending/trending_progress_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_trending_progress_use_case.dart';
@@ -210,18 +213,26 @@ class _CustomAppBarState extends State<CustomAppBar> {
       builder: (context, state) {
         String name = 'Nombre de Usuario';
         String email = 'ID de Usuario';
+        String image = 'image';
 
         if (state is UserLoaded) {
           name = getFirstTwoWords(state.user.name ?? 'Nombre de Usuario');
           email = state.user.email ?? 'Email';
+          image = (state.user.imagenPerfil == null)
+              ? 'assets/images/userDefault.png'
+              : state.user.imagenPerfil!;
+          print(image);
+          print('imagen locaa!!');
         }
 
         return AppBar(
           automaticallyImplyLeading: false,
           actions: <Widget>[
             IconButton(
-              icon: const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/user.png'),
+              icon: CircleAvatar(
+                radius: 50.0,
+                backgroundImage: _imagenFinal(image),
+                backgroundColor: Colors.transparent,
               ),
               onPressed: () {
                 context.push('/profile');
@@ -319,4 +330,46 @@ class _CustomAppBarState extends State<CustomAppBar> {
       },
     );
   }
+}
+
+ImageProvider _imagenFinal(String img) {
+  if (img == 'assets/images/userDefault.png') {
+    return AssetImage(img);
+  } else {
+    return FileImage(_imageFromBase64String(img));
+  }
+}
+
+String _normalizeBase64(String base64String) {
+  int length = base64String.length;
+  int remainder = length % 4;
+
+  if (remainder != 0) {
+    base64String += '=' * (4 - remainder);
+  }
+
+  return base64String;
+}
+
+File _imageFromBase64String(String base64String) {
+  String normalizedBase64 = _normalizeBase64(base64String);
+
+  print('BASE 64 LOCOCHON!!!');
+  print(normalizedBase64);
+
+  Codec<String, String> stringToBase64 = utf8.fuse(base64);
+  String decoded = stringToBase64.decode(normalizedBase64);
+
+  // Quitar "File: " del principio
+  decoded = decoded.replaceAll("File: ", "");
+  // Quitar comillas simples (') del principio y del final
+  decoded = decoded.replaceAll("'", "");
+
+  print(decoded);
+
+  final File img = File(decoded);
+
+  print(img);
+
+  return img;
 }

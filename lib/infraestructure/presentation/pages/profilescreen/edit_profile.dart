@@ -2,21 +2,18 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:alpha_gymnastic_center/aplication/BLoC/user/update_user/bloc/update_user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/get_current_user_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/update_user_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:email_validator/email_validator.dart';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
+
+import '../../../../aplication/BLoC/user/update_user/update_user_bloc.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -33,8 +30,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController passwordCheckController = TextEditingController();
   Uint8List? _image;
   File? selectedImage;
-  String imagenRuta = '';
-
+  String? imagen = 'image';
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -73,10 +69,13 @@ class _EditProfileState extends State<EditProfile> {
               child: Column(
                 //crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  const SizedBox(
+                    height: 5,
+                  ),
                   Stack(
                     alignment: AlignmentDirectional.bottomEnd,
                     children: [
-                      _circleAvatar(),
+                      _buildAvatar(),
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50.0),
@@ -120,18 +119,32 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
+  Widget _buildAvatar() {
+    return BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+      if (state is UserLoaded) {
+        print('Beyaqueoo!!');
+        imagen = (state.user.imagenPerfil == null)
+            ? 'assets/images/userDefault.png'
+            : state.user.imagenPerfil;
+        print(imagen);
+        print('imagen locaa!!');
+      }
+      return _circleAvatar();
+    });
+  }
+
   Widget _circleAvatar() {
     return _image != null
         ? CircleAvatar(
             //*Imagen actualizada
             radius: 80.0,
-            backgroundImage: FileImage(selectedImage!) /*MemoryImage(_image!)*/,
+            backgroundImage: FileImage(selectedImage!),
             backgroundColor: Colors.transparent,
           )
-        : const CircleAvatar(
+        : CircleAvatar(
             //*Imagen Vieja
             radius: 80.0,
-            backgroundImage: AssetImage('assets/images/user.png'),
+            backgroundImage: _imagenFinal(imagen!),
             backgroundColor: Colors.transparent,
           );
   }
@@ -171,7 +184,7 @@ class _EditProfileState extends State<EditProfile> {
                         child: Column(
                           children: [
                             Icon(Icons.camera_enhance, size: 70),
-                            Text('Galeria'),
+                            Text('Camara'),
                           ],
                         ),
                       ),
@@ -198,29 +211,15 @@ class _EditProfileState extends State<EditProfile> {
 
 //*Camera
   Future _pickImageFromCamera() async {
-    final String pathRuta =
-        (await getTemporaryDirectory()).path + '${DateTime.now()}.png';
     final returnImage =
         await ImagePicker().pickImage(source: ImageSource.camera);
 
-    File localImage = File(returnImage!.path);
-    localImage = await localImage.copy('$pathRuta');
-
     if (returnImage == null) return;
     setState(() {
-      selectedImage = localImage;
-      imagenRuta = pathRuta;
-      /*selectedImage = File(returnImage.path);
-      _image = File(returnImage.path).readAsBytesSync();*/
+      selectedImage = File(returnImage.path);
+      _image = File(returnImage.path).readAsBytesSync();
     });
     Navigator.of(context).pop();
-  }
-
-  String image64() {
-    List<int> imageBytes = selectedImage!.readAsBytesSync();
-    print(imageBytes);
-    String base64Image = base64Encode(imageBytes);
-    return base64Image;
   }
 
 //*Boton para registrar
@@ -457,4 +456,46 @@ Widget _buildGreyText(String text) {
     style: const TextStyle(color: Colors.blueGrey),
     textAlign: TextAlign.start,
   );
+}
+
+ImageProvider _imagenFinal(String img) {
+  if (img == 'assets/images/userDefault.png') {
+    return AssetImage(img);
+  } else {
+    return FileImage(_imageFromBase64String(img));
+  }
+}
+
+String _normalizeBase64(String base64String) {
+  int length = base64String.length;
+  int remainder = length % 4;
+
+  if (remainder != 0) {
+    base64String += '=' * (4 - remainder);
+  }
+
+  return base64String;
+}
+
+File _imageFromBase64String(String base64String) {
+  String normalizedBase64 = _normalizeBase64(base64String);
+
+  print('BASE 64 LOCOCHON!!!');
+  print(normalizedBase64);
+
+  Codec<String, String> stringToBase64 = utf8.fuse(base64);
+  String decoded = stringToBase64.decode(normalizedBase64);
+
+  // Quitar "File: " del principio
+  decoded = decoded.replaceAll("File: ", "");
+  // Quitar comillas simples (') del principio y del final
+  decoded = decoded.replaceAll("'", "");
+
+  print(decoded);
+
+  final File img = File(decoded);
+
+  print(img);
+
+  return img;
 }

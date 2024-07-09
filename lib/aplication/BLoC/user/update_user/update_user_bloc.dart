@@ -32,7 +32,7 @@ class UpdateUserBloc extends Bloc<UpdateUserEvent, UpdateUserState> {
         email: (event.email == 'None') ? null : event.email,
         password: (event.password == 'None') ? null : event.password,
         phone: (event.phone == 'None') ? null : event.phone,
-        image: (event.image == 'None') ? null : event.phone,
+        image: (event.image == 'None') ? null : event.image,
       ),
     );
     if (result.statusCode == '200') {
