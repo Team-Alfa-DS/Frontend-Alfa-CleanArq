@@ -7,6 +7,8 @@ import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_detail/cour
 import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_detail/course_detail_event.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_detail/course_detail_state.dart';
 
+import '../../widgets/comments_container.dart';
+
 class CourseDetailedScreen extends StatefulWidget {
   final String courseId;
 
@@ -291,7 +293,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                     final lesson = course.lessons[index];
                                     return TextButton(
                                       onPressed: () {
-                                        // Navegar a otra vista
+                                        navigateToComments(context,lesson.id,"LESSON",lesson.title);
                                       },
                                       style: TextButton.styleFrom(
                                         padding: const EdgeInsets.all(8.0),
@@ -380,6 +382,20 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
     _courseDetailBloc.close();
     super.dispose();
   }
+
+  void navigateToComments(
+      BuildContext context, String lessonid, String type, String title) {
+    //aqui la llamada del fectch del os comentarios request hacia el backend
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                Widgets_Comments(id: lessonid, type: type, title: title)));
+
+    return;
+  }
+
 }
 
 class AppBarClipper extends CustomClipper<Path> {

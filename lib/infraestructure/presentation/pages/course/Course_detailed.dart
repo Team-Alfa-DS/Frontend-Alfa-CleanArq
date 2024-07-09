@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../domain/entities/course.dart';
 import '../../../../domain/entities/lesson.dart';
-import '../../widgets/comments_container.dart';
 import '../../widgets/navegation.dart';
 import '../../widgets/sidebarmenu.dart';
 import '../../widgets/videoplayer.dart';
@@ -350,12 +349,6 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
   void navigateToComments(
       BuildContext context, String courseid, String type, String title) {
     //aqui la llamada del fectch del os comentarios request hacia el backend
-
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                Widgets_Comments(id: courseid, Type: type, title: title)));
 
     return;
   }

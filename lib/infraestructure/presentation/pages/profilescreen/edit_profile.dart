@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/update_user/bloc/update_user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/update_user_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
@@ -13,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -29,6 +29,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController passwordCheckController = TextEditingController();
   Uint8List? _image;
   File? selectedImage;
+  String imagenRuta = '';
 
   @override
   Widget build(BuildContext context) {
@@ -192,12 +193,20 @@ class _EditProfileState extends State<EditProfile> {
 
 //*Camera
   Future _pickImageFromCamera() async {
+    final String pathRuta =
+        (await getTemporaryDirectory()).path + '${DateTime.now()}.png';
     final returnImage =
         await ImagePicker().pickImage(source: ImageSource.camera);
+
+    File localImage = File(returnImage!.path);
+    localImage = await localImage.copy('$pathRuta');
+
     if (returnImage == null) return;
     setState(() {
-      selectedImage = File(returnImage.path);
-      _image = File(returnImage.path).readAsBytesSync();
+      selectedImage = localImage;
+      imagenRuta = pathRuta;
+      /*selectedImage = File(returnImage.path);
+      _image = File(returnImage.path).readAsBytesSync();*/
     });
     Navigator.of(context).pop();
   }
@@ -340,20 +349,22 @@ class _EditProfileState extends State<EditProfile> {
               final password = (passwordController.text.isEmpty)
                   ? 'None'
                   : passwordController.text;
-              final image = (_image == null) ? 'None' : image64();
+              final image = (_image == null) ? 'None' : selectedImage;
 
               if (nameController.text.isNotEmpty ||
                   phoneController.text.isNotEmpty ||
                   emailController.text.isNotEmpty ||
                   passwordController.text.isNotEmpty ||
                   _image != null) {
+                print(image.toString());
+                print('IMAGE To String');
                 BlocProvider.of<UpdateUserBloc>(context).add(
                     UpdateUserSubmitted(
                         name: name,
                         email: email,
                         password: password,
                         phone: phone,
-                        image: image));
+                        image: image.toString()));
               } else {
                 showDialog(
                   context: context,
