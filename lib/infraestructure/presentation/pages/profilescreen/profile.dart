@@ -17,7 +17,6 @@ import 'package:alpha_gymnastic_center/common/utils/string_utils.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../widgets/my_training.dart';
-//import '../../widgets/popular_courses.dart';
 
 class PerfilUsuario extends StatelessWidget {
   const PerfilUsuario({super.key});
@@ -60,6 +59,7 @@ class PerfilUsuario extends StatelessWidget {
       builder: (context, state) {
         String userName = 'Nombre de Usuario';
         String image = 'image';
+
         if (state is UserLoaded) {
           userName = getFirstTwoWords(state.user.name ?? 'Nombre de Usuario');
           image = (state.user.imagenPerfil == null)
@@ -193,10 +193,9 @@ class PerfilUsuario extends StatelessWidget {
   ImageProvider _imagenFinal(String img) {
     if (img == 'assets/images/userDefault.png') {
       return AssetImage(img);
-    } else{
+    } else {
       return FileImage(_imageFromBase64String(img));
     }
-      
   }
 
   String _normalizeBase64(String base64String) {
@@ -309,7 +308,6 @@ class PerfilUsuario extends StatelessWidget {
     return const SizedBox(
       height: 230,
       child: Column(
-        //crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -319,77 +317,13 @@ class PerfilUsuario extends StatelessWidget {
                   'My Trainning',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                //const SizedBox(width: 100),
-                /*SizedBox(
-                  height: 20,
-                  width: 100,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'See all >',
-                      style: TextStyle(
-                        color: Colors.purple,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),*/
               ],
             ),
           ),
           SizedBox(height: 10),
-          Expanded(child: PopularCoursesCarousel() /*MyTrainingCarrousel()*/),
+          Expanded(child: PopularCoursesCarousel()),
         ],
       ),
     );
   }
-
-/*Expanded(
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: const <Widget>[
-                ScrollHorizontal(
-                  titulo: 'Tadasana Yaga',
-                  descripcion: 'Yoga App',
-                  categoria: 'Yoga',
-                  fecha: '',
-                  fotoString: 'assets/images/Yoga Ejemplo 1.png',
-                  disposicion: 2,
-                  isNew: true,
-                  conexion: '',
-                ),
-                ScrollHorizontal(
-                  titulo: 'Marvin McKinny',
-                  descripcion: '',
-                  categoria: 'Yoga',
-                  fecha: '',
-                  fotoString: 'assets/images/Yoga Ejemplo 2.png',
-                  disposicion: 2,
-                  isNew: false,
-                  conexion: '',
-                ),
-                ScrollHorizontal(
-                  titulo: 'Carlos Alonso',
-                  descripcion: '',
-                  categoria: 'Yoga',
-                  fecha: '',
-                  fotoString: 'assets/images/Yoga Ejemplo 4.png',
-                  disposicion: 2,
-                  isNew: false,
-                  conexion: '/tipsTopics',
-                ),
-                ScrollHorizontal(
-                  titulo: 'Ralph Tobirson',
-                  descripcion: 'Yoga App',
-                  categoria: 'Yoga',
-                  fecha: '',
-                  fotoString: 'assets/images/Yoga Ejemplo 6.png',
-                  disposicion: 2,
-                  isNew: false,
-                  conexion: '/tipsTopics',
-                ),
-              ],
-            ),
-          ),*/
 }

@@ -31,6 +31,7 @@ class _EditProfileState extends State<EditProfile> {
   Uint8List? _image;
   File? selectedImage;
   String? imagen = 'image';
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
