@@ -3,6 +3,9 @@ import 'package:alpha_gymnastic_center/domain/entities/trainer.dart';
 import 'package:alpha_gymnastic_center/domain/interfaces/trainer_interfaces.dart';
 
 abstract class TrainerRepository {
-  Future<Result<Trainer>> createTrainer(CreateTrainerRequest createRequest);
-  Future<Result<Trainer>> getTrainer(String id);
+  Future<Result<Trainer>> getOneTrainer(String id);
+  Future<Result<String>> followTrainer(String trainerId);
+  Future<Result<List<Trainer>>> getManyTrainers(
+      {required int page, required int perPage, bool? userFollow});
+  Future<Result<int>> trainerUserFollow();
 }
