@@ -45,35 +45,30 @@ class blogsCarousel extends StatelessWidget {
                     height: 180,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
-                      children: blogs.map((blogs) {
-                        return ScrollH<Map<String, dynamic>>(
-                          item: {
-                            'titulo': blogs.title,
-                            'descripcion': blogs.title,
-                            'categoria': blogs.category,
-                            'fecha': blogs.date.toString(),
-                            'fotoUrl': blogs.image,
-                            'isNew': true, // Asegúrate de que isNew esté aquí como un parámetro
-                            'conexion': "/blogs",
-                          },
-                          disposicion: 2,
-                          onTap: (item) {
-                            var selectedBlog = Blog(
-                                id: blogs.id,
-                                title: blogs.title,
-                                image: blogs.image,
-                                images: blogs.images,
-                                category: blogs.category,
-                            );
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Blog_Detailed_Widget(
-                                  item: selectedBlog,
+                      children: blogs.map((blog) {
+                        return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Blog_Detailed_Widget(
+                                    item: blog,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                        child: ScrollH<Map<String, dynamic>>(
+                            item: {
+                              'titulo': blog.title,
+                              'descripcion': blog.title,
+                              'categoria': blog.category,
+                              'fecha': blog.date.toString(),
+                              'fotoUrl': blog.image,
+                              'isNew': true, // Asegúrate de que isNew esté aquí como un parámetro
+                              'conexion': "/blogs",
+                            },
+                            disposicion: 2,
+                            )
                         );
                       }).toList(),
                     ),

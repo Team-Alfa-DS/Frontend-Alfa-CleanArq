@@ -70,7 +70,7 @@ class BlogRepositoryImpl extends BlogRepository {
     final token = await _localStorage.getAuthorizationToken();
     _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
     final response = await _apiRequestManager
-        .request<Blog>('/bloc/one/${id}', 'GET', (data) {
+        .request<Blog>('/blog/one/$id', 'GET', (data) {
       print('Data received in checkOneBlog: $data');
       return BlogMapperOne.fromJson(data);
     });
