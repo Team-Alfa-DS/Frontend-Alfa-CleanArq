@@ -15,8 +15,6 @@ import 'package:go_router/go_router.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses_h.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../../../domain/entities/blog.dart';
 import '../../widgets/categoryItem.dart';
 import '../../widgets/scrollHorizontal.dart';
 
