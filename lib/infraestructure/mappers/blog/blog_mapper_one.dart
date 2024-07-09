@@ -5,14 +5,14 @@ class BlogMapperOne {
   static Blog fromJson(Map<String, dynamic> json) {
     try {
       return Blog(
-        id: json['Id'] as String? ?? '',
-        title: json['Title'] as String? ?? '',
-        description: json['Description'] as String? ?? '',
-        category: json['Category'] as String? ?? '',
-        images: List<String>.from(json['Images'] ?? []),
-        trainer: TrainerMapper.fromJson(json['Trainer'] as Map<String, dynamic>),
-        tags: List<String>.from(json['Tags'] ?? []),
-        date: json['date'] != null ? DateTime.parse(json['Date']) : null,
+        id: json['id'] as String? ?? '',
+        title: json['title'] as String? ?? '',
+        description: json['description'] as String? ?? '',
+        category: json['category'] as String? ?? '',
+        images: List<String>.from(json['images'] ?? []),
+        trainer: TrainerMapper.fromJson(json['trainer'] as Map<String, dynamic>),
+        tags: List<String>.from(json['tags'] ?? []),
+        date: json['date'] != null ? DateTime.parse(json['date']) : null,
       );
     }catch(e){
       print('Error in BlogMapper.fromJson: $e');
