@@ -3,6 +3,8 @@ import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_one_cour
 import 'package:alpha_gymnastic_center/aplication/use_cases/lessons/get_lessons_by_course_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_profile_progress_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_trending_progress_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/search/searchTags_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/search/search_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/change_password_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/forgot_password_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/login_in_use_case.dart';
@@ -13,6 +15,7 @@ import 'package:alpha_gymnastic_center/infraestructure/datasources/api/api_reque
 import 'package:alpha_gymnastic_center/infraestructure/datasources/localStorage/loca_storage_imp.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/course/course_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/progress/progress_repository_impl.dart';
+import 'package:alpha_gymnastic_center/infraestructure/repositories/search/search_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/user/user_repository_impl.dart';
 import 'package:alpha_gymnastic_center/domain/repositories/course_repository.dart';
 import 'package:alpha_gymnastic_center/domain/repositories/user_repository.dart';
@@ -64,6 +67,8 @@ class InjectManager {
     // Register repositories with GetIt
     getIt.registerSingleton<UserRepository>(userRepository);
     getIt.registerSingleton<CourseRepository>(courseRepository);
+
+    final searchRepository = SearchRepositoryImpl(apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
 
     // UseCases
 
@@ -136,6 +141,13 @@ class InjectManager {
     );
 
 
+
+    //! Search
+    final searchUseCase = SearchUseCase(searchRepository: searchRepository);
+
+    final searchTagsUseCase = SearchTagsUseCase(searchRepository: searchRepository);
+
+
     // Registering singletons
 
     //!users
@@ -161,5 +173,9 @@ class InjectManager {
 
     //!Comments
     getIt.registerSingleton<GetCommentDataUseCase>( getCommentDataUseCase);
+
+    //!Search
+    getIt.registerSingleton<SearchUseCase>(searchUseCase);
+    getIt.registerSingleton<SearchTagsUseCase>(searchTagsUseCase);
   }
 }

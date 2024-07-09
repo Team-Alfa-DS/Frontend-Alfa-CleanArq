@@ -53,7 +53,7 @@ class blogsCarousel extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => Blog_Detailed_Widget(
-                              item: blog,
+                              blogId: blog.id,
                             ),
                           ),
                         );

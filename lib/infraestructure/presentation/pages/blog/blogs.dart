@@ -121,7 +121,7 @@ class BlogGrid extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            Blog_Detailed_Widget(item: blogs[index]),
+                            Blog_Detailed_Widget(blogId: blogs[index].id),
                       ),
                     );
                   },
