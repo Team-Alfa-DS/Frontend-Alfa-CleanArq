@@ -191,12 +191,17 @@ class ScrollH<T> extends StatelessWidget {
       final String? fotoString = itemMap['fotoString'] as String?;
       final String? fotoUrl = itemMap['fotoUrl'] as String?;
 
+      print("fotostring $fotoString");
+      print("fotourl $fotoUrl");
+
       if (fotoString != null) {
         return AssetImage(fotoString);
       } else if (fotoUrl != null) {
         return NetworkImage(fotoUrl);
+      } else if(fotoUrl == null){
+        return const AssetImage('assets/images/placeholder_image.png');
       }
     }
-    return const AssetImage('assets/images/placeholder_image.jpg');
+    return const AssetImage('assets/images/placeholder_image.png');
   }
 }

@@ -6,12 +6,12 @@ class BlogMapperMany {
   static Blog fromJson(Map<String, dynamic> json) {
     try {
       return Blog(
-        id: json['Id'] as String? ?? '',
-        title: json['Name'] as String? ?? '',
-        category: json['Category'] as String? ?? '',
-        image: json['Image'] as String? ?? '',
-        trainerName: json['Trainer'] as String? ?? '',
-        date: json['Date'] != null ? DateTime.parse(json['Date']) : null,
+        id: json['id'] as String? ?? '',
+        title: json['name'] as String? ?? '',
+        category: json['category'] as String? ?? '',
+        image: json['image'] as String? ?? '',
+        trainerName: json['trainer'] as String? ?? '',
+        date: json['date'] != null ? DateTime.parse(json['date']) : null,
       );
     }catch(e){
       throw e;

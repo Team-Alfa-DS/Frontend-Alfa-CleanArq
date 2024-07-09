@@ -40,9 +40,9 @@ class blogsCarousel extends StatelessWidget {
                 if (state is BlogListLoading) {
                   return const CircularProgressIndicator.adaptive();
                 } else if (state is BlogListLoaded) {
-                  final blogs = state.blogs.sublist(0, 10);
+                  final blogs = state.blogs.sublist(0, 5);
                   return SizedBox(
-                    height: 195,
+                    height: 180,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: blogs.map((blogs) {
@@ -53,8 +53,7 @@ class blogsCarousel extends StatelessWidget {
                             'categoria': blogs.category,
                             'fecha': blogs.date.toString(),
                             'fotoUrl': blogs.image,
-                            'isNew':
-                            true, // Asegúrate de que isNew esté aquí como un parámetro
+                            'isNew': true, // Asegúrate de que isNew esté aquí como un parámetro
                             'conexion': "/blogs",
                           },
                           disposicion: 2,
