@@ -167,8 +167,7 @@ class HomeScreen extends StatelessWidget {
                               'Ver todo...',
                               style: TextStyle(
                                 fontSize: 16,
-                                color: Colors
-                                    .blue, // Cambia el color según tu preferencia
+                                color: Color.fromARGB(255, 100, 0, 161),
                               ),
                             ),
                           ),
