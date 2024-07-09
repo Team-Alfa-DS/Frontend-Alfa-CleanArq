@@ -8,23 +8,22 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/sidebarmenu.dart';
 
-
 class Blogs_Screen extends StatelessWidget {
-
-
   //esto es un mimic o mock de como un item me va dar el backend como response:
   final List<Map<String, String>> MockBlogs = [
-    { 'id': 'asdasd',
+    {
+      'id': 'asdasd',
       'title': 'Blog 1',
-      'image': 'https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-trainer-in-gym-royalty-free-image-1584723855.jpg',
-      'date' : '20/04/23',
-      'category' : 'Category 1',
-      'trainer' : '12345'
+      'image':
+          'https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-trainer-in-gym-royalty-free-image-1584723855.jpg',
+      'date': '20/04/23',
+      'category': 'Category 1',
+      'trainer': '12345'
     },
   ];
 
   //mientras tanto ando usando estos otros mocks pero la idea es ponerlo como funciona en el anterior arriba para que ya sea compatible con el JSON del Response completo.
-  List<String> ids = [
+  final List<String> ids = [
     '1',
     '2',
     '3',
@@ -32,21 +31,21 @@ class Blogs_Screen extends StatelessWidget {
     '5',
   ];
 
-  List<String> imageUrls = [
+  final List<String> imageUrls = [
     'https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-trainer-in-gym-royalty-free-image-1584723855.jpg',
     'https://i0.wp.com/www.muscleandfitness.com/wp-content/uploads/2018/12/Personal-Trainer-Training-Partner-GettyImages-654427364.jpg?quality=86&strip=all',
     'https://serviceninjas.in/wp-content/uploads/2021/12/yoga-2.jpg',
     'https://www.doyou.com/wp-content/uploads/2021/01/Kathryn-Budig-Yoga.jpg',
     'https://production-next-images-cdn.thumbtack.com/i/440633394583134208/desktop/standard/400square-legacy',
   ];
-  List<String> imageTitles = [
+  final List<String> imageTitles = [
     'Tip 1',
     'Tip 2',
     'Tip 3',
     'Tip 4',
     'Tip 5',
   ];
-  List<String> imageSubtitles = [
+  final List<String> imageSubtitles = [
     'Subtitle 1',
     'Subtitle 2',
     'Subtitle 3',
@@ -54,7 +53,7 @@ class Blogs_Screen extends StatelessWidget {
     'Subtitle 5',
   ];
 
-  List<String> Categories = [
+  final List<String> Categories = [
     'Category 1',
     'Category 2',
     'Category 3',
@@ -62,14 +61,14 @@ class Blogs_Screen extends StatelessWidget {
     'Category 5',
   ];
 
-  List<String> descriptions = [
+  final List<String> descriptions = [
     'Descripcion del Tip 1 . Descripcion del Tip 1 .Descripcion del Tip 1 .',
     'Descripcion del Tip 2 . Descripcion del Tip 2 .Descripcion del Tip 2 .',
     'Descripcion del Tip 3 . Descripcion del Tip 3 .Descripcion del Tip 3 .',
     'Descripcion del Tip 4 . Descripcion del Tip 4 .Descripcion del Tip 4 .',
     'Descripcion del Tip 5 . Descripcion del Tip 5 .Descripcion del Tip 5 .',
   ];
-  List<String> dates = [
+  final List<String> dates = [
     '20/04/23',
     '15/03/21',
     '12/04/22',
@@ -77,7 +76,7 @@ class Blogs_Screen extends StatelessWidget {
     '02/10/23',
   ];
 
-  int currentIndex = 0;
+  final int currentIndex = 0;
 
   Blogs_Screen({super.key});
 
@@ -136,7 +135,6 @@ class Blogs_Screen extends StatelessWidget {
 }
 
 class Tips_n_Topics_body extends StatelessWidget {
-
   final List<String> ids;
   final List<String> imageUrls;
   final List<String> titles;
@@ -145,16 +143,15 @@ class Tips_n_Topics_body extends StatelessWidget {
   final List<String> subtitles;
   final List<String> description;
 
-  const Tips_n_Topics_body({
-    super.key,
-    required this.ids,
-    required this.imageUrls,
-    required this.titles,
-    required this.categories,
-    required this.dates,
-    required this.subtitles,
-    required this.description
-  });
+  const Tips_n_Topics_body(
+      {super.key,
+      required this.ids,
+      required this.imageUrls,
+      required this.titles,
+      required this.categories,
+      required this.dates,
+      required this.subtitles,
+      required this.description});
 
   @override
   Widget build(BuildContext context) {
@@ -320,7 +317,6 @@ class NewYogaClassesPanelGrid extends StatelessWidget {
 }
 
 class HorizontalCarousel extends StatefulWidget {
-
   final List<String> ids;
   final List<String> imageUrls;
   final List<String> titles;
@@ -478,19 +474,23 @@ class _HorizontalCarouselState extends State<HorizontalCarousel> {
 
   void navigateToDetailed(
       BuildContext context, String title, String description, String url_) {
-
     //busca en el repositorio un blog detallado dado el id que llega del parametro de esta funcion y luego se lo pones al la llamada del widget
 
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>  Blog_Detailed_Widget(id: '2', Title: title, Description: description, Images: const [], Tags: const [], date: "20/03/2020",
-               )));
+            builder: (context) => Blog_Detailed_Widget(
+                  id: '2',
+                  Title: title,
+                  Description: description,
+                  Images: const [],
+                  Tags: const [],
+                  date: "20/03/2020",
+                )));
   }
 }
 
-class Blogs_appbar extends StatefulWidget
-    implements PreferredSizeWidget {
+class Blogs_appbar extends StatefulWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight + 50);
 

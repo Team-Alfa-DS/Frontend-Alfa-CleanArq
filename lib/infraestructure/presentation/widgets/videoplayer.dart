@@ -11,11 +11,11 @@ class VideoPlayerScreen extends StatefulWidget {
   final String lessonId;
 
   const VideoPlayerScreen({
-    Key? key,
+    super.key,
     required this.videoPath,
     required this.courseId,
     required this.lessonId,
-  }) : super(key: key);
+  });
 
   @override
   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
@@ -90,7 +90,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   void _skipForward() {
     if (_isControllerInitialized) {
-      final newPosition = _controller.value.position + Duration(seconds: 5);
+      final newPosition = _controller.value.position + const Duration(seconds: 5);
       _controller.seekTo(newPosition);
       _controller.play(); // Asegurar que el video se reproduzca después del salto
     }
@@ -98,7 +98,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   void _skipBackward() {
     if (_isControllerInitialized) {
-      final newPosition = _controller.value.position - Duration(seconds: 5);
+      final newPosition = _controller.value.position - const Duration(seconds: 5);
       _controller.seekTo(newPosition);
       _controller.play(); // Asegurar que el video se reproduzca después del salto
     }
@@ -215,7 +215,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               IconButton(
-                icon: Icon(Icons.fast_rewind, color: Colors.white),
+                icon: const Icon(Icons.fast_rewind, color: Colors.white),
                 onPressed: _skipBackward,
               ),
               IconButton(
@@ -234,7 +234,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 },
               ),
               IconButton(
-                icon: Icon(Icons.fast_forward, color: Colors.white),
+                icon: const Icon(Icons.fast_forward, color: Colors.white),
                 onPressed: _skipForward,
               ),
             ],

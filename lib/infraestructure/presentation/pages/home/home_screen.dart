@@ -17,9 +17,9 @@ import '../../widgets/scrollHorizontal.dart';
 
 class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<Blog>? blogs;
+  final List<Blog>? blogs;
 
-  List<String> categories = [
+  final List<String> categories = [
     "assets/icons/cycling.png",
     "assets/icons/running.png",
     "assets/icons/streching.png",
@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
     "assets/icons/yoga.png",
   ];
 
-  List<String> categoriesUnpicked = [
+  final List<String> categoriesUnpicked = [
     "assets/icons/cycling_unpicked.png",
     "assets/icons/running_unpicked.png",
     "assets/icons/streching_unpicked.png",
@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
     "assets/icons/yoga_unpicked.png",
   ];
 
-  List<String> Blog_images = [
+  final List<String> Blog_images = [
     "https://www.bupasalud.com/sites/default/files/styles/640_x_400/public/articulos/2023-09/fotos/mujeres-practicando-yoga-en-el-gimnasio.jpg",
     "https://www.theclassyoga.com/wp-content/uploads/2021/08/yoga-1024x576.jpeg",
     "https://awtsuprints.com/cdn/shop/articles/how-to-get-started-with-calisthenics.jpg",
@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
     "https://media.post.rvohealth.io/wp-content/uploads/2020/10/Female_Yoga_1200x628-facebook-1200x628.jpg",
     "https://d2lcsjo4hzzyvz.cloudfront.net/blog/wp-content/uploads/2022/06/16173159/Recomendaciones-para-hacer-yoga-jpg.jpg"
   ];
-  List<String> Blog_Title = [
+  final List<String> Blog_Title = [
     "Yoga for Beginners",
     "Mastering Gymnastics Skills",
     "Cycling: The Ultimate Guide",
@@ -51,7 +51,7 @@ class HomeScreen extends StatelessWidget {
     "Exploring the World of Dance",
     "Outdoor Running Tips"
   ];
-  List<String> Blog_Desc = [
+  final List<String> Blog_Desc = [
     "A comprehensive guide to starting your yoga journey.",
     "Key techniques for developing and mastering gymnastics skills.",
     "Everything you need to know to become an efficient cyclist.",
@@ -59,7 +59,7 @@ class HomeScreen extends StatelessWidget {
     "Discover various forms of dance and their health benefits.",
     "Practical tips and strategies for improving your outdoor running experience."
   ];
-  List<String> Blog_Dates = [
+  final List<String> Blog_Dates = [
     "14/06/2024",
     "12/06/2024",
     "10/06/2024",
@@ -67,7 +67,7 @@ class HomeScreen extends StatelessWidget {
     "08/06/2024",
     "07/06/2024"
   ];
-  List<String> Blog_Categories = [
+  final List<String> Blog_Categories = [
     "Wellness",
     "Fitness",
     "Cycling",
@@ -144,23 +144,38 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 180,
                 child: Column(
                   children: <Widget>[
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding:
-                            EdgeInsets.only(bottom: 3.0, top: 0.0, left: 10),
-                        child: Text(
-                          'Procesos Populares',
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: 3.0, top: 0.0, left: 10, right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Procesos Populares',
+                            style: TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              context.push('/trainingScreen');
+                            },
+                            child: const Text(
+                              'Ver todo...',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors
+                                    .blue, // Cambia el color según tu preferencia
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Expanded(
+                    const Expanded(
                       child: PopularCoursesCarousel(),
                     ),
                   ],

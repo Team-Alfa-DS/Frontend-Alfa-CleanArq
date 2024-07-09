@@ -10,7 +10,7 @@ import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_many/course
 import 'package:alpha_gymnastic_center/domain/repositories/course_repository.dart';
 
 class TrainingView extends StatefulWidget {
-  const TrainingView({Key? key}) : super(key: key);
+  const TrainingView({super.key});
 
   @override
   TrainingViewState createState() => TrainingViewState();

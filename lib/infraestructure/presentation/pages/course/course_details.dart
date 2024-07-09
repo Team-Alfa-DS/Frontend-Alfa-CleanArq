@@ -10,8 +10,7 @@ import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_detail/cour
 class CourseDetailedScreen extends StatefulWidget {
   final String courseId;
 
-  const CourseDetailedScreen({Key? key, required this.courseId})
-      : super(key: key);
+  const CourseDetailedScreen({super.key, required this.courseId});
 
   @override
   _CourseDetailedScreenState createState() => _CourseDetailedScreenState();

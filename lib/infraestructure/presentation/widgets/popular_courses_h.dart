@@ -9,7 +9,7 @@ import 'package:alpha_gymnastic_center/aplication/BLoC/course/course_many/course
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/course_details.dart';
 
 class PopularCoursesCarousel extends StatelessWidget {
-  const PopularCoursesCarousel({Key? key}) : super(key: key);
+  const PopularCoursesCarousel({super.key});
 
   @override
   Widget build(BuildContext context) {

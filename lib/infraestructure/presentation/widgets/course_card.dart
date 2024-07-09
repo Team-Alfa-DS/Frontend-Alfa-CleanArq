@@ -5,7 +5,7 @@ import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course
 class CourseCard extends StatelessWidget {
   final Course course;
 
-  const CourseCard({Key? key, required this.course}) : super(key: key);
+  const CourseCard({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {

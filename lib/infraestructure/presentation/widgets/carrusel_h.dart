@@ -5,7 +5,7 @@ class ScrollH<T> extends StatelessWidget {
   final int disposicion;
   final Function(T item) onTap;
 
-  const ScrollH({
+  const ScrollH({super.key, 
     required this.item,
     required this.disposicion,
     required this.onTap,
