@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:alpha_gymnastic_center/aplication/BLoC/video/video_bloc.dart';
-import 'package:alpha_gymnastic_center/aplication/serviceAplication/progress/progress_service.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/videoplayer.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/navegation/navigate_videoplayer.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 
 class Videos extends StatefulWidget {
@@ -132,7 +129,8 @@ class _VideosState extends State<Videos> {
                 'courseId_${index + 1}'; // ID del curso, cambiar según sea necesario
             String lessonId =
                 'lessonId_${index + 1}'; // ID de la lección, cambiar según sea necesario
-            return cajaVideo(context, imagePath, videoUrl, courseId, lessonId);
+            return cajaVideo(context, imagePath, videoUrl, courseId, lessonId,
+                "Titulo prueba");
           },
         ),
       ],
@@ -196,19 +194,15 @@ class _VideosState extends State<Videos> {
   }
 
   Widget cajaVideo(BuildContext context, String coverImage, String videoPath,
-      String courseId, String lessonId) {
+      String courseId, String lessonId, String videoTitle) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => VideoPlayerScreen(
-              videoPath: videoPath,
-              courseId: courseId,
-              lessonId: lessonId,
-            ),
-          ),
-        );
+        navigateToVideoPlayer(
+            context, // Pasar el contexto desde Videos
+            videoPath,
+            courseId,
+            lessonId,
+            videoTitle);
       },
       child: Padding(
         padding: const EdgeInsets.only(

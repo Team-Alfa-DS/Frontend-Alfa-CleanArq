@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+part of 'video_bloc.dart';
 
 abstract class VideoEvent extends Equatable {
   const VideoEvent();
@@ -10,27 +10,24 @@ abstract class VideoEvent extends Equatable {
 class LoadVideoDetailEvent extends VideoEvent {
   final String courseId;
   final String lessonId;
-  final String videoUrl;
 
-  const LoadVideoDetailEvent({
-    required this.courseId,
-    required this.lessonId,
-    required this.videoUrl,
-  });
+  const LoadVideoDetailEvent({required this.courseId, required this.lessonId});
 
   @override
-  List<Object> get props => [courseId, lessonId, videoUrl];
+  List<Object> get props => [courseId, lessonId];
 }
 
 class SaveVideoProgressEvent extends VideoEvent {
   final String courseId;
   final String lessonId;
   final int time;
+  final int totalTime;
 
   const SaveVideoProgressEvent({
     required this.courseId,
     required this.lessonId,
     required this.time,
+    required this.totalTime,
   });
 
   @override

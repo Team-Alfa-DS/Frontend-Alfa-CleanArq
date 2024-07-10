@@ -1,5 +1,4 @@
-import 'package:alpha_gymnastic_center/domain/entities/user.dart';
-import 'package:equatable/equatable.dart';
+part of 'user_bloc.dart';
 
 abstract class UserEvent extends Equatable {
   const UserEvent();

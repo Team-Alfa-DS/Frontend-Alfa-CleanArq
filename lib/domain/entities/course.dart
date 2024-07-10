@@ -14,7 +14,6 @@ class Course {
   List<String> tags;
   DateTime? date;
   List<Lesson> lessons;
-  int? percent;
 
   Course({
     this.id,
@@ -30,5 +29,4 @@ class Course {
     required this.date,
     required this.lessons,
   });
-
 }

@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "143661408848",
-    "project_id": "push-912d8",
-    "storage_bucket": "push-912d8.appspot.com"
+    "project_number": "1065323736168",
+    "project_id": "alphagymanstic-front",
+    "storage_bucket": "alphagymanstic-front.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:143661408848:android:e61a74a393201de33a2755",
+        "mobilesdk_app_id": "1:1065323736168:android:842b36f77f78b61b89dfdd",
         "android_client_info": {
           "package_name": "com.example.alpha_gymnastic_center"
         }
@@ -28,7 +28,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBIMUqmZoZLYqZmn2qvsIKPtQaY04yo7oc"
+          "current_key": "AIzaSyD5z_CkfKhS67DVSQAeTv28k1oTqEPQ2K0"
         }
       ],
       "services": {

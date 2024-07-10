@@ -1,12 +1,8 @@
-import 'package:alpha_gymnastic_center/aplication/localStorage/local_storage.dart';
 import 'package:alpha_gymnastic_center/common/result.dart';
-import 'package:alpha_gymnastic_center/domain/entities/progress.dart';
 import 'package:alpha_gymnastic_center/domain/interfaces/progress_interfaces.dart';
 import 'package:alpha_gymnastic_center/domain/repositories/progress_repository.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/api/api_request.dart';
-import 'package:alpha_gymnastic_center/infraestructure/mappers/progress/progress_mapper.dart';
-import 'package:alpha_gymnastic_center/infraestructure/mappers/progress/progress_post_mapper.dart';
-import 'package:alpha_gymnastic_center/infraestructure/mappers/progress/progress_profile_mapper.dart';
+import 'package:alpha_gymnastic_center/aplication/localStorage/local_storage.dart';
 
 class ProgressRepositoryImpl extends ProgressRepository {
   final IApiRequestManager _apiRequestManager;
@@ -18,38 +14,23 @@ class ProgressRepositoryImpl extends ProgressRepository {
   })  : _apiRequestManager = apiRequestManager,
         _localStorage = localStorage;
 
-  Future<void> _addAuthorizationHeader() async {
+  Future<void> _setAuthHeader() async {
     final token = await _localStorage.getAuthorizationToken();
     _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
   }
 
   @override
-  Future<Result<Progress>> postProgress(
-    PostProgress postProgress,
-    int courseId,
-    int lessonId,
-  ) async {
-    final token = _addAuthorizationHeader();
-    _apiRequestManager.setHeaders('token', token);
-    final response = await _apiRequestManager.request(
+  Future<Result<void>> markEndProgress(MarkEndProgressRequest request) async {
+    await _setAuthHeader();
+    final response = await _apiRequestManager.request<void>(
       '/progress/mark/end',
       'POST',
-      (data) => ProgressPostMapper.fromJson(data),
-      body: PostProgressMapper.toJson(postProgress),
-    );
-    return response;
-  }
-
-  @override
-  Future<Result<Progress>> getSingleCourseProgress(
-      SingleCourseProgress singleCourse, String idCourse) async {
-    final token = _addAuthorizationHeader();
-    _apiRequestManager.setHeaders('token', token);
-    final response = await _apiRequestManager.request(
-      '/course/one/$idCourse',
-      'GET',
-      (data) {
-        return ProgressSingleCourseMapper.fromJson(data);
+      (data) {},
+      body: {
+        'courseId': request.courseId,
+        'markAsCompleted': request.markAsCompleted,
+        'lessonId': request.lessonId,
+        if (request.time != null) 'time': request.time,
       },
     );
 
@@ -57,17 +38,51 @@ class ProgressRepositoryImpl extends ProgressRepository {
   }
 
   @override
-  Future<Result<Progress>> getTrendingProgress(
-      TrendingProgress trendingProgress,
-      String idCourse,
-      String courseTitle) async {
-    final token = _addAuthorizationHeader();
-    _apiRequestManager.setHeaders('token', token);
-    final response = await _apiRequestManager.request(
+  Future<Result<ProgressOneResponse>> getProgressOne(String courseId) async {
+    await _setAuthHeader();
+    final response = await _apiRequestManager.request<ProgressOneResponse>(
+      '/progress/one/$courseId',
+      'GET',
+      (data) {
+        return ProgressOneResponse(
+          percent: data['Percent'],
+          lessons: (data['Lessons'] as List)
+              .map((lesson) => LessonProgress(
+                    lessonId: lesson['lessonId'],
+                    time: lesson['Time'],
+                    percent: lesson['Percent'],
+                  ))
+              .toList(),
+        );
+      },
+    );
+
+    return response;
+  }
+
+  @override
+  Future<Result<TrendingProgressResponse>> getTrendingProgress() async {
+    await _setAuthHeader();
+
+    final response = await _apiRequestManager.request<TrendingProgressResponse>(
       '/progress/trending',
       'GET',
       (data) {
-        return ProgressTrendingMapper.fromJson(data);
+        print("la dataaaa");
+        print("la dataaaa");
+        print("la dataaaa");
+        print("la dataaaa");
+        print("la dataaaa");
+        print("la dataaaa");
+        print("la dataaaa");
+        print("la dataaaa");
+        print("data$data");
+        return TrendingProgressResponse(
+          percent: data['percent'].toDouble(),
+          courseTitle: data['courseTitle'],
+          courseId: data['courseId'],
+          lastTime: DateTime.parse(data['lastTime']),
+        );
       },
     );
 
@@ -75,31 +90,60 @@ class ProgressRepositoryImpl extends ProgressRepository {
   }
 
   @override
-  Future<Result<Progress>> getProgressProfile(
-      CreateProgressProfileRequest profileRequest) async {
-    final token = _addAuthorizationHeader();
-    _apiRequestManager.setHeaders('token', token);
-    final response = await _apiRequestManager.request(
+  Future<Result<ProfileProgressResponse>> getProfileProgress() async {
+    await _setAuthHeader();
+    final response = await _apiRequestManager.request<ProfileProgressResponse>(
       '/progress/profile',
       'GET',
-      (data) => ProgressProfileMapper.fromJson(data),
-      body: CreateProgressProfileRequestMapper.toJson(profileRequest),
+      (data) {
+        print("AJSDJASDJASJD progres profileee");
+        print(data.toString());
+        double? percent;
+        if (data['percent'] != null) {
+          percent = data['percent'];
+        } else {
+          percent = 0.0;
+        }
+        int time = (data['time'] != null) ? data['time'].toInt() : 0;
+        print("time");
+        print(time);
+        print("percent");
+        print(percent);
+
+        return ProfileProgressResponse(
+          percent: percent!.toDouble(),
+          time: time,
+        );
+      },
     );
+
     return response;
   }
 
   @override
-  Future<Result<List<Progress>>> getProgressCourse(
+  Future<Result<CoursesProgressResponse>> getCoursesProgress(
       int page, int perPage) async {
-    final token = _addAuthorizationHeader();
-    _apiRequestManager.setHeaders('token', token);
-    final response = await _apiRequestManager.request(
-      '/progress/courses/?page=$page&per_page=$perPage',
+    await _setAuthHeader();
+    final response = await _apiRequestManager.request<CoursesProgressResponse>(
+      '/progress/courses?page=$page&perpage=$perPage',
       'GET',
-      (data) => (data as List)
-          .map((courseData) => ProgressCourseMapper.fromJson(courseData))
-          .toList(),
+      (data) {
+        return CoursesProgressResponse(
+          courses: (data as List).map((course) {
+            return CourseProgress(
+              id: course['Id'],
+              title: course['Title'],
+              image: course['Image'],
+              date: DateTime.parse(course['Date']),
+              category: course['Category'],
+              trainer: course['Trainer'],
+              percent: course['Percent'],
+            );
+          }).toList(),
+        );
+      },
     );
+
     return response;
   }
 }

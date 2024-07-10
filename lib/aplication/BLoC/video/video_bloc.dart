@@ -1,55 +1,45 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'video_event.dart';
-import 'video_state.dart';
-import 'package:alpha_gymnastic_center/aplication/serviceAplication/progress/progress_service.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/video_use_case/get_video_detailed_use_caser.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/video_use_case/save_video_porgress_use_case.dart';
+import 'package:bloc/bloc.dart';
 import 'package:alpha_gymnastic_center/domain/entities/video.dart';
+import 'package:equatable/equatable.dart';
+import 'package:alpha_gymnastic_center/common/failure.dart';
+
+part 'video_event.dart';
+part 'video_state.dart';
 
 class VideoBloc extends Bloc<VideoEvent, VideoState> {
-  final ProgressService progressService;
+  final SaveVideoProgressUseCase saveVideoProgressUseCase;
 
-  VideoBloc(this.progressService) : super(VideoInitial()) {
+  VideoBloc({
+    required this.saveVideoProgressUseCase,
+  }) : super(VideoInitial()) {
     on<LoadVideoDetailEvent>(_onLoadVideoDetail);
     on<SaveVideoProgressEvent>(_onSaveVideoProgress);
   }
 
   Future<void> _onLoadVideoDetail(
-    LoadVideoDetailEvent event,
-    Emitter<VideoState> emit,
-  ) async {
-    emit(VideoLoading());
-
-    final video = Video(
-      id: event.lessonId,
-      title:
-          "Sample Video", // Puedes modificar este título si tienes un valor dinámico.
-      url: event.videoUrl,
-      duration:
-          360, // Puedes cambiar esta duración si tienes un valor dinámico.
-      idLesson: int.parse(event.lessonId),
-    );
-
-    try {
-      final progress =
-          await progressService.getProgress(event.courseId, event.lessonId);
-      emit(VideoLoaded(video, progress ?? 0));
-    } catch (e) {
-      emit(VideoError(e.toString()));
-    }
+      LoadVideoDetailEvent event, Emitter<VideoState> emit) async {
+    //emit(VideoLoading());
+    //emit(VideoLoaded(video: video, currentTime: currentTime))
   }
 
   Future<void> _onSaveVideoProgress(
-    SaveVideoProgressEvent event,
-    Emitter<VideoState> emit,
-  ) async {
-    try {
-      await progressService.saveProgress(
+      SaveVideoProgressEvent event, Emitter<VideoState> emit) async {
+    final result = await saveVideoProgressUseCase.execute(
+      SaveVideoProgressUseCaseInput(
         courseId: event.courseId,
         lessonId: event.lessonId,
-        markAsCompleted: false,
         time: event.time,
-      );
-    } catch (e) {
-      emit(VideoError(e.toString()));
+        totalTime: event.totalTime,
+        markAsCompleted: event.time == event.totalTime,
+      ),
+    );
+
+    if (result.hasValue()) {
+      emit(VideoProgressSaved());
+    } else {
+      emit(VideoError(message: result.failure!.message));
     }
   }
 }

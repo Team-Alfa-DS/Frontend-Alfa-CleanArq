@@ -83,6 +83,7 @@ class CourseMapper {
 
   static Map<String, dynamic> toJson(Course course) {
     return {
+      'id': course.id,
       'title': course.title,
       'description': course.description,
       'category': course.category,
@@ -90,8 +91,8 @@ class CourseMapper {
       'trainer': course.trainer
           .name, // Solo serializar el nombre del trainer para /course/many
       'level': course.level,
-      'durationWeeks': course.durationWeeks,
-      'durationMinutes': course.durationMinutes,
+      'DurationWeeks': course.durationWeeks,
+      'DurationMinutes': course.durationMinutes,
       'tags': course.tags,
       'date': course.date?.toIso8601String(),
       'lessons':

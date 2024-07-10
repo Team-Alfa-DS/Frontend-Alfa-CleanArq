@@ -184,6 +184,17 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
+                                    Text(
+                                      course.lessons[index].title,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall
+                                          ?.copyWith(color: Colors.black),
+                                    ),
+                                    const Divider(
+                                      color: Colors.grey,
+                                      thickness: 0.4,
+                                    ),
                                     Row(
                                       children: [
                                         Expanded(
@@ -230,7 +241,9 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                                         course
                                                             .lessons[index].id,
                                                         course.lessons[index]
-                                                            .video!);
+                                                            .video!,
+                                                        course.lessons[index]
+                                                            .title);
                                                   },
                                                   child: ClipRRect(
                                                     borderRadius:
@@ -340,49 +353,46 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
       BuildContext context, String courseid, String type, String title) {
     //aqui la llamada del fectch del os comentarios request hacia el backend
 
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                Widgets_Comments(id: courseid, Type: type, title: title)));
-
     return;
   }
 
-  void navigateToPlayer(
-      BuildContext context, String courseid, String lessonid, String urlPath) {
-    /* aqui va hacer fetch
+  void navigateToPlayer(BuildContext context, String courseid, String lessonid,
+      String urlPath, String lessonTitle) {
+    /* aquí va hacer fetch
 
-      /progress/one/:courseId [GET]
-      Headers:
-      Authorization: string Bearer token
-      Response {
+    /progress/one/:courseId [GET]
+    Headers:
+    Authorization: string Bearer token
+    Response {
+      Percent: number
+      Lessons: [{
+        lessonId: string
+        Time?: number //segundos
         Percent: number
-        Lessons: [{
-          lessonId: string
-          Time?: number //segundos
-          Percent: number
-        }]
-      }
+      }]
+    }
   */
 
     List<Lesson> lessonIdIterator = course.lessons;
     String lessonIdFound = "";
 
-    lessonIdIterator.forEach((lesson) {
+    for (var lesson in lessonIdIterator) {
       if (lesson.id != lessonid) {
-        return;
+        continue;
       }
       lessonIdFound = lesson.id;
-    });
+    }
 
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => VideoPlayerScreen(
-                courseId: courseid,
-                lessonId: lessonIdFound,
-                videoPath: urlPath)));
+                  courseId: courseid,
+                  lessonId: lessonIdFound,
+                  videoPath: urlPath,
+                  lessonTitle:
+                      lessonTitle, // Asegúrate de pasar lessonTitle aquí
+                )));
 
     return;
   }

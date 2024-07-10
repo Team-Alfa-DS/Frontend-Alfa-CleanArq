@@ -7,7 +7,7 @@ class CreateProgressCourseRequestMapper {
     return {
       'user': courseRequest.user,
       'courses': courseRequest.courses
-          ?.map((courses) => CourseMapper.toJson(courses))
+          .map((courses) => CourseMapper.toJson(courses))
           .toList(),
       'percent': courseRequest.percent,
       'time': courseRequest.time,

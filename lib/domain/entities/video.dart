@@ -1,15 +1,17 @@
 class Video {
   final String id;
-  final String title;
   final String url;
-  final int duration;
-  final int idLesson;
+  final String idLesson;
+  final String? title;
+  final int? duration;
+  final int? progress;
 
   Video({
     required this.id,
-    required this.title,
     required this.url,
-    required this.duration,
     required this.idLesson,
+    this.title,
+    this.duration,
+    this.progress,
   });
 }

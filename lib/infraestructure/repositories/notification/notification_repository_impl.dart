@@ -1,12 +1,15 @@
 import 'package:alpha_gymnastic_center/aplication/localStorage/local_storage.dart';
+import 'package:alpha_gymnastic_center/aplication/localStorage/local_storage.dart';
 import 'package:alpha_gymnastic_center/domain/entities/notification.dart';
 import 'package:alpha_gymnastic_center/domain/repositories/notification_repository.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/api/api_request.dart';
+import 'package:alpha_gymnastic_center/common/result.dart';
 import 'package:alpha_gymnastic_center/common/result.dart';
 import 'package:alpha_gymnastic_center/infraestructure/mappers/notification/notification_mapper.dart';
 
 class NotificationRepositoryImpl extends NotificationRepository {
   final IApiRequestManager _apiRequestManager;
+  final LocalStorage _localStorage;
   final LocalStorage _localStorage;
 
   NotificationRepositoryImpl({

@@ -26,17 +26,19 @@ class CreateProgressCourseRequest {
       required this.markAsComplete});
 }
 
-class PostProgress {
+class PostProgressRequest {
   final String courseId;
   final bool markAsComplete;
   final String lessonId;
   final int? time;
+  final int totalTime;
 
-  PostProgress(
+  PostProgressRequest(
       {required this.courseId,
       required this.markAsComplete,
       required this.lessonId,
-      this.time});
+      this.time,
+      required this.totalTime});
 }
 
 class SingleCourseProgress {
@@ -57,4 +59,90 @@ class TrendingProgress {
       required this.courseTitle,
       required this.courseId,
       required this.lastTime});
+}
+
+class MarkEndProgressRequest {
+  final String courseId;
+  final bool markAsCompleted;
+  final String lessonId;
+  final int? time;
+
+  MarkEndProgressRequest({
+    required this.courseId,
+    required this.markAsCompleted,
+    required this.lessonId,
+    this.time,
+  });
+}
+
+class ProgressOneResponse {
+  final double percent;
+  final List<LessonProgress> lessons;
+
+  ProgressOneResponse({
+    required this.percent,
+    required this.lessons,
+  });
+}
+
+class LessonProgress {
+  final String lessonId;
+  final int? time;
+  final double percent;
+
+  LessonProgress({
+    required this.lessonId,
+    this.time,
+    required this.percent,
+  });
+}
+
+class TrendingProgressResponse {
+  final double percent;
+  final String courseTitle;
+  final String courseId;
+  final DateTime lastTime;
+
+  TrendingProgressResponse({
+    required this.percent,
+    required this.courseTitle,
+    required this.courseId,
+    required this.lastTime,
+  });
+}
+
+class ProfileProgressResponse {
+  final double percent;
+  final int time;
+
+  ProfileProgressResponse({
+    required this.percent,
+    required this.time,
+  });
+}
+
+class CoursesProgressResponse {
+  final List<CourseProgress> courses;
+
+  CoursesProgressResponse({required this.courses});
+}
+
+class CourseProgress {
+  final String id;
+  final String title;
+  final String image;
+  final DateTime date;
+  final String category;
+  final String trainer;
+  final double percent;
+
+  CourseProgress({
+    required this.id,
+    required this.title,
+    required this.image,
+    required this.date,
+    required this.category,
+    required this.trainer,
+    required this.percent,
+  });
 }
