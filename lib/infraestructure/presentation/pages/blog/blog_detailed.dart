@@ -14,24 +14,24 @@ import '../../widgets/comments_container.dart';
 import '../../widgets/navegation.dart';
 
 class Blog_Detailed_Widget extends StatelessWidget {
-  final Blog item;
+  final String blogId;
 
-  const Blog_Detailed_Widget({super.key, required this.item});
+  const Blog_Detailed_Widget({super.key, required this.blogId});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => blogOneBloc(GetIt.instance<
-      GetSingleBlogUseCase>())..add(LoadBlogOne(blogId: item.id)),
-      child: Blog_Detailed(blog: item),
+      GetSingleBlogUseCase>())..add(LoadBlogOne(blogId: blogId)),
+      child: const Blog_Detailed(),
     );
   }
 }
 
 class Blog_Detailed extends StatelessWidget {
-  final Blog blog;
+  // final Blog blog;
 
-  const Blog_Detailed({super.key, required this.blog});
+  const Blog_Detailed({super.key});
 
   @override
   Widget build(BuildContext context) {

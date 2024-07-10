@@ -69,6 +69,13 @@ class ProgressRepositoryImpl extends ProgressRepository {
       'GET',
       (data) {
         print("la dataaaa");
+        print("la dataaaa");
+        print("la dataaaa");
+        print("la dataaaa");
+        print("la dataaaa");
+        print("la dataaaa");
+        print("la dataaaa");
+        print("la dataaaa");
         print("data$data");
         return TrendingProgressResponse(
           percent: data['percent'].toDouble(),
@@ -95,12 +102,17 @@ class ProgressRepositoryImpl extends ProgressRepository {
         if (data['percent'] != null) {
           percent = data['percent'];
         } else {
-          percent =
-              0.0; // o simplemente deja como null dependiendo de tu lógica
+          percent = 0.0;
         }
+        int time = (data['time'] != null) ? data['time'].toInt() : 0;
+        print("time");
+        print(time);
+        print("percent");
+        print(percent);
+
         return ProfileProgressResponse(
           percent: percent!.toDouble(),
-          time: data['time'] ?? 0,
+          time: time,
         );
       },
     );

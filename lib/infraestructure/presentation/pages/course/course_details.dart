@@ -1,3 +1,4 @@
+import 'package:alpha_gymnastic_center/infraestructure/presentation/navegation/navigate_videoplayer.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,8 +13,7 @@ import '../../widgets/comments_container.dart';
 class CourseDetailedScreen extends StatefulWidget {
   final String courseId;
 
-  const CourseDetailedScreen({Key? key, required this.courseId})
-      : super(key: key);
+  const CourseDetailedScreen({super.key, required this.courseId});
 
   @override
   _CourseDetailedScreenState createState() => _CourseDetailedScreenState();
@@ -294,7 +294,21 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                     final lesson = course.lessons[index];
                                     return TextButton(
                                       onPressed: () {
-                                        navigateToComments(context,lesson.id,"LESSON",lesson.title);
+                                        print("context");
+                                        print("context title");
+                                        print(lesson.title);
+                                        print("Video url");
+                                        print(lesson.video);
+
+                                        // navigateToComments(context, lesson.id,
+                                        //     "LESSON", lesson.title);
+                                        navigateToVideoPlayer(
+                                          context,
+                                          lesson.video!,
+                                          course.id!,
+                                          lesson.id,
+                                          lesson.title,
+                                        );
                                       },
                                       style: TextButton.styleFrom(
                                         padding: const EdgeInsets.all(8.0),
@@ -396,7 +410,6 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
 
     return;
   }
-
 }
 
 class AppBarClipper extends CustomClipper<Path> {

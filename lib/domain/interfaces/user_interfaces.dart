@@ -48,7 +48,6 @@ class ValidateCodeRequest {
     required this.email,
     required this.code,
   });
-
 }
 
 class ChangePasswordRequest {
@@ -75,6 +74,28 @@ class UpdateUserRequest {
     this.name,
     this.password,
     this.phone,
+    this.image,
+  });
+}
+
+class CurrentUserRequest {
+  final String token;
+
+  CurrentUserRequest({required this.token});
+}
+
+class CurrentUserResponse {
+  final String id;
+  final String email;
+  final String name;
+  final String phone;
+  final String? image;
+
+  CurrentUserResponse({
+    required this.id,
+    required this.email,
+    required this.name,
+    required this.phone,
     this.image,
   });
 }

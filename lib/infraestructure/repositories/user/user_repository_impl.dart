@@ -29,6 +29,7 @@ class UserRepositoryImpl extends UserRepository {
     print(response.value);
     final user = response.value;
     if (user != null) {
+      print("User repo logn");
       print('User ID: ${user.id}');
       print('User Name: ${user.name}');
       print('User Email: ${user.email}');
@@ -124,13 +125,20 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Result<User>> getCurrentUser(String token) async {
-    _apiRequestManager.setHeaders('token', token);
-    final response = await _apiRequestManager.request<User>(
+  Future<Result<CurrentUserResponse>> getCurrentUser(
+      CurrentUserRequest currentUserRequest) async {
+    _apiRequestManager.setHeaders('token', currentUserRequest.token);
+    final response = await _apiRequestManager.request<CurrentUserResponse>(
       '/auth/current',
       'GET',
       (data) {
-        return UserMapper.fromJson2(data);
+        return CurrentUserResponse(
+          id: data['id'],
+          email: data['email'],
+          name: data['name'],
+          phone: data['phone'],
+          image: data['image'],
+        );
       },
     );
     return response;
