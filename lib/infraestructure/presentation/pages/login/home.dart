@@ -1,12 +1,16 @@
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/login_page.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/register.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:alpha_gymnastic_center/aplication/localStorage/local_storage.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    _checkAndSetOnboardingSeen();
+
     return Container(
       color: Colors.white, // Fondo blanco
       child: Column(
@@ -57,6 +61,14 @@ class WelcomeScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _checkAndSetOnboardingSeen() async {
+    final localStorage = GetIt.instance<LocalStorage>();
+    final isOnboardingSeen = await localStorage.isOnboardingSeen();
+    if (!isOnboardingSeen) {
+      await localStorage.setOnboardingSeen();
+    }
   }
 
   Widget _buildButtonRow(BuildContext context) {

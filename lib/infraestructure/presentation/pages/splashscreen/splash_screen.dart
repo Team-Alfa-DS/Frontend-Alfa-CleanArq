@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/splash/splash_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/get_current_user_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/localStorage/local_storage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -43,12 +44,19 @@ class _SplashScreenState extends State<SplashScreen>
     return BlocProvider(
       create: (_) => _splashBloc,
       child: BlocListener<SplashBloc, SplashState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is SplashAuthenticated) {
             context.go('/home');
           } else if (state is SplashUnauthenticated) {
+            final localStorage = GetIt.instance<LocalStorage>();
+            final isOnboardingSeen = await localStorage.isOnboardingSeen();
+
             Future.delayed(const Duration(seconds: 5), () {
-              context.go("/onboarding1");
+              if (isOnboardingSeen) {
+                context.go('/welcome');
+              } else {
+                context.go('/onboarding1');
+              }
             });
           }
         },

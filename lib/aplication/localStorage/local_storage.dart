@@ -3,4 +3,6 @@ abstract class LocalStorage {
   String? getValue(String key);
   Future<bool> removeKey(String key);
   Future<String> getAuthorizationToken();
+  Future<void> setOnboardingSeen();
+  Future<bool> isOnboardingSeen();
 }
