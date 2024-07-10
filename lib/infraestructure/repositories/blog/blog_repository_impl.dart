@@ -41,7 +41,7 @@ class BlogRepositoryImpl extends BlogRepository {
     try {
       final response = await _apiRequestManager.request(
         //Esto tengo que ver bien en el Swagger como se pone con todos los parametros que si filter categories etc
-        '/blog/many?perPage=$perpage&page=$page&filter=$filter&trainer=$trainer&category=$category',
+        '/blog/many?perpage=$perpage&page=$page&filter=$filter&trainer=$trainer&category=$category',
         'GET',
             (data) {
           print('Data received in checkManyBlogs: $data');

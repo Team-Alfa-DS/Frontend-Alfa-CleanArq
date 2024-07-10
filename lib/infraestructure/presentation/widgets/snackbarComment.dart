@@ -24,6 +24,10 @@ class snackbarComment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Id del POST comentario: $id");
+    print("TYpe del POST comentario: $type");
+    print("Body del POST comentario: $text");
+
     return BlocProvider(
       create: (context) => CommentPostBloc(
         GetIt.instance<PostNewCommentUseCase>(),
