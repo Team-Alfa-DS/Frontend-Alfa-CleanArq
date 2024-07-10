@@ -18,6 +18,8 @@ class GetCurrentUserUseCase
   Future<Result<CurrentUserResponse>> execute(
       GetCurrentUserUseCaseInput params) async {
     final token = await localStorage.getAuthorizationToken();
+    print("token token token");
+    print(token);
     final result = await userRepository.getCurrentUser(
       CurrentUserRequest(token: token),
     );
