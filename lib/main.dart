@@ -1,7 +1,9 @@
+import 'package:alpha_gymnastic_center/aplication/BLoC/splash/splash_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/theme/theme_cubit.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/change_password/change_password_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/change_password_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/user/get_current_user_use_case.dart';
 import 'package:alpha_gymnastic_center/config/routes/router.dart';
 import 'package:alpha_gymnastic_center/config/theme/themes.dart';
 import 'package:alpha_gymnastic_center/infraestructure/services/config/inject_manager.dart';
@@ -42,6 +44,7 @@ class BlocsProvider extends StatelessWidget {
                         GetIt.instance<ChangePasswordUseCase>(),
                   )),
           BlocProvider(create: (context) => UserBloc()),
+
           //BlocProvider(create: (context) => VideoBloc(context.read<ProgressService>())), // Agrega VideoBloc aquí
         ],
         child: const MyApp(),
