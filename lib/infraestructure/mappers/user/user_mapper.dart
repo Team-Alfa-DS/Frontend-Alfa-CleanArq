@@ -12,6 +12,18 @@ class UserMapper {
     );
   }
 
+  static User fromJson2(Map<String, dynamic> json) {
+    return User(
+      id: json['id'],
+      name: json['name'],
+      email: json['email'],
+      phone: json['phone'],
+      token: json['token'],
+      type: json['type'] == 'admin' ? UserRoles.admin : UserRoles.client,
+      imagenPerfil: json['image'],
+    );
+  }
+
   static Map<String, dynamic> toJson(User user) {
     return {
       'codigo_usuario': user.id,

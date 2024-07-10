@@ -20,7 +20,6 @@ class CategoryDetailBloc
 
     final result = await _getCategoryDataUseCase.execute(
       GetCategoryDataUseCaseInput(
-        categoryId: event.categoryId,
         page: event.page,
         perPage: event.perPage,
       ),

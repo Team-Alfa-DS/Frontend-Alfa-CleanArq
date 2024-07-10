@@ -8,13 +8,11 @@ abstract class CategoryDetailEvent extends Equatable {
 }
 
 class LoadCategoryDetail extends CategoryDetailEvent {
-  final String categoryId;
   final int page;
   final int perPage;
 
-  const LoadCategoryDetail(
-      {required this.categoryId, required this.page, required this.perPage});
+  const LoadCategoryDetail({required this.page, required this.perPage});
 
   @override
-  List<Object?> get props => [categoryId];
+  List<Object?> get props => [];
 }

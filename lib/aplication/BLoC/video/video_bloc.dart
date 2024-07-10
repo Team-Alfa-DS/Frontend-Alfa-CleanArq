@@ -13,34 +13,32 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
   }
 
   Future<void> _onLoadVideoDetail(
-    LoadVideoDetailEvent event,
-    Emitter<VideoState> emit,
-  ) async {
+      LoadVideoDetailEvent event,
+      Emitter<VideoState> emit,
+      ) async {
     emit(VideoLoading());
 
     final video = Video(
       id: event.lessonId,
-      title:
-          "Sample Video", // Puedes modificar este título si tienes un valor dinámico.
+      title: "Sample Video",
       url: event.videoUrl,
-      duration:
-          360, // Puedes cambiar esta duración si tienes un valor dinámico.
-      idLesson: int.parse(event.lessonId),
+      duration: 360,
+      idLesson: event.lessonId,
     );
 
     try {
-      final progress =
-          await progressService.getProgress(event.courseId, event.lessonId);
-      emit(VideoLoaded(video, progress ?? 0));
+      final progress = await progressService.getProgress(event.courseId, event.lessonId);
+      emit(VideoLoaded(video, progress ?? 0)); // Proporciona 0 como valor por defecto si no hay progreso
     } catch (e) {
-      emit(VideoError(e.toString()));
+      // En caso de error, proporcionar 0 como valor por defecto para el progreso
+      emit(VideoLoaded(video, 0));
     }
   }
 
   Future<void> _onSaveVideoProgress(
-    SaveVideoProgressEvent event,
-    Emitter<VideoState> emit,
-  ) async {
+      SaveVideoProgressEvent event,
+      Emitter<VideoState> emit,
+      ) async {
     try {
       await progressService.saveProgress(
         courseId: event.courseId,

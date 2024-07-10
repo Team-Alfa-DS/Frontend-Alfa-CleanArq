@@ -1,188 +1,240 @@
+import 'package:alpha_gymnastic_center/aplication/BLoC/blog/blog_one/blog_one_event.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/blog/get_blog_one_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import '../../../../aplication/BLoC/blog/blog_one/blog_one_bloc.dart';
+import '../../../../aplication/BLoC/blog/blog_one/blog_one_state.dart';
 import '../../widgets/comments_container.dart';
 import '../../widgets/navegation.dart';
 
-class Blog_Detailed_Widget extends StatefulWidget {
-  final String id;
-  final String Title;
-  final String Description;
-  final List<String> Images; // el primero es el que se usa como flagship
-  //final Trainer Trainer;
-  final List<String> Tags;
-  final String date;
+class Blog_Detailed_Widget extends StatelessWidget {
+  final String blogId;
 
-  const Blog_Detailed_Widget(
-      {super.key,
-        required this.id,
-        required this.Title,
-        required this.Description,
-        required this.Images,
-        required this.Tags,
-        required this.date
-      });
+  const Blog_Detailed_Widget({super.key, required this.blogId});
 
-  @override
-  Blog_Detailed createState() =>
-      Blog_Detailed(id: id, Title: Title, Description: Description, Images: Images, Tags:Tags, date: date);
-}
-
-class Blog_Detailed extends State<Blog_Detailed_Widget> {
-   List<String> MockImage = [
-    'https://i0.wp.com/www.muscleandfitness.com/wp-content/uploads/2018/12/Personal-Trainer-Training-Partner-GettyImages-654427364.jpg?quality=86&strip',
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/991px-Placeholder_view_vector.svg.png',
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/991px-Placeholder_view_vector.svg.png',
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/991px-Placeholder_view_vector.svg.png',
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/991px-Placeholder_view_vector.svg.png',
-  ];
-
-
-
-  final String id;
-  final String Title;
-  final String Description;
-  final List<String> Images; //el primero es el que se usa como flagship
-
-  //final Trainer Trainer;
-
-  final List<String> Tags;
-  final String date;
-
-
-  Blog_Detailed({
-      required this.id,
-      required this.Title,
-      required this.Description,
-      required this.Images,
-      required this.Tags,
-      required this.date
-  });
   @override
   Widget build(BuildContext context) {
-    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+    return BlocProvider(
+      create: (context) => blogOneBloc(GetIt.instance<GetSingleBlogUseCase>())
+        ..add(LoadBlogOne(blogId: blogId)),
+      child: const Blog_Detailed(),
+    );
+  }
+}
 
+class Blog_Detailed extends StatelessWidget {
+  const Blog_Detailed({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          YogaAppBar(title: Title),
-          Expanded(
-            child: Column(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Container(
-                      color: Colors.white,
+      body: BlocBuilder<blogOneBloc, BlogOneState>(
+        builder: (context, state) {
+          if (state is BlogOneLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is BlogOneFailed) {
+            return Center(child: Text('Error: ${state.failure}'));
+          } else if (state is BlogOneLoaded) {
+            final blogitem = state.blog;
+            return Scaffold(
+              appBar: YogaAppBar(title: blogitem.title),
+              body: Stack(
+                children: [
+                  SafeArea(
+                    child: SingleChildScrollView(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Flexible(
-                            child: Image.network(
-                              MockImage[0],
-                              fit: BoxFit.cover,
-                            ),
+                          Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(50)),
+                                child: getImage(blogitem.image),
+                              ),
+                              Positioned.fill(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.5),
+                                    borderRadius: const BorderRadius.only(
+                                      bottomRight: Radius.circular(50),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                bottom: 20,
+                                left: 16,
+                                right: 16,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      blogitem.title,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 24,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      'Entrenador: ${blogitem.trainer?.name}',
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Categoría: ${blogitem.category}',
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 5),
-                          Text(
-                            Description,
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 18.0,
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 16.0),
+                                Text(
+                                  blogitem.description!,
+                                  style: const TextStyle(fontSize: 16.0),
+                                ),
+                                const SizedBox(height: 16.0),
+                                if (blogitem.tags!.isNotEmpty)
+                                  Text(
+                                    'Tags: ${blogitem.tags?.take(4).join(', ')}',
+                                    style: const TextStyle(fontSize: 16.0),
+                                  ),
+                                const SizedBox(height: 16.0),
+                                const Text(
+                                  'Imagenes:',
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 8.0),
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: blogitem.images?.length,
+                                  itemBuilder: (context, index) {
+                                    final image = blogitem.images?[index];
+                                    return Container(
+                                      height: 300,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(image!),
+                                          fit: BoxFit.cover,
+                                        ),
+                                        borderRadius: const BorderRadius.only(
+                                          bottomRight: Radius.circular(50),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                const SizedBox(height: 12.0),
+                                const Divider(
+                                  thickness: 1,
+                                  indent: 20,
+                                  endIndent: 20,
+                                  color: Colors.grey,
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
                   ),
+                ],
+              ),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerDocked,
+              floatingActionButton: Container(
+                height: 70.0,
+                width: 70.0,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                  shape: BoxShape.circle,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "All the Images!",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      TextButton(
-                        style: const ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll<Color>(
-                            Color.fromRGBO(255, 255, 255, 0.0),
-                          ),
-                        ),
-                        onPressed: () {
-                            navigateToComments(context, id, "LESSON", Title);
-                        },
-                        child: const Text(
-                          "Check Comments",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ],
+                child: FloatingActionButton(
+                  onPressed: () {},
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  child: Image.asset(
+                    'assets/icons/rayo.png',
+                    color: Colors.white,
+                    width: 35.0,
+                    height: 35.0,
                   ),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.only(bottom: bottomInset, left: 8, right: 8),
-                    child: ListView.builder(
-                      itemCount: MockImage.length,
-                      itemBuilder: (context, index) {
-                          final panel = MockImage[index];
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Image.network(
-                                    panel,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                const SizedBox(width: 16.0),
-                              ],
-                            ),
-                          );
-
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+              ),
+              bottomNavigationBar: const BarraNavegacion(),
+              drawer: const SideBarMenu(),
+            );
+          } else {
+            return const Center(child: Text('No data'));
+          }
+        },
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
-        height: 70.0,
-        width: 70.0,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-          shape: BoxShape.circle,
-        ),
-        child: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          child: Image.asset('assets/icons/rayo.png',
-              color: Colors.white, width: 35.0, height: 35.0),
-        ),
-      ),
-      bottomNavigationBar: const BarraNavegacion(),
-      drawer: const SideBarMenu(),
     );
   }
 
-  void navigateToComments(BuildContext context, String id, String type, String title) {
+  void navigateToComments(
+      BuildContext context, String id, String type, String title) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Widgets_Comments(id: id, Type: type, title: title,)));
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            Widgets_Comments(id: id, type: type, title: title),
+      ),
+    );
+  }
+
+  Widget getImage(String? imageUrl) {
+    if (imageUrl == null || imageUrl.isEmpty) {
+      // Return a default asset image if the imageUrl is null or empty
+      return Image.asset(
+        'assets/images/placeholder_image.png',
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: 280,
+      );
+    } else {
+      // Return a network image if the imageUrl is not null
+      return Image.network(
+        imageUrl,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: 280,
+        errorBuilder: (context, error, stackTrace) {
+          // Return the default asset image if there's an error loading the network image
+          return Image.asset(
+            'assets/images/placeholder_image.png',
+            fit: BoxFit.cover,
+            height: 280,
+          );
+        },
+      );
+    }
   }
 }

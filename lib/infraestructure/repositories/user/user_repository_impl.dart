@@ -33,6 +33,7 @@ class UserRepositoryImpl extends UserRepository {
       print('User Name: ${user.name}');
       print('User Email: ${user.email}');
       print('User Phone: ${user.phone}');
+      print('User Image: ${user.imagenPerfil}');
       print('User Type: ${user.type}');
       print('User Token : ${user.token}');
     } else {
@@ -129,10 +130,9 @@ class UserRepositoryImpl extends UserRepository {
       '/auth/current',
       'GET',
       (data) {
-        return UserMapper.fromJson(data);
+        return UserMapper.fromJson2(data);
       },
     );
-
     return response;
   }
 
@@ -153,7 +153,6 @@ class UserRepositoryImpl extends UserRepository {
         if (updateUserRequest.image != null) 'image': updateUserRequest.image,
       },
     );
-
     return response;
   }
 }

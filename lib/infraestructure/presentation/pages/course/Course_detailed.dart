@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../domain/entities/course.dart';
 import '../../../../domain/entities/lesson.dart';
-import '../../widgets/comments_container.dart';
 import '../../widgets/navegation.dart';
 import '../../widgets/sidebarmenu.dart';
 import '../../widgets/videoplayer.dart';
@@ -139,7 +138,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                     const Text('Weeks',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
-                                    Text(course.DurationWeeks.toString()),
+                                    Text(course.durationWeeks.toString()),
                                   ],
                                 ),
                               ],
@@ -154,7 +153,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                     const Text('Mins per Lesson',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
-                                    Text(course.DurationMinutes.toString()),
+                                    Text(course.durationMinutes.toString()),
                                   ],
                                 ),
                               ],
@@ -188,7 +187,7 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
                                       course.lessons[index].title,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .subtitle2
+                                          .titleSmall
                                           ?.copyWith(color: Colors.black),
                                     ),
                                     const Divider(
@@ -351,12 +350,6 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
       BuildContext context, String courseid, String type, String title) {
     //aqui la llamada del fectch del os comentarios request hacia el backend
 
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                Widgets_Comments(id: courseid, Type: type, title: title)));
-
     return;
   }
 
@@ -380,12 +373,12 @@ class _CourseDetailedScreenState extends State<CourseDetailedScreen> {
     List<Lesson> lessonIdIterator = course.lessons;
     String lessonIdFound = "";
 
-    lessonIdIterator.forEach((lesson) {
+    for (var lesson in lessonIdIterator) {
       if (lesson.id != lessonid) {
-        return;
+        continue;
       }
       lessonIdFound = lesson.id;
-    });
+    }
 
     Navigator.push(
         context,
