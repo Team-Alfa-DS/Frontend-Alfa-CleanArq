@@ -118,7 +118,7 @@ class BlogGrid extends StatelessWidget {
               onTap: () {
                 print('Tapped on blog: ${blogs[index].title}');
                 Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Blog_Detailed_Widget(item: blogs[index]),
+                  MaterialPageRoute(builder: (context) => Blog_Detailed_Widget(blogId: blogs[index].id),
                   ),
                 );
               },

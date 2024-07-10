@@ -20,6 +20,7 @@ import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/nave
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../domain/entities/blog.dart';
+import '../../../services/config/firebase/firebase_api.dart';
 import '../../widgets/categoryItem.dart';
 import '../../widgets/scrollHorizontal.dart';
 
@@ -130,7 +131,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 180,
+                height: 200,
                 child: Column(
                   children: <Widget>[
                     const Align(
@@ -168,7 +169,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 40,
+                height: 50,
                 child: Column(
                   children: <Widget>[
                     Align(
@@ -186,6 +187,9 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const blogsCarousel()
+              ,const SizedBox(
+                height: 30,
+              ),
             ],
           ),
         ),
