@@ -5,10 +5,13 @@ import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_profile
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_trending_progress_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/change_password_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/forgot_password_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/user/get_current_user_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/login_in_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/register_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/update_user_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/validate_code_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/video_use_case/get_video_detailed_use_caser.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/video_use_case/save_video_porgress_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/api/api_request_imp.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/localStorage/loca_storage_imp.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/course/course_repository_impl.dart';
@@ -16,6 +19,7 @@ import 'package:alpha_gymnastic_center/infraestructure/repositories/progress/pro
 import 'package:alpha_gymnastic_center/infraestructure/repositories/user/user_repository_impl.dart';
 import 'package:alpha_gymnastic_center/domain/repositories/course_repository.dart';
 import 'package:alpha_gymnastic_center/domain/repositories/user_repository.dart';
+import 'package:alpha_gymnastic_center/infraestructure/repositories/video_repository/video_repository_imp.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,18 +51,18 @@ class InjectManager {
     );
 
     final blogRepository = BlogRepositoryImpl(
-        apiRequestManager: apiRequestManagerImpl,
-        localStorage: localStorage
-    );
+        apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
 
     final commentRepository = CommentRepositoryImpl(
-        apiRequestManager: apiRequestManagerImpl,
-        localStorage: localStorage
-    );
+        apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
 
     final courseRepository = CourseRepositoryImpl(
       apiRequestManager: apiRequestManagerImpl,
       localStorage: localStorage,
+    );
+
+    final videoRepository = VideoRepositoryImpl(
+      apiRequestManager: apiRequestManagerImpl,
     );
 
     // Register repositories with GetIt
@@ -97,6 +101,9 @@ class InjectManager {
       localStorage: localStorage,
     );
 
+    final getCurrentUserUseCase = GetCurrentUserUseCase(
+        userRepository: userRepository, localStorage: localStorage);
+
     //! Courses
     final getCourseDataUseCase = GetCourseDataUseCase(
       courseRepository: courseRepository,
@@ -125,16 +132,22 @@ class InjectManager {
       blogRepository: blogRepository,
     );
 
-    final getSingleBlogUseCase = GetSingleBlogUseCase(
-        blogRepository: blogRepository
-    );
+    final getSingleBlogUseCase =
+        GetSingleBlogUseCase(blogRepository: blogRepository);
 
     //!Comments
 
-    final getCommentDataUseCase = GetCommentDataUseCase(
-        commentRepository: commentRepository
-    );
+    final getCommentDataUseCase =
+        GetCommentDataUseCase(commentRepository: commentRepository);
 
+    //! Videos
+
+    final getVideoDetailsUseCase = GetVideoDetailsUseCase(
+      videoRepository: videoRepository,
+    );
+    final saveVideoProgressUseCase = SaveVideoProgressUseCase(
+      videoRepository: videoRepository,
+    );
 
     // Registering singletons
 
@@ -149,6 +162,7 @@ class InjectManager {
     getIt.registerSingleton<GetSingleCourseUseCase>(getSingleCourseUseCase);
     getIt.registerSingleton<GetLessonsByCourseUseCase>(
         getLessonsByCourseUseCase);
+    getIt.registerSingleton<GetCurrentUserUseCase>(getCurrentUserUseCase);
     //!Progress
     getIt.registerSingleton<GetTrendingProgressUseCase>(
         getTrendingProgressUseCase);
@@ -160,6 +174,10 @@ class InjectManager {
     getIt.registerSingleton<GetSingleBlogUseCase>(getSingleBlogUseCase);
 
     //!Comments
-    getIt.registerSingleton<GetCommentDataUseCase>( getCommentDataUseCase);
+    getIt.registerSingleton<GetCommentDataUseCase>(getCommentDataUseCase);
+
+    //! Videos
+    getIt.registerSingleton<GetVideoDetailsUseCase>(getVideoDetailsUseCase);
+    getIt.registerSingleton<SaveVideoProgressUseCase>(saveVideoProgressUseCase);
   }
 }

@@ -22,6 +22,7 @@ class ProfileProgressBloc
     final result = await getProfileProgressUseCase
         .execute(GetProfileProgressUseCaseInput());
     if (result.hasValue()) {
+      print("ProfileProgressBloc: ${result.value!.percent}");
       emit(ProfileProgressLoaded(
           percent: result.value!.percent, time: result.value!.time));
     } else {
