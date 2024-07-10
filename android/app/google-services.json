@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "1002372483444",
-    "project_id": "flutter-push-56dbc",
-    "storage_bucket": "flutter-push-56dbc.appspot.com"
+    "project_number": "1065323736168",
+    "project_id": "alphagymanstic-front",
+    "storage_bucket": "alphagymanstic-front.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1002372483444:android:4c1ad6a66f783803bfc421",
+        "mobilesdk_app_id": "1:1065323736168:android:842b36f77f78b61b89dfdd",
         "android_client_info": {
-          "package_name": "com.example.alfa_soyzen"
+          "package_name": "com.example.alpha_gymnastic_center"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyA16PrI8q-ZfNaeiPqeynTXzDpvVlpOhQk"
+          "current_key": "AIzaSyD5z_CkfKhS67DVSQAeTv28k1oTqEPQ2K0"
         }
       ],
       "services": {

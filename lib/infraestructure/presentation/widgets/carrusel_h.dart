@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 class ScrollH<T> extends StatelessWidget {
   final T item;
   final int disposicion;
-  final Function(T item) onTap;
 
   const ScrollH({
     required this.item,
     required this.disposicion,
-    required this.onTap,
   });
 
   @override
@@ -18,7 +16,7 @@ class ScrollH<T> extends StatelessWidget {
       width: disposicion == 4 ? 80.0 : 200.0,
       height: disposicion == 4 ? 120.0 : null,
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 212, 212, 212),
+        color: const Color.fromARGB(255, 240, 240, 240),
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: ClipRRect(
@@ -98,14 +96,14 @@ class ScrollH<T> extends StatelessWidget {
       children: [
         SizedBox(
           width: double.infinity,
-          height: 80.0,
+          height: 100.0,
           child: Image(
             image: _getImageProvider(),
             fit: BoxFit.cover,
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(vertical: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -119,28 +117,19 @@ class ScrollH<T> extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(height: 5.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(
-                    child: Text(
-                      itemMap['categoria'] ?? 'Categoría',
-                      style: const TextStyle(
-                        color: Colors.purple,
-                        fontSize: 12.0,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Text(
-                    itemMap['fecha'] ?? 'Fecha',
-                    style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12.0,
-                    ),
-                  ),
-                ],
+              Text(
+                 itemMap['categoria'] ?? 'Categoría',
+                 style: const TextStyle(
+                    color: Colors.purple,
+                    fontSize: 14.0,
+                 )
+              ),
+              Text(
+                  itemMap['fecha'] ?? 'Fecha',
+                 style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 12.0,
+                 )
               ),
             ],
           ),
@@ -191,12 +180,16 @@ class ScrollH<T> extends StatelessWidget {
       final String? fotoString = itemMap['fotoString'] as String?;
       final String? fotoUrl = itemMap['fotoUrl'] as String?;
 
+
+
       if (fotoString != null) {
         return AssetImage(fotoString);
-      } else if (fotoUrl != null) {
+      } else if (fotoUrl != null && fotoUrl != '') {
         return NetworkImage(fotoUrl);
+      } else if((fotoUrl == null && fotoString == null) || (fotoUrl == '' && fotoString == '')){
+        return AssetImage('assets/images/placeholder_image.png');
       }
     }
-    return const AssetImage('assets/images/placeholder_image.jpg');
+    return const AssetImage('assets/images/placeholder_image.png');
   }
 }
