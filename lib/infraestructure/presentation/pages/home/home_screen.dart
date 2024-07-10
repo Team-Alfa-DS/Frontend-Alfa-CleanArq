@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:alpha_gymnastic_center/aplication/BLoC/progress/trending/trending_progress_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/search/search_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
@@ -64,13 +67,11 @@ class HomeScreen extends StatelessWidget {
                   } else if (state is TrendingProgressLoaded) {
                     return ProgressSection(
                       percent: state.progress.percent,
+                      courseTitle: state.progress.courseTitle,
+                      lastTime: state.progress.lastTime,
                     );
                   } else if (state is TrendingProgressError) {
-                    if (state.message == "El usuario no posee progreso") {
-                      return const NoProgressSection();
-                    } else {
-                      return Text('Error: ${state.message}');
-                    }
+                    return const NoProgressSection();
                   }
                   return Container();
                 },
@@ -129,7 +130,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 200,
+                height: 180,
                 child: Column(
                   children: <Widget>[
                     const Align(
@@ -167,7 +168,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 265,
+                height: 40,
                 child: Column(
                   children: <Widget>[
                     Align(
@@ -229,18 +230,24 @@ class _CustomAppBarState extends State<CustomAppBar> {
       builder: (context, state) {
         String name = 'Nombre de Usuario';
         String email = 'ID de Usuario';
+        String image = 'image';
 
         if (state is UserLoaded) {
           name = getFirstTwoWords(state.user.name ?? 'Nombre de Usuario');
           email = state.user.email ?? 'Email';
+          image = (state.user.imagenPerfil == null)
+              ? 'assets/images/userDefault.png'
+              : state.user.imagenPerfil!;
         }
 
         return AppBar(
           automaticallyImplyLeading: false,
           actions: <Widget>[
             IconButton(
-              icon: const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/user.png'),
+              icon: CircleAvatar(
+                radius: 50.0,
+                backgroundImage: _imagenFinal(image),
+                backgroundColor: Colors.transparent,
               ),
               onPressed: () {
                 context.push('/profile');
@@ -387,5 +394,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
     )
       );
     
+  }
+}
+
+ImageProvider _imagenFinal(String img) {
+  if (img == 'assets/images/userDefault.png') {
+    return AssetImage(img);
+  } else {
+    return MemoryImage(base64Decode(img));
   }
 }

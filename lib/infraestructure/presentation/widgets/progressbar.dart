@@ -1,13 +1,23 @@
+import 'package:alpha_gymnastic_center/common/utils/date_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class ProgressSection extends StatelessWidget {
   final double percent;
+  final String courseTitle;
+  final DateTime lastTime;
 
-  const ProgressSection({super.key, required this.percent});
+  const ProgressSection({
+    super.key,
+    required this.percent,
+    required this.courseTitle,
+    required this.lastTime,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final String lastSeenMessage = formatLastSeen(lastTime);
+
     return Padding(
       padding: const EdgeInsets.all(14),
       child: Container(
@@ -17,20 +27,20 @@ class ProgressSection extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Entrena tu cuerpo y se alguien saludable.',
-                        style: TextStyle(
+                        courseTitle,
+                        style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
-                          height: 10), // Añadí un espacio entre los dos textos
+                      const SizedBox(height: 10),
                       Text(
-                        'Última actualización hace 30 minutos',
-                        style: TextStyle(fontSize: 15, color: Colors.grey),
+                        'Última actualización $lastSeenMessage',
+                        style:
+                            const TextStyle(fontSize: 15, color: Colors.grey),
                       ),
                     ],
                   ),

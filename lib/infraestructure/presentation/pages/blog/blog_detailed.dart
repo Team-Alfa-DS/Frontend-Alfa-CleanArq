@@ -37,6 +37,7 @@ class Blog_Detailed extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      appBar: YogaAppBar(title: blog.title),
       body: BlocBuilder<blogOneBloc, BlogOneState>(
         builder: (context, state) {
           if (state is BlogOneLoading) {
@@ -55,17 +56,9 @@ class Blog_Detailed extends StatelessWidget {
               children: [
                 Stack(
                   children: [
-                    Container(
-                      height: 300,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(blogitem.images!.first),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: const BorderRadius.only(
-                          bottomRight: Radius.circular(50),
-                        ),
-                      ),
+                    ClipRRect(
+                        borderRadius: BorderRadius.only(bottomRight: Radius.circular(50)),
+                        child: getImage(blog.image)
                     ),
                     Positioned.fill(
                       child: Container(
@@ -129,20 +122,6 @@ class Blog_Detailed extends StatelessWidget {
                           'Tags: ${blogitem.tags?.take(4).join(', ')}',
                           style: const TextStyle(fontSize: 16.0),
                         ),
-                      const SizedBox(height: 16.0),
-                      const Divider(
-                        thickness: 1,
-                        indent: 20,
-                        endIndent: 20,
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(height: 16.0),
-                      const Divider(
-                        thickness: 1,
-                        indent: 20,
-                        endIndent: 20,
-                        color: Colors.grey,
-                      ),
                       const SizedBox(height: 16.0),
                       const Text(
                         'Imagenes:',
@@ -229,5 +208,33 @@ class Blog_Detailed extends StatelessWidget {
         builder: (context) => Widgets_Comments(id: id, type: type, title: title),
       ),
     );
+  }
+
+  Widget getImage(String? imageUrl) {
+    if (imageUrl == null || imageUrl.isEmpty) {
+      // Return a default asset image if the imageUrl is null or empty
+      return Image.asset(
+        'assets/images/placeholder_image.png',
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: 280,
+      );
+    } else {
+      // Return a network image if the imageUrl is not null
+      return Image.network(
+        imageUrl,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: 280,
+        errorBuilder: (context, error, stackTrace) {
+          // Return the default asset image if there's an error loading the network image
+          return Image.asset(
+            'assets/images/placeholder_image.png',
+            fit: BoxFit.cover,
+            height: 280,
+          );
+        },
+      );
+    }
   }
 }

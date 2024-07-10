@@ -2,19 +2,18 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:alpha_gymnastic_center/aplication/BLoC/user/update_user/bloc/update_user_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/user/get_current_user_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/update_user_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:email_validator/email_validator.dart';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
+
+import '../../../../aplication/BLoC/user/update_user/update_user_bloc.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -31,14 +30,15 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController passwordCheckController = TextEditingController();
   Uint8List? _image;
   File? selectedImage;
-  String imagenRuta = '';
+  String? imagen = 'image';
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => UpdateUserBloc(
-        updateUseCase: GetIt.instance<UpdateUserUseCase>(),
-      ),
+          updateUseCase: GetIt.instance<UpdateUserUseCase>(),
+          getCurrentUserUseCase: GetIt.instance<GetCurrentUserUseCase>(),
+          userBloc: BlocProvider.of<UserBloc>(context)),
       child: BlocListener<UpdateUserBloc, UpdateUserState>(
           listener: (context, state) {
             if (state is UpdateUserSuccess) {
@@ -68,12 +68,14 @@ class _EditProfileState extends State<EditProfile> {
             appBar: const YogaAppBar(title: "Editar Perfil"),
             body: SingleChildScrollView(
               child: Column(
-                //crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  const SizedBox(
+                    height: 5,
+                  ),
                   Stack(
                     alignment: AlignmentDirectional.bottomEnd,
                     children: [
-                      _circleAvatar(),
+                      _buildAvatar(),
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50.0),
@@ -117,18 +119,29 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
+  Widget _buildAvatar() {
+    return BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+      if (state is UserLoaded) {
+        imagen = (state.user.imagenPerfil == null)
+            ? 'assets/images/userDefault.png'
+            : state.user.imagenPerfil;
+      }
+      return _circleAvatar();
+    });
+  }
+
   Widget _circleAvatar() {
     return _image != null
         ? CircleAvatar(
             //*Imagen actualizada
             radius: 80.0,
-            backgroundImage: FileImage(selectedImage!) /*MemoryImage(_image!)*/,
+            backgroundImage: MemoryImage(_image!),
             backgroundColor: Colors.transparent,
           )
-        : const CircleAvatar(
+        : CircleAvatar(
             //*Imagen Vieja
             radius: 80.0,
-            backgroundImage: AssetImage('assets/images/user.png'),
+            backgroundImage: _imagenFinal(imagen!),
             backgroundColor: Colors.transparent,
           );
   }
@@ -168,7 +181,7 @@ class _EditProfileState extends State<EditProfile> {
                         child: Column(
                           children: [
                             Icon(Icons.camera_enhance, size: 70),
-                            Text('Galeria'),
+                            Text('Camara'),
                           ],
                         ),
                       ),
@@ -186,38 +199,34 @@ class _EditProfileState extends State<EditProfile> {
     final returnImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (returnImage == null) return;
+    List<int> img = await returnImage.readAsBytes();
     setState(() {
       selectedImage = File(returnImage.path);
-      _image = File(returnImage.path).readAsBytesSync();
+      _image = Uint8List.fromList(img);
     });
     Navigator.of(context).pop();
   }
 
 //*Camera
   Future _pickImageFromCamera() async {
-    final String pathRuta =
-        (await getTemporaryDirectory()).path + '${DateTime.now()}.png';
     final returnImage =
         await ImagePicker().pickImage(source: ImageSource.camera);
 
-    File localImage = File(returnImage!.path);
-    localImage = await localImage.copy('$pathRuta');
-
     if (returnImage == null) return;
+    List<int> img = await returnImage.readAsBytes();
     setState(() {
-      selectedImage = localImage;
-      imagenRuta = pathRuta;
-      /*selectedImage = File(returnImage.path);
-      _image = File(returnImage.path).readAsBytesSync();*/
+      selectedImage = File(returnImage.path);
+      _image = Uint8List.fromList(img);
     });
     Navigator.of(context).pop();
   }
 
-  String image64() {
-    List<int> imageBytes = selectedImage!.readAsBytesSync();
-    print(imageBytes);
-    String base64Image = base64Encode(imageBytes);
-    return base64Image;
+  ImageProvider _imagenFinal(String img) {
+    if (img == 'assets/images/userDefault.png') {
+      return AssetImage(img);
+    } else {
+      return MemoryImage(base64Decode(img));
+    }
   }
 
 //*Boton para registrar
@@ -351,22 +360,20 @@ class _EditProfileState extends State<EditProfile> {
               final password = (passwordController.text.isEmpty)
                   ? 'None'
                   : passwordController.text;
-              final image = (_image == null) ? 'None' : selectedImage;
+              final image = (_image == null) ? 'None' : base64Encode(_image!);
 
               if (nameController.text.isNotEmpty ||
                   phoneController.text.isNotEmpty ||
                   emailController.text.isNotEmpty ||
                   passwordController.text.isNotEmpty ||
                   _image != null) {
-                print(image.toString());
-                print('IMAGE To String');
                 BlocProvider.of<UpdateUserBloc>(context).add(
                     UpdateUserSubmitted(
                         name: name,
                         email: email,
                         password: password,
                         phone: phone,
-                        image: image.toString()));
+                        image: image));
               } else {
                 showDialog(
                   context: context,
@@ -392,7 +399,6 @@ class _EditProfileState extends State<EditProfile> {
               elevation: 20,
               backgroundColor: const Color(0xFF4F14A0),
               minimumSize: const Size.fromHeight(50),
-              //maximumSize: const Size.fromWidth(20)
             ),
             child: const Text(
               "Guardar",
@@ -413,7 +419,6 @@ Widget _buildInputField(TextEditingController controller, String tipo,
   final focusNode = FocusNode();
   const outlineInputBorder = UnderlineInputBorder(
     borderSide: BorderSide(color: Colors.black),
-    //borderRadius: BorderRadius.circular(40),
   );
 
   final inputDecoration = InputDecoration(

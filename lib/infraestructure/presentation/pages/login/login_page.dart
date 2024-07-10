@@ -1,5 +1,6 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/login/login_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/user/get_current_user_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/login_in_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/login/forgotpass.dart';
 import 'package:flutter/material.dart';
@@ -82,6 +83,7 @@ class _LoginPageState extends State<LoginPage> {
     return BlocProvider(
       create: (context) => LoginBloc(
         loginUseCase: GetIt.instance<LogInUseCase>(),
+        getCurrentUserUseCase: GetIt.instance<GetCurrentUserUseCase>(),
         userBloc: BlocProvider.of<UserBloc>(context), // <-- Add this
       ),
       child: BlocListener<LoginBloc, LoginState>(

@@ -1,23 +1,53 @@
 import 'package:alpha_gymnastic_center/domain/entities/notification.dart';
 
-class NotificationMapper {
-  static Notification fromJson(Map<String, dynamic> json) {
-    return Notification(
-      id: json['id'],
-      title: json['title'],
-      body: json['body'],
-      date: DateTime.parse(json['date']),
-      userReaded: json['userReaded'],
-    );
+class NotificationMapperMany {
+  static Notifications fromJson(Map<String, dynamic> json) {
+    try {
+      return Notifications(
+        id: json['id'] as String? ?? '',
+        title: json['title'] as String? ?? '',
+        body: json['body'] as String? ?? '',
+        date: DateTime.parse(json['date'] as String),
+        readed: json['readed'] as bool? ?? false,
+      );
+    } catch (e) {
+      print('Error in NotificationMapper.fromJson: $e');
+      rethrow;
+    }
   }
 
-  static Map<String, dynamic> toJson(Notification notification) {
+  static Map<String, dynamic> toJson(Notifications notifications) {
     return {
-      'id': notification.id,
-      'title': notification.title,
-      'body': notification.body,
-      'date': notification.date.toIso8601String(),
-      'userReaded': notification.userReaded,
+      'id': notifications.id,
+      'title': notifications.title,
+      'body': notifications.body,
+      'date': notifications.date.toIso8601String(),
+      'readed': notifications.readed,
+    };
+  }
+}
+
+class NotificationMapperOne {
+  static Notifications fromJson(Map<String, dynamic> json) {
+    try {
+      return Notifications(
+        id: json['id'] as String? ?? '',
+        title: json['title'] as String? ?? '',
+        body: json['body'] as String? ?? '',
+        date: DateTime.parse(json['date'] as String),
+      );
+    } catch (e) {
+      print('Error in NotificationMapper.fromJson: $e');
+      rethrow;
+    }
+  }
+
+  static Map<String, dynamic> toJson(Notifications notifications) {
+    return {
+      'id': notifications.id,
+      'title': notifications.title,
+      'body': notifications.body,
+      'date': notifications.date.toIso8601String(),
     };
   }
 }
