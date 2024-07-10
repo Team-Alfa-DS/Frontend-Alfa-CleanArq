@@ -53,7 +53,7 @@ class WelcomeScreen extends StatelessWidget {
           const SizedBox(
               height:
                   20), // Espacio entre los botones y los iconos de redes sociales
-          _buildSocialIconsRow(), // Agrega la fila de iconos de redes sociales
+          // Agrega la fila de iconos de redes sociales
         ],
       ),
     );
@@ -111,57 +111,6 @@ class WelcomeScreen extends StatelessWidget {
         minimumSize: const Size(120, 40), // Tamaño del boton Sign Up
       ),
       child: const Text("Sign up", style: TextStyle(color: Colors.deepPurple)),
-    );
-  }
-
-  Widget _buildSocialIconsRow() {
-    return Column(
-      children: [
-        const SizedBox(
-            height:
-                20), // Espacio entre el texto y los iconos de redes sociales
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: _buildGreyText("Or via social media"),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: () {
-                // Lógica para el botón de Facebook
-              },
-              child: Image.asset(
-                'assets/images/facebook.png',
-                width: 50,
-                height: 50,
-              ),
-            ),
-            const SizedBox(width: 10),
-            GestureDetector(
-              onTap: () {
-                // Lógica para el botón de Twitter
-              },
-              child: Image.asset(
-                'assets/images/twitter.png',
-                width: 40,
-                height: 40,
-              ),
-            ),
-            const SizedBox(width: 10),
-            GestureDetector(
-              onTap: () {
-                // Lógica para el botón de Gmail
-              },
-              child: Image.asset(
-                'assets/images/gmail.png',
-                width: 40,
-                height: 40,
-              ),
-            ),
-          ],
-        ),
-      ],
     );
   }
 

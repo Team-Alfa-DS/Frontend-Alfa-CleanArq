@@ -39,16 +39,15 @@ class CommentRepositoryImpl extends CommentRepository {
     print("lesson id: $lesson");
     print("perpage: $perpage");
     print("page: $page");
-
-    print('/comments/many?perPage=$perpage&page=$page&lesson=$lesson&blog=$blog');
+    print('/comment/many?perpage=$perpage&page=$page&lesson=$lesson&blog=$blog');
 
     try {
       final Result<List<Comment_>> response = await _apiRequestManager.request(
-        '/comments/many?perPage=$perpage&page=$page&lesson=$lesson&blog=$blog',
+        '/comment/many?perpage=$perpage&page=0&lesson=$lesson&blog=$blog',
         'GET',
             (data) {
           print('Data received in comments: $data');
-          List<Comment_> comments = (data['blogComments'] as List)
+          List<Comment_> comments = (data as List)
               .map((commentData) => CommentMapper.fromJson(commentData))
               .toList();
           print('List of comments:');

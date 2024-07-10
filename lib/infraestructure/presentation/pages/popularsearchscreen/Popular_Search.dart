@@ -465,10 +465,7 @@ class _PopularSearchState extends State<PopularSearch> {
                     'isNew': false,
                     'conexion': '/videos'
                   }, 
-                  disposicion: 2, 
-                  onTap: (item) {
-                    //doNothingExtra
-                  }
+                  disposicion: 2,
                 ),
               )
             );

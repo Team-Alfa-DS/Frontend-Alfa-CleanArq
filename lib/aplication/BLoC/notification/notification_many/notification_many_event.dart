@@ -8,11 +8,8 @@ abstract class NotificationListEvent extends Equatable {
 }
 
 class LoadNotificationList extends NotificationListEvent {
-  final int page;
-  final int perPage;
-
-  const LoadNotificationList({required this.page, required this.perPage});
+  const LoadNotificationList();
 
   @override
-  List<Object?> get props => [page, perPage];
+  List<Object?> get props => [];
 }
