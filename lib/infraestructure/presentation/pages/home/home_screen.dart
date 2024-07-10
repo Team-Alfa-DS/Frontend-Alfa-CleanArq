@@ -221,8 +221,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
           image = (state.user.imagenPerfil == null)
               ? 'assets/images/userDefault.png'
               : state.user.imagenPerfil!;
-          print(image);
-          print('imagen locaa!!');
         }
 
         return AppBar(
@@ -336,40 +334,6 @@ ImageProvider _imagenFinal(String img) {
   if (img == 'assets/images/userDefault.png') {
     return AssetImage(img);
   } else {
-    return FileImage(_imageFromBase64String(img));
+    return MemoryImage(base64Decode(img));
   }
-}
-
-String _normalizeBase64(String base64String) {
-  int length = base64String.length;
-  int remainder = length % 4;
-
-  if (remainder != 0) {
-    base64String += '=' * (4 - remainder);
-  }
-
-  return base64String;
-}
-
-File _imageFromBase64String(String base64String) {
-  String normalizedBase64 = _normalizeBase64(base64String);
-
-  print('BASE 64 LOCOCHON!!!');
-  print(normalizedBase64);
-
-  Codec<String, String> stringToBase64 = utf8.fuse(base64);
-  String decoded = stringToBase64.decode(normalizedBase64);
-
-  // Quitar "File: " del principio
-  decoded = decoded.replaceAll("File: ", "");
-  // Quitar comillas simples (') del principio y del final
-  decoded = decoded.replaceAll("'", "");
-
-  print(decoded);
-
-  final File img = File(decoded);
-
-  print(img);
-
-  return img;
 }
