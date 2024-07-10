@@ -63,6 +63,8 @@ class HomeScreen extends StatelessWidget {
                   } else if (state is TrendingProgressLoaded) {
                     return ProgressSection(
                       percent: state.progress.percent,
+                      courseTitle: state.progress.courseTitle,
+                      lastTime: state.progress.lastTime,
                     );
                   } else if (state is TrendingProgressError) {
                     if (state.message == "El usuario no posee progreso") {

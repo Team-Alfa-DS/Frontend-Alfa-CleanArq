@@ -15,7 +15,8 @@ class ProfileProgressLoaded extends ProfileProgressState {
   final double percent;
   final int time;
 
-  const ProfileProgressLoaded({required this.percent, required this.time});
+  ProfileProgressLoaded({required double percent, required this.time})
+      : percent = double.parse((percent / 100).toStringAsFixed(2));
 
   @override
   List<Object> get props => [percent, time];

@@ -1,15 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:alpha_gymnastic_center/aplication/BLoC/progress/profile/profile_progress_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_profile_progress_use_case.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course_detailed.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/carrusel_h.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses_h.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:get_it/get_it.dart';
@@ -81,107 +77,118 @@ class PerfilUsuario extends StatelessWidget {
           child: Padding(
             padding:
                 const EdgeInsets.only(left: 10, top: 30, right: 10, bottom: 20),
-            child: Column(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      //const SizedBox(width: 20.0),
-                      const Text(
-                        'Profile',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white),
-                      ),
-                    ],
-                  ),
-                  //const SizedBox(width: 220.0),
-                  IconButton(
-                    icon: const Icon(Icons.edit, color: Colors.white),
-                    onPressed: () {
-                      context.push('/editProfile');
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 15.0),
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 50.0,
-                    backgroundImage: _imagenFinal(image),
-                    backgroundColor: Colors.transparent,
-                  ),
-                  const SizedBox(width: 10.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        userName,
-                        style: const TextStyle(
-                            fontSize: 20.0,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back_ios,
                             color: Colors.white,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      Row(
-                        children: [
-                          //const SizedBox(width: 50),
-                          const IconButton(
-                            icon: Icon(Icons.sentiment_satisfied_alt,
-                                color: Colors.white, size: 20),
-                            onPressed: null,
+                            size: 20,
                           ),
-                          const SizedBox(width: 130),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: ' $time ',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const TextSpan(
-                                  text: 'hrs',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5.0,
-                        width: 230,
-                        child: LinearProgressIndicator(
-                          backgroundColor: Colors.white,
-                          value: percent,
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(20),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ]),
+                        const Text(
+                          'Profile',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.edit, color: Colors.white),
+                      onPressed: () {
+                        context.push('/editProfile');
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15.0),
+                Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 50.0,
+                      backgroundImage: _imagenFinal(image),
+                      backgroundColor: Colors.transparent,
+                    ),
+                    const SizedBox(width: 10.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          userName,
+                          style: const TextStyle(
+                              fontSize: 20.0,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        Row(
+                          children: [
+                            const IconButton(
+                              icon: Icon(Icons.sentiment_satisfied_alt,
+                                  color: Colors.white, size: 20),
+                              onPressed: null,
+                            ),
+                            const SizedBox(width: 130),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: ' $time ',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const TextSpan(
+                                    text: 'hrs',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              height: 5.0,
+                              width: 220,
+                              child: LinearProgressIndicator(
+                                backgroundColor: Colors.white,
+                                value: percent,
+                                color: Colors.green,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              '${(percent * 100).toStringAsFixed(0)}%',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -189,12 +196,11 @@ class PerfilUsuario extends StatelessWidget {
   }
 
   ImageProvider _imagenFinal(String img) {
-    
-      if (img == 'assets/images/userDefault.png') {
-        return AssetImage(img);
-      } else {
-        return MemoryImage(base64Decode(img));
-      }
+    if (img == 'assets/images/userDefault.png') {
+      return AssetImage(img);
+    } else {
+      return MemoryImage(base64Decode(img));
+    }
   }
 
   Widget buildUserData(BuildContext context) {
