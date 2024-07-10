@@ -69,6 +69,13 @@ class ProgressRepositoryImpl extends ProgressRepository {
       'GET',
       (data) {
         print("la dataaaa");
+        print("la dataaaa");
+        print("la dataaaa");
+        print("la dataaaa");
+        print("la dataaaa");
+        print("la dataaaa");
+        print("la dataaaa");
+        print("la dataaaa");
         print("data$data");
         return TrendingProgressResponse(
           percent: data['percent'].toDouble(),
