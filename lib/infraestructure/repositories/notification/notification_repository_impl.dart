@@ -21,14 +21,11 @@ class NotificationRepositoryImpl extends NotificationRepository {
   }
 
   @override
-  Future<Result<List<Notifications>>> getNotificationMany({
-    required int page,
-    required int perPage,
-  }) async {
+  Future<Result<List<Notifications>>> getNotificationMany() async {
     await _addAuthorizationHeader();
     try {
       final response = await _apiRequestManager.request(
-        '/notification/many?page=$page&perpage=$perPage',
+        '/notify/all',
         'GET',
         (data) {
           List<Notifications> notifications = (data['notifications'] as List)
@@ -49,7 +46,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
     await _addAuthorizationHeader();
     try {
       final response = await _apiRequestManager.request(
-        '/notification/count/not-readed',
+        '/notify/count',
         'GET',
         (data) => data['count'] as int,
       );
@@ -66,9 +63,9 @@ class NotificationRepositoryImpl extends NotificationRepository {
     final token = await _localStorage.getAuthorizationToken();
     _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
     final response = await _apiRequestManager
-        .request<Notifications>('/notification/one/$id', 'GET', (data) {
+        .request<Notifications>('/notify/one/$id', 'GET', (data) {
       print('Data received in getSingleNotification: $data');
-      return NotificationMapperOne.fromJson(data);
+      return NotificationMapperMany.fromJson(data);
     });
     if (response.hasValue()) {
       final notification = response.value!;
@@ -83,7 +80,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
     await _addAuthorizationHeader();
     try {
       final response = await _apiRequestManager.request(
-        '/notifications/delete-all',
+        '/notify/delete',
         'DELETE',
         (data) => true,
       );

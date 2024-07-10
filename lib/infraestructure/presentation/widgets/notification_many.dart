@@ -17,7 +17,7 @@ class NotificationMany extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           NotificationListBloc(GetIt.instance<GetNotificationDataUseCase>())
-            ..add(const LoadNotificationList(page: 1, perPage: 1)),
+            ..add(const LoadNotificationList()),
       child: BlocBuilder<NotificationListBloc, NotificationListState>(
         builder: (context, state) {
           if (state is NotificationListLoading) {

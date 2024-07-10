@@ -13,6 +13,7 @@ import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popu
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
 import '../../../../domain/entities/blog.dart';
+import '../../../services/config/firebase/firebase_api.dart';
 import '../../widgets/categoryItem.dart';
 import '../../widgets/scrollHorizontal.dart';
 
@@ -125,7 +126,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 180,
+                height: 200,
                 child: Column(
                   children: <Widget>[
                     const Align(
@@ -163,7 +164,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 40,
+                height: 50,
                 child: Column(
                   children: <Widget>[
                     Align(
@@ -181,6 +182,9 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const blogsCarousel()
+              ,const SizedBox(
+                height: 30,
+              ),
             ],
           ),
         ),

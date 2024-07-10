@@ -2,12 +2,26 @@
 class Assets {
   Assets._();
 
+  static const String alphaGymnasticCenterMainActivity = 'android/app/src/main/kotlin/com/example/alpha_gymnastic_center/MainActivity.kt';
+  static const String androidBuild = 'android/build.gradle';
+  static const String androidGradle = 'android/gradle.properties';
+  static const String androidGradlew = 'android/gradlew';
+  static const String androidLocal = 'android/local.properties';
+  static const String androidSettings = 'android/settings.gradle';
+  static const String appBuild = 'android/app/build.gradle';
+  static const String appFlutterMultiDexApplication = 'android/app/src/main/java/io/flutter/app/FlutterMultiDexApplication.java';
+  static const String appGoogleServices = 'android/app/google-services.json';
   static const String assetsImagesGym = 'assets/images/gym.webp';
+  static const String debugAndroidManifest = 'android/app/src/debug/AndroidManifest.xml';
+  static const String drawableLaunchBackground = 'android/app/src/main/res/drawable/launch_background.xml';
+  static const String drawableV21LaunchBackground = 'android/app/src/main/res/drawable-v21/launch_background.xml';
   static const String fontsPTSansBold = 'assets/fonts/PTSans-Bold.ttf';
   static const String fontsPTSansBoldItalic = 'assets/fonts/PTSans-BoldItalic.ttf';
   static const String fontsPTSansItalic = 'assets/fonts/PTSans-Italic.ttf';
   static const String fontsPTSansRegular = 'assets/fonts/PTSans-Regular.ttf';
   static const String frontendAlfaCleanArq = '.env';
+  static const String frontendAlfaCleanArqAndroidGradlew = 'android/gradlew.bat';
+  static const String gradleWrapperGradleWrapper = 'android/gradle/wrapper/gradle-wrapper.properties';
   static const String iconsAjustes = 'assets/icons/ajustes.png';
   static const String iconsCampana = 'assets/icons/campana.png';
   static const String iconsCycling = 'assets/icons/cycling.png';
@@ -66,6 +80,17 @@ class Assets {
   static const String imagesYogaVideo5 = 'assets/images/yoga_video_5.png';
   static const String logoFondo Morado = 'assets/logo/Fondo Morado.png';
   static const String logoLogo Gymnastic Center = 'assets/logo/Logo Gymnastic Center.png';
+  static const String mainAndroidManifest = 'android/app/src/main/AndroidManifest.xml';
+  static const String mipmapHdpiLogoIcono = 'android/app/src/main/res/mipmap-hdpi/logo_icono.png';
+  static const String mipmapMdpiIcLauncher = 'android/app/src/main/res/mipmap-mdpi/ic_launcher.png';
+  static const String mipmapXhdpiIcLauncher = 'android/app/src/main/res/mipmap-xhdpi/ic_launcher.png';
+  static const String mipmapXxhdpiLogoIcono = 'android/app/src/main/res/mipmap-xxhdpi/logo_icono.png';
+  static const String mipmapXxxhdpiIcLauncher = 'android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png';
+  static const String pluginsGeneratedPluginRegistrant = 'android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java';
+  static const String profileAndroidManifest = 'android/app/src/profile/AndroidManifest.xml';
+  static const String valuesNightStyles = 'android/app/src/main/res/values-night/styles.xml';
+  static const String valuesStyles = 'android/app/src/main/res/values/styles.xml';
   static const String videosYogavideo = 'assets/videos/yogavideo.mp4';
+  static const String wrapperGradleWrapper = 'android/gradle/wrapper/gradle-wrapper.jar';
 
 }

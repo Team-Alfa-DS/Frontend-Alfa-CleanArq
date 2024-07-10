@@ -112,10 +112,9 @@ class ScrollH<T> extends StatelessWidget {
                 style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
+                  fontSize: 14.0,
                 ),
                 maxLines: 2,
-                overflow: TextOverflow.ellipsis,
               ),
               Text(
                  itemMap['categoria'] ?? 'Categoría',

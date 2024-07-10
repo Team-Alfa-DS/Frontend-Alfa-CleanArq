@@ -19,7 +19,7 @@ class NotificationListBloc
     emit(NotificationListLoading());
 
     final result = await _getNotificationDataUseCase.execute(
-      GetNotificationDataUseCaseInput(page: event.page, perPage: event.perPage),
+      GetNotificationDataUseCaseInput(),
     );
 
     if (result.hasValue()) {
