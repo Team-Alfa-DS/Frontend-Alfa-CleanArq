@@ -115,19 +115,17 @@ class BlogGrid extends StatelessWidget {
             itemCount: blogs.length,
             itemBuilder: (context, index) {
               return GestureDetector(
-                  onTap: () {
-                    print('Tapped on blog: ${blogs[index].title}');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            Blog_Detailed_Widget(item: blogs[index]),
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 4.0),
+              onTap: () {
+                print('Tapped on blog: ${blogs[index].title}');
+                Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Blog_Detailed_Widget(item: blogs[index]),
+                  ),
+                );
+              },
+              child:
+                    Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                     child: Stack(
                       fit: StackFit.expand,
                       children: [

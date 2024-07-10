@@ -42,7 +42,7 @@ class blogsCarousel extends StatelessWidget {
                 } else if (state is BlogListLoaded) {
                   final blogs = state.blogs.sublist(0, 5);
                   return SizedBox(
-                    height: 180,
+                    height: 190,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: blogs.map((blog) {
