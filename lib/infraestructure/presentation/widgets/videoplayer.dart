@@ -2,26 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/video/video_bloc.dart';
-import 'package:alpha_gymnastic_center/aplication/BLoC/video/video_event.dart';
-import 'package:alpha_gymnastic_center/aplication/BLoC/video/video_state.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   final String videoPath;
+  final String lessonTitle;
   final String courseId;
   final String lessonId;
 
   const VideoPlayerScreen({
-    Key? key,
+    super.key,
     required this.videoPath,
+    required this.lessonTitle,
     required this.courseId,
     required this.lessonId,
-  }) : super(key: key);
+  });
 
   @override
   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
 }
 
-class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
+class _VideoPlayerScreenState extends State<VideoPlayerScreen>
+    with WidgetsBindingObserver {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
   bool _isControllerInitialized = false;
@@ -32,37 +33,67 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _initializeVideoController();
     BlocProvider.of<VideoBloc>(context).add(LoadVideoDetailEvent(
       courseId: widget.courseId,
       lessonId: widget.lessonId,
-      videoUrl: widget.videoPath,
     ));
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     if (_isControllerInitialized) {
-      final currentPosition = _controller.value.position.inSeconds;
-      BlocProvider.of<VideoBloc>(context).add(SaveVideoProgressEvent(
-        courseId: widget.courseId,
-        lessonId: widget.lessonId,
-        time: currentPosition,
-      ));
       _controller.dispose();
     }
     super.dispose();
   }
 
-  void _closeVideoPlayer() {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.paused) {
+      _saveVideoProgress();
+    }
+  }
+
+  Future<void> _initializeVideoController() async {
+    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoPath));
+    _initializeVideoPlayerFuture = _controller.initialize();
+    await _initializeVideoPlayerFuture;
+    setState(() {
+      _isControllerInitialized = true;
+    });
+    _controller.setLooping(true);
+    _controller.play();
+
+    _controller.addListener(() {
+      if (_controller.value.isPlaying && !_isDraggingSlider) {
+        setState(() {
+          _sliderValue = _controller.value.position.inSeconds.toDouble();
+        });
+      }
+    });
+  }
+
+  void _saveVideoProgress() {
     if (_isControllerInitialized) {
       final currentPosition = _controller.value.position.inSeconds;
+      final totalTime = _controller.value.duration.inSeconds;
+      print("ping");
+      print(currentPosition);
       BlocProvider.of<VideoBloc>(context).add(SaveVideoProgressEvent(
         courseId: widget.courseId,
         lessonId: widget.lessonId,
         time: currentPosition,
+        totalTime: totalTime,
       ));
-      _controller.dispose();
     }
+  }
+
+  void _closeVideoPlayer() {
+    _saveVideoProgress();
     Navigator.of(context).pop();
   }
 
@@ -90,17 +121,19 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   void _skipForward() {
     if (_isControllerInitialized) {
-      final newPosition = _controller.value.position + Duration(seconds: 5);
+      final newPosition =
+          _controller.value.position + const Duration(seconds: 5);
       _controller.seekTo(newPosition);
-      _controller.play(); // Asegurar que el video se reproduzca después del salto
+      _controller.play();
     }
   }
 
   void _skipBackward() {
     if (_isControllerInitialized) {
-      final newPosition = _controller.value.position - Duration(seconds: 5);
+      final newPosition =
+          _controller.value.position - const Duration(seconds: 5);
       _controller.seekTo(newPosition);
-      _controller.play(); // Asegurar que el video se reproduzca después del salto
+      _controller.play();
     }
   }
 
@@ -115,25 +148,25 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     return OrientationBuilder(
       builder: (context, orientation) {
         if (orientation == Orientation.portrait) {
-          _showControls = true; // Asegurar que los controles estén visibles en vertical automáticamente
+          _showControls = true;
         }
         return Scaffold(
           appBar: (orientation == Orientation.portrait || _showControls)
               ? AppBar(
-            backgroundColor: Colors.black,
-            title: const Text(
-              'Video Player',
-              style: TextStyle(color: Colors.white),
-            ),
-            automaticallyImplyLeading: false,
-            leading: IconButton(
-              icon: const Icon(
-                Icons.close,
-                color: Colors.white,
-              ),
-              onPressed: _closeVideoPlayer,
-            ),
-          )
+                  backgroundColor: Colors.black,
+                  title: Text(
+                    widget.lessonTitle,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  automaticallyImplyLeading: false,
+                  leading: IconButton(
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.white,
+                    ),
+                    onPressed: _closeVideoPlayer,
+                  ),
+                )
               : null,
           body: GestureDetector(
             onTap: () {
@@ -141,38 +174,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 _toggleControlsVisibility();
               } else {
                 setState(() {
-                  _showControls = true; // Asegurar que los controles estén visibles en vertical
+                  _showControls = true;
                 });
               }
             },
-            child: BlocBuilder<VideoBloc, VideoState>(
-              builder: (context, state) {
-                if (state is VideoLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (state is VideoLoaded) {
-                  if (!_isControllerInitialized) {
-                    _controller = VideoPlayerController.network(state.video.url);
-                    _initializeVideoPlayerFuture = _controller.initialize().then((_) {
-                      _controller.seekTo(Duration(seconds: state.currentTime));
-                      _controller.setLooping(true);
-                      _controller.play();
-                      setState(() {
-                        _isControllerInitialized = true;
-                      });
-
-                      // Actualizar el estado del slider mientras el video está reproduciéndose
-                      _controller.addListener(() {
-                        if (_controller.value.isPlaying && !_isDraggingSlider) {
-                          setState(() {
-                            _sliderValue = _controller.value.position.inSeconds.toDouble();
-                          });
-                        }
-                      });
-                    });
-                  }
-
-                  return Container(
-                    color: Colors.black, // Establecer el fondo negro
+            child: _isControllerInitialized
+                ? Container(
+                    color: Colors.black,
                     child: Stack(
                       children: <Widget>[
                         Center(
@@ -190,14 +198,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           ),
                       ],
                     ),
-                  );
-                } else if (state is VideoError) {
-                  return Center(child: Text(state.message));
-                } else {
-                  return Container();
-                }
-              },
-            ),
+                  )
+                : const Center(child: CircularProgressIndicator()),
           ),
         );
       },
@@ -215,7 +217,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               IconButton(
-                icon: Icon(Icons.fast_rewind, color: Colors.white),
+                icon: const Icon(Icons.fast_rewind, color: Colors.white),
                 onPressed: _skipBackward,
               ),
               IconButton(
@@ -234,7 +236,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 },
               ),
               IconButton(
-                icon: Icon(Icons.fast_forward, color: Colors.white),
+                icon: const Icon(Icons.fast_forward, color: Colors.white),
                 onPressed: _skipForward,
               ),
             ],

@@ -1,11 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:alpha_gymnastic_center/aplication/BLoC/progress/profile/profile_progress_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_profile_progress_use_case.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course_detailed.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/carrusel_h.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses_h.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +13,6 @@ import 'package:alpha_gymnastic_center/common/utils/string_utils.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../widgets/my_training.dart';
-//import '../../widgets/popular_courses.dart';
 
 class PerfilUsuario extends StatelessWidget {
   const PerfilUsuario({super.key});
@@ -59,13 +55,12 @@ class PerfilUsuario extends StatelessWidget {
       builder: (context, state) {
         String userName = 'Nombre de Usuario';
         String image = 'image';
+
         if (state is UserLoaded) {
           userName = getFirstTwoWords(state.user.name ?? 'Nombre de Usuario');
           image = (state.user.imagenPerfil == null)
-              ? 'assets/images/user.png'
+              ? 'assets/images/userDefault.png'
               : state.user.imagenPerfil!;
-          print(image);
-          print('imagen locaa!!');
         }
         return Container(
           height: 220.0,
@@ -82,170 +77,130 @@ class PerfilUsuario extends StatelessWidget {
           child: Padding(
             padding:
                 const EdgeInsets.only(left: 10, top: 30, right: 10, bottom: 20),
-            child: Column(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      //const SizedBox(width: 20.0),
-                      const Text(
-                        'Profile',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white),
-                      ),
-                    ],
-                  ),
-                  //const SizedBox(width: 220.0),
-                  IconButton(
-                    icon: const Icon(Icons.edit, color: Colors.white),
-                    onPressed: () {
-                      context.push('/editProfile');
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 15.0),
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 50.0,
-                    backgroundImage: (image == 'assets/images/user.png')
-                        ? AssetImage(image)
-                        : AssetImage(_imageFromBase64String(image)),
-                    /*MemoryImage(_imageFromBase64String(image)),*/
-                    /*AssetImage('assets/images/user.png'),*/
-                    /*MemoryImage(convertStringToUint8List(image)),*/
-                    /*MemoryImage(imageBytes),*/
-                    backgroundColor: Colors.transparent,
-                  ),
-                  const SizedBox(width: 10.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        userName,
-                        style: const TextStyle(
-                            fontSize: 20.0,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back_ios,
                             color: Colors.white,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      Row(
-                        children: [
-                          //const SizedBox(width: 50),
-                          const IconButton(
-                            icon: Icon(Icons.sentiment_satisfied_alt,
-                                color: Colors.white, size: 20),
-                            onPressed: null,
+                            size: 20,
                           ),
-                          const SizedBox(width: 130),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: ' $time ',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const TextSpan(
-                                  text: 'hrs',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5.0,
-                        width: 230,
-                        child: LinearProgressIndicator(
-                          backgroundColor: Colors.white,
-                          value: percent,
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(20),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ]),
+                        const Text(
+                          'Profile',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.edit, color: Colors.white),
+                      onPressed: () {
+                        context.push('/editProfile');
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15.0),
+                Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 50.0,
+                      backgroundImage: _imagenFinal(image),
+                      backgroundColor: Colors.transparent,
+                    ),
+                    const SizedBox(width: 10.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          userName,
+                          style: const TextStyle(
+                              fontSize: 20.0,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        Row(
+                          children: [
+                            const IconButton(
+                              icon: Icon(Icons.sentiment_satisfied_alt,
+                                  color: Colors.white, size: 20),
+                              onPressed: null,
+                            ),
+                            const SizedBox(width: 130),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: ' $time ',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const TextSpan(
+                                    text: 'hrs',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              height: 5.0,
+                              width: 220,
+                              child: LinearProgressIndicator(
+                                backgroundColor: Colors.white,
+                                value: percent,
+                                color: Colors.green,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              '${(percent * 100).toStringAsFixed(0)}%',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         );
       },
     );
   }
 
-  String _normalizeBase64(String base64String) {
-    int length = base64String.length;
-    int remainder = length % 4;
-
-    if (remainder != 0) {
-      base64String += '=' * (4 - remainder);
+  ImageProvider _imagenFinal(String img) {
+    if (img == 'assets/images/userDefault.png') {
+      return AssetImage(img);
+    } else {
+      return MemoryImage(base64Decode(img));
     }
-
-    return base64String;
-  }
-
-  String _imageFromBase64String(String base64String) {
-    String normalizedBase64 = _normalizeBase64(base64String);
-    print('BASE 64 LOCOCHON!!!');
-    print(normalizedBase64);
-    // print(decoded);
-    // final decode = base64Decode(normalizedBase64);
-    // print(decode);
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String decoded = stringToBase64.decode(normalizedBase64);
-    // Quitar "File: " del principio
-    decoded = decoded.replaceAll("File: ", "");
-
-    // Quitar comillas simples (') del principio y del final
-    decoded = decoded.replaceAll("'", "");
-    print(decoded);
-    return decoded;
-  }
-
-  Image _imageFromUint8List(Uint8List uint8List) {
-    return Image.memory(uint8List);
-  }
-
-  Image imageFromBase64String(String base64String) {
-    return Image.memory(base64Decode(base64String));
-  }
-
-  Uint8List dataFromBase64String(String base64String) {
-    return base64Decode(base64String);
-  }
-
-  String base64String(Uint8List data) {
-    return base64Encode(data);
-  }
-
-  Uint8List convertStringToUint8List(String str) {
-    final List<int> codeUnits = str.codeUnits;
-    final Uint8List unit8List = Uint8List.fromList(codeUnits);
-    print(unit8List);
-    print('IMAGEN UNIT8LIST');
-    return unit8List;
   }
 
   Widget buildUserData(BuildContext context) {
@@ -324,7 +279,6 @@ class PerfilUsuario extends StatelessWidget {
     return const SizedBox(
       height: 230,
       child: Column(
-        //crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -334,77 +288,13 @@ class PerfilUsuario extends StatelessWidget {
                   'My Trainning',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                //const SizedBox(width: 100),
-                /*SizedBox(
-                  height: 20,
-                  width: 100,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'See all >',
-                      style: TextStyle(
-                        color: Colors.purple,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),*/
               ],
             ),
           ),
           SizedBox(height: 10),
-          Expanded(child: PopularCoursesCarousel() /*MyTrainingCarrousel()*/),
+          Expanded(child: PopularCoursesCarousel()),
         ],
       ),
     );
   }
-
-/*Expanded(
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: const <Widget>[
-                ScrollHorizontal(
-                  titulo: 'Tadasana Yaga',
-                  descripcion: 'Yoga App',
-                  categoria: 'Yoga',
-                  fecha: '',
-                  fotoString: 'assets/images/Yoga Ejemplo 1.png',
-                  disposicion: 2,
-                  isNew: true,
-                  conexion: '',
-                ),
-                ScrollHorizontal(
-                  titulo: 'Marvin McKinny',
-                  descripcion: '',
-                  categoria: 'Yoga',
-                  fecha: '',
-                  fotoString: 'assets/images/Yoga Ejemplo 2.png',
-                  disposicion: 2,
-                  isNew: false,
-                  conexion: '',
-                ),
-                ScrollHorizontal(
-                  titulo: 'Carlos Alonso',
-                  descripcion: '',
-                  categoria: 'Yoga',
-                  fecha: '',
-                  fotoString: 'assets/images/Yoga Ejemplo 4.png',
-                  disposicion: 2,
-                  isNew: false,
-                  conexion: '/tipsTopics',
-                ),
-                ScrollHorizontal(
-                  titulo: 'Ralph Tobirson',
-                  descripcion: 'Yoga App',
-                  categoria: 'Yoga',
-                  fecha: '',
-                  fotoString: 'assets/images/Yoga Ejemplo 6.png',
-                  disposicion: 2,
-                  isNew: false,
-                  conexion: '/tipsTopics',
-                ),
-              ],
-            ),
-          ),*/
 }
