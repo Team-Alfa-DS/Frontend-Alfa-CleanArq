@@ -15,7 +15,7 @@ import 'package:go_router/go_router.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/popular_courses_h.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
-import '../../widgets/categoryItem.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/categorycarousel.dart';
 import '../../widgets/scrollHorizontal.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -73,11 +73,11 @@ class HomeScreen extends StatelessWidget {
                   return Container();
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 140,
                 child: Column(
                   children: <Widget>[
-                    const Align(
+                    Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
                         padding:
@@ -85,21 +85,14 @@ class HomeScreen extends StatelessWidget {
                         child: Text(
                           'Categorías',
                           style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
                     Expanded(
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: categories.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return CategoryItem(
-                            imageUrlPicked: categories[index],
-                            imageUrlUnpicked: categoriesUnpicked[index],
-                          );
-                        },
-                      ),
+                      child: CategoryCarousel(),
                     ),
                   ],
                 ),
@@ -110,7 +103,7 @@ class HomeScreen extends StatelessWidget {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(
-                          bottom: 3.0, top: 0.0, left: 10, right: 10),
+                          bottom: 5.0, top: 0.0, left: 10, right: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -124,7 +117,7 @@ class HomeScreen extends StatelessWidget {
                               context.push('/trainingScreen');
                             },
                             child: const Text(
-                              'Ver todo...',
+                              'Ver más...',
                               style: TextStyle(
                                 fontSize: 16,
                                 color: Color.fromARGB(255, 100, 0, 161),
@@ -143,17 +136,32 @@ class HomeScreen extends StatelessWidget {
               SizedBox(
                 height: 180,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding:
-                            EdgeInsets.only(bottom: 0.5, top: 0.0, left: 10),
-                        child: Text(
-                          'Videos de Cursos',
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: 5.0, top: 0.0, left: 10, right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Videos de Cursos',
+                            style: TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/videos');
+                            },
+                            child: const Text(
+                              'Ver más...',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Color.fromARGB(255, 100, 0, 161),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Expanded(
@@ -178,25 +186,71 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 40,
+              SizedBox(
+                height: 50,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 5, top: 0.0, left: 10),
-                        child: Text(
-                          'Nuestros últimos Blogs',
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: 0.0, top: 0.0, left: 10, right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Nuestros últimos Blogs',
+                            style: TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/blogs');
+                            },
+                            child: const Text(
+                              'Ver más...',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Color.fromARGB(255, 100, 0, 161),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
-              const blogsCarousel()
+              const blogsCarousel(),
+              const Divider(
+                color: Colors.grey,
+                thickness: 1,
+                indent: 10,
+                endIndent: 10,
+              ),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '© 2024 Mi Aplicación',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    SizedBox(width: 10), // Espacio entre los textos
+                    Text(
+                      'Versión 1.0.0',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -213,27 +267,11 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   _CustomAppBarState createState() => _CustomAppBarState();
 
   @override
-  Size get preferredSize => const Size.fromHeight(210);
+  Size get preferredSize => const Size.fromHeight(150);
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-  int? _selectedDayIndex = 1; // Por defecto, 'Hoy' está seleccionado
-  final List<String> _days = ['Mañana', 'Hoy', 'Ayer'];
-  TextEditingController searchText = new TextEditingController();
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _loadUserData();
-  // }
-
-  // Future<void> _loadUserData() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     name = prefs.getString('name') ?? 'Nombre de Usuario';
-  //     uuid = prefs.getString('uuid') ?? 'ID de Usuario';
-  //   });
-  // }
+  TextEditingController searchText = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -247,109 +285,73 @@ class _CustomAppBarState extends State<CustomAppBar> {
           email = state.user.email ?? 'Email';
         }
 
-        return AppBar(
-          automaticallyImplyLeading: false,
-          actions: <Widget>[
-            IconButton(
-              icon: const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/user.png'),
+        return PreferredSize(
+          preferredSize: const Size.fromHeight(20.0), // Altura total del AppBar
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            actions: <Widget>[
+              IconButton(
+                icon: const CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/user.png'),
+                ),
+                onPressed: () {
+                  context.push('/profile');
+                },
               ),
-              onPressed: () {
-                context.push('/profile');
-              },
-            ),
-          ],
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
+            ],
+            flexibleSpace: Container(
+              height: 190.0, // Altura del fondo morado
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
+                ),
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(30.0),
+                ),
               ),
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(30.0),
-              ),
-            ),
-            child: SafeArea(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(name,
-                                style: const TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white)),
-                            Text(email,
-                                style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white)),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                      height: 50.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.white,
-                      ),
-                      child: _buildSearchBar()),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  //   child: ClipRRect(
-                  //     borderRadius: BorderRadius.circular(9),
-                  //     child: TextField(
-                  //       onTap: () {
-                  //         // context.push('/popularSearch');
-                  //       },
-                  //       textAlign: TextAlign.center,
-                  //       decoration: const InputDecoration(
-                  //         hintText: 'Buscar...',
-                  //         filled: true,
-                  //         fillColor: Colors.white,
-                  //         prefixIcon: Icon(Icons.search),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: _days.map((day) {
-                      int index = _days.indexOf(day);
-                      return TextButton(
-                        onPressed: () {
-                          setState(() {
-                            _selectedDayIndex = index;
-                          });
-                        },
-                        child: Text(
-                          day,
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: _selectedDayIndex == index
-                                ? Colors.white
-                                : Colors.white.withOpacity(0.5),
-                            fontWeight: _selectedDayIndex == index
-                                ? FontWeight.bold
-                                : FontWeight.normal,
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(name,
+                                  style: const TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white)),
+                              Text(email,
+                                  style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white)),
+                            ],
                           ),
-                        ),
-                      );
-                    }).toList(),
+                        ],
+                      ),
+                      const SizedBox(
+                          height:
+                              15), // Espacio entre los textos y el SearchBar
+                      Container(
+                          height: 50.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.white,
+                          ),
+                          child: _buildSearchBar()),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),

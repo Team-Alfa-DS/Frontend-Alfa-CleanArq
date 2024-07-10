@@ -3,8 +3,6 @@ import 'package:alpha_gymnastic_center/domain/entities/trainer.dart';
 import 'package:alpha_gymnastic_center/common/result.dart';
 import 'package:alpha_gymnastic_center/domain/repositories/trainer_repository.dart';
 
-import '../../localStorage/local_storage.dart';
-
 class GetManyTrainersUseCaseInput extends IUseCaseInput {
   final int page;
   final int perPage;

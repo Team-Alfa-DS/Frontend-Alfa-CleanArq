@@ -1,5 +1,4 @@
 import '../../../domain/entities/blog.dart';
-import '../../../domain/entities/trainer.dart';
 import '../trainer/trainer_mapper.dart';
 
 class BlogMapperMany {
@@ -13,7 +12,7 @@ class BlogMapperMany {
         trainerName: json['trainer'] as String? ?? '',
         date: json['date'] != null ? DateTime.parse(json['date']) : null,
       );
-    }catch(e){
+    } catch (e) {
       throw e;
     }
   }
@@ -25,7 +24,8 @@ class BlogMapperMany {
       'description': blog.description,
       'category': blog.category,
       'images': blog.images,
-      'trainer': blog.trainer != null ? TrainerMapper.toJson(blog.trainer!) : null,
+      'trainer':
+          blog.trainer != null ? TrainerMapper.toJson(blog.trainer!) : null,
       'tags': blog.tags,
       'date': blog.date?.toIso8601String(),
     };

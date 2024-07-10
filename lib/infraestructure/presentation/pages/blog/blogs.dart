@@ -12,7 +12,6 @@ import '../../../../aplication/BLoC/blog/blog_many/blog_many_state.dart';
 import '../../../../aplication/use_cases/blog/get_blog_many_use_case.dart';
 import '../../../../domain/entities/blog.dart';
 import '../../widgets/navegation.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/sidebarmenu.dart';

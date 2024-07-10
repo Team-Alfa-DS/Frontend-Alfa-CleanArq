@@ -11,12 +11,14 @@ import 'package:alpha_gymnastic_center/aplication/use_cases/user/login_in_use_ca
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/register_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/update_user_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/validate_code_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/category/get_category_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/api/api_request_imp.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/localStorage/loca_storage_imp.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/course/course_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/progress/progress_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/search/search_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/user/user_repository_impl.dart';
+import 'package:alpha_gymnastic_center/infraestructure/repositories/category/category_repository_impl.dart';
 import 'package:alpha_gymnastic_center/domain/repositories/course_repository.dart';
 import 'package:alpha_gymnastic_center/domain/repositories/user_repository.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -45,30 +47,26 @@ class InjectManager {
         UserRepositoryImpl(apiRequestManager: apiRequestManagerImpl);
 
     final progressRepository = ProgressRepositoryImpl(
-      apiRequestManager: apiRequestManagerImpl,
-      localStorage: localStorage,
-    );
+        apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
 
     final blogRepository = BlogRepositoryImpl(
-        apiRequestManager: apiRequestManagerImpl,
-        localStorage: localStorage
-    );
+        apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
 
     final commentRepository = CommentRepositoryImpl(
-        apiRequestManager: apiRequestManagerImpl,
-        localStorage: localStorage
-    );
+        apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
 
     final courseRepository = CourseRepositoryImpl(
-      apiRequestManager: apiRequestManagerImpl,
-      localStorage: localStorage,
-    );
+        apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
+
+    final categoryRepository = CategoryRepositoryImpl(
+        apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
 
     // Register repositories with GetIt
     getIt.registerSingleton<UserRepository>(userRepository);
     getIt.registerSingleton<CourseRepository>(courseRepository);
 
-    final searchRepository = SearchRepositoryImpl(apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
+    final searchRepository = SearchRepositoryImpl(
+        apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
 
     // UseCases
 
@@ -130,23 +128,23 @@ class InjectManager {
       blogRepository: blogRepository,
     );
 
-    final getSingleBlogUseCase = GetSingleBlogUseCase(
-        blogRepository: blogRepository
-    );
+    final getSingleBlogUseCase =
+        GetSingleBlogUseCase(blogRepository: blogRepository);
 
     //!Comments
 
-    final getCommentDataUseCase = GetCommentDataUseCase(
-        commentRepository: commentRepository
-    );
-
-
+    final getCommentDataUseCase =
+        GetCommentDataUseCase(commentRepository: commentRepository);
 
     //! Search
     final searchUseCase = SearchUseCase(searchRepository: searchRepository);
 
-    final searchTagsUseCase = SearchTagsUseCase(searchRepository: searchRepository);
+    final searchTagsUseCase =
+        SearchTagsUseCase(searchRepository: searchRepository);
 
+    //! Category
+
+    final categoryUseCase = GetCategoryDataUseCase(categoryRepository);
 
     // Registering singletons
 
@@ -172,10 +170,13 @@ class InjectManager {
     getIt.registerSingleton<GetSingleBlogUseCase>(getSingleBlogUseCase);
 
     //!Comments
-    getIt.registerSingleton<GetCommentDataUseCase>( getCommentDataUseCase);
+    getIt.registerSingleton<GetCommentDataUseCase>(getCommentDataUseCase);
 
     //!Search
     getIt.registerSingleton<SearchUseCase>(searchUseCase);
     getIt.registerSingleton<SearchTagsUseCase>(searchTagsUseCase);
+
+    //!Category
+    getIt.registerSingleton<GetCategoryDataUseCase>(categoryUseCase);
   }
 }

@@ -1,5 +1,4 @@
 import 'package:alpha_gymnastic_center/aplication/use_cases/trainer/get_many_trainers_use_case.dart';
-import 'package:alpha_gymnastic_center/domain/entities/course.dart';
 import 'package:bloc/bloc.dart';
 
 import '../../../use_cases/courses/get_course_data_use_case.dart';
@@ -34,10 +33,10 @@ class CoursesSubscribedBloc
     );
 
     //* Hacer match
-  //   if (courses.hasValue() && trainers.hasValue()) {
-  //     List<Course> coursesSubscribed = courses.value.where((curso) {
-  //   return trainers.value.every((value) => curso.contains(value.id));
-  // }).toList();
+    //   if (courses.hasValue() && trainers.hasValue()) {
+    //     List<Course> coursesSubscribed = courses.value.where((curso) {
+    //   return trainers.value.every((value) => curso.contains(value.id));
+    // }).toList();
 
     // if (result.hasValue()) {
     //   emit(CoursesSubscribedLoaded(result.value!));

@@ -1,4 +1,3 @@
-
 import 'package:alpha_gymnastic_center/aplication/use_cases/comment/get_comment_data_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/snackbarComment.dart';
@@ -9,10 +8,6 @@ import 'package:get_it/get_it.dart';
 import '../../../aplication/BLoC/comment/listcomments/comment_list_bloc.dart';
 import '../../../aplication/BLoC/comment/listcomments/comment_list_event.dart';
 import '../../../aplication/BLoC/comment/listcomments/comment_list_state.dart';
-import '../../../aplication/BLoC/comment/post/comment_post_bloc.dart';
-import '../../../aplication/BLoC/comment/post/comment_post_event.dart';
-import '../../../aplication/BLoC/comment/post/comment_post_state.dart';
-import '../../../aplication/use_cases/comment/post_new_comment_use_case.dart';
 import '../pages/course/Course.dart';
 import 'navegation.dart';
 
@@ -21,7 +16,7 @@ class Widgets_Comments extends StatelessWidget {
   final String type;
   final String title;
 
-   Widgets_Comments({
+  Widgets_Comments({
     Key? key,
     required this.id,
     required this.type,
@@ -30,14 +25,14 @@ class Widgets_Comments extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(type == "LESSON") {
+    if (type == "LESSON") {
       return BlocProvider(
         create: (context) => CommentListBloc(
           GetIt.instance<GetCommentDataUseCase>(),
         )..add(LoadCommentList(page: 1, perpage: 15, lesson: id, blog: '')),
         child: Comments(id: id, type: type, title: title),
       );
-    }else {
+    } else {
       return BlocProvider(
         create: (context) => CommentListBloc(
           GetIt.instance<GetCommentDataUseCase>(),
@@ -138,7 +133,10 @@ class _CommentsState extends State<Comments> {
                             onPressed: () {
                               // Handle send comment logic here
                               print('Sent comment: ${_commentController.text}');
-                              snackbarComment(id: widget.id, type: widget.type, text: _commentController.text);
+                              snackbarComment(
+                                  id: widget.id,
+                                  type: widget.type,
+                                  text: _commentController.text);
                               _commentController.clear();
                             },
                           ),
@@ -151,9 +149,7 @@ class _CommentsState extends State<Comments> {
             );
           }
           return const SizedBox.shrink(
-             child:
-               Text("Comentarios no encontrados!")
-          );
+              child: Text("Comentarios no encontrados!"));
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -184,5 +180,4 @@ class _CommentsState extends State<Comments> {
       drawer: const SideBarMenu(),
     );
   }
-
 }

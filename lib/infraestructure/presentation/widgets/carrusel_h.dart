@@ -4,7 +4,8 @@ class ScrollH<T> extends StatelessWidget {
   final T item;
   final int disposicion;
 
-  const ScrollH({super.key, 
+  const ScrollH({
+    super.key,
     required this.item,
     required this.disposicion,
   });
@@ -92,49 +93,54 @@ class ScrollH<T> extends StatelessWidget {
 
   Widget _buildSmallImageWithTitle() {
     final Map<String, dynamic> itemMap = item as Map<String, dynamic>;
-    return Column(
-      children: [
-        SizedBox(
-          width: double.infinity,
-          height: 100.0,
-          child: Image(
-            image: _getImageProvider(),
-            fit: BoxFit.cover,
+    return Container(
+      width: 120.0,
+      height: 120.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Colors.grey.withOpacity(0.2),
+      ),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF4F14A0),
+                  Color(0xFF8066FF),
+                ],
+              ),
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                itemMap['titulo'] ?? 'Titulo',
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              Text(
-                 itemMap['categoria'] ?? 'Categoría',
-                 style: const TextStyle(
-                    color: Colors.purple,
-                    fontSize: 14.0,
-                 )
-              ),
-              Text(
-                  itemMap['fecha'] ?? 'Fecha',
-                 style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 12.0,
-                 )
-              ),
-            ],
+          const Center(
+            child: Icon(
+              Icons.category,
+              size: 60.0,
+              color: Colors.white,
+            ),
           ),
-        ),
-      ],
+          Positioned(
+            left: 8.0,
+            right: 8.0,
+            bottom: 8.0,
+            child: Text(
+              itemMap['titulo'] ?? 'Titulo',
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -180,14 +186,13 @@ class ScrollH<T> extends StatelessWidget {
       final String? fotoString = itemMap['fotoString'] as String?;
       final String? fotoUrl = itemMap['fotoUrl'] as String?;
 
-
-
       if (fotoString != null) {
         return AssetImage(fotoString);
       } else if (fotoUrl != null && fotoUrl != '') {
         return NetworkImage(fotoUrl);
-      } else if((fotoUrl == null && fotoString == null) || (fotoUrl == '' && fotoString == '')){
-        return AssetImage('assets/images/placeholder_image.png');
+      } else if ((fotoUrl == null && fotoString == null) ||
+          (fotoUrl == '' && fotoString == '')) {
+        return const AssetImage('assets/images/placeholder_image.png');
       }
     }
     return const AssetImage('assets/images/placeholder_image.png');
