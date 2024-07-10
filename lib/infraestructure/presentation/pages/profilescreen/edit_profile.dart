@@ -68,7 +68,6 @@ class _EditProfileState extends State<EditProfile> {
             appBar: const YogaAppBar(title: "Editar Perfil"),
             body: SingleChildScrollView(
               child: Column(
-                //crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(
                     height: 5,
@@ -123,12 +122,9 @@ class _EditProfileState extends State<EditProfile> {
   Widget _buildAvatar() {
     return BlocBuilder<UserBloc, UserState>(builder: (context, state) {
       if (state is UserLoaded) {
-        print('Beyaqueoo!!');
         imagen = (state.user.imagenPerfil == null)
             ? 'assets/images/userDefault.png'
             : state.user.imagenPerfil;
-        print(imagen);
-        print('imagen locaa!!');
       }
       return _circleAvatar();
     });
@@ -139,7 +135,7 @@ class _EditProfileState extends State<EditProfile> {
         ? CircleAvatar(
             //*Imagen actualizada
             radius: 80.0,
-            backgroundImage: FileImage(selectedImage!),
+            backgroundImage: MemoryImage(_image!),
             backgroundColor: Colors.transparent,
           )
         : CircleAvatar(
@@ -203,9 +199,10 @@ class _EditProfileState extends State<EditProfile> {
     final returnImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (returnImage == null) return;
+    List<int> img = await returnImage.readAsBytes();
     setState(() {
       selectedImage = File(returnImage.path);
-      _image = File(returnImage.path).readAsBytesSync();
+      _image = Uint8List.fromList(img);
     });
     Navigator.of(context).pop();
   }
@@ -216,11 +213,20 @@ class _EditProfileState extends State<EditProfile> {
         await ImagePicker().pickImage(source: ImageSource.camera);
 
     if (returnImage == null) return;
+    List<int> img = await returnImage.readAsBytes();
     setState(() {
       selectedImage = File(returnImage.path);
-      _image = File(returnImage.path).readAsBytesSync();
+      _image = Uint8List.fromList(img);
     });
     Navigator.of(context).pop();
+  }
+
+  ImageProvider _imagenFinal(String img) {
+    if (img == 'assets/images/userDefault.png') {
+      return AssetImage(img);
+    } else {
+      return MemoryImage(base64Decode(img));
+    }
   }
 
 //*Boton para registrar
@@ -354,22 +360,20 @@ class _EditProfileState extends State<EditProfile> {
               final password = (passwordController.text.isEmpty)
                   ? 'None'
                   : passwordController.text;
-              final image = (_image == null) ? 'None' : selectedImage;
+              final image = (_image == null) ? 'None' : base64Encode(_image!);
 
               if (nameController.text.isNotEmpty ||
                   phoneController.text.isNotEmpty ||
                   emailController.text.isNotEmpty ||
                   passwordController.text.isNotEmpty ||
                   _image != null) {
-                print(image.toString());
-                print('IMAGE To String');
                 BlocProvider.of<UpdateUserBloc>(context).add(
                     UpdateUserSubmitted(
                         name: name,
                         email: email,
                         password: password,
                         phone: phone,
-                        image: image.toString()));
+                        image: image));
               } else {
                 showDialog(
                   context: context,
@@ -395,7 +399,6 @@ class _EditProfileState extends State<EditProfile> {
               elevation: 20,
               backgroundColor: const Color(0xFF4F14A0),
               minimumSize: const Size.fromHeight(50),
-              //maximumSize: const Size.fromWidth(20)
             ),
             child: const Text(
               "Guardar",
@@ -416,7 +419,6 @@ Widget _buildInputField(TextEditingController controller, String tipo,
   final focusNode = FocusNode();
   const outlineInputBorder = UnderlineInputBorder(
     borderSide: BorderSide(color: Colors.black),
-    //borderRadius: BorderRadius.circular(40),
   );
 
   final inputDecoration = InputDecoration(
@@ -457,46 +459,4 @@ Widget _buildGreyText(String text) {
     style: const TextStyle(color: Colors.blueGrey),
     textAlign: TextAlign.start,
   );
-}
-
-ImageProvider _imagenFinal(String img) {
-  if (img == 'assets/images/userDefault.png') {
-    return AssetImage(img);
-  } else {
-    return FileImage(_imageFromBase64String(img));
-  }
-}
-
-String _normalizeBase64(String base64String) {
-  int length = base64String.length;
-  int remainder = length % 4;
-
-  if (remainder != 0) {
-    base64String += '=' * (4 - remainder);
-  }
-
-  return base64String;
-}
-
-File _imageFromBase64String(String base64String) {
-  String normalizedBase64 = _normalizeBase64(base64String);
-
-  print('BASE 64 LOCOCHON!!!');
-  print(normalizedBase64);
-
-  Codec<String, String> stringToBase64 = utf8.fuse(base64);
-  String decoded = stringToBase64.decode(normalizedBase64);
-
-  // Quitar "File: " del principio
-  decoded = decoded.replaceAll("File: ", "");
-  // Quitar comillas simples (') del principio y del final
-  decoded = decoded.replaceAll("'", "");
-
-  print(decoded);
-
-  final File img = File(decoded);
-
-  print(img);
-
-  return img;
 }
