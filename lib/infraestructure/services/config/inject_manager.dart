@@ -1,3 +1,4 @@
+import 'package:alpha_gymnastic_center/aplication/localStorage/local_storage.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_course_data_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_one_course_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/lessons/get_lessons_by_course_use_case.dart';
@@ -72,7 +73,8 @@ class InjectManager {
     getIt.registerSingleton<UserRepository>(userRepository);
     getIt.registerSingleton<CourseRepository>(courseRepository);
 
-    final searchRepository = SearchRepositoryImpl(apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
+    final searchRepository = SearchRepositoryImpl(
+        apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
 
     // UseCases
 
@@ -154,14 +156,17 @@ class InjectManager {
       videoRepository: videoRepository,
     );
 
-
     //! Search
     final searchUseCase = SearchUseCase(searchRepository: searchRepository);
 
-    final searchTagsUseCase = SearchTagsUseCase(searchRepository: searchRepository);
-
+    final searchTagsUseCase =
+        SearchTagsUseCase(searchRepository: searchRepository);
 
     // Registering singletons
+
+    //! local_storage
+
+    getIt.registerSingleton<LocalStorage>(localStorage);
 
     //!users
     getIt.registerSingleton<UpdateUserUseCase>(updateUserUseCase);
@@ -186,7 +191,7 @@ class InjectManager {
     getIt.registerSingleton<GetSingleBlogUseCase>(getSingleBlogUseCase);
 
     //!Comments
-    getIt.registerSingleton<GetCommentDataUseCase>( getCommentDataUseCase);
+    getIt.registerSingleton<GetCommentDataUseCase>(getCommentDataUseCase);
 
     //!Search
     getIt.registerSingleton<SearchUseCase>(searchUseCase);
