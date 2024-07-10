@@ -36,7 +36,6 @@ class Blog_Detailed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: YogaAppBar(title: blog.title),
       body: BlocBuilder<blogOneBloc, BlogOneState>(
         builder: (context, state) {
           if (state is BlogOneLoading) {
@@ -55,9 +54,10 @@ class Blog_Detailed extends StatelessWidget {
                     Stack(
                       children: [
                         ClipRRect(
-                            borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(50)),
-                            child: getImage(blog.image)),
+                            //borderRadius: BorderRadius.only(
+                            //  bottomRight: Radius.circular(50)),
+                            //child: getImage(blog.image)
+                            ),
                         Positioned.fill(
                           child: Container(
                             decoration: BoxDecoration(

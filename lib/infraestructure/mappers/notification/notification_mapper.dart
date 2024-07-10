@@ -8,7 +8,7 @@ class NotificationMapperMany {
         title: json['title'] as String? ?? '',
         body: json['body'] as String? ?? '',
         date: DateTime.parse(json['date'] as String),
-        readed: json['readed'] as bool? ?? false,
+        userReaded: json['userReaded'] as bool? ?? false,
       );
     } catch (e) {
       print('Error in NotificationMapper.fromJson: $e');
@@ -22,32 +22,7 @@ class NotificationMapperMany {
       'title': notifications.title,
       'body': notifications.body,
       'date': notifications.date.toIso8601String(),
-      'readed': notifications.readed,
-    };
-  }
-}
-
-class NotificationMapperOne {
-  static Notifications fromJson(Map<String, dynamic> json) {
-    try {
-      return Notifications(
-        id: json['id'] as String? ?? '',
-        title: json['title'] as String? ?? '',
-        body: json['body'] as String? ?? '',
-        date: DateTime.parse(json['date'] as String),
-      );
-    } catch (e) {
-      print('Error in NotificationMapper.fromJson: $e');
-      rethrow;
-    }
-  }
-
-  static Map<String, dynamic> toJson(Notifications notifications) {
-    return {
-      'id': notifications.id,
-      'title': notifications.title,
-      'body': notifications.body,
-      'date': notifications.date.toIso8601String(),
+      'userReaded': notifications.userReaded,
     };
   }
 }

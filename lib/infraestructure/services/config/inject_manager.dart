@@ -1,6 +1,10 @@
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_course_data_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_one_course_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/lessons/get_lessons_by_course_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/notification/delete_notification_data_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/notification/get_notification_data_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/notification/get_notification_not_readed_data_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/notification/get_one_notification_data_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_profile_progress_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_trending_progress_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/search/searchTags_use_case.dart';
@@ -17,6 +21,7 @@ import 'package:alpha_gymnastic_center/aplication/use_cases/video_use_case/save_
 import 'package:alpha_gymnastic_center/infraestructure/datasources/api/api_request_imp.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/localStorage/loca_storage_imp.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/course/course_repository_impl.dart';
+import 'package:alpha_gymnastic_center/infraestructure/repositories/notification/notification_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/progress/progress_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/search/search_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/user/user_repository_impl.dart';
@@ -73,6 +78,9 @@ class InjectManager {
     getIt.registerSingleton<CourseRepository>(courseRepository);
 
     final searchRepository = SearchRepositoryImpl(
+        apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
+
+    final notifyRepository = NotificationRepositoryImpl(
         apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
 
     // UseCases
@@ -161,6 +169,16 @@ class InjectManager {
     final searchTagsUseCase =
         SearchTagsUseCase(searchRepository: searchRepository);
 
+    //! Notification
+    final deleteNotificationUseCase =
+        DeleteNotificationDataUseCase(notificationRepository: notifyRepository);
+    final getManyNotificationUseCase =
+        GetNotificationDataUseCase(notificationRepository: notifyRepository);
+    final getNotificationNotReadedUseCase = GetNotificationNotReadedDataUseCase(
+        notificationRepository: notifyRepository);
+    final getOneNotificationUseCase =
+        GetSingleNotificationUseCase(notificationRepository: notifyRepository);
+
     // Registering singletons
 
     //!users
@@ -195,5 +213,15 @@ class InjectManager {
     //! Videos
     getIt.registerSingleton<GetVideoDetailsUseCase>(getVideoDetailsUseCase);
     getIt.registerSingleton<SaveVideoProgressUseCase>(saveVideoProgressUseCase);
+
+    //! Notification
+    getIt.registerSingleton<DeleteNotificationDataUseCase>(
+        deleteNotificationUseCase);
+    getIt.registerSingleton<GetNotificationDataUseCase>(
+        getManyNotificationUseCase);
+    getIt.registerSingleton<GetNotificationNotReadedDataUseCase>(
+        getNotificationNotReadedUseCase);
+    getIt.registerSingleton<GetSingleNotificationUseCase>(
+        getOneNotificationUseCase);
   }
 }

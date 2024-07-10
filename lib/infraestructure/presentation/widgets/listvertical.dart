@@ -49,7 +49,7 @@ class ListV<T> extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        itemMap['titulo'] ?? 'Titulo',
+                        itemMap['title'] ?? 'Titulo',
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -61,7 +61,7 @@ class ListV<T> extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        itemMap['cuerpo'] ?? 'Descripción',
+                        itemMap['body'] ?? 'Descripción',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 14.0,
