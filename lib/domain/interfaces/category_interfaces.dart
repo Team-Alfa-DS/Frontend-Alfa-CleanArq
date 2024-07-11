@@ -7,3 +7,13 @@ class GetCategoriesRequest {
     required this.perPage,
   });
 }
+
+class CreateCategoryRequest {
+  final String name;
+  final String icon;
+
+  CreateCategoryRequest({
+    required this.name,
+    required this.icon,
+  });
+}
