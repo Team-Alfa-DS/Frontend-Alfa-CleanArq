@@ -13,13 +13,17 @@ class CommentListBloc extends Bloc<CommentListEvent, CommentListState> {
   }
 
   Future<void> _onLoadCommentList(
-      LoadCommentList event,
-      Emitter<CommentListState> emit,
-      ) async {
+    LoadCommentList event,
+    Emitter<CommentListState> emit,
+  ) async {
     emit(CommentListLoading());
 
     final result = await _getCommentDataUseCase.execute(
-      GetCommentDataUseCaseInput(page: event.page, perpage: event.perpage, blog: event.blog, lesson: event.lesson),
+      GetCommentDataUseCaseInput(
+          page: event.page,
+          perpage: event.perpage,
+          blog: event.blog,
+          lesson: event.lesson),
     );
 
     if (result.hasValue()) {

@@ -1,6 +1,6 @@
-
 import 'package:alpha_gymnastic_center/aplication/localStorage/local_storage.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/category/post_new_Category_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/comment/post_new_comment_use_case.dart';
 
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_course_data_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_one_course_use_case.dart';
@@ -18,6 +18,7 @@ import 'package:alpha_gymnastic_center/aplication/use_cases/user/register_use_ca
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/update_user_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/validate_code_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/video_use_case/get_video_detailed_use_caser.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/video_use_case/get_videos_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/video_use_case/save_video_porgress_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/api/api_request_imp.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/localStorage/loca_storage_imp.dart';
@@ -84,9 +85,7 @@ class InjectManager {
     );
 
     final notificationRepository = NotificationRepositoryImpl(
-        apiRequestManager: apiRequestManagerImpl,
-        localStorage: localStorage
-    );
+        apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
 
     final videoRepository = VideoRepositoryImpl(
       apiRequestManager: apiRequestManagerImpl,
@@ -171,6 +170,9 @@ class InjectManager {
     final getCommentDataUseCase =
         GetCommentDataUseCase(commentRepository: commentRepository);
 
+    final postNewComnetUseCase =
+        PostNewCommentUseCase(commentRepository: commentRepository);
+
     //! Videos
 
     final getVideoDetailsUseCase = GetVideoDetailsUseCase(
@@ -180,25 +182,29 @@ class InjectManager {
       videoRepository: videoRepository,
     );
 
+    final getVideosUseCase =
+        GetVideosUseCase(courseRepository: courseRepository);
+
     //! Search
     final searchUseCase = SearchUseCase(searchRepository: searchRepository);
-
-
-    final searchTagsUseCase = SearchTagsUseCase(searchRepository: searchRepository);
-
-    //! Notify
-
-    final deleteNotificationDataUseCase = DeleteNotificationDataUseCase(notificationRepository: notificationRepository);
-
-    final getNotificationDataUseCase = GetNotificationDataUseCase(notificationRepository: notificationRepository);
-
-    final getNotificationNotReadedDataUseCase = GetNotificationNotReadedDataUseCase(notificationRepository: notificationRepository);
-
-    final getSingleNotificationUseCase = GetSingleNotificationUseCase(notificationRepository: notificationRepository);
 
     final searchTagsUseCase =
         SearchTagsUseCase(searchRepository: searchRepository);
 
+    //! Notify
+
+    final deleteNotificationDataUseCase = DeleteNotificationDataUseCase(
+        notificationRepository: notificationRepository);
+
+    final getNotificationDataUseCase = GetNotificationDataUseCase(
+        notificationRepository: notificationRepository);
+
+    final getNotificationNotReadedDataUseCase =
+        GetNotificationNotReadedDataUseCase(
+            notificationRepository: notificationRepository);
+
+    final getSingleNotificationUseCase = GetSingleNotificationUseCase(
+        notificationRepository: notificationRepository);
 
     // Registering singletons
 
@@ -238,6 +244,7 @@ class InjectManager {
 
     //!Comments
     getIt.registerSingleton<GetCommentDataUseCase>(getCommentDataUseCase);
+    getIt.registerSingleton<PostNewCommentUseCase>(postNewComnetUseCase);
 
     //!Category
     getIt.registerSingleton<PostNewCategoryUseCase>(postNewCategoryUseCase);
@@ -252,13 +259,16 @@ class InjectManager {
     //! Videos
     getIt.registerSingleton<GetVideoDetailsUseCase>(getVideoDetailsUseCase);
     getIt.registerSingleton<SaveVideoProgressUseCase>(saveVideoProgressUseCase);
+    getIt.registerSingleton<GetVideosUseCase>(getVideosUseCase);
 
     //! Notifications
-    getIt.registerSingleton<DeleteNotificationDataUseCase>(deleteNotificationDataUseCase);
-    getIt.registerSingleton<GetNotificationDataUseCase>(getNotificationDataUseCase);
-    getIt.registerSingleton<GetNotificationNotReadedDataUseCase>(getNotificationNotReadedDataUseCase);
-    getIt.registerSingleton<GetSingleNotificationUseCase>(getSingleNotificationUseCase);
-
-
+    getIt.registerSingleton<DeleteNotificationDataUseCase>(
+        deleteNotificationDataUseCase);
+    getIt.registerSingleton<GetNotificationDataUseCase>(
+        getNotificationDataUseCase);
+    getIt.registerSingleton<GetNotificationNotReadedDataUseCase>(
+        getNotificationNotReadedDataUseCase);
+    getIt.registerSingleton<GetSingleNotificationUseCase>(
+        getSingleNotificationUseCase);
   }
 }

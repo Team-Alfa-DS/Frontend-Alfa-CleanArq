@@ -47,7 +47,7 @@ class CourseRepositoryImpl extends CourseRepository {
         '/course/many?filter=$filter&page=$page&perPage=$perPage',
         'GET',
         (data) {
-          List<Course> courses = (data['courses'] as List)
+          List<Course> courses = (data as List)
               .map((courseData) => CourseMapper.fromJson(courseData))
               .toList();
           return courses;
@@ -69,7 +69,7 @@ class CourseRepositoryImpl extends CourseRepository {
   }) async {
     await _addAuthorizationHeader();
     final response = await _apiRequestManager.request(
-      '/course/many?filter=$filter&trainer=$trainer&category=$category&page=$page&perpage=$perPage',
+      '/course/many?filter=$filter&trainer=$trainer&category=$category&page=$page&perPage=$perPage',
       'GET',
       (data) {
         List<Course> courses = (data['courses'] as List)
