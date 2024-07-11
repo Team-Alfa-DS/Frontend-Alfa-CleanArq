@@ -54,10 +54,6 @@ class PopularCoursesCarousel extends StatelessWidget {
                         'conexion': "/videos",
                       },
                       disposicion: 1,
-                      onTap: (item) {
-                        // Puedes manejar eventos adicionales si es necesario
-                        print('onTap inside ScrollH');
-                      },
                     ),
                   );
                 }).toList(),

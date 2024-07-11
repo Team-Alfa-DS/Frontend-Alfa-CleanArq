@@ -1,15 +1,17 @@
-class Notification {
+class Notifications {
   String id;
   String title;
   String body;
   DateTime date;
-  bool userReaded;
+  bool? readed;
+  num? count;
 
-  Notification({
+  Notifications({
     required this.id,
     required this.title,
     required this.body,
     required this.date,
-    required this.userReaded,
+    this.readed,
+    this.count,
   });
 }

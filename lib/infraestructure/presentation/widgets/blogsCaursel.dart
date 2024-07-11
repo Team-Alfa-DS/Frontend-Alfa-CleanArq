@@ -34,47 +34,41 @@ class blogsCarousel extends StatelessWidget {
     return
         //ok ahora aca cuando construya esto hay que poner el trainer para probar y la categoria cuando se toca en el homescreen se refresca esta llamada
         BlocProvider(create: (context) => BlogListBloc(GetIt.instance<GetBlogDataUseCase>())
-        ..add( LoadBlogList(page: 1, perPage: 10, filter: currentFilter, trainer: '', category: '')),
+        ..add( LoadBlogList(page: 1, perPage: 3, filter: currentFilter, trainer: '', category: '')),
             child: BlocBuilder<BlogListBloc, BlogListState>(
               builder: (context, state) {
                 if (state is BlogListLoading) {
                   return const CircularProgressIndicator.adaptive();
                 } else if (state is BlogListLoaded) {
-                  final blogs = state.blogs.sublist(0, 10);
+                  final blogs = state.blogs.sublist(0, 3);
                   return SizedBox(
-                    height: 195,
+                    height: 190,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
-                      children: blogs.map((blogs) {
-                        return ScrollH<Map<String, dynamic>>(
-                          item: {
-                            'titulo': blogs.title,
-                            'descripcion': blogs.title,
-                            'categoria': blogs.category,
-                            'fecha': blogs.date.toString(),
-                            'fotoUrl': blogs.image,
-                            'isNew':
-                            true, // Asegúrate de que isNew esté aquí como un parámetro
-                            'conexion': "/blogs",
-                          },
-                          disposicion: 2,
-                          onTap: (item) {
-                            var selectedBlog = Blog(
-                                id: blogs.id,
-                                title: blogs.title,
-                                image: blogs.image,
-                                images: blogs.images,
-                                category: blogs.category,
-                            );
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Blog_Detailed_Widget(
-                                  item: selectedBlog,
+                      children: blogs.map((blog) {
+                        return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Blog_Detailed_Widget(
+                                    blogId: blog.id,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                        child: ScrollH<Map<String, dynamic>>(
+                            item: {
+                              'titulo': blog.title,
+                              'descripcion': blog.title,
+                              'categoria': blog.category,
+                              'fecha': blog.date.toString(),
+                              'fotoUrl': blog.image,
+                              'isNew': true, // Asegúrate de que isNew esté aquí como un parámetro
+                              'conexion': "/blogs",
+                            },
+                            disposicion: 2,
+                            )
                         );
                       }).toList(),
                     ),

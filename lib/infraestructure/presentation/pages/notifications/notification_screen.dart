@@ -1,5 +1,6 @@
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/adminHome.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/notification_many.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/navegation.dart';
@@ -9,11 +10,11 @@ class NotificationScreen extends StatelessWidget {
 
   // Simulamos algunos datos de notificaciones
   final List<Map<String, String>> notifications = [
-    // {
-    //   'time': 'Today 9:47 AM',
-    //   'message': 'How do I start doing yoga at home?',
-    //   'status': 'Seen',
-    // },
+    {
+      'time': 'Today 9:47 AM',
+      'message': 'How do I start doing yoga at home?',
+      'status': 'Seen',
+    },
     // {
     //   'time': 'Today 9:47 AM',
     //   'message': 'What is the best time to do yoga?',
@@ -85,9 +86,7 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const YogaAppBar(title: "Notifications"),
-      body: notifications.isEmpty
-          ? buildNoNotifications(context)
-          : buildNotificationsList(context),
+      body: const NotificationMany(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
         height: 70.0,
@@ -206,6 +205,18 @@ class NotificationScreen extends StatelessWidget {
           ),
           subtitle: Text(notification['message'] ?? ''),
           trailing: Text(notification['status'] ?? ''),
+          onTap: () {
+            //Navigator.push(
+            //  context,
+            //  MaterialPageRoute(
+            //    builder: (context) => ScreenDetail(
+            //      title: notification['title'] ?? '',
+            //      message: notification['message'] ?? '',
+            //      time: notification['time'] ?? '',
+            //    ),
+            //  ),
+            //);
+          },
         );
       },
     );

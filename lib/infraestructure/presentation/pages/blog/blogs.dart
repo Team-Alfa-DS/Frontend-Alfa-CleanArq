@@ -17,9 +17,7 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/sidebarmenu.dart';
 
-
 class Blogs_Screen extends StatelessWidget {
-
   const Blogs_Screen({super.key});
 
   @override
@@ -54,61 +52,54 @@ class Blogs_Screen extends StatelessWidget {
 }
 
 class Blogs_body extends StatelessWidget {
-
-  const Blogs_body({super.key}
-  );
+  const Blogs_body({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Flex(
-      direction: Axis.vertical,
-      children: [
-        const SizedBox(
-          height: 240,
-          child: blogsCarousel(filter: "POPULAR")
-        ),
-        const SizedBox(
-          height: 40,
-          child: Padding(
-            padding: EdgeInsets.only(left: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("All Posts", style: TextStyle(fontSize: 24)),
-              ],
-            ),
+    return Flex(direction: Axis.vertical, children: [
+      const SizedBox(height: 240, child: blogsCarousel(filter: "POPULAR")),
+      const SizedBox(
+        height: 40,
+        child: Padding(
+          padding: EdgeInsets.only(left: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("All Posts", style: TextStyle(fontSize: 24)),
+            ],
           ),
         ),
-        Expanded(
-            child: BlocProvider(
-                       create: (context) => BlogListBloc(GetIt.instance<GetBlogDataUseCase>())
-                       ..add(const LoadBlogList(page: 1, perPage: 20, filter: '', trainer: '', category: '')),
-                       child: BlocBuilder<BlogListBloc, BlogListState>(
-                            builder: (context, state) {
-                                 if (state is BlogListLoading) {
-                                     return const CircularProgressIndicator.adaptive();
-                                 } else if (state is BlogListLoaded) {
-                                    final blogs = state.blogs.sublist(0, 20);
-                                    return BlogGrid(blogs: blogs);
-                                 }
-                                 return const SizedBox();
-                            },
-                       )
-             ),
-        ),
-      ]
-    );
+      ),
+      Expanded(
+        child: BlocProvider(
+            create: (context) =>
+                BlogListBloc(GetIt.instance<GetBlogDataUseCase>())
+                  ..add(const LoadBlogList(
+                      page: 1,
+                      perPage: 20,
+                      filter: '',
+                      trainer: '',
+                      category: '')),
+            child: BlocBuilder<BlogListBloc, BlogListState>(
+              builder: (context, state) {
+                if (state is BlogListLoading) {
+                  return const CircularProgressIndicator.adaptive();
+                } else if (state is BlogListLoaded) {
+                  final blogs = state.blogs.sublist(0, 20);
+                  return BlogGrid(blogs: blogs);
+                }
+                return const SizedBox();
+              },
+            )),
+      ),
+    ]);
   }
 }
 
 class BlogGrid extends StatelessWidget {
-
   final List<Blog> blogs;
 
-  const BlogGrid({
-    super.key,
-    required this.blogs
-  });
+  const BlogGrid({super.key, required this.blogs});
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +118,7 @@ class BlogGrid extends StatelessWidget {
               onTap: () {
                 print('Tapped on blog: ${blogs[index].title}');
                 Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Blog_Detailed_Widget(item: blogs[index]),
+                  MaterialPageRoute(builder: (context) => Blog_Detailed_Widget(blogId: blogs[index].id),
                   ),
                 );
               },
@@ -209,8 +200,7 @@ class BlogGrid extends StatelessWidget {
                         ),
                       ],
                     ),
-                 )
-              );
+                  ));
             },
           ),
         ),

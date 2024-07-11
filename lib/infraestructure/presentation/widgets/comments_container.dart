@@ -38,6 +38,8 @@ class Widgets_Comments extends StatelessWidget {
         child: Comments(id: id, type: type, title: title),
       );
     }else {
+      print("el id: $id");
+
       return BlocProvider(
         create: (context) => CommentListBloc(
           GetIt.instance<GetCommentDataUseCase>(),
@@ -184,5 +186,7 @@ class _CommentsState extends State<Comments> {
       drawer: const SideBarMenu(),
     );
   }
+
+
 
 }

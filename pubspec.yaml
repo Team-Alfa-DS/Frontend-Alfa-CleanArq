@@ -53,6 +53,8 @@ dependencies:
   geolocator: ^10.0.0
   uuid: ^3.0.7
   mocktail: ^0.1.0
+  firebase_core: ^3.2.0
+  firebase_messaging: ^15.0.3
   path_provider: ^2.1.3
   percent_indicator: ^4.2.3
   shared_preferences: ^2.0.13
@@ -87,6 +89,7 @@ flutter:
     - assets/logo/
     - assets/videos/
     - .env
+    - android/app/src/main/res/mipmap-hdpi/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

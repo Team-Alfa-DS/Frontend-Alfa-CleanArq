@@ -20,4 +20,14 @@ class LocalStorageImpl extends LocalStorage {
   Future<String> getAuthorizationToken() async {
     return _prefs.getString('appToken') ?? '';
   }
+
+  @override
+  Future<void> setOnboardingSeen() async {
+    await _prefs.setBool('onboarding_seen', true);
+  }
+
+  @override
+  Future<bool> isOnboardingSeen() async {
+    return _prefs.getBool('onboarding_seen') ?? false;
+  }
 }
