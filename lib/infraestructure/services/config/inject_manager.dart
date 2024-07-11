@@ -1,4 +1,5 @@
 import 'package:alpha_gymnastic_center/aplication/localStorage/local_storage.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/category/post_new_Category_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_course_data_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_one_course_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/lessons/get_lessons_by_course_use_case.dart';
@@ -17,6 +18,7 @@ import 'package:alpha_gymnastic_center/aplication/use_cases/video_use_case/get_v
 import 'package:alpha_gymnastic_center/aplication/use_cases/video_use_case/save_video_porgress_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/api/api_request_imp.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/localStorage/loca_storage_imp.dart';
+import 'package:alpha_gymnastic_center/infraestructure/repositories/category/category_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/course/course_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/progress/progress_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/search/search_repository_impl.dart';
@@ -45,6 +47,10 @@ class InjectManager {
     );
 
     // Repositories
+
+    final categoryRepository =
+        CategoryRepositoryImpl(apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
+
 
     final userRepository =
         UserRepositoryImpl(apiRequestManager: apiRequestManagerImpl);
@@ -167,6 +173,11 @@ class InjectManager {
     //! local_storage
 
     getIt.registerSingleton<LocalStorage>(localStorage);
+    
+
+    //!Categorys
+    final postNewCategoryUseCase =
+        PostNewCategoryUseCase(categoryRepository: categoryRepository);
 
     //!users
     getIt.registerSingleton<UpdateUserUseCase>(updateUserUseCase);
@@ -191,6 +202,10 @@ class InjectManager {
     getIt.registerSingleton<GetSingleBlogUseCase>(getSingleBlogUseCase);
 
     //!Comments
+    getIt.registerSingleton<GetCommentDataUseCase>(getCommentDataUseCase);
+
+    //!Category
+    getIt.registerSingleton<PostNewCategoryUseCase>(postNewCategoryUseCase);
     getIt.registerSingleton<GetCommentDataUseCase>(getCommentDataUseCase);
 
     //!Search
