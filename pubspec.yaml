@@ -59,6 +59,8 @@ dependencies:
   percent_indicator: ^4.2.3
   shared_preferences: ^2.0.13
   volume_control: ^0.1.5
+  firebase_analytics: ^11.2.0
+  flutter_local_notifications: ^17.2.1+1
 
 dev_dependencies:
   flutter_test:

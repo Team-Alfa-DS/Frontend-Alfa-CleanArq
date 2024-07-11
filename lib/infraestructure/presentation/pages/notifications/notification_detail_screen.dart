@@ -1,14 +1,26 @@
 import 'package:alpha_gymnastic_center/domain/entities/notification.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class ScreenDetail extends StatelessWidget {
-  final Notifications notification;
-  const ScreenDetail({super.key, required this.notification});
+  final Notifications? notification;
+  final RemoteMessage? message;
+
+  ScreenDetail({super.key, this.notification, this.message});
+
+  get as => null;
 
   @override
   Widget build(BuildContext context) {
-    String formattedDate = notification.date.toString();
+
+    if(notification == null){
+        notification?.title = message?.notification?.title as String;
+        notification?.body = message?.notification?.body as String;
+        notification?.date = (message?.sentTime ?? DateTime.now());
+    }
+
+    String? formattedDate = notification?.date.toString();
     return Scaffold(
       appBar: const YogaAppBar(title: "Detalles de Notificación"),
       body: Container(
@@ -36,7 +48,7 @@ class ScreenDetail extends StatelessWidget {
                       size: 40, color: Color.fromARGB(255, 77, 6, 230)),
                   const SizedBox(height: 10),
                   // Título
-                  Text(notification.title,
+                  Text(notification!.title,
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 10),
@@ -48,7 +60,7 @@ class ScreenDetail extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        formattedDate,
+                        formattedDate!,
                         style: const TextStyle(fontSize: 17),
                       ),
                       const Icon(Icons.star, size: 20, color: Colors.yellow),
@@ -57,7 +69,7 @@ class ScreenDetail extends StatelessWidget {
                   const SizedBox(height: 10),
                   // Mensaje
                   Text(
-                    notification.body,
+                    notification!.body,
                     style: const TextStyle(fontSize: 17),
                   ),
                   const SizedBox(

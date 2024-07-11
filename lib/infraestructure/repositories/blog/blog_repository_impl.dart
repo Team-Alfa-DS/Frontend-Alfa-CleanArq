@@ -36,12 +36,10 @@ class BlogRepositoryImpl extends BlogRepository {
     _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
     print('Mitad de Many');
 
-    print('/blog/many?perPage=$perpage&page=$page&filter=$filter&trainer=$trainer&category=$category');
-
     try {
       final response = await _apiRequestManager.request(
         //Esto tengo que ver bien en el Swagger como se pone con todos los parametros que si filter categories etc
-        '/blog/many?perpage=$perpage&page=$page&filter=$filter&trainer=$trainer&category=$category',
+        '/blog/many?page=$page&perPage=$perpage&filter=$filter&trainer=$trainer&category=$category',
         'GET',
             (data) {
           print('Data received in checkManyBlogs: $data');

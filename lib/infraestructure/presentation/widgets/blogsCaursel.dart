@@ -34,13 +34,13 @@ class blogsCarousel extends StatelessWidget {
     return
         //ok ahora aca cuando construya esto hay que poner el trainer para probar y la categoria cuando se toca en el homescreen se refresca esta llamada
         BlocProvider(create: (context) => BlogListBloc(GetIt.instance<GetBlogDataUseCase>())
-        ..add( LoadBlogList(page: 1, perPage: 3, filter: currentFilter, trainer: '', category: '')),
+        ..add( LoadBlogList(page: 0, perPage: 10, filter: currentFilter, trainer: '', category: '')),
             child: BlocBuilder<BlogListBloc, BlogListState>(
               builder: (context, state) {
                 if (state is BlogListLoading) {
                   return const CircularProgressIndicator.adaptive();
                 } else if (state is BlogListLoaded) {
-                  final blogs = state.blogs.sublist(0, 3);
+                  final blogs = state.blogs.sublist(0, 5);
                   return SizedBox(
                     height: 190,
                     child: ListView(

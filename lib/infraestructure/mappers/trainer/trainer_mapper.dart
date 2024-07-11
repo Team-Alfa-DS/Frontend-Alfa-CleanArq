@@ -29,3 +29,21 @@ class TrainerMapper {
     return json;
   }
 }
+
+class CreateTrainerMapper {
+  static Trainer fromJson(Map<String, dynamic> json) {
+    return Trainer(
+      location: json['location'],
+      id: json['id'],
+      name: json['name'],
+    );
+  }
+
+  static Map<String, dynamic> toJson(Trainer trainer) {
+    return {
+      'location': trainer.location,
+      'id': trainer.id,
+      'name': trainer.name,
+    };
+  }
+}
