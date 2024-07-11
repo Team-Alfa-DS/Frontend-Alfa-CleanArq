@@ -1,3 +1,15 @@
+//import 'package:alpha_gymnastic_center/domain/entities/user.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/adminHome.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/blogsManagement/blogManagement.dart';
+//import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/blogsManagement/createBlogScreen.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/categoryManagement/categoryManagement.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/categoryManagement/createCategoryScreen.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/cursosManagement/cursoManagement.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/trainersManagement/createTrainerScreen.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/trainersManagement/trainerManagement.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/createUserScreen.dart';
+//import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/updateUserScreen.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/usersManagement/userManagement.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/auth/password_changed_screen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/notifications/notification_detail_screen.dart';
 import 'package:bloc/bloc.dart';
@@ -76,6 +88,42 @@ final router = GoRouter(
     GoRoute(
       path: '/login',
       builder: (context, state) => const LoginPage(),
+    ),
+    GoRoute(
+      path: '/adminHome',
+      builder: (context, state) => const AdminDashboardScreen(),
+    ),
+    GoRoute(
+      path: '/adminUser',
+      builder: (context, state) => const UserManagementScreen(),
+    ),
+    GoRoute(
+      path: '/createUser',
+      builder: (context, state) => const CreateUserScreen(),
+    ),
+    GoRoute(
+      path: '/adminTrainer',
+      builder: (context, state) => const TrainerManagementScreen(),
+    ),
+    GoRoute(
+      path: '/createTrainer',
+      builder: (context, state) => const CreateTrainerScreen(),
+    ),
+    GoRoute(
+      path: '/adminCategory',
+      builder: (context, state) => const CategoryManagementScreen(),
+    ),
+    GoRoute(
+      path: '/createCategory',
+      builder: (context, state) => const CreateCategoryScreen(),
+    ),
+    GoRoute(
+      path: '/adminBlog',
+      builder: (context, state) => const BlogManagementScreen(),
+    ),
+    GoRoute(
+      path: '/adminCourse',
+      builder: (context, state) => const CourseManagementScreen(),
     ),
     GoRoute(
       path: '/faq',

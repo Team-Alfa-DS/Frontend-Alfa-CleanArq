@@ -127,7 +127,8 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<Result<CurrentUserResponse>> getCurrentUser(
       CurrentUserRequest currentUserRequest) async {
-    _apiRequestManager.setHeaders('token', currentUserRequest.token);
+    final String token = currentUserRequest.token;
+    _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
     final response = await _apiRequestManager.request<CurrentUserResponse>(
       '/auth/current',
       'GET',
@@ -141,6 +142,8 @@ class UserRepositoryImpl extends UserRepository {
         );
       },
     );
+    print("response get current user");
+    print(response.value);
     return response;
   }
 
