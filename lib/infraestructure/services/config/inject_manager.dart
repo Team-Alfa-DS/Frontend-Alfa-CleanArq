@@ -48,9 +48,8 @@ class InjectManager {
 
     // Repositories
 
-    final categoryRepository =
-        CategoryRepositoryImpl(apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
-
+    final categoryRepository = CategoryRepositoryImpl(
+        apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
 
     final userRepository =
         UserRepositoryImpl(apiRequestManager: apiRequestManagerImpl);
@@ -173,7 +172,6 @@ class InjectManager {
     //! local_storage
 
     getIt.registerSingleton<LocalStorage>(localStorage);
-    
 
     //!Categorys
     final postNewCategoryUseCase =
@@ -206,7 +204,7 @@ class InjectManager {
 
     //!Category
     getIt.registerSingleton<PostNewCategoryUseCase>(postNewCategoryUseCase);
-    getIt.registerSingleton<GetCommentDataUseCase>(getCommentDataUseCase);
+    //getIt.registerSingleton<GetCommentDataUseCase>(getCommentDataUseCase);
 
     //!Search
     getIt.registerSingleton<SearchUseCase>(searchUseCase);
