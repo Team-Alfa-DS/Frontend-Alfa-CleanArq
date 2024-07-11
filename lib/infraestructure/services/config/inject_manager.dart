@@ -202,9 +202,6 @@ class InjectManager {
     final getSingleNotificationUseCase = GetSingleNotificationUseCase(
         notificationRepository: notificationRepository);
 
-    final searchTagsUseCase =
-        SearchTagsUseCase(searchRepository: searchRepository);
-
     // Registering singletons
 
     //! local_storage
