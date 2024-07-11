@@ -1,7 +1,6 @@
-
 import 'package:alpha_gymnastic_center/aplication/use_cases/comment/get_comment_data_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/comment/post_new_comment_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/sidebarmenu.dart';
-import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/snackbarComment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -12,7 +11,6 @@ import '../../../aplication/BLoC/comment/listcomments/comment_list_state.dart';
 import '../../../aplication/BLoC/comment/post/comment_post_bloc.dart';
 import '../../../aplication/BLoC/comment/post/comment_post_event.dart';
 import '../../../aplication/BLoC/comment/post/comment_post_state.dart';
-import '../../../aplication/use_cases/comment/post_new_comment_use_case.dart';
 import '../pages/course/Course.dart';
 import 'navegation.dart';
 
@@ -21,32 +19,32 @@ class Widgets_Comments extends StatelessWidget {
   final String type;
   final String title;
 
-   Widgets_Comments({
-    Key? key,
+  const Widgets_Comments({
+    super.key,
     required this.id,
     required this.type,
     required this.title,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    if(type == "LESSON") {
-      return BlocProvider(
-        create: (context) => CommentListBloc(
-          GetIt.instance<GetCommentDataUseCase>(),
-        )..add(LoadCommentList(page: 1, perpage: 15, lesson: id, blog: '')),
-        child: Comments(id: id, type: type, title: title),
-      );
-    }else {
-      print("el id: $id");
-
-      return BlocProvider(
-        create: (context) => CommentListBloc(
-          GetIt.instance<GetCommentDataUseCase>(),
-        )..add(LoadCommentList(page: 1, perpage: 15, lesson: '', blog: id)),
-        child: Comments(id: id, type: type, title: title),
-      );
-    }
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => CommentListBloc(
+            GetIt.instance<GetCommentDataUseCase>(),
+          )..add(type == "LESSON"
+              ? LoadCommentList(page: 1, perpage: 15, lesson: id, blog: '')
+              : LoadCommentList(page: 1, perpage: 15, lesson: '', blog: id)),
+        ),
+        BlocProvider(
+          create: (context) => CommentPostBloc(
+            GetIt.instance<PostNewCommentUseCase>(),
+          ),
+        ),
+      ],
+      child: Comments(id: id, type: type, title: title),
+    );
   }
 }
 
@@ -56,11 +54,11 @@ class Comments extends StatefulWidget {
   final String title;
 
   const Comments({
-    Key? key,
+    super.key,
     required this.id,
     required this.type,
     required this.title,
-  }) : super(key: key);
+  });
 
   @override
   _CommentsState createState() => _CommentsState();
@@ -68,7 +66,7 @@ class Comments extends StatefulWidget {
 
 class _CommentsState extends State<Comments> {
   final TextEditingController _commentController = TextEditingController();
-  bool _showComments = true;
+  final bool _showComments = true;
 
   @override
   Widget build(BuildContext context) {
@@ -77,86 +75,118 @@ class _CommentsState extends State<Comments> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: YogaAppBar(title: "Comentarios de ${widget.title}"),
-      body: BlocBuilder<CommentListBloc, CommentListState>(
-        builder: (context, state) {
-          if (state is CommentListLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is CommentListFailed) {
-            return Center(child: Text('Error: ${state.failure}'));
-          } else if (state is CommentListLoaded) {
-            final comments = state.comments;
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  if (_showComments)
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.65,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            bottom: bottomInset, left: 8, right: 8),
-                        child: ListView.builder(
-                          itemCount: comments.length,
-                          itemBuilder: (context, index) {
-                            final comment = comments[index];
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 4.0),
-                                  Text(
-                                    comment.body,
-                                    style: const TextStyle(fontSize: 16.0),
-                                  ),
-                                  const SizedBox(height: 6.0),
-                                  const Divider(),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  Container(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            minLines: 1,
-                            maxLines: 13,
-                            controller: _commentController,
-                            decoration: const InputDecoration(
-                              hintText: 'Send comment',
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 16.0),
-                        CircleAvatar(
-                          radius: 24.0,
-                          child: IconButton(
-                            icon: const Icon(Icons.send),
-                            onPressed: () {
-                              // Handle send comment logic here
-                              print('Sent comment: ${_commentController.text}');
-                              snackbarComment(id: widget.id, type: widget.type, text: _commentController.text);
-                              _commentController.clear();
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<CommentListBloc, CommentListState>(
+            listener: (context, state) {
+              if (state is CommentListFailed) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Error: ${state.failure.message}')),
+                );
+              }
+            },
+          ),
+          BlocListener<CommentPostBloc, CommentPostState>(
+            listener: (context, state) {
+              if (state is CommentPostLoaded) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Comentario enviado con éxito')),
+                );
+                context.read<CommentListBloc>().add(widget.type == "LESSON"
+                    ? LoadCommentList(
+                        page: 1, perpage: 15, lesson: widget.id, blog: '')
+                    : LoadCommentList(
+                        page: 1, perpage: 15, lesson: '', blog: widget.id));
+              } else if (state is CommentPostFailed) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                      content: Text(
+                          'Error al enviar comentario: ${state.failure.message}')),
+                );
+              }
+            },
+          ),
+        ],
+        child: BlocBuilder<CommentListBloc, CommentListState>(
+          builder: (context, state) {
+            if (state is CommentListLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is CommentListLoaded) {
+              final comments = state.comments;
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    if (_showComments)
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.65,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              bottom: bottomInset, left: 8, right: 8),
+                          child: ListView.builder(
+                            itemCount: comments.length,
+                            itemBuilder: (context, index) {
+                              final comment = comments[index];
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 4.0),
+                                    Text(
+                                      comment.body,
+                                      style: const TextStyle(fontSize: 16.0),
+                                    ),
+                                    const SizedBox(height: 6.0),
+                                    const Divider(),
+                                  ],
+                                ),
+                              );
                             },
                           ),
                         ),
-                      ],
+                      ),
+                    Container(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              minLines: 1,
+                              maxLines: 13,
+                              controller: _commentController,
+                              decoration: const InputDecoration(
+                                hintText: 'Enviar comentario',
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16.0),
+                          CircleAvatar(
+                            radius: 24.0,
+                            child: IconButton(
+                              icon: const Icon(Icons.send),
+                              onPressed: () {
+                                context.read<CommentPostBloc>().add(
+                                      LoadCommentPost(
+                                        body: _commentController.text,
+                                        targetid: widget.id,
+                                        targetType: widget.type,
+                                      ),
+                                    );
+                                _commentController.clear();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          }
-          return const SizedBox.shrink(
-             child:
-               Text("Comentarios no encontrados!")
-          );
-        },
+                  ],
+                ),
+              );
+            }
+            return const Center(child: Text('Comentarios no encontrados!'));
+          },
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
@@ -186,7 +216,4 @@ class _CommentsState extends State<Comments> {
       drawer: const SideBarMenu(),
     );
   }
-
-
-
 }

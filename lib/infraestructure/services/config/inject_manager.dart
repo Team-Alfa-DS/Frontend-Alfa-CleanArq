@@ -1,5 +1,6 @@
 import 'package:alpha_gymnastic_center/aplication/localStorage/local_storage.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/category/post_new_Category_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/comment/post_new_comment_use_case.dart';
 
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_course_data_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/courses/get_one_course_use_case.dart';
@@ -169,6 +170,9 @@ class InjectManager {
     final getCommentDataUseCase =
         GetCommentDataUseCase(commentRepository: commentRepository);
 
+    final postNewComnetUseCase =
+        PostNewCommentUseCase(commentRepository: commentRepository);
+
     //! Videos
 
     final getVideoDetailsUseCase = GetVideoDetailsUseCase(
@@ -240,6 +244,7 @@ class InjectManager {
 
     //!Comments
     getIt.registerSingleton<GetCommentDataUseCase>(getCommentDataUseCase);
+    getIt.registerSingleton<PostNewCommentUseCase>(postNewComnetUseCase);
 
     //!Category
     getIt.registerSingleton<PostNewCategoryUseCase>(postNewCategoryUseCase);
