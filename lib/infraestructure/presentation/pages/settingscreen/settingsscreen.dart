@@ -1,4 +1,5 @@
 import 'package:alpha_gymnastic_center/aplication/BLoC/theme/theme_cubit.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/admin/adminHome.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/course/Course.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/notifications/notification_screen.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/profilescreen/profile.dart';
@@ -64,6 +65,11 @@ class SettingsPage extends StatelessWidget {
               icon: Icons.invert_colors,
               title: 'ChangeTheme',
               iconColor: Color.fromARGB(255, 29, 30, 30),
+            ),
+            const SettingsTile(
+              icon: Icons.admin_panel_settings,
+              title: 'AdminDashboard',
+              iconColor: Color.fromARGB(255, 21, 23, 141),
             ),
           ],
         ).toList(),
@@ -142,6 +148,12 @@ class SettingsTile extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => NotificationScreen()),
+          );
+        } else if (title == 'AdminDashboard') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const AdminDashboardScreen()),
           );
         } else if (title == 'ChangeTheme') {
           context.read<ThemeCubit>().toggleTheme();

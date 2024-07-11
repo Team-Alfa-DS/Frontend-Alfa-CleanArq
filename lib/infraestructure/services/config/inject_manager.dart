@@ -9,6 +9,7 @@ import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_profile
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_trending_progress_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/search/searchTags_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/search/search_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/trainer/post_new_trainer_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/change_password_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/forgot_password_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/get_current_user_use_case.dart';
@@ -25,6 +26,7 @@ import 'package:alpha_gymnastic_center/infraestructure/repositories/course/cours
 import 'package:alpha_gymnastic_center/infraestructure/repositories/notification/notification_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/progress/progress_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/search/search_repository_impl.dart';
+import 'package:alpha_gymnastic_center/infraestructure/repositories/trainer/trainer_repository_impl.dart';
 import 'package:alpha_gymnastic_center/infraestructure/repositories/user/user_repository_impl.dart';
 import 'package:alpha_gymnastic_center/domain/repositories/course_repository.dart';
 import 'package:alpha_gymnastic_center/domain/repositories/user_repository.dart';
@@ -56,9 +58,11 @@ class InjectManager {
 
     // Repositories
 
-    final categoryRepository =
-        CategoryRepositoryImpl(apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
+    final categoryRepository = CategoryRepositoryImpl(
+        apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
 
+    final trainerRepository = TrainerRepositoryImpl(
+        apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
 
     final userRepository =
         UserRepositoryImpl(apiRequestManager: apiRequestManagerImpl);
@@ -201,7 +205,10 @@ class InjectManager {
     //! local_storage
 
     getIt.registerSingleton<LocalStorage>(localStorage);
-    
+
+    //!Trainers
+    final postNewTrainerUseCase =
+        PostNewTrainerUseCase(trainerRepository: trainerRepository);
 
     //!Categorys
     final postNewCategoryUseCase =
@@ -234,8 +241,10 @@ class InjectManager {
 
     //!Category
     getIt.registerSingleton<PostNewCategoryUseCase>(postNewCategoryUseCase);
-    getIt.registerSingleton<GetCommentDataUseCase>(getCommentDataUseCase);
+    //getIt.registerSingleton<GetCommentDataUseCase>(getCommentDataUseCase);
 
+    //!Trainer
+    getIt.registerSingleton<PostNewTrainerUseCase>(postNewTrainerUseCase);
     //!Search
     getIt.registerSingleton<SearchUseCase>(searchUseCase);
     getIt.registerSingleton<SearchTagsUseCase>(searchTagsUseCase);
