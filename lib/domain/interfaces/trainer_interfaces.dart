@@ -11,3 +11,13 @@ class CreateTrainerRequest {
     required this.location,
   });
 }
+
+class CrearTrainerRequest {
+  final String name;
+  final String location;
+
+  CrearTrainerRequest({
+    required this.name,
+    required this.location,
+  });
+}
