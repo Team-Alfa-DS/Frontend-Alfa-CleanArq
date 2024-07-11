@@ -44,7 +44,7 @@ class CourseRepositoryImpl extends CourseRepository {
     await _addAuthorizationHeader();
     try {
       final response = await _apiRequestManager.request(
-        '/course/many?filter=$filter&page=$page&perpage=$perPage',
+        '/course/many?filter=$filter&page=$page&perPage=$perPage',
         'GET',
         (data) {
           List<Course> courses = (data['courses'] as List)
@@ -69,7 +69,7 @@ class CourseRepositoryImpl extends CourseRepository {
   }) async {
     await _addAuthorizationHeader();
     final response = await _apiRequestManager.request(
-      '/course/many?filter=$filter&trainer=$trainer&category=$category&page=$page&perpage=$perPage',
+      '/course/many?filter=$filter&trainer=$trainer&category=$category&page=$page&perPage=$perPage',
       'GET',
       (data) {
         List<Course> courses = (data['courses'] as List)

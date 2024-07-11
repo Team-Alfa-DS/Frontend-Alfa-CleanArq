@@ -1,4 +1,9 @@
+import 'package:alpha_gymnastic_center/aplication/BLoC/videos/videos_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/video_use_case/get_videos_use_case.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+
 import 'package:alpha_gymnastic_center/infraestructure/presentation/navegation/navigate_videoplayer.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/navegation.dart';
 
@@ -13,127 +18,154 @@ class _VideosState extends State<Videos> {
   int _selectedCategoryIndex = 0;
 
   @override
+  void initState() {
+    super.initState();
+    // Ahora la inicialización del Bloc y la carga de videos se realiza en la jerarquía de widgets correcta.
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: _body(context),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
-        height: 70.0,
-        width: 70.0,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+    return BlocProvider(
+      create: (context) =>
+          VideosBloc(getVideosUseCase: GetIt.instance<GetVideosUseCase>())
+            ..add(LoadVideos()),
+      child: Scaffold(
+        body: SafeArea(
+          child: _body(context),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: Container(
+          height: 70.0,
+          width: 70.0,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+            shape: BoxShape.circle,
           ),
-          shape: BoxShape.circle,
+          child: FloatingActionButton(
+            onPressed: () {},
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            child: Image.asset('assets/icons/rayo.png',
+                color: Colors.white, width: 35.0, height: 35.0),
+          ),
         ),
-        child: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          child: Image.asset('assets/icons/rayo.png',
-              color: Colors.white, width: 35.0, height: 35.0),
-        ),
+        bottomNavigationBar: const BarraNavegacion(),
       ),
-      bottomNavigationBar: const BarraNavegacion(),
     );
   }
 
   Widget _body(BuildContext context) {
-    return ListView(
-      children: [
-        Stack(
-          children: <Widget>[
-            Container(
-              decoration: const BoxDecoration(
-                color: Colors.purple,
-                image: DecorationImage(
-                  image: AssetImage('assets/logo/Fondo Morado.png'),
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(50.0),
-                ),
-              ),
-              height: 110.0,
-            ),
-            Positioned(
-              top: 10.0,
-              left: 0.0,
-              right: 0.0,
-              child: AppBar(
-                titleSpacing: 0.0,
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                automaticallyImplyLeading: false,
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                title: const Row(
-                  children: [
-                    Text(
-                      'Videos',
-                      style: TextStyle(
-                        color: Colors.white,
+    return BlocBuilder<VideosBloc, VideosState>(
+      builder: (context, state) {
+        if (state is VideoLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is VideoLoaded) {
+          return ListView(
+            children: [
+              Stack(
+                children: <Widget>[
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.purple,
+                      image: DecorationImage(
+                        image: AssetImage('assets/logo/Fondo Morado.png'),
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(50.0),
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              top: 70.0,
-              left: 0.0,
-              right: 0.0,
-              child: Column(
-                children: [
-                  Categorias(),
+                    height: 110.0,
+                  ),
+                  Positioned(
+                    top: 10.0,
+                    left: 0.0,
+                    right: 0.0,
+                    child: AppBar(
+                      titleSpacing: 0.0,
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      automaticallyImplyLeading: false,
+                      leading: IconButton(
+                        icon: const Icon(Icons.arrow_back, color: Colors.white),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      title: const Row(
+                        children: [
+                          Text(
+                            'Videos',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 70.0,
+                    left: 0.0,
+                    right: 0.0,
+                    child: Column(
+                      children: [
+                        Categorias(),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 30.0),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
-          child: Text(
-            'Video Course',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        GridView.builder(
-          physics: const ClampingScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10.0,
-            mainAxisSpacing: 0.0,
-            childAspectRatio: 0.75,
-          ),
-          itemCount: 8,
-          shrinkWrap: true,
-          itemBuilder: (BuildContext context, int index) {
-            String imagePath = 'assets/images/Yoga Ejemplo ${index + 1}.png';
-            String videoUrl =
-                'https://res.cloudinary.com/dy2fub3tg/video/upload/v1718068963/wc0ow0kqqsgsi7wkofjw.mp4'; // URL del video en Cloudinary
-            String courseId =
-                'courseId_${index + 1}'; // ID del curso, cambiar según sea necesario
-            String lessonId =
-                'lessonId_${index + 1}'; // ID de la lección, cambiar según sea necesario
-            return cajaVideo(context, imagePath, videoUrl, courseId, lessonId,
-                "Titulo prueba");
-          },
-        ),
-      ],
+              const SizedBox(height: 30.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text(
+                  'Video Course',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              GridView.builder(
+                physics: const ClampingScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 0.0,
+                  childAspectRatio: 0.75,
+                ),
+                itemCount: state.courses.length,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  final course = state.courses[index];
+                  final lesson =
+                      course.lessons.isNotEmpty ? course.lessons[0] : null;
+                  if (lesson == null) {
+                    return Container();
+                  }
+                  return cajaVideo(
+                    context,
+                    course.image,
+                    lesson.video!,
+                    course.id!,
+                    lesson.id,
+                    lesson.title,
+                  );
+                },
+              ),
+            ],
+          );
+        } else if (state is VideoError) {
+          return Center(child: Text(state.message));
+        }
+        return Container();
+      },
     );
   }
 
@@ -231,7 +263,7 @@ class _VideosState extends State<Videos> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: Image.asset(
+                  child: Image.network(
                     coverImage,
                     width: double.infinity,
                     height: double.infinity,

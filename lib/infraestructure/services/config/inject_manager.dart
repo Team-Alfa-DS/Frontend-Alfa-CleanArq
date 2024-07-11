@@ -14,6 +14,7 @@ import 'package:alpha_gymnastic_center/aplication/use_cases/user/register_use_ca
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/update_user_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/user/validate_code_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/video_use_case/get_video_detailed_use_caser.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/video_use_case/get_videos_use_case.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/video_use_case/save_video_porgress_use_case.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/api/api_request_imp.dart';
 import 'package:alpha_gymnastic_center/infraestructure/datasources/localStorage/loca_storage_imp.dart';
@@ -156,6 +157,9 @@ class InjectManager {
       videoRepository: videoRepository,
     );
 
+    final getVideosUseCase =
+        GetVideosUseCase(courseRepository: courseRepository);
+
     //! Search
     final searchUseCase = SearchUseCase(searchRepository: searchRepository);
 
@@ -200,5 +204,6 @@ class InjectManager {
     //! Videos
     getIt.registerSingleton<GetVideoDetailsUseCase>(getVideoDetailsUseCase);
     getIt.registerSingleton<SaveVideoProgressUseCase>(saveVideoProgressUseCase);
+    getIt.registerSingleton<GetVideosUseCase>(getVideosUseCase);
   }
 }
