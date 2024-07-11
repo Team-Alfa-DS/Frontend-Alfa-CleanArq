@@ -6,6 +6,6 @@ abstract class CategoryRepository {
   Future<Result<List<Category>>> getCategories(
       String categoryId, int page, int perPage);
 
-  Future<Result<Category>> createCategory(
+  Future<Result<void>> createCategory(
       CreateCategoryRequest createCategoryRequest);
 }

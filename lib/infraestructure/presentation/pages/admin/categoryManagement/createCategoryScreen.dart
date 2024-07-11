@@ -28,7 +28,7 @@ class _CreateCategoryScreenState extends State<CreateCategoryScreen> {
   final nameController = TextEditingController();
   //final _iconController = TextEditingController();
   Uint8List? _image;
-  File? selectedImage;
+  XFile? selectedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -111,10 +111,10 @@ class _CreateCategoryScreenState extends State<CreateCategoryScreen> {
     final returnImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (returnImage == null) return;
-    List<int> img = await returnImage.readAsBytes();
+    /*List<int> img = await returnImage.readAsBytes();*/
     setState(() {
-      selectedImage = File(returnImage.path);
-      _image = Uint8List.fromList(img);
+      selectedImage = returnImage;
+      //_image = Uint8List.fromList(img);
     });
   }
 
@@ -152,11 +152,11 @@ class _CreateCategoryScreenState extends State<CreateCategoryScreen> {
                 }
               }
 
-              if (nameController.text.isNotEmpty || _image != null) {
+              if (nameController.text.isNotEmpty || selectedImage != null) {
                 BlocProvider.of<CategoryPostBloc>(context).add(LoadCategoryPost(
                     createCategoryRequest: CreateCategoryRequest(
                         name: nameController.text,
-                        icon: base64Encode(_image!))));
+                        icon: selectedImage!)));
               } else {
                 showDialog(
                   context: context,

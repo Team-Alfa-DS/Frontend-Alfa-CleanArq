@@ -21,8 +21,11 @@ class CategoryPostBloc extends Bloc<LoadCategoryPost, CategoryPostState> {
           icon: event.createCategoryRequest.icon),
     );
 
-    if (result.hasValue()) {
-      emit(CategoryPostLoaded(result.value!));
+    print('BLOC CATEGORY');
+    print(result);
+
+    if (result.statusCode == '201') {
+      emit(const CategoryPostLoaded(true));
     } else {
       emit(CategoryPostFailed(result.failure!));
     }

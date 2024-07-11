@@ -14,7 +14,7 @@ class CategoryPostInitial extends CategoryPostState {}
 class CategoryPostLoading extends CategoryPostState {}
 
 class CategoryPostLoaded extends CategoryPostState {
-  final Category category;
+  final bool category;
 
   const CategoryPostLoaded(this.category);
 

@@ -41,7 +41,9 @@ class InjectManager {
     // Repositories
 
     final categoryRepository =
-        CategoryRepositoryImpl(apiRequestManager: apiRequestManagerImpl);
+        CategoryRepositoryImpl(apiRequestManager: apiRequestManagerImpl, localStorage: localStorage);
+
+
     final userRepository =
         UserRepositoryImpl(apiRequestManager: apiRequestManagerImpl);
 
