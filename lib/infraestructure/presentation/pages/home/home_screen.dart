@@ -2,9 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:alpha_gymnastic_center/aplication/BLoC/progress/trending/trending_progress_bloc.dart';
+import 'package:alpha_gymnastic_center/aplication/BLoC/search/search_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/BLoC/user/user/user_bloc.dart';
 import 'package:alpha_gymnastic_center/aplication/use_cases/progress/get_trending_progress_use_case.dart';
+import 'package:alpha_gymnastic_center/aplication/use_cases/search/search_use_case.dart';
 import 'package:alpha_gymnastic_center/common/utils/string_utils.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/popularsearchscreen/Popular_Search.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/blogsCaursel.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/no_progress_section.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/widgets/progressbar.dart';
@@ -191,6 +194,116 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+// class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
+//   const CustomAppBar({super.key});
+
+//   @override
+//   _CustomAppBarState createState() => _CustomAppBarState();
+
+//   @override
+//   Size get preferredSize => const Size.fromHeight(210);
+// }
+
+// class _CustomAppBarState extends State<CustomAppBar> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<UserBloc, UserState>(
+//       builder: (context, state) {
+//         String name = 'Nombre de Usuario';
+//         String email = 'ID de Usuario';
+//         String image = 'image';
+
+//         if (state is UserLoaded) {
+//           name = getFirstTwoWords(state.user.name ?? 'Nombre de Usuario');
+//           email = state.user.email ?? 'Email';
+//           image = (state.user.imagenPerfil == null)
+//               ? 'assets/images/userDefault.png'
+//               : state.user.imagenPerfil!;
+//         }
+
+//         return AppBar(
+//           automaticallyImplyLeading: false,
+//           actions: <Widget>[
+//             IconButton(
+//               icon: CircleAvatar(
+//                 radius: 50.0,
+//                 backgroundImage: _imagenFinal(image),
+//                 backgroundColor: Colors.transparent,
+//               ),
+//               onPressed: () {
+//                 context.push('/profile');
+//               },
+//             ),
+//           ],
+//           flexibleSpace: Container(
+//             decoration: const BoxDecoration(
+//               gradient: LinearGradient(
+//                 begin: Alignment.topLeft,
+//                 end: Alignment.bottomRight,
+//                 colors: [Color(0xFF4F14A0), Color(0xFF8066FF)],
+//               ),
+//               borderRadius: BorderRadius.only(
+//                 bottomRight: Radius.circular(30.0),
+//               ),
+//             ),
+//             child: SafeArea(
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 children: <Widget>[
+//                   Padding(
+//                     padding: const EdgeInsets.symmetric(
+//                         horizontal: 20.0, vertical: 10.0),
+//                     child: Row(
+//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                       children: <Widget>[
+//                         Column(
+//                           mainAxisAlignment: MainAxisAlignment.start,
+//                           crossAxisAlignment: CrossAxisAlignment.start,
+//                           children: <Widget>[
+//                             Text(name,
+//                                 style: const TextStyle(
+//                                     fontSize: 24,
+//                                     fontWeight: FontWeight.bold,
+//                                     color: Colors.white)),
+//                             Text(email,
+//                                 style: const TextStyle(
+//                                     fontSize: 15,
+//                                     fontWeight: FontWeight.bold,
+//                                     color: Colors.white)),
+//                           ],
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                   Padding(
+//                     padding: const EdgeInsets.symmetric(
+//                         horizontal: 15.0, vertical: 40.0),
+//                     child: ClipRRect(
+//                       borderRadius: BorderRadius.circular(9),
+//                       child: TextField(
+//                         onTap: () {
+//                           // context.push('/popularSearch');
+//                         },
+//                         textAlign: TextAlign.center,
+//                         decoration: const InputDecoration(
+//                           hintText: 'Buscar...',
+//                           filled: true,
+//                           fillColor: Colors.white,
+//                           prefixIcon: Icon(Icons.search),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
+
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
 
@@ -204,6 +317,21 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   int? _selectedDayIndex = 1; // Por defecto, 'Hoy' está seleccionado
   final List<String> _days = ['Mañana', 'Hoy', 'Ayer'];
+  TextEditingController searchText = TextEditingController();
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _loadUserData();
+  // }
+
+  // Future<void> _loadUserData() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     name = prefs.getString('name') ?? 'Nombre de Usuario';
+  //     uuid = prefs.getString('uuid') ?? 'ID de Usuario';
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -275,24 +403,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(9),
-                      child: TextField(
-                        onTap: () {
-                          // context.push('/popularSearch');
-                        },
-                        textAlign: TextAlign.center,
-                        decoration: const InputDecoration(
-                          hintText: 'Buscar...',
-                          filled: true,
-                          fillColor: Colors.white,
-                          prefixIcon: Icon(Icons.search),
-                        ),
+                  Container(
+                      height: 50.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.white,
                       ),
-                    ),
-                  ),
+                      child: _buildSearchBar()),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: _days.map((day) {
@@ -326,12 +443,53 @@ class _CustomAppBarState extends State<CustomAppBar> {
       },
     );
   }
-}
 
-ImageProvider _imagenFinal(String img) {
-  if (img == 'assets/images/userDefault.png') {
-    return AssetImage(img);
-  } else {
-    return MemoryImage(base64Decode(img));
+  ImageProvider _imagenFinal(String img) {
+    if (img == 'assets/images/userDefault.png') {
+      return AssetImage(img);
+    } else {
+      return MemoryImage(base64Decode(img));
+    }
+  }
+
+  Widget _buildSearchBar() {
+    return BlocProvider(
+        create: (context) =>
+            SearchBloc(searchUseCase: GetIt.instance<SearchUseCase>()),
+        child: BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
+          return TextField(
+            controller: searchText,
+            decoration: InputDecoration(
+                hintText: 'Buscar...',
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () => searchText.clear(),
+                ),
+                prefixIcon: IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      if (searchText.text.isNotEmpty) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PopularSearch(
+                                    initialSearch: searchText.text)));
+                      }
+                    }),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0))),
+            onSubmitted: (value) {
+              if (value.isNotEmpty) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PopularSearch(
+                              initialSearch: value,
+                            )));
+              }
+            },
+          );
+          //);
+        }));
   }
 }
