@@ -23,7 +23,7 @@ class NotificationMany extends StatelessWidget {
           if (state is NotificationListLoading) {
             return const CircularProgressIndicator();
           } else if (state is NotificationListLoaded) {
-            final notification = state.notification.sublist(0, 4);
+            final notification = state.notification.sublist(0, state.notification.length);
             return SizedBox(
               height: 195,
               child: ListView(
@@ -33,7 +33,7 @@ class NotificationMany extends StatelessWidget {
                     item: {
                       'id': notification.id,
                       'titulo': notification.title,
-                      'cuerpo': notification.body,
+                      'description': notification.body,
                       'fecha': notification.date.toString(),
                       'leido': notification.readed,
                     },

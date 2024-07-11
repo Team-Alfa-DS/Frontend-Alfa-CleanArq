@@ -6,7 +6,7 @@ class NotificationMapperMany {
       return Notifications(
         id: json['id'] as String? ?? '',
         title: json['title'] as String? ?? '',
-        body: json['body'] as String? ?? '',
+        body: json['description'] as String? ?? '',
         date: DateTime.parse(json['date'] as String),
         readed: json['readed'] as bool? ?? false,
       );
