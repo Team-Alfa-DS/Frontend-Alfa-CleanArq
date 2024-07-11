@@ -39,19 +39,22 @@ class CommentRepositoryImpl extends CommentRepository {
     print("lesson id: $lesson");
     print("perpage: $perpage");
     print("page: $page");
-    print('/comment/many?perpage=$perpage&page=$page&lesson=$lesson&blog=$blog');
+    print(
+        '/comment/many?perpage=$perpage&page=$page&lesson=$lesson&blog=$blog');
 
     try {
       final Result<List<Comment_>> response = await _apiRequestManager.request(
         '/comment/many?perPage=$perpage&page=0&lesson=$lesson&blog=$blog',
         'GET',
-            (data) {
+        (data) {
           print('Data received in comments: $data');
           List<Comment_> comments = (data as List)
               .map((commentData) => CommentMapper.fromJson(commentData))
               .toList();
           print('List of comments:');
-          comments.forEach((comment) => print(comment));
+          for (var comment in comments) {
+            print(comment);
+          }
           return comments;
         },
       );
@@ -61,7 +64,7 @@ class CommentRepositoryImpl extends CommentRepository {
       return response;
     } catch (e) {
       print('Error in getManyComments: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -72,7 +75,6 @@ class CommentRepositoryImpl extends CommentRepository {
     required String body,
   }) async {
     try {
-
       await _addAuthorizationHeader();
       final token = await _localStorage.getAuthorizationToken();
       _apiRequestManager.setHeaders('Authorization', 'Bearer $token');
@@ -81,9 +83,9 @@ class CommentRepositoryImpl extends CommentRepository {
         Comment_(targetId: targetid, body: body, targetType: targetType),
       );
       final response = await _apiRequestManager.request(
-        '/comments/release',
+        '/comment/release',
         'POST',
-            (data) => CommentMapper.fromJson(data),
+        (data) => CommentMapper.fromJson(data),
         body: requestBody,
       );
 
@@ -94,8 +96,4 @@ class CommentRepositoryImpl extends CommentRepository {
       rethrow;
     }
   }
-
-
-
-
 }
