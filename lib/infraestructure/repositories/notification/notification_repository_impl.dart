@@ -25,16 +25,17 @@ class NotificationRepositoryImpl extends NotificationRepository {
     await _addAuthorizationHeader();
     try {
       final response = await _apiRequestManager.request(
-        '/notify/all',
+        '/notifications/many?page=0&perPage=15',
         'GET',
         (data) {
-          List<Notifications> notifications = (data['notifications'] as List)
+          List<Notifications> notifications = (data['notify'] as List)
               .map((notificationData) =>
                   NotificationMapperMany.fromJson(notificationData))
               .toList();
           return notifications;
         },
       );
+      print(response);
       return response;
     } catch (e) {
       rethrow;

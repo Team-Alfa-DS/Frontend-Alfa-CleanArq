@@ -1,8 +1,13 @@
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/auth/password_changed_screen.dart';
+import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/notifications/notification_detail_screen.dart';
 import 'package:bloc/bloc.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:alpha_gymnastic_center/infraestructure/presentation/pages/pages.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 final router = GoRouter(
   routes: [
@@ -25,6 +30,13 @@ final router = GoRouter(
     GoRoute(
       path: '/notification',
       builder: (context, state) => NotificationScreen(),
+    ),
+    GoRoute(
+      path: '/notificationPush',
+      builder: (context, state) {
+        final message = state.extra as RemoteMessage?;
+        return ScreenDetail(message: message);
+      },
     ),
     GoRoute(
       path: '/settings',

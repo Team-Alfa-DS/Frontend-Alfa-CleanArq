@@ -178,6 +178,8 @@ class NotificationScreen extends StatelessWidget {
     );
   }
 
+
+
   Widget buildNotificationsList(BuildContext context) {
     return ListView.builder(
       itemCount: notifications.length,

@@ -15,13 +15,11 @@ class ListV<T> extends StatelessWidget {
     return GestureDetector(
       onTap: () => onTap(item),
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10.0),
-        // Set a fixed width for the list items
+        margin: const EdgeInsets.all( 10.0),
         width: 200.0,
-        // Set a fixed height (optional) or remove entirely
-        height: 120.0, // Adjust height as needed
+        height: 120.0,
         decoration: BoxDecoration(
-          color: Colors.white, // Consistent background for the list
+          color: Colors.deepPurple,
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: _buildText(),
@@ -42,7 +40,7 @@ class ListV<T> extends StatelessWidget {
             children: <Widget>[
               Container(
                 width: double.infinity,
-                color: Colors.grey.withOpacity(0.7),
+                color: Colors.white.withOpacity(0.9),
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -51,9 +49,9 @@ class ListV<T> extends StatelessWidget {
                       child: Text(
                         itemMap['titulo'] ?? 'Titulo',
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: Colors.black38,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
+                          fontSize: 20.0,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -61,10 +59,10 @@ class ListV<T> extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        itemMap['cuerpo'] ?? 'Descripción',
+                        itemMap['description'] ?? 'Descripción',
                         style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.0,
+                          color: Colors.black,
+                          fontSize: 12.0,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

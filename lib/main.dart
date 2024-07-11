@@ -17,7 +17,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await InjectManager.setUpInjections();
   await Firebase.initializeApp();
-  await FirebaseApi().initNotifications();
+  await FirebaseApi();
   runApp(const BlocsProvider());
 }
 
