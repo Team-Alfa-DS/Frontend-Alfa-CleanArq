@@ -1,6 +1,6 @@
 # Gymnastic Center
 
-![Gymnastic Center Logo](https://i.ibb.co/2gvV6Vv/gymnastic-logo.jpg)
+<img src="https://i.ibb.co/2gvV6Vv/gymnastic-logo.jpg" alt="Gymnastic Center Logo" width="200"/>
 
 ## Descripción
 
